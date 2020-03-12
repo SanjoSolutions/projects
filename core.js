@@ -1,4 +1,10 @@
 // Node.js 10
+
+module.exports = {
+  process,
+  getFlatOfferFetchers
+}
+
 const util = require('util')
 const path = require('path')
 const _fs = require('fs')
@@ -7,52 +13,32 @@ const fs = {
   stat: util.promisify(_fs.stat),
   writeFile: util.promisify(_fs.writeFile),
 }
-const puppeteer = require('puppeteer')
-const {contactData} = require('./config.js')
 
-const intervalBetweenProcessRuns = 1000
 
 const modulesDirectoryName = 'modules'
 
 const modulesPath = path.join(__dirname, modulesDirectoryName)
 
-run(main)
 
-async function main () {
-  const browser = await createBrowser({headless: true})
-  await process(browser)
-}
 
-async function process (browser) {
-  const flatOffersFetchers = await getFlatOffersFetchers()
-
+async function process (browser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData }) {
   console.log('Fetching flat offers...')
-  fetchFlatOffers(browser, flatOffersFetchers, onFlatOffer.bind(null, browser))
+  fetchFlatOffers(
+    browser,
+    intervalBetweenProcessRuns,
+    flatOfferFetchers,
+    onFlatOffer.bind(null, browser, contactData)
+  )
 }
 
-async function onFlatOffer(browser, flatOffer) {
+async function onFlatOffer(browser, contactData, flatOffer) {
   if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(flatOffer)) {
-    await apply (browser, flatOffer)
+    await apply (browser, contactData, flatOffer)
   }
 }
 
-function run (fn) {
-  fn()
-}
-
-async function createBrowser(options) {
-  return await puppeteer.launch({
-    headless: true,
-    defaultViewport: {
-      width: 1024,
-      height: 768
-    },
-    ...options
-  })
-}
-
-async function getFlatOffersFetchers () {
-  const flatOffersFetchers = []
+async function getFlatOfferFetchers () {
+  const flatOfferFetchers = []
   for (const fileName of await fs.readdir(modulesPath)) {
     const filePath = path.join(modulesPath, fileName)
     if (isJavaScriptFile(filePath) && !path.basename(fileName, path.extname(fileName)).endsWith('_test')) {
@@ -66,15 +52,15 @@ async function getFlatOffersFetchers () {
         if (typeof fetcher !== 'function') {
           throw new Error(`Module "${filePath}" export "fetch" has not the expected type "function".`)
         }
-        flatOffersFetchers.push(fetcher)
+        flatOfferFetchers.push(fetcher)
       }
     }
   }
-  return flatOffersFetchers
+  return flatOfferFetchers
 }
 
-function fetchFlatOffers (browser, flatOffersFetchers, onFlatOffer) {
-  for (const fetch of flatOffersFetchers) {
+function fetchFlatOffers (browser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer) {
+  for (const fetch of flatOfferFetchers) {
     fetch(browser, intervalBetweenProcessRuns, onFlatOffer, () => false)
   }
 }
@@ -101,13 +87,7 @@ function isFlatOfferForSeniorsOnly (flatOffer) {
   return flatOffer.seniorsOnly
 }
 
-async function applyToFlatOffers (browser, flatsOffersToApplyTo) {
-  for (const flatOffer of flatsOffersToApplyTo) {
-    await apply(browser, flatOffer, contactData)
-  }
-}
-
-async function apply (browser, flatOffer) {
+async function apply (browser, contactData, flatOffer) {
   console.log('Applying for flat offer: ', flatOffer)
   // console.log('Simulating…')
   await flatOffer.apply(browser, contactData)
