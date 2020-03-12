@@ -7,27 +7,29 @@ module.exports = {
 // https://immosuche.degewo.de/de/search?size=10&page=1&property_type_id=1&categories%5B%5D=1&lat=&lon=&area=&address%5Bstreet%5D=&address%5Bcity%5D=&address%5Bzipcode%5D=&address%5Bdistrict%5D=&address%5Braw%5D=&district=&property_number=&price_switch=false&price_radio=null&price_from=&price_to=&qm_radio=null&qm_from=&qm_to=&rooms_radio=null&rooms_from=&rooms_to=&wbs_required=&order=rent_total_without_vat_asc
 const host = 'https://immosuche.degewo.de'
 
-async function fetch (browser) {
+async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await browser.newPage()
-  await page.goto(host + '/de/search?size=10&page=1&property_type_id=1&categories%5B%5D=1&lat=&lon=&area=&address%5Bstreet%5D=&address%5Bcity%5D=&address%5Bzipcode%5D=&address%5Bdistrict%5D=&address%5Braw%5D=&district=&property_number=&price_switch=false&price_radio=null&price_from=&price_to=&qm_radio=null&qm_from=&qm_to=&rooms_radio=null&rooms_from=&rooms_to=&wbs_required=&order=rent_total_without_vat_asc')
-  const flatOffers = []
-  let nextButton
-  do {
-    const flatOfferElements = await page.$$('.search__results article')
-    for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(browser, flatOfferElement)
-      flatOffers.push(flatOffer)
-    }
-    nextButton = await page.$('a[rel="next"]')
-    if (nextButton) {
-      await nextButton.click()
-      await page.waitFor('.search__results--loading', {hidden: true})
-    }
-  } while (nextButton)
+
+  while (!shouldStop()) {
+    await page.goto(host + '/de/search?size=10&page=1&property_type_id=1&categories%5B%5D=1&lat=&lon=&area=&address%5Bstreet%5D=&address%5Bcity%5D=&address%5Bzipcode%5D=&address%5Bdistrict%5D=&address%5Braw%5D=&district=&property_number=&price_switch=false&price_radio=null&price_from=&price_to=&qm_radio=null&qm_from=&qm_to=&rooms_radio=null&rooms_from=&rooms_to=&wbs_required=&order=rent_total_without_vat_asc')
+    let nextButton
+    do {
+      const flatOfferElements = await page.$$('.search__results article')
+      for (const flatOfferElement of flatOfferElements) {
+        const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+        onFlatOffer(flatOffer)
+      }
+      nextButton = await page.$('a[rel="next"]')
+      if (nextButton) {
+        await nextButton.click()
+        await page.waitFor('.search__results--loading', {hidden: true})
+      }
+    } while (nextButton)
+
+    await wait(intervalBetweenProcessRuns)
+  }
 
   await page.close()
-
-  return flatOffers
 }
 
 async function parseFlatOffer (browser, flatOfferElement) {
@@ -152,4 +154,8 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
   })
 
   await page.close()
+}
+
+async function wait(howLongInMs) {
+  return new Promise(resolve => setTimeout(resolve, howLongInMs))
 }

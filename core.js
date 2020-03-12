@@ -20,34 +20,20 @@ run(main)
 
 async function main () {
   const browser = await createBrowser({headless: true})
-  await runProcess(browser)
-}
-
-async function runProcess(browser) {
   await process(browser)
-  scheduleNextProcessRun(browser)
-}
-
-function scheduleNextProcessRun(browser) {
-  setTimeout(() => runProcess(browser), intervalBetweenProcessRuns)
 }
 
 async function process (browser) {
   const flatOffersFetchers = await getFlatOffersFetchers()
 
   console.log('Fetching flat offers...')
-  const flatOffers = await fetchFlatOffers(browser, flatOffersFetchers)
-  console.log('Done fetching flat offers.')
+  fetchFlatOffers(browser, flatOffersFetchers, onFlatOffer.bind(null, browser))
+}
 
-  console.log('Number of flat offers: ', flatOffers.length)
-
-  const flatsOffersToApplyTo = flatOffers
-    .filter(flatOffer => !haveAppliedForFlatOffer(flatOffer))
-    .filter(kommtInFrage)
-
-  console.log('Number of flat offers to apply to: ', flatsOffersToApplyTo.length)
-
-  await applyToFlatOffers(browser, flatsOffersToApplyTo)
+async function onFlatOffer(browser, flatOffer) {
+  if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(flatOffer)) {
+    await apply (browser, flatOffer)
+  }
 }
 
 function run (fn) {
@@ -87,13 +73,10 @@ async function getFlatOffersFetchers () {
   return flatOffersFetchers
 }
 
-async function fetchFlatOffers (browser, flatOffersFetchers) {
-  const flatOffers = []
+function fetchFlatOffers (browser, flatOffersFetchers, onFlatOffer) {
   for (const fetch of flatOffersFetchers) {
-    const fetchedFlatOffers = await fetch(browser)
-    flatOffers.push(...fetchedFlatOffers)
+    fetch(browser, intervalBetweenProcessRuns, onFlatOffer, () => false)
   }
-  return flatOffers
 }
 
 function kommtInFrage (flatOffer) {
@@ -124,7 +107,7 @@ async function applyToFlatOffers (browser, flatsOffersToApplyTo) {
   }
 }
 
-async function apply (browser, flatOffer, contactData) {
+async function apply (browser, flatOffer) {
   console.log('Applying for flat offer: ', flatOffer)
   // console.log('Simulating…')
   await flatOffer.apply(browser, contactData)
