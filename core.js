@@ -20,9 +20,8 @@ const modulesDirectoryName = 'modules'
 
 const modulesPath = path.join(__dirname, modulesDirectoryName)
 
-
 function verifyContactData (contactData) {
-  const minimumRequiredFields = ['firstName', 'lastName', 'email']
+  const minimumRequiredFields = ['firstName', 'lastName', 'email', 'phone']
   const missingRequiredFields = minimumRequiredFields.filter(fieldName => !contactData[fieldName])
   if (missingRequiredFields.length >= 1) {
     throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(', ')}`)
@@ -74,13 +73,39 @@ function fetchFlatOffers (browser, intervalBetweenProcessRuns, flatOfferFetchers
 }
 
 function kommtInFrage (flatOffer) {
+  const maxColdRentPlusColdServiceCharges = 463.65
+  const maxWarmServiceCharges = 76.50
   return (
-    flatOffer.coldRent + flatOffer.coldServiceCharges <= 463.65 &&
-    flatOffer.warmServiceCharges <= 76.50 &&
+    (
+      (
+        flatOffer.hasOwnProperty('coldRent') &&
+        flatOffer.hasOwnProperty('coldServiceCharges') &&
+        flatOffer.hasOwnProperty('warmServiceCharges') &&
+        flatOffer.coldRent + flatOffer.coldServiceCharges <= maxColdRentPlusColdServiceCharges &&
+        flatOffer.warmServiceCharges <= maxWarmServiceCharges
+      ) ||
+      (
+        flatOffer.hasOwnProperty('warmRent') &&
+        flatOffer.warmRent <= maxColdRentPlusColdServiceCharges + maxWarmServiceCharges
+      ) ||
+      (
+        flatOffer.hasOwnProperty('coldRent') &&
+        flatOffer.hasOwnProperty('serviceCharges') &&
+        flatOffer.coldRent + flatOffer.serviceCharges <= maxColdRentPlusColdServiceCharges + maxWarmServiceCharges
+      )
+    ) &&
     for29YearOldPeople(flatOffer) &&
     flatOffer.area <= 50 && // m ** 2
-    flatOffer.numberOfRooms <= 2
+    flatOffer.numberOfRooms <= 2 &&
+    (
+      !flatOffer.url.includes('howoge') ||
+      972.15 >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
+    )
   )
+}
+
+function totalRent (flatOffer) {
+  return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
 }
 
 function for29YearOldPeople (flatOffer) {
