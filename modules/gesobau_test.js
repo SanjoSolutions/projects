@@ -1,8 +1,5 @@
-// FIXME: Test broken (fetch signature changed)
-
 const puppeteer = require('puppeteer')
-const { fetch } = require('./degewo.js')
-const { contactData } = require('../config.js')
+const { fetchOnce } = require('./gesobau.js')
 
 run(main)
 
@@ -14,8 +11,14 @@ async function main () {
       height: 768
     }
   })
-  const flatOffers = await fetch(browser)
-  await flatOffers[0].apply(browser, contactData)
+
+  const page = await browser.newPage()
+
+  function onFlatOffer (flatOffer) {
+    console.log('Flat offer: ', flatOffer)
+  }
+
+  await fetchOnce(browser, page, onFlatOffer)
 }
 
 function run (fn) {

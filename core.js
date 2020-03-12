@@ -22,7 +22,7 @@ const modulesPath = path.join(__dirname, modulesDirectoryName)
 
 
 function verifyContactData (contactData) {
-  const minimumRequiredFields = [firstName, lastName, email]
+  const minimumRequiredFields = ['firstName', 'lastName', 'email']
   const missingRequiredFields = minimumRequiredFields.filter(fieldName => !contactData[fieldName])
   if (missingRequiredFields.length >= 1) {
     throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(', ')}`)
