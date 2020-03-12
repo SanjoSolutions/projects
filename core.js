@@ -1,6 +1,7 @@
 // Node.js 10
 
 module.exports = {
+  verifyContactData,
   process,
   getFlatOfferFetchers
 }
@@ -11,15 +12,22 @@ const _fs = require('fs')
 const fs = {
   readdir: util.promisify(_fs.readdir),
   stat: util.promisify(_fs.stat),
-  writeFile: util.promisify(_fs.writeFile),
+  writeFile: util.promisify(_fs.writeFile)
 }
-
+const { notify } = require('./flat_offer_notifier.js')
 
 const modulesDirectoryName = 'modules'
 
 const modulesPath = path.join(__dirname, modulesDirectoryName)
 
 
+function verifyContactData (contactData) {
+  const minimumRequiredFields = [firstName, lastName, email]
+  const missingRequiredFields = minimumRequiredFields.filter(fieldName => !contactData[fieldName])
+  if (missingRequiredFields.length >= 1) {
+    throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(', ')}`)
+  }
+}
 
 async function process (browser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData }) {
   console.log('Fetching flat offers...')
@@ -31,9 +39,9 @@ async function process (browser, flatOfferFetchers, { intervalBetweenProcessRuns
   )
 }
 
-async function onFlatOffer(browser, contactData, flatOffer) {
+async function onFlatOffer (browser, contactData, flatOffer) {
   if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(flatOffer)) {
-    await apply (browser, contactData, flatOffer)
+    await apply(browser, contactData, flatOffer)
   }
 }
 
@@ -90,27 +98,27 @@ function isFlatOfferForSeniorsOnly (flatOffer) {
 async function apply (browser, contactData, flatOffer) {
   console.log('Applying for flat offer: ', flatOffer)
   // console.log('Simulating…')
-  await flatOffer.apply(browser, contactData)
+  if (typeof flatOffer.apply === 'function') {
+    await flatOffer.apply(browser, contactData)
+  } else {
+    await notify(flatOffer, contactData)
+  }
   await registerFlatOfferAsAppliedTo(flatOffer)
   console.log('Applied for flat offer: ', flatOffer)
 }
 
-function haveAppliedForFlatOffer(flatOffer) {
+function haveAppliedForFlatOffer (flatOffer) {
   const flatOffersAppliedTo = require('./flatOffersAppliedTo.json')
   return flatOffersAppliedTo.includes(flatOffer.url)
 }
 
-async function registerFlatOfferAsAppliedTo(flatOffer) {
+async function registerFlatOfferAsAppliedTo (flatOffer) {
   const flatOffersAppliedTo = require('./flatOffersAppliedTo.json')
   flatOffersAppliedTo.push(flatOffer.url)
   await fs.writeFile(
     path.join(__dirname, 'flatOffersAppliedTo.json'),
-    JSON.stringify(flatOffersAppliedTo, null, 2),
+    JSON.stringify(flatOffersAppliedTo, null, 2)
   )
-}
-
-function concat (...arrays) {
-  return [].concat(...arrays)
 }
 
 function isJavaScriptFile (filePath) {
