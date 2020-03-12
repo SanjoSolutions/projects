@@ -2,6 +2,8 @@ module.exports = {
   fetch
 }
 
+const { getMissingFields } = require('../lib/getMissingFields.js')
+
 const host = 'https://immosuche.degewo.de'
 
 async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
@@ -111,7 +113,7 @@ async function parseFlatOffer (browser, flatOfferElement) {
 
 async function applyForFlatOffer (browser, flatOffer, contactData) {
   const requiredFields = ['firstName', 'lastName', 'email']
-  const missingFields = requiredFields.filter(requiredField => !contactData[requiredField])
+  const missingFields = getMissingFields(requiredFields, contactData)
   if (missingFields.length >= 1) {
     throw new Error(`Missing required fields in contactData: ${missingFields.join(', ')}`)
   }

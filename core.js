@@ -15,14 +15,33 @@ const fs = {
   writeFile: util.promisify(_fs.writeFile)
 }
 const { notify } = require('./flat_offer_notifier.js')
+const { getMissingFields } = require('./lib/getMissingFields.js')
 
 const modulesDirectoryName = 'modules'
 
 const modulesPath = path.join(__dirname, modulesDirectoryName)
 
 function verifyContactData (contactData) {
-  const minimumRequiredFields = ['firstName', 'lastName', 'email', 'phone']
-  const missingRequiredFields = minimumRequiredFields.filter(fieldName => !contactData[fieldName])
+  const minimumRequiredFields = [
+    'title',
+    'firstName',
+    'lastName',
+    'email',
+    'phone',
+    'address',
+    'applicationMessage',
+    'numberOfAdults',
+    'numberOfChildren',
+    'personGroups',
+    'monthlyIncome',
+    'earliestDateToMoveIn',
+    'wbs',
+    'hasPets',
+    'threatenedByLossOfHousing',
+    'firstTimeHousehold',
+    'mBill'
+  ]
+  const missingRequiredFields = getMissingFields(minimumRequiredFields, contactData)
   if (missingRequiredFields.length >= 1) {
     throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(', ')}`)
   }
