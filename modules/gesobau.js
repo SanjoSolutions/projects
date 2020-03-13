@@ -5,24 +5,24 @@ module.exports = {
 
 // https://www.gesobau.de/mieten/wohnungssuche.html
 
-async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-  const page = await browser.newPage()
+async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+  const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
-    await fetchOnce(browser, page, onFlatOffer)
+    await fetchOnce(getBrowser, page, onFlatOffer)
     await wait(intervalBetweenProcessRuns)
   }
 
   await page.close()
 }
 
-async function fetchOnce(browser, page, onFlatOffer) {
+async function fetchOnce(getBrowser, page, onFlatOffer) {
   await page.goto('https://www.gesobau.de/mieten/wohnungssuche.html')
   let nextButton
   do {
     const flatOfferElements = await page.$$('#c5316 #list > div > div > div')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
       onFlatOffer(flatOffer)
     }
     /*
@@ -36,11 +36,11 @@ async function fetchOnce(browser, page, onFlatOffer) {
   } while (nextButton)
 }
 
-async function parseFlatOffer (browser, flatOfferElement) {
+async function parseFlatOffer (getBrowser, flatOfferElement) {
   const linkElement = await flatOfferElement.$('.list_item-title a')
   const url = await linkElement.evaluate(node => node.href)
 
-  const flatOfferPage = await browser.newPage()
+  const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)
 
   const costsBlocks = await flatOfferPage.$$('.kosten')

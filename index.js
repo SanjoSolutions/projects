@@ -9,7 +9,17 @@ run(main)
 async function main () {
   verifyContactData(contactData)
   const flatOfferFetchers = await getFlatOfferFetchers()
-  const browser = await createBrowser()
+
+  let browser
+  async function getBrowser() {
+    if (!browser) {
+      browser = await createBrowser()
+      browser.on('disconnect', () => {
+        browser = null
+      })
+    }
+    return browser
+  }
 
   // In UTC
   const runFromHour = 7
@@ -27,7 +37,7 @@ async function main () {
 
   function runProcess() {
     console.log('Starting.')
-    process(browser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop })
+    process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop })
     onProcessStop(scheduleNextProcessStart)
   }
 

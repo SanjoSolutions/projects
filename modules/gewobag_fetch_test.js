@@ -12,13 +12,17 @@ async function main () {
     }
   })
 
+  function getBrowser() {
+    return browser
+  }
+
   const page = await browser.newPage()
 
   function onFlatOffer (flatOffer) {
     console.log('Flat offer: ', flatOffer)
   }
 
-  await fetchOnce(browser, page, onFlatOffer)
+  await fetchOnce(getBrowser, page, onFlatOffer)
 }
 
 function run (fn) {

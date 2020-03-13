@@ -47,20 +47,20 @@ function verifyContactData (contactData) {
   }
 }
 
-function process (browser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
+function process (getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
   console.log('Fetching flat offers...')
   fetchFlatOffers(
-    browser,
+    getBrowser,
     intervalBetweenProcessRuns,
     flatOfferFetchers,
-    onFlatOffer.bind(null, browser, contactData),
+    onFlatOffer.bind(null, getBrowser, contactData),
     shouldStop
   )
 }
 
-async function onFlatOffer (browser, contactData, flatOffer) {
+async function onFlatOffer (getBrowser, contactData, flatOffer) {
   if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(flatOffer)) {
-    await apply(browser, contactData, flatOffer)
+    await apply(getBrowser, contactData, flatOffer)
   }
 }
 
@@ -90,9 +90,9 @@ async function getFlatOfferFetchers () {
   return flatOfferFetchers
 }
 
-function fetchFlatOffers (browser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer, shouldStop) {
+function fetchFlatOffers (getBrowser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer, shouldStop) {
   for (const fetch of flatOfferFetchers) {
-    fetch(browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop)
+    fetch(getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop)
   }
 }
 
@@ -118,7 +118,7 @@ function kommtInFrage (flatOffer) {
         flatOffer.coldRent + flatOffer.serviceCharges <= maxColdRentPlusColdServiceCharges + maxWarmServiceCharges
       )
     ) &&
-    for29YearOldPeople(flatOffer) &&
+    forPeopleOfAge(flatOffer, 29) &&
     flatOffer.area <= 50 && // m ** 2
     flatOffer.numberOfRooms <= 2 &&
     (
@@ -133,8 +133,7 @@ function totalRent (flatOffer) {
   return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
 }
 
-function for29YearOldPeople (flatOffer) {
-  const age = 29
+function forPeopleOfAge (flatOffer, age) {
   return (
     !isFlatOfferForSeniorsOnly(flatOffer) &&
     (!flatOffer.hasOwnProperty('requiredMinimumAge') || age >= flatOffer.requiredMinimumAge)
@@ -145,11 +144,11 @@ function isFlatOfferForSeniorsOnly (flatOffer) {
   return flatOffer.seniorsOnly
 }
 
-async function apply (browser, contactData, flatOffer) {
+async function apply (getBrowser, contactData, flatOffer) {
   console.log('Applying for flat offer: ', flatOffer)
   // console.log('Simulating…')
   if (typeof flatOffer.apply === 'function') {
-    await flatOffer.apply(browser, contactData)
+    await flatOffer.apply(getBrowser, contactData)
   } else {
     await notify(flatOffer, contactData)
   }

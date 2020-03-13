@@ -6,24 +6,24 @@ module.exports = {
 const { formatDateForDateInput } = require('../lib/formatDateForDateInput.js')
 const { getMissingFields } = require('../lib/getMissingFields.js')
 
-async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-  const page = await browser.newPage()
+async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+  const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
-    await fetchOnce(browser, page, onFlatOffer)
+    await fetchOnce(getBrowser, page, onFlatOffer)
     await wait(intervalBetweenProcessRuns)
   }
 
   await page.close()
 }
 
-async function fetchOnce (browser, page, onFlatOffer) {
+async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.wbm.de/wohnungen-berlin/angebote/')
   let nextButton
   do {
     const flatOfferElements = await page.$$('.search .openimmo-search-list-item')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
       onFlatOffer(flatOffer)
     }
     // TODO: Pagination
@@ -31,7 +31,7 @@ async function fetchOnce (browser, page, onFlatOffer) {
   } while (nextButton)
 }
 
-async function parseFlatOffer (browser, flatOfferElement) {
+async function parseFlatOffer (getBrowser, flatOfferElement) {
   const linkElement = await flatOfferElement.$('a')
   const url = await linkElement.evaluate(node => node.href)
 
@@ -67,15 +67,15 @@ async function parseFlatOffer (browser, flatOfferElement) {
     area,
     numberOfRooms,
     seniorsOnly,
-    async apply (browser, contactData) {
-      return await applyForFlatOffer(browser, flatOffer, contactData)
+    async apply (getBrowser, contactData) {
+      return await applyForFlatOffer(getBrowser, flatOffer, contactData)
     }
   }
 
   return flatOffer
 }
 
-async function applyForFlatOffer (browser, flatOffer, contactData) {
+async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   const requiredFields = [
     'wbs',
     'firstName',
@@ -87,7 +87,7 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
     throw new Error(`Missing required fields in contactData: ${missingFields.join(', ')}`)
   }
 
-  const page = await browser.newPage()
+  const page = await (await getBrowser()).newPage()
   await page.goto(flatOffer.url)
 
   const cookieSettingsSubmit = await page.$('.cookie-settings-submit')

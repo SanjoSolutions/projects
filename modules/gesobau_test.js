@@ -18,7 +18,11 @@ async function main () {
     console.log('Flat offer: ', flatOffer)
   }
 
-  await fetchOnce(browser, page, onFlatOffer)
+  function getBrowser() {
+    return browser
+  }
+
+  await fetchOnce(getBrowser, page, onFlatOffer)
 }
 
 function run (fn) {

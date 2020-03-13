@@ -6,31 +6,31 @@ module.exports = {
 const { formatDate } = require('../lib/formatDate.js')
 const { getMissingFields } = require('../lib/getMissingFields.js')
 
-async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-  const page = await browser.newPage()
+async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+  const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
-    await fetchOnce(browser, page, onFlatOffer)
+    await fetchOnce(getBrowser, page, onFlatOffer)
     await wait(intervalBetweenProcessRuns)
   }
 
   await page.close()
 }
 
-async function fetchOnce (browser, page, onFlatOffer) {
+async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.stadtundland.de/Mieten/010-Angebote-Bestand.php?form=stadtundland-expose-search-1.form&sp%3Acategories%5B3352%5D%5B%5D=-&sp%3Acategories%5B3352%5D%5B%5D=__last__&sp%3AroomsFrom%5B%5D=&sp%3AroomsTo%5B%5D=&sp%3ArentPriceFrom%5B%5D=&sp%3ArentPriceTo%5B%5D=&sp%3AareaFrom%5B%5D=&sp%3AareaTo%5B%5D=&sp%3Afeature%5B%5D=__last__&action=submit')
   let nextButton
   do {
     const flatOfferElements = await page.$$('.SP-SearchResult .SP-TeaserList__item')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
       onFlatOffer(flatOffer)
     }
     // if pagination available unknown (not visible with 4 results)
   } while (nextButton)
 }
 
-async function parseFlatOffer (browser, flatOfferElement) {
+async function parseFlatOffer (getBrowser, flatOfferElement) {
   const linkElement = await flatOfferElement.$('.SP-Link--info')
   const url = await linkElement.evaluate(node => node.href)
 
@@ -78,15 +78,15 @@ async function parseFlatOffer (browser, flatOfferElement) {
     area,
     numberOfRooms,
     seniorsOnly,
-    async apply (browser, contactData) {
-      return await applyForFlatOffer(browser, flatOffer, contactData)
+    async apply (getBrowser, contactData) {
+      return await applyForFlatOffer(getBrowser, flatOffer, contactData)
     }
   }
 
   return flatOffer
 }
 
-async function applyForFlatOffer (browser, flatOffer, contactData) {
+async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   const requiredFields = [
     'title',
     'firstName',
@@ -100,7 +100,7 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
     throw new Error(`Missing required fields in contactData: ${missingFields.join(', ')}`)
   }
 
-  const page = await browser.newPage()
+  const page = await (await getBrowser()).newPage()
   await page.goto(flatOffer.url)
 
   const form = await page.$('#stadtundland-prospectForm')

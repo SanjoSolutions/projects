@@ -8,35 +8,35 @@ const { getMissingFields } = require('../lib/getMissingFields.js')
 
 // https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
 
-async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-  const page = await browser.newPage()
+async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+  const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
-    await fetchOnce(browser, page, onFlatOffer)
+    await fetchOnce(getBrowser, page, onFlatOffer)
     await wait(intervalBetweenProcessRuns)
   }
 
   await page.close()
 }
 
-async function fetchOnce (browser, page, onFlatOffer) {
+async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.gewobag.de/fuer-mieter-und-mietinteressenten/mietangebote/?bezirke_all=&bezirke%5B%5D=charlottenburg-wilmersdorf&bezirke%5B%5D=charlottenburg-wilmersdorf-charlottenburg&bezirke%5B%5D=friedrichshain-kreuzberg&bezirke%5B%5D=friedrichshain-kreuzberg-friedrichshain&bezirke%5B%5D=lichtenberg&bezirke%5B%5D=lichtenberg-falkenberg&bezirke%5B%5D=marzahn-hellersdorf&bezirke%5B%5D=marzahn-hellersdorf-marzahn&bezirke%5B%5D=mitte&bezirke%5B%5D=mitte-moabit&bezirke%5B%5D=neukoelln&bezirke%5B%5D=neukoelln-buckow&bezirke%5B%5D=neukoelln-neukoelln&bezirke%5B%5D=neukoelln-rudow&bezirke%5B%5D=pankow&bezirke%5B%5D=pankow-prenzlauer-berg&bezirke%5B%5D=reinickendorf&bezirke%5B%5D=reinickendorf-reinickendorf&bezirke%5B%5D=reinickendorf-tegel&bezirke%5B%5D=reinickendorf-waidmannslust&bezirke%5B%5D=spandau&bezirke%5B%5D=spandau-haselhorst&bezirke%5B%5D=tempelhof-schoeneberg&bezirke%5B%5D=tempelhof-schoeneberg-schoeneberg&nutzungsarten%5B%5D=wohnung&gesamtmiete_von=&gesamtmiete_bis=&gesamtflaeche_von=&gesamtflaeche_bis=&zimmer_von=&zimmer_bis=')
   let nextButton
   do {
     const flatOfferElements = await page.$$('.filtered-mietangebote article')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
       onFlatOffer(flatOffer)
     }
     // if pagination available unknown (not visible with 8 results)
   } while (nextButton)
 }
 
-async function parseFlatOffer (browser, flatOfferElement) {
+async function parseFlatOffer (getBrowser, flatOfferElement) {
   const linkElement = await flatOfferElement.$('a.angebot-header')
   const url = await linkElement.evaluate(node => node.href)
 
-  const flatOfferPage = await browser.newPage()
+  const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)
 
   const costsDataRows = await flatOfferPage.$$('.details-price li')
@@ -106,15 +106,15 @@ async function parseFlatOffer (browser, flatOfferElement) {
     numberOfRooms,
     seniorsOnly,
     selfRenovation,
-    async apply (browser, contactData) {
-      return await applyForFlatOffer(browser, flatOffer, contactData)
+    async apply (getBrowser, contactData) {
+      return await applyForFlatOffer(getBrowser, flatOffer, contactData)
     }
   }
 
   return flatOffer
 }
 
-async function applyForFlatOffer (browser, flatOffer, contactData) {
+async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   const requiredFields = [
     'title',
     'firstName',
@@ -139,7 +139,7 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
     throw new Error(`Missing required fields in contactData: ${missingFields.join(', ')}`)
   }
 
-  const page = await browser.newPage()
+  const page = await (await getBrowser()).newPage()
   await page.goto(flatOffer.url)
 
   const cookieBox = await page.$('#BorlabsCookieBox')

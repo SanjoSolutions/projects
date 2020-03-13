@@ -14,8 +14,11 @@ async function main () {
       height: 768
     }
   })
-  const flatOffers = await fetch(browser)
-  await flatOffers[0].apply(browser, contactData)
+  function getBrowser() {
+    return browser
+  }
+  const flatOffers = await fetch(getBrowser)
+  await flatOffers[0].apply(getBrowser, contactData)
 }
 
 function run (fn) {

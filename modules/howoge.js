@@ -7,35 +7,35 @@ const { getMissingFields } = require('../lib/getMissingFields.js')
 
 // https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
 
-async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-  const page = await browser.newPage()
+async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+  const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
-    await fetchOnce(browser, page, onFlatOffer)
+    await fetchOnce(getBrowser, page, onFlatOffer)
     await wait(intervalBetweenProcessRuns)
   }
 
   await page.close()
 }
 
-async function fetchOnce(browser, page, onFlatOffer) {
+async function fetchOnce(getBrowser, page, onFlatOffer) {
   await page.goto('https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html')
   let nextButton
   do {
     const flatOfferElements = await page.$$('#immoobject-list .flat-single')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
       onFlatOffer(flatOffer)
     }
     // open question: scrolling down reveals more items? (not seen with 14 results)
   } while (nextButton)
 }
 
-async function parseFlatOffer (browser, flatOfferElement) {
+async function parseFlatOffer (getBrowser, flatOfferElement) {
   const linkElement = await flatOfferElement.$('a.flat-single--link')
   const url = await linkElement.evaluate(node => node.href)
 
-  const flatOfferPage = await browser.newPage()
+  const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)
 
   const costsDataRows = await flatOfferPage.$$('.expenses .wrap > div')
@@ -93,22 +93,22 @@ async function parseFlatOffer (browser, flatOfferElement) {
     area,
     numberOfRooms,
     seniorsOnly,
-    async apply (browser, contactData) {
-      return await applyForFlatOffer(browser, flatOffer, contactData)
+    async apply (getBrowser, contactData) {
+      return await applyForFlatOffer(getBrowser, flatOffer, contactData)
     }
   }
 
   return flatOffer
 }
 
-async function applyForFlatOffer (browser, flatOffer, contactData) {
+async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   const requiredFields = ['firstName', 'lastName', 'email', 'phone']
   const missingFields = getMissingFields(requiredFields, contactData)
   if (missingFields.length >= 1) {
     throw new Error(`Missing required fields in contactData: ${missingFields.join(', ')}`)
   }
 
-  const page = await browser.newPage()
+  const page = await (await getBrowser()).newPage()
   await page.goto(flatOffer.url)
   const contactButton = await page.$('.expose-contact .button')
   await contactButton.click()

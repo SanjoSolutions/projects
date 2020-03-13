@@ -13,6 +13,10 @@ async function main () {
     }
   })
 
+  function getBrowser() {
+    return browser
+  }
+
   const page = await browser.newPage()
 
   let flatOffer = null
@@ -24,10 +28,10 @@ async function main () {
     }
   }
 
-  await fetchOnce(browser, page, onFlatOffer)
+  await fetchOnce(getBrowser, page, onFlatOffer)
 
   if (flatOffer) {
-    flatOffer.apply(browser, contactData)
+    flatOffer.apply(getBrowser, contactData)
   }
 }
 

@@ -6,16 +6,15 @@ const { getMissingFields } = require('../lib/getMissingFields.js')
 
 const host = 'https://immosuche.degewo.de'
 
-async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-  const page = await browser.newPage()
-
+async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   while (!shouldStop()) {
+    const page = await (await getBrowser()).newPage()
     await page.goto(host + '/de/search?size=10&page=1&property_type_id=1&categories%5B%5D=1&lat=&lon=&area=&address%5Bstreet%5D=&address%5Bcity%5D=&address%5Bzipcode%5D=&address%5Bdistrict%5D=&address%5Braw%5D=&district=&property_number=&price_switch=false&price_radio=null&price_from=&price_to=&qm_radio=null&qm_from=&qm_to=&rooms_radio=null&rooms_from=&rooms_to=&wbs_required=&order=rent_total_without_vat_asc')
     let nextButton
     do {
       const flatOfferElements = await page.$$('.search__results article')
       for (const flatOfferElement of flatOfferElements) {
-        const flatOffer = await parseFlatOffer(browser, flatOfferElement)
+        const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
         onFlatOffer(flatOffer)
       }
       nextButton = await page.$('a[rel="next"]')
@@ -26,16 +25,15 @@ async function fetch (browser, intervalBetweenProcessRuns, onFlatOffer, shouldSt
     } while (nextButton)
 
     await wait(intervalBetweenProcessRuns)
+    await page.close()
   }
-
-  await page.close()
 }
 
-async function parseFlatOffer (browser, flatOfferElement) {
+async function parseFlatOffer (getBrowser, flatOfferElement) {
   const linkElement = await flatOfferElement.$('a')
   const url = await linkElement.evaluate(node => node.href)
 
-  const flatOfferPage = await browser.newPage()
+  const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)
 
   const coldRentElement = await flatOfferElement.$('.price')
@@ -102,8 +100,8 @@ async function parseFlatOffer (browser, flatOfferElement) {
     area,
     numberOfRooms,
     seniorsOnly,
-    async apply (browser, contactData) {
-      return await applyForFlatOffer(browser, flatOffer, contactData)
+    async apply (getBrowser, contactData) {
+      return await applyForFlatOffer(getBrowser, flatOffer, contactData)
     }
   }
 
@@ -116,14 +114,14 @@ async function parseFlatOffer (browser, flatOfferElement) {
   return flatOffer
 }
 
-async function applyForFlatOffer (browser, flatOffer, contactData) {
+async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   const requiredFields = ['firstName', 'lastName', 'email']
   const missingFields = getMissingFields(requiredFields, contactData)
   if (missingFields.length >= 1) {
     throw new Error(`Missing required fields in contactData: ${missingFields.join(', ')}`)
   }
 
-  const page = await browser.newPage()
+  const page = await (await getBrowser()).newPage()
   await page.goto(flatOffer.url)
   const contactButton = await page.$('a[href="#kontakt"]')
   await contactButton.click()
