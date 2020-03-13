@@ -47,13 +47,14 @@ function verifyContactData (contactData) {
   }
 }
 
-async function process (browser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData }) {
+function process (browser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
   console.log('Fetching flat offers...')
   fetchFlatOffers(
     browser,
     intervalBetweenProcessRuns,
     flatOfferFetchers,
-    onFlatOffer.bind(null, browser, contactData)
+    onFlatOffer.bind(null, browser, contactData),
+    shouldStop
   )
 }
 
@@ -67,7 +68,11 @@ async function getFlatOfferFetchers () {
   const flatOfferFetchers = []
   for (const fileName of await fs.readdir(modulesPath)) {
     const filePath = path.join(modulesPath, fileName)
-    if (isJavaScriptFile(filePath) && !path.basename(fileName, path.extname(fileName)).endsWith('_test')) {
+    if (
+      isJavaScriptFile(filePath) &&
+      !path.basename(fileName).startsWith('_') &&
+      !path.basename(fileName, path.extname(fileName)).endsWith('_test')
+    ) {
       const stats = await fs.stat(filePath)
       if (stats.isFile()) {
         const module = require(filePath)
@@ -85,9 +90,9 @@ async function getFlatOfferFetchers () {
   return flatOfferFetchers
 }
 
-function fetchFlatOffers (browser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer) {
+function fetchFlatOffers (browser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer, shouldStop) {
   for (const fetch of flatOfferFetchers) {
-    fetch(browser, intervalBetweenProcessRuns, onFlatOffer, () => false)
+    fetch(browser, intervalBetweenProcessRuns, onFlatOffer, shouldStop)
   }
 }
 
@@ -119,7 +124,8 @@ function kommtInFrage (flatOffer) {
     (
       !flatOffer.url.includes('howoge') ||
       972.15 >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
-    )
+    ) &&
+    (!flatOffer.hasOwnProperty('selfRenovation') || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
   )
 }
 

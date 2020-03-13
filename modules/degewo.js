@@ -85,7 +85,12 @@ async function parseFlatOffer (browser, flatOfferElement) {
 
   const titleElement = await flatOfferElement.$('.article__title')
   const title = await titleElement.evaluate(node => node.innerText)
-  const seniorsOnly = title.includes('Senioren')
+  const descriptionFirstParagraphElement = await flatOfferPage.$(
+    '#c1358 > div:nth-child(2) > section:nth-child(2) > div.teaser-tileset__col-1 > section > header > p'
+  )
+  const descriptionFirstParagraphText = await descriptionFirstParagraphElement.evaluate(node => node.innerText)
+  const seniorsOnly = title.includes('Senioren') ||
+    /für ältere(?:n)? Menschen/.test(descriptionFirstParagraphText)
 
   await flatOfferPage.close()
 

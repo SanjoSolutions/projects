@@ -17,18 +17,21 @@ async function main () {
 
   let flatOffer = null
 
-  function onFlatOffer (_flatOffer) {
+  async function onFlatOffer (_flatOffer) {
     if (!flatOffer) {
       console.log('Flat offer: ', _flatOffer)
+      await _flatOffer.apply(browser, contactData)
       flatOffer = _flatOffer
     }
   }
 
   await fetchOnce(browser, page, onFlatOffer)
 
+  /*
   if (flatOffer) {
-    flatOffer.apply(browser, contactData)
+    await flatOffer.apply(browser, contactData)
   }
+  */
 }
 
 function run (fn) {

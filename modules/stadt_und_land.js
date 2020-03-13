@@ -106,7 +106,7 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
   const form = await page.$('#stadtundland-prospectForm')
 
   const title = contactData.title === 'Mrs.' ? 'mrs' : 'mr'
-  await (await form.$('#field-select-gen-1-input')).select(title)
+  await (await form.$('input[name="title[]"]')).select(title)
 
   await (await form.$('input[name="name[]"]')).type(contactData.lastName)
   await (await form.$('input[name="firstname[]"]')).type(contactData.firstName)

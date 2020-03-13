@@ -92,6 +92,7 @@ async function parseFlatOffer (browser, flatOfferElement) {
   const titleElement = (await flatOfferPage.$('.entry-title'))
   const title = await titleElement.evaluate(node => node.innerText)
   const seniorsOnly = title.includes('Senioren')
+  const selfRenovation = title.includes('Selbstrenovier')
 
   await flatOfferPage.close()
 
@@ -104,6 +105,7 @@ async function parseFlatOffer (browser, flatOfferElement) {
     area,
     numberOfRooms,
     seniorsOnly,
+    selfRenovation,
     async apply (browser, contactData) {
       return await applyForFlatOffer(browser, flatOffer, contactData)
     }
@@ -172,6 +174,16 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
     }
   }
 
+  async function selectRadio (elementOrSelector, optionIndex) {
+    const radioGroup = typeof elementOrSelector === 'string'
+      ? await form.$(elementOrSelector)
+      : elementOrSelector
+    await radioGroup.evaluate(
+      (node, optionIndex) => node.children[optionIndex].click(),
+      optionIndex
+    )
+  }
+
   await selectOption(
     'nz-select[formcontrolname="salutation"]',
     '#cdk-overlay-0 > div > div > ul',
@@ -190,52 +202,60 @@ async function applyForFlatOffer (browser, flatOffer, contactData) {
   await (await form.$('#zip-code')).type(address.postalCode)
   await (await form.$('#city')).type(address.city)
   await (await form.$('#applicant-message')).type(contactData.applicationMessage)
-  await (await form.$('#formly_2_input_grownUps_0')).type(String(contactData.numberOfAdults))
-  await (await form.$('#formly_2_input_kids_1')).type(String(contactData.numberOfChildren))
+  await (await form.$('[id*="grownUps"]')).type(String(contactData.numberOfAdults))
+  await (await form.$('[id*="kids"]')).type(String(contactData.numberOfChildren))
   // IMPROVEMENT: Support all options (this just chooses "Sonstige")
   await selectOption(
-    '#formly_3_select_employmentTypes_0',
+    '[id*="employmentTypes"]',
     '#cdk-overlay-1 > div > div > ul',
     8,
     true
   )
   // IMPROVEMENT: Support all options (this just chooses "Sonstige")
   await selectOption(
-    '#formly_3_select_income_1',
+    '[id*="income"]',
     '#cdk-overlay-2 > div > div > ul',
     1
   )
-  await (await form.$('#formly_3_input_earliestMoveInDate_2')).type(formatDate(contactData.earliestDateToMoveIn))
-  const wbsElement = await form.$('#formly_3_radio_wbs_2')
-  if (contactData.wbs) {
-    await wbsElement.evaluate(node => node.children[0].click())
-    await (await form.$('#formly_4_input_\\$\\$_wbs_valid_until_\\$\\$_0')).type(formatDate(contactData.wbs.validUntil))
-    await selectOption(
-      '#formly_4_select_eligibleNumberOfRooms_1',
-      '#cdk-overlay-3 > div > div > ul',
-      contactData.wbs.numberOfRooms - 1
-    )
-  } else {
-    await wbsElement.evaluate(node => node.children[1].click())
+  await (await form.$('[id*="earliestMoveInDate"]')).type(formatDate(contactData.earliestDateToMoveIn))
+  const wbsElement = await form.$('[id*="_wbs_"]') // _wbs_special_housing_need_
+  if (wbsElement) {
+    if (contactData.wbs) {
+      await selectRadio(wbsElement, 0)
+      await (await form.$('[id*="wbs_valid_until"]')).type(formatDate(contactData.wbs.validUntil))
+      await selectOption(
+        '[id*="eligibleNumberOfRooms"]',
+        '#cdk-overlay-3 > div > div > ul',
+        contactData.wbs.numberOfRooms - 1
+      )
+    } else {
+      await wbsElement.evaluate(node => node.children[1].click())
+    }
   }
 
-  async function selectRadio (selector, optionIndex) {
-    const radioGroup = await form.$(selector)
-    await radioGroup.evaluate(
-      (node, optionIndex) => node.children[optionIndex].click(),
-      optionIndex
-    )
+  const wbsSpecialHousingNeedElement = await form.$('[id*="_wbs_special_housing_need_"]')
+  if (wbsSpecialHousingNeedElement) {
+    const labelElement = await form.$('[for*="_wbs_special_housing_need_"]')
+    const labelText = await labelElement.evaluate(node => node.innerText)
+    const isSpecialHousingNeedForElders = labelText.includes('Alte Menschen')
+    const hasSpecialHousingNeed = isSpecialHousingNeedForElders
+      ? contactData.wbs.specialHousingNeedForElders
+      : contactData.wbs.specialHousingNeed
+    const optionToSelect = contactData.wbs && hasSpecialHousingNeed ? 0 : 1
+    await selectRadio(wbsSpecialHousingNeedElement, optionToSelect)
   }
 
-  await selectRadio('#formly_5_radio_pets_0', contactData.hasPets ? 0 : 1)
-  await selectRadio('#formly_5_radio_flatLoss_7', contactData.threatenedByLossOfHousing ? 0 : 1)
-  await selectRadio('#formly_5_radio_firstFlat_8', contactData.firstTimeHousehold ? 0 : 1)
-  await selectRadio('#formly_5_radio_m-schein-available_9', contactData.mBill ? 0 : 1)
+  await selectRadio('[id*="pets"]', contactData.hasPets ? 0 : 1)
+  await selectRadio('[id*="flatLoss"]', contactData.threatenedByLossOfHousing ? 0 : 1)
+  await selectRadio('[id*="firstFlat"]', contactData.firstTimeHousehold ? 0 : 1)
+  await selectRadio('[id*="m-schein-available"]', contactData.mBill ? 0 : 1)
 
-  await (await form.$('#formly_5_checkbox_dataPrivacy_11')).click()
+  await (await form.$('[id*="dataPrivacy"]')).click()
 
   // Submit
   await form.evaluate(form => form.submit())
+
+  await page.waitFor('.success-message', { visible: true })
 
   await page.close()
 }
