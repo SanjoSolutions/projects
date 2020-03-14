@@ -59,7 +59,7 @@ function process (getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, c
 }
 
 async function onFlatOffer (getBrowser, contactData, flatOffer) {
-  if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(flatOffer)) {
+  if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(contactData, flatOffer)) {
     await apply(getBrowser, contactData, flatOffer)
   }
 }
@@ -96,7 +96,7 @@ function fetchFlatOffers (getBrowser, intervalBetweenProcessRuns, flatOfferFetch
   }
 }
 
-function kommtInFrage (flatOffer) {
+function kommtInFrage (contactData, flatOffer) {
   const maxColdRentPlusColdServiceCharges = 463.65
   const maxWarmServiceCharges = 76.50
   return (
