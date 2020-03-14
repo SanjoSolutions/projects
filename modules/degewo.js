@@ -3,6 +3,7 @@ module.exports = {
 }
 
 const { getMissingFields } = require('../lib/getMissingFields.js')
+const { saveScreenshot } = require('../lib/saveScreenshot.js')
 
 const host = 'https://immosuche.degewo.de'
 
@@ -154,6 +155,8 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   await form.evaluate(form => {
     form.submit()
   })
+
+  await saveScreenshot(page, flatOffer)
 
   await page.close()
 }

@@ -5,6 +5,7 @@ module.exports = {
 
 const { formatDateForDateInput } = require('../lib/formatDateForDateInput.js')
 const { getMissingFields } = require('../lib/getMissingFields.js')
+const { saveScreenshot } = require('../lib/saveScreenshot.js')
 
 async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
@@ -152,6 +153,8 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
 
   // Submit
   await form.evaluate(form => form.submit())
+
+  await saveScreenshot(page, flatOffer)
 
   await page.close()
 }

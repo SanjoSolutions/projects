@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-const { fetchOnce } = require('./_wbm.js')
+const { fetchOnce } = require('./wbm.js')
 
 run(main)
 

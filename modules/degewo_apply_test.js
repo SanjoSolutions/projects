@@ -1,5 +1,5 @@
 const puppeteer = require('puppeteer')
-const { fetchOnce } = require('./wbm.js')
+const { fetchOnce } = require('./degewo.js')
 const { contactData } = require('../config.js')
 
 run(main)

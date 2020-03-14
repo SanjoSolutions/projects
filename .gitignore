@@ -1,4 +1,7 @@
 node_modules
 config.js
 flatOffersAppliedTo.json
+flatOffersAppliedTo.backup.json
 run.sh
+screenshots/*
+!screenshots/.gitkeep

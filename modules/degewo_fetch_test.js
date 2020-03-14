@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer')
-const { fetchOnce } = require('./wbm.js')
-const { contactData } = require('../config.js')
+const { fetchOnce } = require('./degewo.js')
 
 run(main)
 
@@ -19,20 +18,11 @@ async function main () {
 
   const page = await browser.newPage()
 
-  let flatOffer = null
-
-  function onFlatOffer (_flatOffer) {
-    if (!flatOffer) {
-      console.log('Flat offer: ', _flatOffer)
-      flatOffer = _flatOffer
-    }
+  function onFlatOffer (flatOffer) {
+    console.log('Flat offer: ', flatOffer)
   }
 
   await fetchOnce(getBrowser, page, onFlatOffer)
-
-  if (flatOffer) {
-    flatOffer.apply(getBrowser, contactData)
-  }
 }
 
 function run (fn) {

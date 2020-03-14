@@ -4,6 +4,7 @@ module.exports = {
 }
 
 const { getMissingFields } = require('../lib/getMissingFields.js')
+const { saveScreenshot } = require('../lib/saveScreenshot.js')
 
 // https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
 
@@ -150,6 +151,8 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
 
   // Submit
   await (await steps[3].$('.button.primary')).click()
+
+  await saveScreenshot(page, flatOffer)
 
   await page.close()
 }
