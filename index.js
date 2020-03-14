@@ -10,15 +10,18 @@ async function main () {
   verifyContactData(contactData)
   const flatOfferFetchers = await getFlatOfferFetchers()
 
-  let browser
-  async function getBrowser() {
-    if (!browser) {
-      browser = await createBrowser()
-      browser.on('disconnect', () => {
-        browser = null
+  let browserPromise
+  function getBrowser() {
+    if (!browserPromise) {
+      browserPromise = createBrowser()
+      browserPromise.then(browser => {
+        browser.on('disconnect', () => {
+          browserPromise = null
+        })
       })
+
     }
-    return browser
+    return browserPromise
   }
 
   // In UTC
