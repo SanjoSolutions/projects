@@ -4,6 +4,7 @@ module.exports = {
 }
 
 const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
+const { wait } = require('../lib/wait.js')
 
 // https://www.gesobau.de/mieten/wohnungssuche.html
 
@@ -133,8 +134,4 @@ async function findAsync(iterable, matcher) {
     }
   }
   return null
-}
-
-async function wait(howLongInMs) {
-  return new Promise(resolve => setTimeout(resolve, howLongInMs))
 }

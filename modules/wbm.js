@@ -7,6 +7,7 @@ const { formatDateForDateInput } = require('../lib/formatDateForDateInput.js')
 const { getMissingFields } = require('../lib/getMissingFields.js')
 const { saveScreenshot } = require('../lib/saveScreenshot.js')
 const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
+const { wait } = require('../lib/wait.js')
 
 async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
@@ -167,8 +168,4 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   await saveScreenshot(page, flatOffer)
 
   await page.close()
-}
-
-async function wait (howLongInMs) {
-  return new Promise(resolve => setTimeout(resolve, howLongInMs))
 }

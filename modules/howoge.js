@@ -6,6 +6,7 @@ module.exports = {
 const { getMissingFields } = require('../lib/getMissingFields.js')
 const { saveScreenshot } = require('../lib/saveScreenshot.js')
 const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
+const { wait } = require('../lib/wait.js')
 
 // https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
 
@@ -165,8 +166,4 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   await saveScreenshot(page, flatOffer)
 
   await page.close()
-}
-
-async function wait(howLongInMs) {
-  return new Promise(resolve => setTimeout(resolve, howLongInMs))
 }
