@@ -28,8 +28,9 @@ async function fetchOnce (getBrowser, page, onFlatOffer) {
       const url = await parseFlatOfferUrl(flatOfferElement)
       if (!hasFetchedFlatOffer(url)) {
         const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
-        onFlatOffer(flatOffer)
-        await registerFlatOfferAsFetched(url)
+        onFlatOffer(flatOffer).then(async () => {
+          await registerFlatOfferAsFetched(url)
+        })
       }
     }
     // TODO: Pagination

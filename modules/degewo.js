@@ -19,8 +19,9 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
         const url = await parseFlatOfferUrl(flatOfferElement)
         if (!hasFetchedFlatOffer(url)) {
           const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
-          onFlatOffer(flatOffer)
-          await registerFlatOfferAsFetched(url)
+          onFlatOffer(flatOffer).then(async () => {
+            await registerFlatOfferAsFetched(url)
+          })
         }
       }
       nextButton = await page.$('a[rel="next"]')
