@@ -3,7 +3,6 @@
 ## Upcomming
 
 * Firebase?
-* Caching of flat offers?
 
 ## Done
 

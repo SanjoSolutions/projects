@@ -4,6 +4,7 @@ module.exports = {
 
 const { getMissingFields } = require('../lib/getMissingFields.js')
 const { saveScreenshot } = require('../lib/saveScreenshot.js')
+const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
 
 const host = 'https://immosuche.degewo.de'
 
@@ -15,8 +16,12 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
     do {
       const flatOfferElements = await page.$$('.search__results article')
       for (const flatOfferElement of flatOfferElements) {
-        const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
-        onFlatOffer(flatOffer)
+        const url = await parseFlatOfferUrl(flatOfferElement)
+        if (!hasFetchedFlatOffer(url)) {
+          const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
+          onFlatOffer(flatOffer)
+          await registerFlatOfferAsFetched(url)
+        }
       }
       nextButton = await page.$('a[rel="next"]')
       if (nextButton) {
@@ -30,9 +35,13 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
   }
 }
 
-async function parseFlatOffer (getBrowser, flatOfferElement) {
+async function parseFlatOfferUrl(flatOfferElement) {
   const linkElement = await flatOfferElement.$('a')
-  const url = await linkElement.evaluate(node => node.href)
+  return await linkElement.evaluate(node => node.href)
+}
+
+async function parseFlatOffer (getBrowser, flatOfferElement) {
+  const url = await parseFlatOfferUrl(flatOfferElement)
 
   const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)

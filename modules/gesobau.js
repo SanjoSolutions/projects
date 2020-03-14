@@ -3,6 +3,8 @@ module.exports = {
   fetchOnce
 }
 
+const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
+
 // https://www.gesobau.de/mieten/wohnungssuche.html
 
 async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
@@ -22,8 +24,12 @@ async function fetchOnce(getBrowser, page, onFlatOffer) {
   do {
     const flatOfferElements = await page.$$('#c5316 #list > div > div > div')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
-      onFlatOffer(flatOffer)
+      const url = await parseFlatOfferUrl(flatOfferElement)
+      if (!hasFetchedFlatOffer(url)) {
+        const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
+        onFlatOffer(flatOffer)
+        await registerFlatOfferAsFetched(url)
+      }
     }
     /*
     // Momentan nur eine Seite
@@ -36,9 +42,13 @@ async function fetchOnce(getBrowser, page, onFlatOffer) {
   } while (nextButton)
 }
 
-async function parseFlatOffer (getBrowser, flatOfferElement) {
+async function parseFlatOfferUrl(flatOfferElement) {
   const linkElement = await flatOfferElement.$('.list_item-title a')
-  const url = await linkElement.evaluate(node => node.href)
+  return await linkElement.evaluate(node => node.href)
+}
+
+async function parseFlatOffer (getBrowser, flatOfferElement) {
+  const url = await parseFlatOfferUrl(flatOfferElement)
 
   const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)

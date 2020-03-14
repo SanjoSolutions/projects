@@ -6,6 +6,7 @@ module.exports = {
 const { formatDateForDateInput } = require('../lib/formatDateForDateInput.js')
 const { getMissingFields } = require('../lib/getMissingFields.js')
 const { saveScreenshot } = require('../lib/saveScreenshot.js')
+const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
 
 async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
@@ -24,17 +25,25 @@ async function fetchOnce (getBrowser, page, onFlatOffer) {
   do {
     const flatOfferElements = await page.$$('.search .openimmo-search-list-item')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
-      onFlatOffer(flatOffer)
+      const url = await parseFlatOfferUrl(flatOfferElement)
+      if (!hasFetchedFlatOffer(url)) {
+        const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
+        onFlatOffer(flatOffer)
+        await registerFlatOfferAsFetched(url)
+      }
     }
     // TODO: Pagination
     // pagination available (next button not visible)
   } while (nextButton)
 }
 
-async function parseFlatOffer (getBrowser, flatOfferElement) {
+async function parseFlatOfferUrl(flatOfferElement) {
   const linkElement = await flatOfferElement.$('a')
-  const url = await linkElement.evaluate(node => node.href)
+  return await linkElement.evaluate(node => node.href)
+}
+
+async function parseFlatOffer (getBrowser, flatOfferElement) {
+  const url = await parseFlatOfferUrl(flatOfferElement)
 
   const dataRows = await flatOfferElement.$$('ul.main-property-list li')
   const data = await Promise.all(dataRows.map(async dataRow => {

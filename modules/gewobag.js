@@ -6,6 +6,7 @@ module.exports = {
 const { formatDate } = require('../lib/formatDate.js')
 const { getMissingFields } = require('../lib/getMissingFields.js')
 const { saveScreenshot } = require('../lib/saveScreenshot.js')
+const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
 
 // https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
 
@@ -26,16 +27,24 @@ async function fetchOnce (getBrowser, page, onFlatOffer) {
   do {
     const flatOfferElements = await page.$$('.filtered-mietangebote article')
     for (const flatOfferElement of flatOfferElements) {
-      const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
-      onFlatOffer(flatOffer)
+      const url = await parseFlatOfferUrl(flatOfferElement)
+      if (!hasFetchedFlatOffer(url)) {
+        const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
+        onFlatOffer(flatOffer)
+        await registerFlatOfferAsFetched(url)
+      }
     }
     // if pagination available unknown (not visible with 8 results)
   } while (nextButton)
 }
 
-async function parseFlatOffer (getBrowser, flatOfferElement) {
+async function parseFlatOfferUrl(flatOfferElement) {
   const linkElement = await flatOfferElement.$('a.angebot-header')
-  const url = await linkElement.evaluate(node => node.href)
+  return await linkElement.evaluate(node => node.href)
+}
+
+async function parseFlatOffer (getBrowser, flatOfferElement) {
+  const url = await parseFlatOfferUrl(flatOfferElement)
 
   const flatOfferPage = await (await getBrowser()).newPage()
   await flatOfferPage.goto(url)
