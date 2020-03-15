@@ -1,14 +1,9 @@
-module.exports = {
-  fetch,
-  fetchOnce
-}
-
-const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
-const { wait } = require('../lib/wait.js')
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
+import { wait } from '../../lib/wait.js'
 
 // https://www.gesobau.de/mieten/wohnungssuche.html
 
-async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
@@ -19,7 +14,7 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
   await page.close()
 }
 
-async function fetchOnce(getBrowser, page, onFlatOffer) {
+export async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.gesobau.de/mieten/wohnungssuche.html')
   let nextButton
   do {
@@ -44,7 +39,7 @@ async function fetchOnce(getBrowser, page, onFlatOffer) {
   } while (nextButton)
 }
 
-async function parseFlatOfferUrl(flatOfferElement) {
+async function parseFlatOfferUrl (flatOfferElement) {
   const linkElement = await flatOfferElement.$('.list_item-title a')
   return await linkElement.evaluate(node => node.href)
 }
@@ -71,7 +66,7 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
     return [key, value]
   }))
 
-  function getCostsDataEntry(keyToFind) {
+  function getCostsDataEntry (keyToFind) {
     return costsData.find(([key]) => key === keyToFind)
   }
 
@@ -100,7 +95,7 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
     return [key, value]
   }))
 
-  function getKeyFigure(keyToFind) {
+  function getKeyFigure (keyToFind) {
     return keyFigures.find(([key]) => key === keyToFind)
   }
 
@@ -127,7 +122,7 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
   }
 }
 
-async function findAsync(iterable, matcher) {
+async function findAsync (iterable, matcher) {
   for (const value of iterable) {
     if (await matcher(value)) {
       return value

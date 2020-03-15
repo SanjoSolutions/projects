@@ -1,14 +1,9 @@
-module.exports = {
-  fetch,
-  fetchOnce
-}
+import { getMissingFields } from '../../lib/getMissingFields.js'
+import { saveScreenshot } from '../../lib/saveScreenshot.js'
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
+import { wait } from '../../lib/wait.js'
 
-const { getMissingFields } = require('../lib/getMissingFields.js')
-const { saveScreenshot } = require('../lib/saveScreenshot.js')
-const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
-const { wait } = require('../lib/wait.js')
-
-async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
@@ -19,7 +14,7 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
   await page.close()
 }
 
-async function fetchOnce (getBrowser, page, onFlatOffer) {
+export async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.stadtundland.de/Mieten/010-Angebote-Bestand.php?form=stadtundland-expose-search-1.form&sp%3Acategories%5B3352%5D%5B%5D=-&sp%3Acategories%5B3352%5D%5B%5D=__last__&sp%3AroomsFrom%5B%5D=&sp%3AroomsTo%5B%5D=&sp%3ArentPriceFrom%5B%5D=&sp%3ArentPriceTo%5B%5D=&sp%3AareaFrom%5B%5D=&sp%3AareaTo%5B%5D=&sp%3Afeature%5B%5D=__last__&action=submit')
   let nextButton
   do {

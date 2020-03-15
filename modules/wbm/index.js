@@ -1,15 +1,10 @@
-module.exports = {
-  fetch,
-  fetchOnce
-}
+import { formatDateForDateInput } from '../../lib/formatDateForDateInput.js'
+import { getMissingFields } from '../../lib/getMissingFields.js'
+import { saveScreenshot } from '../../lib/saveScreenshot.js'
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
+import { wait } from '../../lib/wait.js'
 
-const { formatDateForDateInput } = require('../lib/formatDateForDateInput.js')
-const { getMissingFields } = require('../lib/getMissingFields.js')
-const { saveScreenshot } = require('../lib/saveScreenshot.js')
-const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
-const { wait } = require('../lib/wait.js')
-
-async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
@@ -20,7 +15,7 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
   await page.close()
 }
 
-async function fetchOnce (getBrowser, page, onFlatOffer) {
+export async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.wbm.de/wohnungen-berlin/angebote/')
   let nextButton
   do {

@@ -1,16 +1,9 @@
-module.exports = {
-  fetch,
-  fetchOnce
-}
+import { getMissingFields } from '../../lib/getMissingFields.js'
+import { saveScreenshot } from '../../lib/saveScreenshot.js'
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
+import { wait } from '../../lib/wait.js'
 
-const { getMissingFields } = require('../lib/getMissingFields.js')
-const { saveScreenshot } = require('../lib/saveScreenshot.js')
-const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
-const { wait } = require('../lib/wait.js')
-
-// https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
-
-async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
@@ -21,7 +14,7 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
   await page.close()
 }
 
-async function fetchOnce(getBrowser, page, onFlatOffer) {
+export async function fetchOnce(getBrowser, page, onFlatOffer) {
   await page.goto('https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html')
   let nextButton
   do {

@@ -1,8 +1,8 @@
-const puppeteer = require('puppeteer')
-const { verifyContactData, process, getFlatOfferFetchers } = require('./core.js')
+import puppeteer from 'puppeteer'
+import { getFlatOfferFetchers, process, verifyContactData } from './core.js'
+import { contactData } from './config.js'
 
 const intervalBetweenProcessRuns = 1000
-const { contactData } = require('./config.js')
 
 run(main)
 

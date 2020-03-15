@@ -1,17 +1,10 @@
-module.exports = {
-  fetch,
-  fetchOnce
-}
+import { formatDate } from '../../lib/formatDate.js'
+import { getMissingFields } from '../../lib/getMissingFields.js'
+import { saveScreenshot } from '../../lib/saveScreenshot.js'
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
+import { wait } from '../../lib/wait.js'
 
-const { formatDate } = require('../lib/formatDate.js')
-const { getMissingFields } = require('../lib/getMissingFields.js')
-const { saveScreenshot } = require('../lib/saveScreenshot.js')
-const { hasFetchedFlatOffer, registerFlatOfferAsFetched } = require('../fetchedFlatOffers.js')
-const { wait } = require('../lib/wait.js')
-
-// https://www.howoge.de/wohnungen-gewerbe/wohnungssuche.html
-
-async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
+export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
   const page = await (await getBrowser()).newPage()
 
   while (!shouldStop()) {
@@ -22,7 +15,7 @@ async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shoul
   await page.close()
 }
 
-async function fetchOnce (getBrowser, page, onFlatOffer) {
+export async function fetchOnce (getBrowser, page, onFlatOffer) {
   await page.goto('https://www.gewobag.de/fuer-mieter-und-mietinteressenten/mietangebote/?bezirke_all=&bezirke%5B%5D=charlottenburg-wilmersdorf&bezirke%5B%5D=charlottenburg-wilmersdorf-charlottenburg&bezirke%5B%5D=friedrichshain-kreuzberg&bezirke%5B%5D=friedrichshain-kreuzberg-friedrichshain&bezirke%5B%5D=lichtenberg&bezirke%5B%5D=lichtenberg-falkenberg&bezirke%5B%5D=marzahn-hellersdorf&bezirke%5B%5D=marzahn-hellersdorf-marzahn&bezirke%5B%5D=mitte&bezirke%5B%5D=mitte-moabit&bezirke%5B%5D=neukoelln&bezirke%5B%5D=neukoelln-buckow&bezirke%5B%5D=neukoelln-neukoelln&bezirke%5B%5D=neukoelln-rudow&bezirke%5B%5D=pankow&bezirke%5B%5D=pankow-prenzlauer-berg&bezirke%5B%5D=reinickendorf&bezirke%5B%5D=reinickendorf-reinickendorf&bezirke%5B%5D=reinickendorf-tegel&bezirke%5B%5D=reinickendorf-waidmannslust&bezirke%5B%5D=spandau&bezirke%5B%5D=spandau-haselhorst&bezirke%5B%5D=tempelhof-schoeneberg&bezirke%5B%5D=tempelhof-schoeneberg-schoeneberg&nutzungsarten%5B%5D=wohnung&gesamtmiete_von=&gesamtmiete_bis=&gesamtflaeche_von=&gesamtflaeche_bis=&zimmer_von=&zimmer_bis=')
   let nextButton
   do {

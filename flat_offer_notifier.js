@@ -1,7 +1,5 @@
-module.exports = { notify }
-
-const util = require('util')
-const nodemailer = require('nodemailer')
+import util from 'util'
+import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -13,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 const sendMail = util.promisify(transporter.sendMail.bind(transporter))
 
-async function notify (flatOffer, contactData) {
+export async function notify (flatOffer, contactData) {
   const mailOptions = {
     from: process.env.GMAIL_EMAIL,
     to: contactData.email,

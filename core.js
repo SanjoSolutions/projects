@@ -1,27 +1,13 @@
-// Node.js 10 with Babel (for module transpilation)
-
-module.exports = {
-  verifyContactData,
-  process,
-  getFlatOfferFetchers
-}
-
-const util = require('util')
-const path = require('path')
-const _fs = require('fs')
-const fs = {
-  readdir: util.promisify(_fs.readdir),
-  stat: util.promisify(_fs.stat),
-  writeFile: util.promisify(_fs.writeFile)
-}
-const { notify } = require('./flat_offer_notifier.js')
-const { getMissingFields } = require('./lib/getMissingFields.js')
+import path from 'path'
+import {promises as fs} from 'fs'
+import { notify } from './flat_offer_notifier.js'
+import { getMissingFields } from './lib/getMissingFields.js'
 
 const modulesDirectoryName = 'modules'
 
 const modulesPath = path.join(__dirname, modulesDirectoryName)
 
-function verifyContactData (contactData) {
+export function verifyContactData (contactData) {
   const minimumRequiredFields = [
     'title',
     'firstName',
@@ -47,7 +33,7 @@ function verifyContactData (contactData) {
   }
 }
 
-function process (getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
+export function process (getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
   console.log('Fetching flat offers...')
   fetchFlatOffers(
     getBrowser,
@@ -64,7 +50,7 @@ async function onFlatOffer (getBrowser, contactData, flatOffer) {
   }
 }
 
-async function getFlatOfferFetchers () {
+export async function getFlatOfferFetchers () {
   const flatOfferFetchers = []
   for (const fileName of await fs.readdir(modulesPath)) {
     let filePath = path.join(modulesPath, fileName)

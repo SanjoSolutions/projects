@@ -1,4 +1,4 @@
-const { process } = require('./core.js')
+import { process } from './core.js'
 
 const browser = {}
 let onFlatOffer
