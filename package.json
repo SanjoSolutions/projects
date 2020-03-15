@@ -1,7 +1,17 @@
 {
   "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "nodemailer": "^6.4.5",
     "puppeteer": "^2.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0"
   }
 }

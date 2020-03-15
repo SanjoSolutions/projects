@@ -1,4 +1,4 @@
-// Node.js 10
+// Node.js 10 with Babel (for module transpilation)
 
 module.exports = {
   verifyContactData,
@@ -67,13 +67,16 @@ async function onFlatOffer (getBrowser, contactData, flatOffer) {
 async function getFlatOfferFetchers () {
   const flatOfferFetchers = []
   for (const fileName of await fs.readdir(modulesPath)) {
-    const filePath = path.join(modulesPath, fileName)
+    let filePath = path.join(modulesPath, fileName)
+    const stats = await fs.stat(filePath)
+    if (stats.isDirectory()) {
+      filePath = path.join(filePath, 'index.js')
+    }
     if (
       isJavaScriptFile(filePath) &&
       !path.basename(fileName).startsWith('_') &&
       !path.basename(fileName, path.extname(fileName)).endsWith('_test')
     ) {
-      const stats = await fs.stat(filePath)
       if (stats.isFile()) {
         const module = require(filePath)
         const fetcher = module.fetch
