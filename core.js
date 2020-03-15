@@ -1,11 +1,12 @@
+import { promises as fs } from 'fs'
 import path from 'path'
-import {promises as fs} from 'fs'
 import { notify } from './flat_offer_notifier.js'
+import { __dirname } from './lib/__dirname.js'
 import { getMissingFields } from './lib/getMissingFields.js'
 
 const modulesDirectoryName = 'modules'
 
-const modulesPath = path.join(__dirname, modulesDirectoryName)
+const modulesPath = path.join(__dirname(import.meta.url), modulesDirectoryName)
 
 export function verifyContactData (contactData) {
   const minimumRequiredFields = [
@@ -154,7 +155,7 @@ async function registerFlatOfferAsAppliedTo (flatOffer) {
   const flatOffersAppliedTo = require('./flatOffersAppliedTo.json')
   flatOffersAppliedTo.push(flatOffer.url)
   await fs.writeFile(
-    path.join(__dirname, 'flatOffersAppliedTo.json'),
+    path.join(__dirname(import.meta.url), 'flatOffersAppliedTo.json'),
     JSON.stringify(flatOffersAppliedTo, null, 2)
   )
 }
