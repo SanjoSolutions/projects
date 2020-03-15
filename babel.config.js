@@ -1,14 +1,15 @@
-const config = {
+module.exports = {
   presets: [
     [
       '@babel/preset-env',
       {
         targets: {
-          node: '10'
+          node: 'current'
         }
       }
     ]
+  ],
+  plugins: [
+    'transform-default-import'
   ]
 }
-
-export default config

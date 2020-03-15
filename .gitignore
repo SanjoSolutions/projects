@@ -1,8 +1,10 @@
 node_modules
-config.js
-flatOffersAppliedTo.json
-flatOffersAppliedTo.backup.json
-fetchedFlatOffers.json
-run.sh
-screenshots/*
-!screenshots/.gitkeep
+/src/config.js
+/src/flatOffersAppliedTo.json
+/src/flatOffersAppliedTo.backup.json
+/src/fetchedFlatOffers.json
+/run.sh
+/screenshots/*
+!/screenshots/.gitkeep
+/dist
+/web_server.log
