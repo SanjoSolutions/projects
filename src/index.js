@@ -1,8 +1,8 @@
 import puppeteer from 'puppeteer'
-import { getFlatOfferFetchers, process, verifyContactData } from './core.js'
 import { contactData } from './config.js'
+import { getFlatOfferFetchers, process, verifyContactData } from './core.js'
 
-const intervalBetweenProcessRuns = 1000
+const intervalBetweenProcessRuns = 60000
 
 run(main)
 
