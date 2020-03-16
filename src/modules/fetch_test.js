@@ -11,6 +11,7 @@ async function main () {
   const modulePathUnderTest = path.resolve(__dirname, moduleNameUnderTest, 'index.js')
   const { fetchOnce } = await import(modulePathUnderTest)
 
+  // FIXME: Prevent from wiping out fetched flat offers of production
   await resetFetchedFlatOffers()
 
   const browser = await puppeteer.launch({
