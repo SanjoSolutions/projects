@@ -8,3 +8,4 @@ node_modules
 !/screenshots/.gitkeep
 /dist
 /web_server.log
+.idea
