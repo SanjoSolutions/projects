@@ -119,7 +119,7 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
   return flatOffer
 }
 
-async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
+export async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   const requiredFields = [
     'title',
     'firstName',
@@ -257,12 +257,14 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
 
   await (await form.$('[id*="dataPrivacy"]')).click()
 
-  // Submit
-  await form.evaluate(form => form.submit())
+  if (process.env.NODE_ENV !== 'TESTING') {
+    // Submit
+    await form.evaluate(form => form.submit())
 
-  await page.waitFor('.success-message', { visible: true })
+    await page.waitFor('.success-message', { visible: true })
 
-  await saveScreenshotOfFlatOfferApplication(page, flatOffer)
+    await saveScreenshotOfFlatOfferApplication(page, flatOffer)
 
-  await page.close()
+    await page.close()
+  }
 }
