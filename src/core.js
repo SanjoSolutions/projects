@@ -54,9 +54,10 @@ export async function getFlatOfferFetchers () {
   const flatOfferFetchers = []
   for (const fileName of await fs.readdir(modulesPath)) {
     let filePath = path.join(modulesPath, fileName)
-    const stats = await fs.stat(filePath)
+    let stats = await fs.stat(filePath)
     if (stats.isDirectory()) {
       filePath = path.join(filePath, 'index.js')
+      stats = await fs.stat(filePath)
     }
     if (
       isJavaScriptFile(filePath) &&
