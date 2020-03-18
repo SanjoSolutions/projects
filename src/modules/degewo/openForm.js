@@ -1,6 +1,6 @@
+import { openPage } from '../../lib/openPage.js'
 import { navigateToForm } from './navigateToForm.js'
 import { navigateToFormPage } from './navigateToFormPage.js'
-import { openPage } from './openPage.js'
 
 export async function openForm (getBrowser, flatOffer) {
   const page = await openPage(getBrowser)

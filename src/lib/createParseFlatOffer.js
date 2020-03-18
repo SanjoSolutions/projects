@@ -33,8 +33,10 @@ export function createParseFlatOffer ({
       )
       return flatOffer
     }, flatOffer)
-    flatOffer.apply = async function apply (getBrowser, contactData) {
-      return await applyForFlatOffer(getBrowser, flatOffer, contactData)
+    if (applyForFlatOffer) {
+      flatOffer.apply = async function apply (getBrowser, contactData) {
+        return await applyForFlatOffer(getBrowser, flatOffer, contactData)
+      }
     }
 
     await flatOfferPage.close()
