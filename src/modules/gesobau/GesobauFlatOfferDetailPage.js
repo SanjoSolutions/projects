@@ -55,17 +55,17 @@ export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getColdRent () {
-    const coldRentText = await this.getCost('Kaltmiete')[1]
+    const coldRentText = (await this.getCost('Kaltmiete'))[1]
     return parseFloat(coldRentText.replace(',', '.'))
   }
 
   async getColdServiceCharges () {
-    const coldServiceChargesText = await this.getCost('Betriebskosten')[1]
+    const coldServiceChargesText = (await this.getCost('Betriebskosten'))[1]
     return parseFloat(coldServiceChargesText.replace(',', '.'))
   }
 
   async getWarmServiceCharges () {
-    const warmServiceChargesText = await this.getCost('Heizkosten')[1]
+    const warmServiceChargesText = (await this.getCost('Heizkosten'))[1]
     return parseFloat(warmServiceChargesText.replace(',', '.'))
   }
 

@@ -20,19 +20,21 @@ export function createParseFlatOffer ({
       'area',
       'numberOfRooms',
       'seniorsOnly',
-      'requiredMinimumAge'
+      'requiredMinimumAge',
+      'selfRenovation'
     ]
-    flatOffer = flatOfferProperties.reduce((flatOffer, flatOfferProperty) => {
+    for (const flatOfferProperty of flatOfferProperties) {
       const getterName = `get${flatOfferProperty[0].toUpperCase() + flatOfferProperty.substring(1)}`
-      const elementGetter = flatOfferElement[getterName].bind(flatOfferElement)
-      const pageGetter = page[getterName].bind(page)
-      flatOffer[flatOfferProperty] = (
-        (typeof elementGetter === 'function' && elementGetter()) ||
-        (typeof pageGetter === 'function' && pageGetter()) ||
-        null
-      )
-      return flatOffer
-    }, flatOffer)
+      let value
+      if (flatOfferElement.__proto__.hasOwnProperty(getterName) && typeof flatOfferElement[getterName] === 'function') {
+        value = await flatOfferElement[getterName]()
+      } else if (page.__proto__.hasOwnProperty(getterName) && typeof page[getterName] === 'function') {
+        value = await page[getterName]()
+      } else {
+        value = null
+      }
+      flatOffer[flatOfferProperty] = value
+    }
     if (applyForFlatOffer) {
       flatOffer.apply = async function apply (getBrowser, contactData) {
         return await applyForFlatOffer(getBrowser, flatOffer, contactData)

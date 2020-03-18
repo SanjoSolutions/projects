@@ -34,7 +34,11 @@ async function main () {
     }
   }
 
-  await fetchOnce(getBrowser, page, onFlatOffer)
+  function shouldStop () {
+    return Boolean(flatOffer)
+  }
+
+  await fetchOnce(getBrowser, page, onFlatOffer, shouldStop)
 
   if (flatOffer) {
     flatOffer.apply(getBrowser, contactData)

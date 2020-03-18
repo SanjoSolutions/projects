@@ -7,7 +7,7 @@ export function createFetchOnce ({
   navigateToNextPage,
   FlatOfferListPage
 }) {
-  return async function fetchOnce (getBrowser, page, onFlatOffer) {
+  return async function fetchOnce (getBrowser, page, onFlatOffer, shouldStop = () => false) {
     const flatOfferListPage = new FlatOfferListPage(page)
     await navigateToFlatOfferListPage(page, flatOffersUrl)
     let hasNavigatedToNextPage
@@ -17,11 +17,16 @@ export function createFetchOnce ({
       const flatOfferElements = await flatOfferListPage.getFlatOfferElements()
       totalNumberOfFlatOfferElements += flatOfferElements.length
       for (const flatOfferElement of flatOfferElements) {
+        if (shouldStop()) {
+          return
+        }
         const url = await flatOfferElement.getUrl()
-        if (!await hasFetchedFlatOffer(url)) {
+        if (process.env.NODE_ENV === 'TESTING' || !await hasFetchedFlatOffer(url)) {
           const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
           onFlatOffer(flatOffer).then(async () => {
-            await registerFlatOfferAsFetched(url)
+            if (process.env.NODE_ENV !== 'TESTING') {
+              await registerFlatOfferAsFetched(url)
+            }
           })
         }
       }

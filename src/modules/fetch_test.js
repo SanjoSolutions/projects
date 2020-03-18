@@ -2,7 +2,6 @@ process.env.NODE_ENV = 'TESTING'
 
 import path from 'path'
 import puppeteer from 'puppeteer'
-import { resetFetchedFlatOffers } from '../fetchedFlatOffers.js'
 
 run(main)
 
@@ -10,9 +9,6 @@ async function main () {
   const moduleNameUnderTest = process.argv[2]
   const modulePathUnderTest = path.resolve(__dirname, moduleNameUnderTest, 'index.js')
   const { fetchOnce } = await import(modulePathUnderTest)
-
-  // FIXME: Prevent from wiping out fetched flat offers of production
-  await resetFetchedFlatOffers()
 
   const browser = await puppeteer.launch({
     headless: false,
