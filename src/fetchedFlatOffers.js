@@ -1,7 +1,8 @@
-import util from 'util'
-import path from 'path'
 import _fs from 'fs'
+import path from 'path'
+import util from 'util'
 import { readJSON } from './lib/readJSON.js'
+
 const fs = {
   readFile: util.promisify(_fs.readFile),
   writeFile: util.promisify(_fs.writeFile)
@@ -11,16 +12,16 @@ const fetchedFlatOffersFileName = 'fetchedFlatOffers.json'
 const defaultFetchedFlatOffersFileName = 'fetchedFlatOffers.default.json'
 
 async function readFetchedFlatOffers () {
-  return await readJSON(`./${fetchedFlatOffersFileName}`)
+  return await readJSON(path.resolve(__dirname, '..', fetchedFlatOffersFileName))
 }
 
 async function readDefaultFetchedFlatOffers () {
-  return await readJSON(`./${defaultFetchedFlatOffersFileName}`)
+  return await readJSON(path.resolve(__dirname, '..', defaultFetchedFlatOffersFileName))
 }
 
 async function writeFetchedFlatOffers (fetchedFlatOffers) {
   await fs.writeFile(
-    path.join(__dirname, fetchedFlatOffersFileName),
+    path.resolve(__dirname, '..', fetchedFlatOffersFileName),
     JSON.stringify(fetchedFlatOffers, null, 2),
     { encoding: 'utf8' }
   )

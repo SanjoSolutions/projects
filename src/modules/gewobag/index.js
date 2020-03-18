@@ -1,7 +1,7 @@
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
 import { formatDate } from '../../lib/formatDate.js'
 import { getMissingFields } from '../../lib/getMissingFields.js'
 import { saveScreenshotOfFlatOfferApplication } from '../../lib/saveScreenshotOfFlatOfferApplication.js'
-import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
 import { wait } from '../../lib/wait.js'
 
 export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
@@ -94,7 +94,7 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
   const numberOfRoomsX = getKeyFigure('Anzahl Zimmer')
   const numberOfRooms = parseInt(numberOfRoomsX[1], 10)
 
-  const titleElement = (await flatOfferPage.$('.entry-title'))
+  const titleElement = await flatOfferPage.$('.entry-title')
   const title = await titleElement.evaluate(node => node.innerText)
   const seniorsOnly = title.includes('Senioren')
   const selfRenovation = title.includes('Selbstrenovier')

@@ -135,27 +135,33 @@ function isFlatOfferForSeniorsOnly (flatOffer) {
 }
 
 async function apply (getBrowser, contactData, flatOffer) {
+  /*
   console.log('Applying for flat offer: ', flatOffer)
-  // console.log('Simulating…')
   if (typeof flatOffer.apply === 'function') {
     await flatOffer.apply(getBrowser, contactData)
   } else {
     await notify(flatOffer, contactData)
   }
+  */
+  console.log('Sending notification for flat offer: ', flatOffer)
+  await notify(flatOffer, contactData)
   await registerFlatOfferAsAppliedTo(flatOffer)
   console.log('Applied for flat offer: ', flatOffer)
 }
 
+// IMPROVEMENT: Structure code of haveAppliedForFlatOffer and registerFlatOfferAsAppliedTo like fetchedFlatOffers.js
 function haveAppliedForFlatOffer (flatOffer) {
-  const flatOffersAppliedTo = require('./flatOffersAppliedTo.json')
+  // FIXME: User readJSON instead of require
+  const flatOffersAppliedTo = require('../flatOffersAppliedTo.json')
   return flatOffersAppliedTo.includes(flatOffer.url)
 }
 
 async function registerFlatOfferAsAppliedTo (flatOffer) {
-  const flatOffersAppliedTo = require('./flatOffersAppliedTo.json')
+  // FIXME: User readJSON instead of require
+  const flatOffersAppliedTo = require('../flatOffersAppliedTo.json')
   flatOffersAppliedTo.push(flatOffer.url)
   await fs.writeFile(
-    path.join(__dirname, 'flatOffersAppliedTo.json'),
+    path.resolve(__dirname, '..', 'flatOffersAppliedTo.json'),
     JSON.stringify(flatOffersAppliedTo, null, 2)
   )
 }

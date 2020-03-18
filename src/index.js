@@ -84,7 +84,7 @@ function run (fn) {
 
 async function createBrowser () {
   return await puppeteer.launch({
-    headless: true,
+    headless: false,
     defaultViewport: {
       width: 1024,
       height: 768

@@ -1,5 +1,4 @@
 export function createParseFlatOffer ({
-  FlatOfferListElement,
   FlatOfferDetailPage,
   applyForFlatOffer
 }) {
@@ -9,7 +8,6 @@ export function createParseFlatOffer ({
     const flatOfferPage = await (await getBrowser()).newPage()
     await flatOfferPage.goto(url)
 
-    const element = new FlatOfferListElement(flatOfferElement)
     const page = new FlatOfferDetailPage(flatOfferPage)
 
     let flatOffer = { url }
@@ -26,13 +24,14 @@ export function createParseFlatOffer ({
     ]
     flatOffer = flatOfferProperties.reduce((flatOffer, flatOfferProperty) => {
       const getterName = `get${flatOfferProperty[0].toUpperCase() + flatOfferProperty.substring(1)}`
-      const elementGetter = element[getterName]
-      const pageGetter = page[getterName]
+      const elementGetter = flatOfferElement[getterName].bind(flatOfferElement)
+      const pageGetter = page[getterName].bind(page)
       flatOffer[flatOfferProperty] = (
         (typeof elementGetter === 'function' && elementGetter()) ||
         (typeof pageGetter === 'function' && pageGetter()) ||
         null
       )
+      return flatOffer
     }, flatOffer)
     flatOffer.apply = async function apply (getBrowser, contactData) {
       return await applyForFlatOffer(getBrowser, flatOffer, contactData)

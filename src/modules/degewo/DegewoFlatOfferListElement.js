@@ -1,11 +1,10 @@
 import { FlatOfferListElement } from '../../lib/FlatOfferListElement.js'
-import { getInnerTextOfChildAsCurrency } from '../../lib/getInnerTextOfChildAsCurrency.js'
 import { getInnerTextOfChild } from '../../lib/getInnerTextOfChild.js'
+import { getInnerTextOfChildAsCurrency } from '../../lib/getInnerTextOfChildAsCurrency.js'
 
 export class DegewoFlatOfferListElement extends FlatOfferListElement {
   async getUrl () {
     const linkElement = await this.element.$('a')
-    debugger
     return await linkElement.evaluate(node => node.href)
   }
 

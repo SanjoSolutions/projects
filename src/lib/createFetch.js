@@ -1,9 +1,10 @@
-export function createFetch({
-  fetchOnce,
-  FlatOfferListPage
+import { wait } from './wait.js'
+
+export function createFetch ({
+  fetchOnce
 }) {
   return async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
-    const page = new FlatOfferListPage(await (await getBrowser()).newPage())
+    const page = await (await getBrowser()).newPage()
 
     while (!shouldStop()) {
       await fetchOnce(getBrowser, page, onFlatOffer)
