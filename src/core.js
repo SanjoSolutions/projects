@@ -120,7 +120,19 @@ function kommtInFrage (contactData, flatOffer) {
 }
 
 function totalRent (flatOffer) {
-  return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
+  if (
+    flatOffer.hasOwnProperty('coldRent') &&
+    flatOffer.hasOwnProperty('coldServiceCharges') &&
+    flatOffer.hasOwnProperty('warmServiceCharges')) {
+    return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
+  } else if (flatOffer.hasOwnProperty('warmRent')) {
+    return flatOffer.warmRent
+  } else if (
+    flatOffer.hasOwnProperty('coldRent') &&
+    flatOffer.hasOwnProperty('serviceCharges')
+  ) {
+    return flatOffer.coldRent + flatOffer.serviceCharges
+  }
 }
 
 function forPeopleOfAge (flatOffer, age) {
