@@ -1,7 +1,7 @@
 import { FlatOfferListElement } from '../../lib/FlatOfferListElement.js'
 import { isTitleOfSeniorsOnlyFlat } from '../../lib/isTitleOfSeniorsOnlyFlat.js'
 
-export class GesobauFlatOfferListElement extends FlatOfferListElement {
+export class GESOBAUFlatOfferListElement extends FlatOfferListElement {
   async getUrl () {
     const linkElement = await this.element.$('.list_item-title a')
     return await linkElement.evaluate(node => node.href)

@@ -2,8 +2,7 @@
 
 ## Upcomming
 
-* Refactoring of modules to reuse shared functionality
-* Extract out seniorsOnly classification (as function)
+* Test WBM
 
 * Firebase?
 

@@ -4,7 +4,7 @@ import { parseCurrencyText } from '../../lib/parseCurrencyText.js'
 import { parseFloatNumberText } from '../../lib/parseFloatNumberText.js'
 import { parseNumberOfRooms } from '../../lib/parseNumberOfRooms.js'
 
-export class HowogeFlatOfferDetailPage extends FlatOfferDetailPage {
+export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
   async getCosts () {
     if (!this.costs) {
       const costsDataRows = await this.page.$$('.expenses .wrap > div')
