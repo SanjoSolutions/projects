@@ -7,4 +7,8 @@ export class DegewoFlatOfferListPage extends FlatOfferListPage {
     const flatOfferElementsSelector = '.search__results article'
     return await getFlatOfferElements(this.page, flatOfferElementsSelector, DegewoFlatOfferListElement)
   }
+
+  async getNumberOfResults () {
+    return parseInt(await this.getInnerText('.form-tabs__container--active .search-immo-form__result-count'), 10)
+  }
 }

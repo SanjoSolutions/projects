@@ -11,8 +11,11 @@ export function createFetchOnce ({
     const flatOfferListPage = new FlatOfferListPage(page)
     await navigateToFlatOfferListPage(page, flatOffersUrl)
     let hasNavigatedToNextPage
+    let totalNumberOfFlatOfferElements = 0
+    const numberOfResults = await flatOfferListPage.getNumberOfResults()
     do {
       const flatOfferElements = await flatOfferListPage.getFlatOfferElements()
+      totalNumberOfFlatOfferElements += flatOfferElements.length
       for (const flatOfferElement of flatOfferElements) {
         const url = await flatOfferElement.getUrl()
         if (!await hasFetchedFlatOffer(url)) {
@@ -24,5 +27,14 @@ export function createFetchOnce ({
       }
       hasNavigatedToNextPage = await navigateToNextPage(page)
     } while (hasNavigatedToNextPage)
+    if (totalNumberOfFlatOfferElements !== numberOfResults) {
+      console.error(
+        new Error(
+          `Has fetched ${totalNumberOfFlatOfferElements} elements, ` +
+          `but number as results was states as ${numberOfResults} ` +
+          `(on ${flatOffersUrl}).`
+        )
+      )
+    }
   }
 }
