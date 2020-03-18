@@ -135,16 +135,17 @@ function isFlatOfferForSeniorsOnly (flatOffer) {
 }
 
 async function apply (getBrowser, contactData, flatOffer) {
-  /*
-  console.log('Applying for flat offer: ', flatOffer)
   if (typeof flatOffer.apply === 'function') {
+    console.log('Applying for flat offer: ', flatOffer)
     await flatOffer.apply(getBrowser, contactData)
   } else {
+    console.log('Sending notification for flat offer: ', flatOffer)
     await notify(flatOffer, contactData)
   }
-  */
+  /*
   console.log('Sending notification for flat offer: ', flatOffer)
   await notify(flatOffer, contactData)
+  */
   await registerFlatOfferAsAppliedTo(flatOffer)
   console.log('Applied for flat offer: ', flatOffer)
 }

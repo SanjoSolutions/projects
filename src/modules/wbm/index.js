@@ -1,7 +1,7 @@
+import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
 import { formatDateForDateInput } from '../../lib/formatDateForDateInput.js'
 import { getMissingFields } from '../../lib/getMissingFields.js'
 import { saveScreenshotOfFlatOfferApplication } from '../../lib/saveScreenshotOfFlatOfferApplication.js'
-import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
 import { wait } from '../../lib/wait.js'
 
 export async function fetch (getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop) {
@@ -74,9 +74,11 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
     area,
     numberOfRooms,
     seniorsOnly,
+    /*
     async apply (getBrowser, contactData) {
       return await applyForFlatOffer(getBrowser, flatOffer, contactData)
     }
+    */
   }
 
   return flatOffer
