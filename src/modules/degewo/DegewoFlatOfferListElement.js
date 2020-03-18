@@ -1,6 +1,7 @@
 import { FlatOfferListElement } from '../../lib/FlatOfferListElement.js'
 import { getInnerTextOfChild } from '../../lib/getInnerTextOfChild.js'
 import { getInnerTextOfChildAsCurrency } from '../../lib/getInnerTextOfChildAsCurrency.js'
+import { isTitleOfSeniorsOnlyFlat } from '../../lib/isTitleOfSeniorsOnlyFlat.js'
 
 export class DegewoFlatOfferListElement extends FlatOfferListElement {
   async getUrl () {
@@ -14,7 +15,7 @@ export class DegewoFlatOfferListElement extends FlatOfferListElement {
 
   async getSeniorsOnly () {
     const title = await getInnerTextOfChild(this.element, '.article__title')
-    return title.includes('Senioren')
+    return isTitleOfSeniorsOnlyFlat(title)
   }
 
   async getRequiredMinimumAge () {

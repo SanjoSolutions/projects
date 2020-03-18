@@ -1,6 +1,7 @@
 import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../../fetchedFlatOffers.js'
 import { formatDateForDateInput } from '../../lib/formatDateForDateInput.js'
 import { getMissingFields } from '../../lib/getMissingFields.js'
+import { isTitleOfSeniorsOnlyFlat } from '../../lib/isTitleOfSeniorsOnlyFlat.js'
 import { saveScreenshotOfFlatOfferApplication } from '../../lib/saveScreenshotOfFlatOfferApplication.js'
 import { wait } from '../../lib/wait.js'
 
@@ -66,7 +67,7 @@ async function parseFlatOffer (getBrowser, flatOfferElement) {
 
   const titleElement = (await flatOfferElement.$('h2'))
   const title = await titleElement.evaluate(node => node.innerHTML)
-  const seniorsOnly = title.includes('Senioren')
+  const seniorsOnly = isTitleOfSeniorsOnlyFlat(title)
 
   const flatOffer = {
     url,

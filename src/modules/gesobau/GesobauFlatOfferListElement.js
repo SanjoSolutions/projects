@@ -1,4 +1,5 @@
 import { FlatOfferListElement } from '../../lib/FlatOfferListElement.js'
+import { isTitleOfSeniorsOnlyFlat } from '../../lib/isTitleOfSeniorsOnlyFlat.js'
 
 export class GesobauFlatOfferListElement extends FlatOfferListElement {
   async getUrl () {
@@ -12,6 +13,6 @@ export class GesobauFlatOfferListElement extends FlatOfferListElement {
   }
 
   async getSeniorsOnly () {
-    return (await this.getTitle()).includes('Senioren')
+    return isTitleOfSeniorsOnlyFlat(await this.getTitle())
   }
 }

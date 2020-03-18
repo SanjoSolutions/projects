@@ -1,6 +1,8 @@
 import { FlatOfferDetailPage } from '../../lib/FlatOfferDetailPage.js'
+import { isTitleOfSeniorsOnlyFlat } from '../../lib/isTitleOfSeniorsOnlyFlat.js'
 import { parseCurrencyText } from '../../lib/parseCurrencyText.js'
 import { parseFloatNumberText } from '../../lib/parseFloatNumberText.js'
+import { parseNumberOfRooms } from '../../lib/parseNumberOfRooms.js'
 
 export class GewobagFlatOfferDetailPage extends FlatOfferDetailPage {
   async getCosts () {
@@ -67,13 +69,13 @@ export class GewobagFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getArea () {
-    const areaX = await this.getKeyFigure('Fläche in m²')
-    return parseFloatNumberText(areaX[1])
+    const areaText = (await this.getKeyFigure('Fläche in m²'))[1]
+    return parseFloatNumberText(areaText)
   }
 
   async getNumberOfRooms () {
-    const numberOfRoomsX = await this.getKeyFigure('Anzahl Zimmer')
-    return parseInt(numberOfRoomsX[1], 10)
+    const numberOfRoomsText = (await this.getKeyFigure('Anzahl Zimmer'))[1]
+    return parseNumberOfRooms(numberOfRoomsText)
   }
 
   async getTitle () {
@@ -82,7 +84,7 @@ export class GewobagFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getSeniorsOnly () {
-    return (await this.getTitle()).includes('Senioren')
+    return isTitleOfSeniorsOnlyFlat(await this.getTitle())
   }
 
   async getSelfRenovation () {

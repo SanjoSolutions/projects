@@ -1,12 +1,6 @@
-import _fs from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
-import util from 'util'
 import { readJSON } from './lib/readJSON.js'
-
-const fs = {
-  readFile: util.promisify(_fs.readFile),
-  writeFile: util.promisify(_fs.writeFile)
-}
 
 const fetchedFlatOffersFileName = 'fetchedFlatOffers.json'
 const defaultFetchedFlatOffersFileName = 'fetchedFlatOffers.default.json'

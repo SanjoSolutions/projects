@@ -1,5 +1,7 @@
 import { findAsync } from '../../lib/findAsync.js'
 import { FlatOfferDetailPage } from '../../lib/FlatOfferDetailPage.js'
+import { parseFloatNumberText } from '../../lib/parseFloatNumberText.js'
+import { parseNumberOfRooms } from '../../lib/parseNumberOfRooms.js'
 
 export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
   async getCosts () {
@@ -56,26 +58,26 @@ export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
 
   async getColdRent () {
     const coldRentText = (await this.getCost('Kaltmiete'))[1]
-    return parseFloat(coldRentText.replace(',', '.'))
+    return parseFloatNumberText(coldRentText)
   }
 
   async getColdServiceCharges () {
     const coldServiceChargesText = (await this.getCost('Betriebskosten'))[1]
-    return parseFloat(coldServiceChargesText.replace(',', '.'))
+    return parseFloatNumberText(coldServiceChargesText)
   }
 
   async getWarmServiceCharges () {
     const warmServiceChargesText = (await this.getCost('Heizkosten'))[1]
-    return parseFloat(warmServiceChargesText.replace(',', '.'))
+    return parseFloatNumberText(warmServiceChargesText)
   }
 
   async getArea () {
-    const areaX = await this.getKeyFigure('Wohnfläche')
-    return parseFloat(areaX[1].replace(',', '.'))
+    const areaText = (await this.getKeyFigure('Wohnfläche'))[1]
+    return parseFloatNumberText(areaText)
   }
 
   async getNumberOfRooms () {
-    const numberOfRoomsX = await this.getKeyFigure('Anzahl Zimmer')
-    return parseInt(numberOfRoomsX[1], 10)
+    const numberOfRoomsText = (await this.getKeyFigure('Anzahl Zimmer'))[1]
+    return parseNumberOfRooms(numberOfRoomsText)
   }
 }
