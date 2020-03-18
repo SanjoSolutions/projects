@@ -11,7 +11,7 @@ export function createApplyForFlatOffer ({
 
     const { page, form } = await openForm(getBrowser, flatOffer)
 
-    await fillForm(form, contactData, page)
+    await fillForm({ form, page }, contactData)
 
     if (process.env.NODE_ENV !== 'TESTING') {
       await submitForm({ form, page })

@@ -2,7 +2,7 @@ import { clickRadioButtonBase } from '../../lib/clickRadioButtonBase.js'
 import { partial } from '../../lib/partial.js'
 import { type as typeIntoInput } from '../../lib/type.js'
 
-export async function fillForm (form, contactData) {
+export async function fillForm ({ form, page }, contactData) {
   const type = partial(typeIntoInput, form)
   const clickRadioButton = partial(clickRadioButtonBase, form)
 

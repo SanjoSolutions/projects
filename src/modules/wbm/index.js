@@ -160,9 +160,11 @@ async function applyForFlatOffer (getBrowser, flatOffer, contactData) {
   )
 
   // Submit
-  await form.evaluate(form => form.submit())
+  if (process.env.NODE_ENV !== 'TESTING') {
+    await form.evaluate(form => form.submit())
 
-  await saveScreenshotOfFlatOfferApplication(page, flatOffer)
+    await saveScreenshotOfFlatOfferApplication(page, flatOffer)
 
-  await page.close()
+    await page.close()
+  }
 }

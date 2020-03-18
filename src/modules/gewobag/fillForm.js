@@ -2,7 +2,7 @@ import { formatDate } from '../../lib/formatDate.js'
 import { partial } from '../../lib/partial.js'
 import { type as typeIntoInput } from '../../lib/type.js'
 
-export async function fillForm (form, contactData, page) {
+export async function fillForm ({ form, page }, contactData) {
   // IMPROVEMENT: Generalize and extract out
   async function selectOption (selectSelector, optionsSelector, optionIndexToSelect, isMultiSelect = false) {
     const select = await form.$(selectSelector)

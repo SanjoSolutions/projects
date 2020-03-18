@@ -3,7 +3,7 @@
 ## Upcomming
 
 * Refactoring of modules to reuse shared functionality
-* Automatic testing of automatic form submission
+* Extract out seniorsOnly classification (as function)
 
 * Firebase?
 

@@ -24,11 +24,16 @@ async function main () {
 
   const page = await browser.newPage()
 
+  let numberOfFlatOffers = 0
+
   async function onFlatOffer (flatOffer) {
     console.log('Flat offer: ', flatOffer)
+    numberOfFlatOffers++
   }
 
   await fetchOnce(getBrowser, page, onFlatOffer)
+
+  console.log('Number of flat offers: ', numberOfFlatOffers)
 }
 
 function run (fn) {
