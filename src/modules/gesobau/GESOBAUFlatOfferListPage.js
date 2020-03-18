@@ -8,7 +8,7 @@ export class GESOBAUFlatOfferListPage extends FlatOfferListPage {
     return await getFlatOfferElements(this.page, flatOfferElementsSelector, GESOBAUFlatOfferListElement)
   }
 
-  async getNumberOfResults () {
-    return parseInt(await this.getInnerText('#tx-openimmo-5316 > div > div.head > div > div:nth-child(1)'), 10)
+  async getNumberOfResultsElement () {
+    return await this.page.$('#tx-openimmo-5316 > div > div.head > div > div:nth-child(1)')
   }
 }

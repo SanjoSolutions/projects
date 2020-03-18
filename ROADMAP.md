@@ -2,6 +2,7 @@
 
 ## Upcomming
 
+* Handle when no flat offers are available.
 * Test WBM
 
 * Firebase?

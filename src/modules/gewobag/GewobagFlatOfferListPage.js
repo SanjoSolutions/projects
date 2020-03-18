@@ -8,8 +8,7 @@ export class GewobagFlatOfferListPage extends FlatOfferListPage {
     return await getFlatOfferElements(this.page, flatOfferElementsSelector, GewobagFlatOfferListElement)
   }
 
-  async getNumberOfResults () {
-    // FIXME: No results throws error ($('.empty-mietangebote') exists)
-    return parseInt(await this.getInnerText('.filtered-count'), 10)
+  async getNumberOfResultsElement () {
+    return await this.page.$('.filtered-count')
   }
 }

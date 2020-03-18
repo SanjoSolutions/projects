@@ -8,7 +8,7 @@ export class StadtUndLandFlatOfferListPage extends FlatOfferListPage {
     return await getFlatOfferElements(this.page, flatOfferElementsSelector, StadtUndLandFlatOfferListElement)
   }
 
-  async getNumberOfResults () {
-    return parseInt(await this.getInnerText('.SP-SearchResult__amount strong:nth-child(3)'), 10)
+  async getNumberOfResultsElement () {
+    return await this.page.$('.SP-SearchResult__amount strong:nth-child(3)')
   }
 }

@@ -8,7 +8,7 @@ export class HowogeFlatOfferListPage extends FlatOfferListPage {
     return await getFlatOfferElements(this.page, flatOfferElementsSelector, HOWOGEFlatOfferListElement)
   }
 
-  async getNumberOfResults () {
-    return parseInt(await this.getInnerText('.immoobject-list--info-length'), 10)
+  async getNumberOfResultsElement () {
+    return await this.page.$('.immoobject-list--info-length')
   }
 }

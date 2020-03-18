@@ -7,8 +7,9 @@ export class WBMFlatOfferListPage extends FlatOfferListPage {
     const flatOfferElementsSelector = '.search .openimmo-search-list-item'
     return await getFlatOfferElements(this.page, flatOfferElementsSelector, WBMFlatOfferListElement)
   }
-
-  async getNumberOfResults () {
-    // TODO: return parseInt(await this.getInnerText('…'), 10)
+  
+  async getNumberOfResultsElement () {
+    // TODO: getNumberOfResultsElement ()
+    return null
   }
 }
