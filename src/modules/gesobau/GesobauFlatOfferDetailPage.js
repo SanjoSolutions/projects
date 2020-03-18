@@ -29,7 +29,7 @@ export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getKeyFigures () {
-    if (this.keyFigures) {
+    if (!this.keyFigures) {
       const keyFiguresBlocks = await this.page.$$('.kennzahlen')
       const keyFiguresBlock = await findAsync(keyFiguresBlocks, async keyFiguresBlock => {
         const header = await keyFiguresBlock.$('header h2')

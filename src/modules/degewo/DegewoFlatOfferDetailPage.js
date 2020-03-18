@@ -29,7 +29,7 @@ export class DegewoFlatOfferDetailPage extends FlatOfferDetailPage {
 
   async getColdServiceCharges () {
     return await getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError(
-      this,
+      this.page,
       '.article .ce-table.expose__header-details ' +
       '> .ce-table__row > .ce-table__row-item:nth-child(2) > ul > li:nth-child(1)',
       'Betriebskosten (kalt)',
@@ -39,7 +39,7 @@ export class DegewoFlatOfferDetailPage extends FlatOfferDetailPage {
 
   async getWarmServiceCharges () {
     return await getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError(
-      this,
+      this.page,
       '.article .ce-table.expose__header-details ' +
       '> .ce-table__row > .ce-table__row-item:nth-child(2) > ul > li:nth-child(2)',
       'Betriebskosten (warm)',

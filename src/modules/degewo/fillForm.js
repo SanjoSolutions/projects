@@ -1,5 +1,5 @@
-import { partial } from '../../lib/partial.js'
 import { clickRadioButtonBase } from '../../lib/clickRadioButtonBase.js'
+import { partial } from '../../lib/partial.js'
 import { type as typeIntoInput } from '../../lib/type.js'
 
 export async function fillForm (form, contactData) {
@@ -8,9 +8,9 @@ export async function fillForm (form, contactData) {
 
   if (contactData.title) {
     if (contactData.title === 'Mr.') {
-      await clickRadioButton(form, '#inquiry_herr')
+      await clickRadioButton('#inquiry_herr')
     } else if (contactData.title === 'Mrs.') {
-      await clickRadioButton(form, '#inquiry_frau')
+      await clickRadioButton('#inquiry_frau')
     }
   }
   await type('#inquiry_prename', contactData.firstName)

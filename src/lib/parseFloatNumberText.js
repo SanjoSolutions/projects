@@ -1,3 +1,3 @@
 export function parseFloatNumberText (floatNumberText) {
-  return parseFloat(floatNumberText.replace(',', '.'))
+  return parseFloat(floatNumberText.replace(/\./, '').replace(',', '.'))
 }
