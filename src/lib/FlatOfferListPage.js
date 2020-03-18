@@ -20,6 +20,6 @@ export class FlatOfferListPage extends Page {
 
   async getNumberOfResults () {
     const element = await this.getNumberOfResultsElement()
-    return element ? this.parseNumberOfResultsText(this.getNumberOfResultsText(element), 10) : 0
+    return element ? this.parseNumberOfResultsText(await this.getNumberOfResultsText(element), 10) : 0
   }
 }
