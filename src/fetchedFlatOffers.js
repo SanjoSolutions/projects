@@ -26,9 +26,9 @@ export async function hasFetchedFlatOffer(url) {
   return Boolean(fetchedFlatOffers[url])
 }
 
-export async function registerFlatOfferAsFetched (url) {
+export async function registerFlatOfferAsFetched (url, flatOffer) {
   const fetchedFlatOffers = await readFetchedFlatOffers()
-  fetchedFlatOffers[url] = true
+  fetchedFlatOffers[url] = flatOffer
   await writeFetchedFlatOffers(fetchedFlatOffers)
 }
 

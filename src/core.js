@@ -2,6 +2,8 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { notify } from './flat_offer_notifier.js'
 import { getMissingFields } from './lib/getMissingFields.js'
+import { isBoolean } from './lib/isBoolean.js'
+import { isNumber } from './lib/isNumber.js'
 
 const modulesDirectoryName = 'modules'
 
@@ -86,25 +88,26 @@ function fetchFlatOffers (getBrowser, intervalBetweenProcessRuns, flatOfferFetch
   }
 }
 
+// TODO: Needs unit tests
 function kommtInFrage (contactData, flatOffer) {
   const maxColdRentPlusColdServiceCharges = 463.65
   const maxWarmServiceCharges = 76.50
   return (
     (
       (
-        flatOffer.hasOwnProperty('coldRent') &&
-        flatOffer.hasOwnProperty('coldServiceCharges') &&
-        flatOffer.hasOwnProperty('warmServiceCharges') &&
+        isNumber(flatOffer.coldRent) &&
+        isNumber(flatOffer.coldServiceCharges) &&
+        isNumber(flatOffer.warmServiceCharges) &&
         flatOffer.coldRent + flatOffer.coldServiceCharges <= maxColdRentPlusColdServiceCharges &&
         flatOffer.warmServiceCharges <= maxWarmServiceCharges
       ) ||
       (
-        flatOffer.hasOwnProperty('warmRent') &&
+        isNumber(flatOffer.warmRent) &&
         flatOffer.warmRent <= maxColdRentPlusColdServiceCharges + maxWarmServiceCharges
       ) ||
       (
-        flatOffer.hasOwnProperty('coldRent') &&
-        flatOffer.hasOwnProperty('serviceCharges') &&
+        isNumber(flatOffer.coldRent) &&
+        isNumber(flatOffer.serviceCharges) &&
         flatOffer.coldRent + flatOffer.serviceCharges <= maxColdRentPlusColdServiceCharges + maxWarmServiceCharges
       )
     ) &&
@@ -113,23 +116,23 @@ function kommtInFrage (contactData, flatOffer) {
     flatOffer.numberOfRooms <= 2 &&
     (
       !flatOffer.url.includes('howoge') ||
-      972.15 >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
+      972.15 + 100 /* Abzugsfreier Nebenverdienst */ >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
     ) &&
-    (!flatOffer.hasOwnProperty('selfRenovation') || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
+    (!isBoolean(flatOffer.selfRenovation) || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
   )
 }
 
 function totalRent (flatOffer) {
   if (
-    flatOffer.hasOwnProperty('coldRent') &&
-    flatOffer.hasOwnProperty('coldServiceCharges') &&
-    flatOffer.hasOwnProperty('warmServiceCharges')) {
+    isNumber(flatOffer.coldRent) &&
+    isNumber(flatOffer.coldServiceCharges) &&
+    isNumber(flatOffer.warmServiceCharges)) {
     return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
-  } else if (flatOffer.hasOwnProperty('warmRent')) {
+  } else if (isNumber(flatOffer.warmRent)) {
     return flatOffer.warmRent
   } else if (
-    flatOffer.hasOwnProperty('coldRent') &&
-    flatOffer.hasOwnProperty('serviceCharges')
+    isNumber(flatOffer.coldRent) &&
+    isNumber(flatOffer.serviceCharges)
   ) {
     return flatOffer.coldRent + flatOffer.serviceCharges
   }
@@ -138,12 +141,15 @@ function totalRent (flatOffer) {
 function forPeopleOfAge (flatOffer, age) {
   return (
     !isFlatOfferForSeniorsOnly(flatOffer) &&
-    (!flatOffer.hasOwnProperty('requiredMinimumAge') || age >= flatOffer.requiredMinimumAge)
+    (
+      typeof flatOffer.requiredMinimumAge !== 'number' ||
+      age >= flatOffer.requiredMinimumAge
+    )
   )
 }
 
 function isFlatOfferForSeniorsOnly (flatOffer) {
-  return flatOffer.seniorsOnly
+  return Boolean(flatOffer.seniorsOnly)
 }
 
 async function apply (getBrowser, contactData, flatOffer) {
@@ -159,7 +165,6 @@ async function apply (getBrowser, contactData, flatOffer) {
   await notify(flatOffer, contactData)
   */
   await registerFlatOfferAsAppliedTo(flatOffer)
-  console.log('Applied for flat offer: ', flatOffer)
 }
 
 // IMPROVEMENT: Structure code of haveAppliedForFlatOffer and registerFlatOfferAsAppliedTo like fetchedFlatOffers.js

@@ -25,7 +25,7 @@ export function createFetchOnce ({
           const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
           onFlatOffer(flatOffer).then(async () => {
             if (process.env.NODE_ENV !== 'TESTING') {
-              await registerFlatOfferAsFetched(url)
+              await registerFlatOfferAsFetched(url, flatOffer)
             }
           })
         }
