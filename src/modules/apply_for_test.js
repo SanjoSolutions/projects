@@ -8,7 +8,7 @@ run(main)
 
 async function main () {
   const moduleNameUnderTest = process.argv[2]
-  const modulePathUnderTest = path.resolve(__dirname, moduleNameUnderTest, 'index.js')
+  const modulePathUnderTest = path.resolve(__dirname, moduleNameUnderTest, 'applyForFlatOffer.js')
   const { applyForFlatOffer } = await import(modulePathUnderTest)
 
   const browser = await puppeteer.launch({
