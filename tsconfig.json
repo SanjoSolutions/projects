@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig-base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "exclude": [
+    "**/babel.config.js",
+    "**/built/**/*",
+    "**/testing/fixtures/**/*",
+    "./X/text_file_compression/examples/*"
+  ]
+}

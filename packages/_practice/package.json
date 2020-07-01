@@ -1,0 +1,26 @@
+{
+  "name": "practice",
+  "description": "Practice",
+  "license": "Unlicense",
+  "version": "0.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "scripts": {
+    "build": "webpack",
+    "build:watch": "webpack-dev-server --open"
+  },
+  "dependencies": {
+    "@sanjo/make-temporary-directory": "^1.0.0",
+    "@sanjo/mongodb-diff": "^0.3.0",
+    "@sanjo/request": "^0.2.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^16.9.8",
+    "cucumber": "^6.0.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

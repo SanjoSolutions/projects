@@ -1,0 +1,46 @@
+body {
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sidebar {
+    box-sizing: border-box;
+    background: green;
+    flex: 0 0 200px;
+    padding: 1rem;
+}
+
+.main {
+    color: black;
+    background: yellow;
+    flex: 1 1 auto;
+    padding: calc(1.25rem + 103px) 1rem 1rem 1rem;
+}
+
+.navigation {
+    color: white;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.navigation a {
+    display: block;
+    color: white;
+    text-decoration: none;
+}
+
+.navigation a:hover {
+    text-decoration: underline;
+}
+
+.navigation .active {
+    font-weight: bold;
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@sanjo/exec",
+  "description": "Exec",
+  "license": "Unlicense",
+  "version": "1.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "publishConfig": {
+    "access": "public"
+  }
+}

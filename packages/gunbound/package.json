@@ -1,0 +1,20 @@
+{
+  "name": "@sanjo/gunbound",
+  "description": "Gunbound",
+  "license": "Unlicense",
+  "version": "0.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "scripts": {
+    "build": "webpack",
+    "build:watch": "webpack-dev-server --open"
+  },
+  "dependencies": {
+    "@sanjo/animate": "^1.0.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

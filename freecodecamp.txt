@@ -1,0 +1,5 @@
+Saved code get deleted when clicking “Submit and go to next challenge”
+
+Feature: Saving code to localStorage regularly (aka auto-save).
+Feature: Saving code on frame deactivation
+Feature: Saving code when 15 seconds idle.

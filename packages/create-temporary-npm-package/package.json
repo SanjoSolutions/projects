@@ -1,0 +1,17 @@
+{
+  "name": "@sanjo/create-temporary-npm-package",
+  "description": "Creates temporary NPM package",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/create-npm-package": "^0.1.0",
+    "@sanjo/make-temporary-directory": "^1.0.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

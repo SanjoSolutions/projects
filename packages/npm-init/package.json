@@ -1,0 +1,16 @@
+{
+  "name": "@sanjo/npm-init",
+  "description": "NPM init",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/exec": "^1.0.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

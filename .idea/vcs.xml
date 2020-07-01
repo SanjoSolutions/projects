@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/../babel" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/automatic_application_for_flats" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/automatic_application_for_flats_production" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/forum_eu_header" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/manufacturer-offers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/practice-spec-in-natural-language-to-software" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/template" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/watermark" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/word" vcs="Git" />
+  </component>
+</project>

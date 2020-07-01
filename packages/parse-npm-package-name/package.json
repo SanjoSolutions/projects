@@ -1,0 +1,15 @@
+{
+  "name": "@sanjo/parse-npm-package-name",
+  "description": "Parses NPM package name",
+  "license": "Unlicense",
+  "version": "0.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

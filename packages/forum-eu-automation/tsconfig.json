@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./built/",
+    "module": "CommonJS",
+    "lib": [
+      "ES2020"
+    ]
+  },
+  "references": [
+    {
+      "path": "../exec"
+    },
+    {
+      "path": "../puppeteer-helpers"
+    },
+    {
+      "path": "../read-json"
+    },
+    {
+      "path": "../request-json"
+    }
+  ]
+}

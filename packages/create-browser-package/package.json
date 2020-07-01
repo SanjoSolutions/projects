@@ -1,0 +1,22 @@
+{
+  "name": "@sanjo/create-browser-package",
+  "description": "Create browser package",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "bin": "./built/bin/create-browser-package.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/create-package": "^0.2.0",
+    "@sanjo/read-json": "^1.0.0",
+    "@sanjo/write-json": "^1.0.0"
+  },
+  "devDependencies": {
+    "@sanjo/diff-folders": "^0.1.0",
+    "@sanjo/exec": "^1.0.0",
+    "@sanjo/make-temporary-directory": "^1.0.0",
+    "@sanjo/test-create-package": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

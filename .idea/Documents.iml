@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/automatic_application_for_flats/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/din-5008-schreiben/functions/node_modules" />
+      <excludeFolder url="file://$MODULE_DIR$/freeCodeCamp" />
+      <excludeFolder url="file://$MODULE_DIR$/manufacturer-offerings/build" />
+      <excludeFolder url="file://$MODULE_DIR$/manufacturer-offers/frontend/src/scripts/vendor" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/forum_eu_automation/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/refactorings-build" />
+      <excludeFolder url="file://$MODULE_DIR$/refactorings/dist" />
+      <excludeFolder url="file://$MODULE_DIR$/refactorings/node_modules" />
+      <excludePattern pattern="built" />
+      <excludePattern pattern="dist" />
+      <excludePattern pattern="build" />
+    </content>
+    <content url="file://$MODULE_DIR$/din-5008-schreiben/functions/node_modules" />
+    <content url="file://$MODULE_DIR$/refactorings/node_modules" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="@types/jest" level="application" />
+    <orderEntry type="module" module-name="babel" />
+  </component>
+</module>

@@ -1,0 +1,96 @@
+<style>
+    body {
+        display: flex;
+        color: white;
+        font-family: "Apple Chancery";
+        font-size: 12rem;
+        /* margin: 2.5rem 0 0 6rem; */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .text {
+        text-shadow: 1px 1px 0px black;
+        transform: rotate(356deg);
+        perspective-origin: center;
+        perspective: 500px;
+        z-index: 1;
+        user-select: none;
+    }
+
+    .background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .barrel-roll {
+        
+    }
+</style>
+
+<div class="text">
+    Welcome
+</div>
+<canvas class="background"></canvas>
+
+<script>
+    // const color1 = 'hsl(202, 100%, 91%)'
+    // const color2 = 'hsl(349, 100%, 91%)'
+    const color1 = 'hsl(54, 100%, 62%)'
+    const color2 = 'white'
+
+    const canvas = document.querySelector('.background')
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    const context = canvas.getContext('2d')
+
+    paintBackground(canvas, context, canvas.width / 2, canvas.height / 2)
+
+    window.addEventListener('mousemove', (event) => {
+        const x = event.pageX
+        const y = event.pageY
+        paintBackground(canvas, context, x, y)
+    })
+
+    function paintBackground(canvas, context, x, y) {
+        context.clearRect(0, 0, canvas.width, canvas.height)
+
+        /*
+        // Left and right side version
+        context.fillStyle = color1
+        context.beginPath()
+        context.rect(0, 0, x, canvas.height)
+        context.closePath()
+        context.fill()
+
+        context.fillStyle = color2
+        context.beginPath()
+        context.rect(x, 0, canvas.width - x, canvas.height)
+        context.closePath()
+        context.fill()
+        */
+
+        const deltaY = y - ((canvas.height / canvas.width) * x)
+
+        context.fillStyle = color1
+        context.beginPath()
+        context.moveTo(0, canvas.height)
+        context.lineTo(canvas.width, canvas.height)
+        context.lineTo(canvas.width, canvas.height + deltaY)
+        context.lineTo(0, 0 + deltaY)
+        context.closePath()
+        context.fill()
+
+        context.fillStyle = color2
+        context.beginPath()
+        context.moveTo(canvas.width, 0)
+        context.lineTo(0, 0)
+        context.lineTo(0, 0 + deltaY)
+        context.lineTo(canvas.width, canvas.height + deltaY)
+        context.closePath()
+        context.fill()
+    }
+</script>

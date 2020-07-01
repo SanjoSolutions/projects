@@ -1,0 +1,118 @@
+<style>
+    body {
+        margin: 0;
+    }
+
+    .navbar {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        box-sizing: border-box;
+        position: fixed;
+        top: 0;
+        width: 100vw;
+        height: 3rem;
+        background: teal;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .navbar ol {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        pointer-events: none;
+    }
+
+    .navbar ol li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 10rem;
+        color: white;
+        padding: 0 0.25rem;
+        pointer-events: none;
+        margin-left: 0.5rem;
+    }
+
+    .navbar ol li:first-child {
+        margin-left: 0;
+    }
+
+    .navbar-item--hover {
+        border: 1px solid white;
+    }
+
+    .navbar__selection {
+        box-sizing: border-box;
+        width: 10rem;
+        height: 80%;
+        border: 1px solid yellow;
+        position: absolute;
+        top: 10%;
+        pointer-events: none;
+        visibility: hidden;
+    }
+
+    .main {
+        margin-top: 3rem;
+        padding: 0.5rem;
+        height: 400vh;
+    }
+</style>
+
+<div class="navbar">
+    <ol>
+        <li>Home</li>
+        <li>About</li>
+    </ol>
+    <div class="navbar__selection"></div>
+</div>
+<div class="main">
+    Content
+</div>
+
+<script>
+    const $navbar = document.querySelector('.navbar')
+    const $navbarItems = Array.from($navbar.querySelectorAll('li'))
+    const $navbarSelection = $navbar.querySelector('.navbar__selection')
+
+    function unhoverNavbarItems () {
+      $navbarItems.forEach($navbarItem => {
+        $navbarItem.classList.remove('navbar-item--hover')
+      })
+    }
+
+    $navbar.addEventListener('mousemove', (event) => {
+      const {width: navbarWidth} = $navbar.getBoundingClientRect()
+      const {width: navbarSelectionWidth} = $navbarSelection.getBoundingClientRect()
+      const x = Math.min(
+        Math.max(
+            8,
+            event.offsetX - (0.5 * navbarSelectionWidth)
+        ),
+        navbarWidth - navbarSelectionWidth - 8
+      )
+      $navbarSelection.style.left = `${x}px`
+
+      const $hoveredNavbarItem = $navbarItems.find(($navbarItem) => {
+        const {x: navbarItemX, width: navbarItemWidth} = $navbarItem.getBoundingClientRect()
+        return navbarItemX <= x && x <= navbarItemX + navbarItemWidth
+      })
+      unhoverNavbarItems()
+      $hoveredNavbarItem.classList.add('navbar-item--hover')
+    })
+
+    $navbar.addEventListener('mouseenter', (event) => {
+      $navbarSelection.style.visibility = 'visible'
+    })
+
+    $navbar.addEventListener('mouseleave', (event) => {
+      $navbarSelection.style.visibility = 'hidden'
+      unhoverNavbarItems()
+    })
+</script>

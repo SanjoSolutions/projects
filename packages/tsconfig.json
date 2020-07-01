@@ -1,0 +1,81 @@
+{
+  "files": [],
+  "include": [],
+  "references": [
+    {
+      "path": "./animate"
+    },
+    {
+      "path": "./binary-search"
+    },
+    {
+      "path": "./create-browser-package"
+    },
+    {
+      "path": "./create-node-package"
+    },
+    {
+      "path": "./create-npm-package"
+    },
+    {
+      "path": "./create-package"
+    },
+    {
+      "path": "./create-temporary-npm-package"
+    },
+    {
+      "path": "./database"
+    },
+    {
+      "path": "./diff-folders"
+    },
+    {
+      "path": "./escape-for-reg-exp"
+    },
+    {
+      "path": "./exec"
+    },
+    {
+      "path": "./forum-eu-automation"
+    },
+    {
+      "path": "./make-temporary-directory"
+    },
+    {
+      "path": "./npm-init"
+    },
+    {
+      "path": "./parse-npm-package-name"
+    },
+    {
+      "path": "./puppeteer-helpers"
+    },
+    {
+      "path": "./queue"
+    },
+    {
+      "path": "./read-file"
+    },
+    {
+      "path": "./read-json"
+    },
+    {
+      "path": "./refactor-extract-function-as-package"
+    },
+    {
+      "path": "./request"
+    },
+    {
+      "path": "./request-json"
+    },
+    {
+      "path": "./test-create-package"
+    },
+    {
+      "path": "./test-npm-init"
+    },
+    {
+      "path": "./write-file"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+digraph {
+"Body Code" -> {Energy "Circuit or System" Toxin "Nutrition or Lifestyle" Pathogen Misalignment}
+Energy -> {Offensive Mental "Post Traumatic" Reverberation "Allergy-Intolerance" Emotional}
+	Offensive -> {Curse Entity Cording "Post-Hypnotic Suggestion" Saboteur}
+	Mental -> {"No Will to..." "Broadcast Message" "Will to..." Programming "Memory Field"}
+		Programming -> {"Despair Anchor" Images "Belief Code (Formerly T3)"}
+	"Post Traumatic" -> {"Physical Trauma" "Physical-Emotional Shock" "Recovery Interference"}
+	Reverberation -> {"Seeking Heart Energy" "Current Symptom" "Sickness Memory" "Organ Communication" "Emotional Reverberation (formerly Resonance)" Miasm}
+	"Allergy-Intolerance" -> {"Idea Intolerance" "Physical Intolerance" "Idea Allergy" "Physical Allergy"}
+	Emotional -> {"Heart-Wall Emotion" "Trapped Emotion" "Compound (old: Psychic Trauma)"}
+"Circuit or System" -> {Disconnection System "Body Cycle or Rhythm" Organ Gland "Energy Body"}
+	Disconnection -> {"Pregnancy-Related" "Physical Disconnection" "Spirit Out Of Body" "Spirit/Physical Disconnection" "Spirit Break"}
+		"Pregnancy-Related" -> {"Mother's Brain" "Mother's Body" "Mother's Spirit"}
+			"Mother's Brain" -> {"Spirit Fetus" "Physical Fetus"}
+				"Physical Fetus" -> {Fetus Placenta "Amniotic Fluid" "Umbilical Cord"}
+			"Mother's Body" -> {"Spirit Fetus" "Physical Fetus"}
+				"Physical Fetus" -> {Fetus Placenta "Amniotic Fluid" "Umbilical Cord"}
+			"Mother's Spirit" -> {"Spirit Fetus" "Physical Fetus"}
+				"Physical Fetus" -> {Fetus Placenta "Amniotic Fluid" "Umbilical Cord"}
+	
+Toxin
+"Nutrition or Lifestyle"
+Pathogen
+Misalignment
+}

@@ -1,0 +1,43 @@
+<style>
+  body {
+    margin: 0;
+  }
+</style>
+
+<canvas></canvas>
+
+<script type="module">
+  import { animate } from './animate.js'
+
+  const car = {
+    position: {
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+    },
+  }
+
+  /*
+    |  |
+  --    --
+
+  --    --
+    |  |
+  */
+
+  const streets = []
+
+  animate(() => {
+
+  })
+
+  function createCarShape () {
+
+  }
+
+  const carShape = createCarShape()
+
+  function drawCar (car) {
+    context.translate(car.position.x, car.position.y)
+    context.stroke(carShape)
+  }
+</script>

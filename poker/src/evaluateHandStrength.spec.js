@@ -1,0 +1,5 @@
+describe('evaluateHandStrength', () => {
+  it('', () => {
+
+  })
+})

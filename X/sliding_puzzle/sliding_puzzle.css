@@ -1,0 +1,242 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sliding-puzzle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    width: 16rem;
+    height: 16rem;
+    position: relative;
+}
+
+.sliding-puzzle__piece {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    background-image: url("images/cat.jpg");
+    background-repeat: no-repeat;
+    width: 4rem;
+    height: 4rem;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.4s;
+    user-select: none;
+}
+
+.sliding-puzzle__piece--moving {
+    transition-property: none;
+}
+
+.sliding-puzzle__piece--1 {
+    background-position: -64px 0;
+}
+
+.sliding-puzzle__piece--2 {
+    background-position: -128px 0;
+}
+
+.sliding-puzzle__piece--3 {
+    background-position: -192px 0;
+}
+
+.sliding-puzzle__piece--4 {
+    background-position: 0 -64px;
+}
+
+.sliding-puzzle__piece--5 {
+    background-position: -64px -64px;
+}
+
+.sliding-puzzle__piece--6 {
+    background-position: -128px -64px;
+}
+
+.sliding-puzzle__piece--7 {
+    background-position: -192px -64px;
+}
+
+.sliding-puzzle__piece--8 {
+    background-position: 0 -128px;
+}
+
+.sliding-puzzle__piece--9 {
+    background-position: -64px -128px;
+}
+
+.sliding-puzzle__piece--10 {
+    background-position: -128px -128px;
+}
+
+.sliding-puzzle__piece--11 {
+    background-position: -192px -128px;
+}
+
+.sliding-puzzle__piece--12 {
+    background-position: 0 -196px;
+}
+
+.sliding-puzzle__piece--13 {
+    background-position: -64px -192px;
+}
+
+.sliding-puzzle__piece--14 {
+    background-position: -128px -192px;
+}
+
+.sliding-puzzle__piece--15 {
+    background-position: -192px -192px;
+}
+
+
+.sliding-puzzle__piece--top-right-1 {
+    background-position: right -128px top 0;
+}
+
+.sliding-puzzle__piece--top-right-2 {
+    background-position: right -64px top 0;
+}
+
+.sliding-puzzle__piece--top-right-3 {
+    background-position: right 0 top 0;
+}
+
+.sliding-puzzle__piece--top-right-4 {
+    background-position: right -192px top -64px;
+}
+
+.sliding-puzzle__piece--top-right-5 {
+    background-position: right -128px top -64px;
+}
+
+.sliding-puzzle__piece--top-right-6 {
+    background-position: right -64px top -64px;
+}
+
+.sliding-puzzle__piece--top-right-7 {
+    background-position: right 0 top -64px;
+}
+
+.sliding-puzzle__piece--top-right-8 {
+    background-position: right -192px top -128px;
+}
+
+.sliding-puzzle__piece--top-right-9 {
+    background-position: right -128px top -128px;
+}
+
+.sliding-puzzle__piece--top-right-10 {
+    background-position: right -64px top -128px;
+}
+
+.sliding-puzzle__piece--top-right-11 {
+    background-position: right 0 top -128px;
+}
+
+.sliding-puzzle__piece--top-right-12 {
+    background-position: right -192px top -192px;
+}
+
+.sliding-puzzle__piece--top-right-13 {
+    background-position: right -128px top -192px;
+}
+
+.sliding-puzzle__piece--top-right-14 {
+    background-position: right -64px top -192px;
+}
+
+.sliding-puzzle__piece--top-right-15 {
+    background-position: right 0 top -192px;
+}
+
+
+.sliding-puzzle__piece--position-0 {
+    left: 0;
+    top: 0;
+}
+
+.sliding-puzzle__piece--position-1 {
+    left: 4rem;
+    top: 0;
+}
+
+.sliding-puzzle__piece--position-2 {
+    left: 8rem;
+    top: 0;
+}
+
+.sliding-puzzle__piece--position-3 {
+    left: 12rem;
+    top: 0;
+}
+
+.sliding-puzzle__piece--position-4 {
+    left: 0;
+    top: 4rem;
+}
+
+.sliding-puzzle__piece--position-5 {
+    left: 4rem;
+    top: 4rem;
+}
+
+.sliding-puzzle__piece--position-6 {
+    left: 8rem;
+    top: 4rem;
+}
+
+.sliding-puzzle__piece--position-7 {
+    left: 12rem;
+    top: 4rem;
+}
+
+.sliding-puzzle__piece--position-8 {
+    left: 0;
+    top: 8rem;
+}
+
+.sliding-puzzle__piece--position-9 {
+    left: 4rem;
+    top: 8rem;
+}
+
+.sliding-puzzle__piece--position-10 {
+    left: 8rem;
+    top: 8rem;
+}
+
+.sliding-puzzle__piece--position-11 {
+    left: 12rem;
+    top: 8rem;
+}
+
+.sliding-puzzle__piece--position-12 {
+    left: 0;
+    top: 12rem;
+}
+
+.sliding-puzzle__piece--position-13 {
+    left: 4rem;
+    top: 12rem;
+}
+
+.sliding-puzzle__piece--position-14 {
+    left: 8rem;
+    top: 12rem;
+}
+
+.sliding-puzzle__piece--position-15 {
+    left: 12rem;
+    top: 12rem;
+}

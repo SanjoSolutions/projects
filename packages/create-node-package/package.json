@@ -1,0 +1,16 @@
+{
+  "name": "@sanjo/create-node-package",
+  "description": "Create Node.js package",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "bin": "./built/bin/create-node-package.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/create-package": "^0.2.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

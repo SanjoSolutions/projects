@@ -1,0 +1,11 @@
+{
+  "name": "@sanjo/request",
+  "description": "HTTP request",
+  "license": "Unlicense",
+  "version": "0.2.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@sanjo/read-json",
+  "description": "Read JSON",
+  "license": "Unlicense",
+  "version": "1.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/read-file": "^1.0.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

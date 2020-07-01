@@ -1,0 +1,34 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./built/",
+    "module": "CommonJS",
+    "lib": [
+      "ES2020"
+    ]
+  },
+  "references": [
+    {
+      "path": "../create-package"
+    },
+    {
+      "path": "../diff-folders"
+    },
+    {
+      "path": "../exec"
+    },
+    {
+      "path": "../make-temporary-directory"
+    },
+    {
+      "path": "../read-json"
+    },
+    {
+      "path": "../test-create-package"
+    },
+    {
+      "path": "../write-json"
+    }
+  ]
+}

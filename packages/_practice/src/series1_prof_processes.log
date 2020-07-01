@@ -1,0 +1,176 @@
+Statistical profiling result from series1_prof.log, (64 ticks, 1 unaccounted, 0 excluded).
+
+ [Shared libraries]:
+   ticks  total  nonlib   name
+      6    9.4%          /usr/lib/system/libsystem_pthread.dylib
+      1    1.6%          /usr/lib/system/libsystem_platform.dylib
+      1    1.6%          /usr/lib/system/libsystem_malloc.dylib
+
+ [JavaScript]:
+   ticks  total  nonlib   name
+
+ [C++]:
+   ticks  total  nonlib   name
+     25   39.1%   44.6%  T node::native_module::NativeModuleEnv::CompileFunction(v8::FunctionCallbackInfo<v8::Value> const&)
+     13   20.3%   23.2%  T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      5    7.8%    8.9%  T _vm_copy
+      2    3.1%    3.6%  t _tiny_malloc_from_free_list
+      2    3.1%    3.6%  T node::binding::GetInternalBinding(v8::FunctionCallbackInfo<v8::Value> const&)
+      2    3.1%    3.6%  T _read$NOCANCEL
+      1    1.6%    1.8%  t std::__1::basic_istream<wchar_t, std::__1::char_traits<wchar_t> >& std::__1::__input_arithmetic<long long, wchar_t, std::__1::char_traits<wchar_t> >(std::__1::basic_istream<wchar_t, std::__1::char_traits<wchar_t> >&, long long&)
+      1    1.6%    1.8%  t objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*)
+      1    1.6%    1.8%  t node::fs::Read(v8::FunctionCallbackInfo<v8::Value> const&)
+      1    1.6%    1.8%  t node::fs::InternalModuleStat(v8::FunctionCallbackInfo<v8::Value> const&)
+      1    1.6%    1.8%  T std::__1::locale::classic()
+      1    1.6%    1.8%  T _kdebug_typefilter
+
+ [Summary]:
+   ticks  total  nonlib   name
+      0    0.0%    0.0%  JavaScript
+     55   85.9%   98.2%  C++
+      2    3.1%    3.6%  GC
+      8   12.5%          Shared libraries
+      1    1.6%          Unaccounted
+
+ [C++ entry points]:
+   ticks    cpp   total   name
+     41  100.0%   64.1%  T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+
+ [Bottom up (heavy) profile]:
+  Note: percentage shows a share of a particular caller in the total
+  amount of its parent calls.
+  Callers occupying less than 1.0% are not shown.
+
+   ticks parent  name
+     25   39.1%  T node::native_module::NativeModuleEnv::CompileFunction(v8::FunctionCallbackInfo<v8::Value> const&)
+     25  100.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+     25  100.0%      LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+     25  100.0%        LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:296:29
+      5   20.0%          Eval: ~<anonymous> internal/bootstrap/node.js:1:1
+      2    8.0%          LazyCompile: ~setupPrepareStackTrace internal/bootstrap/node.js:250:32
+      2  100.0%            Eval: ~<anonymous> internal/bootstrap/node.js:1:1
+      2    8.0%          Eval: ~<anonymous> internal/source_map/source_map_cache.js:1:1
+      2  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      2    8.0%          Eval: ~<anonymous> internal/modules/esm/loader.js:1:1
+      2  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      2    8.0%          Eval: ~<anonymous> internal/modules/cjs/loader.js:1:1
+      2  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      2    8.0%          Eval: ~<anonymous> events.js:1:1
+      2  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      2    8.0%          Eval: ~<anonymous> buffer.js:1:1
+      2  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1    4.0%          LazyCompile: ~setupBuffer internal/bootstrap/node.js:298:21
+      1  100.0%            Eval: ~<anonymous> internal/bootstrap/node.js:1:1
+      1    4.0%          LazyCompile: ~initializeCJSLoader internal/bootstrap/pre_execution.js:399:29
+      1  100.0%            LazyCompile: ~prepareMainThreadExecution internal/bootstrap/pre_execution.js:14:36
+      1    4.0%          Eval: ~<anonymous> timers.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1    4.0%          Eval: ~<anonymous> internal/url.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1    4.0%          Eval: ~<anonymous> internal/timers.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1    4.0%          Eval: ~<anonymous> internal/process/esm_loader.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1    4.0%          Eval: ~<anonymous> internal/console/global.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1    4.0%          Eval: ~<anonymous> fs.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+
+     13   20.3%  T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      5   38.5%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1   20.0%      LazyCompile: ~openSync fs.js:452:18
+      1  100.0%        LazyCompile: ~readFileSync fs.js:361:22
+      1  100.0%          LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1209:37
+      1  100.0%            LazyCompile: ~Module.load internal/modules/cjs/loader.js:1037:33
+      1   20.0%      LazyCompile: ~makeNodeErrorWithCode internal/errors.js:251:31
+      1  100.0%        LazyCompile: ~E internal/errors.js:325:11
+      1  100.0%          Eval: ~<anonymous> internal/errors.js:1:1
+      1  100.0%            LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1   20.0%      LazyCompile: ~<anonymous> internal/util/debuglog.js:63:18
+      1  100.0%        LazyCompile: ~Module._resolveLookupPaths internal/modules/cjs/loader.js:783:38
+      1  100.0%          LazyCompile: ~Module._resolveFilename internal/modules/cjs/loader.js:964:35
+      1  100.0%            LazyCompile: ~Module._load internal/modules/cjs/loader.js:877:24
+      1   20.0%      Eval: ~<anonymous> timers.js:1:1
+      1  100.0%        LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1  100.0%          LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:296:29
+      1  100.0%            Eval: ~<anonymous> internal/bootstrap/node.js:1:1
+      1   20.0%      Eval: ~<anonymous> internal/util/inspector.js:1:1
+      1  100.0%        LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1  100.0%          LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:296:29
+      1  100.0%            LazyCompile: ~createGlobalConsole internal/bootstrap/node.js:315:29
+      1    7.7%    LazyCompile: ~prepareMainThreadExecution internal/bootstrap/pre_execution.js:14:36
+      1  100.0%      Eval: ~<anonymous> internal/main/run_main_module.js:1:1
+      1    7.7%    LazyCompile: ~normalizeString path.js:52:25
+      1  100.0%      LazyCompile: ~resolve path.js:973:10
+      1  100.0%        LazyCompile: ~realpathSync fs.js:1570:22
+      1  100.0%          LazyCompile: ~toRealPath internal/modules/cjs/loader.js:368:20
+      1  100.0%            LazyCompile: ~resolveMainPath internal/modules/run_main.js:8:25
+      1    7.7%    LazyCompile: ~<anonymous> internal/bootstrap/loaders.js:164:38
+      1  100.0%      T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%        Eval: ~<static_fields_initializer> internal/bootstrap/loaders.js:164:3
+      1  100.0%          Eval: ~<anonymous> internal/bootstrap/loaders.js:1:1
+
+      6    9.4%  /usr/lib/system/libsystem_pthread.dylib
+
+      5    7.8%  T _vm_copy
+      2   40.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1   50.0%      LazyCompile: ~toString internal/url.js:444:29
+      1  100.0%        LazyCompile: ~Module.load internal/modules/cjs/loader.js:1037:33
+      1  100.0%          LazyCompile: ~Module._load internal/modules/cjs/loader.js:877:24
+      1  100.0%            LazyCompile: ~executeUserEntryPoint internal/modules/run_main.js:64:31
+      1   50.0%      Eval: ~<anonymous> internal/main/run_main_module.js:1:1
+
+      2    3.1%  t _tiny_malloc_from_free_list
+      1   50.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%      LazyCompile: ~Module._compile internal/modules/cjs/loader.js:1154:37
+      1  100.0%        LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1209:37
+      1  100.0%          LazyCompile: ~Module.load internal/modules/cjs/loader.js:1037:33
+      1  100.0%            LazyCompile: ~Module._load internal/modules/cjs/loader.js:877:24
+
+      2    3.1%  T node::binding::GetInternalBinding(v8::FunctionCallbackInfo<v8::Value> const&)
+      2  100.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      2  100.0%      LazyCompile: ~internalBinding internal/bootstrap/loaders.js:132:45
+      1   50.0%        Eval: ~<anonymous> internal/util.js:1:1
+      1  100.0%          LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1  100.0%            LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:296:29
+      1   50.0%        Eval: ~<anonymous> internal/url.js:1:1
+      1  100.0%          LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1  100.0%            LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:296:29
+
+      2    3.1%  T _read$NOCANCEL
+
+      1    1.6%  t std::__1::basic_istream<wchar_t, std::__1::char_traits<wchar_t> >& std::__1::__input_arithmetic<long long, wchar_t, std::__1::char_traits<wchar_t> >(std::__1::basic_istream<wchar_t, std::__1::char_traits<wchar_t> >&, long long&)
+
+      1    1.6%  t objc::detail::DenseSetPair<char const*>* objc::DenseMapBase<objc::DenseMap<char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >, char const*, objc::detail::DenseSetEmpty, objc::DenseMapValueInfo<objc::detail::DenseSetEmpty>, objc::DenseMapInfo<char const*>, objc::detail::DenseSetPair<char const*> >::InsertIntoBucketImpl<char const*>(char const* const&, char const* const&, objc::detail::DenseSetPair<char const*>*)
+
+      1    1.6%  t node::fs::Read(v8::FunctionCallbackInfo<v8::Value> const&)
+      1  100.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%      LazyCompile: ~readSync fs.js:540:18
+      1  100.0%        LazyCompile: ~tryReadSync fs.js:349:21
+      1  100.0%          LazyCompile: ~readFileSync fs.js:361:22
+      1  100.0%            LazyCompile: ~Module._extensions..js internal/modules/cjs/loader.js:1209:37
+
+      1    1.6%  t node::fs::InternalModuleStat(v8::FunctionCallbackInfo<v8::Value> const&)
+      1  100.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%      LazyCompile: ~stat internal/modules/cjs/loader.js:145:14
+      1  100.0%        LazyCompile: ~Module._findPath internal/modules/cjs/loader.js:613:28
+      1  100.0%          LazyCompile: ~resolveMainPath internal/modules/run_main.js:8:25
+      1  100.0%            LazyCompile: ~executeUserEntryPoint internal/modules/run_main.js:64:31
+
+      1    1.6%  UNKNOWN
+      1  100.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%      Eval: ~<anonymous> internal/bootstrap/switches/does_own_process_state.js:1:1
+
+      1    1.6%  T std::__1::locale::classic()
+      1  100.0%    T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%      T __ZN2v88internal11CallPrinter25VisitImportCallExpressionEPNS0_20ImportCallExpressionE
+      1  100.0%        Eval: ~<anonymous> internal/util/inspect.js:1:1
+      1  100.0%          LazyCompile: ~compileForInternalLoader internal/bootstrap/loaders.js:263:27
+      1  100.0%            LazyCompile: ~nativeModuleRequire internal/bootstrap/loaders.js:296:29
+
+      1    1.6%  T _kdebug_typefilter
+
+      1    1.6%  /usr/lib/system/libsystem_platform.dylib
+
+      1    1.6%  /usr/lib/system/libsystem_malloc.dylib
+

@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/test-package",
+  "description": "Description of test package",
+  "license": "Unlicense",
+  "version": "0.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "scripts": {
+    "build": "webpack",
+    "build:watch": "webpack-dev-server --open"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

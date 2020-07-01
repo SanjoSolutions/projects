@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./built/",
+    "module": "CommonJS",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ]
+  },
+  "references": [
+    {
+      "path": "../make-temporary-directory"
+    },
+    {
+      "path": "../request"
+    }
+  ]
+}

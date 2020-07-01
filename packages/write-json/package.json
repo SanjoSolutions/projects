@@ -1,0 +1,14 @@
+{
+  "name": "@sanjo/write-json",
+  "description": "Write JSON into file",
+  "license": "Unlicense",
+  "version": "1.0.0",
+  "main": "built/index.js",
+  "types": "built/index.d.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@sanjo/write-file": "^1.0.0"
+  }
+}

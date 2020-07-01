@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./built/",
+    "module": "CommonJS",
+    "lib": [
+      "ES2020"
+    ]
+  },
+  "references": [
+    {
+      "path": "../diff-folders"
+    },
+    {
+      "path": "../npm-init"
+    }
+  ]
+}

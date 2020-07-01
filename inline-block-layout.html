@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>inline-block layout</title>
+</head>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(400px + 4rem);
+  }
+
+  .column {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin: 0 1rem 1rem 0;
+  }
+</style>
+<body>
+<div class="container">
+  <div class="column" style="height: 200px"></div>
+  <div class="column" style="height: 400px"></div>
+  <div class="column" style="height: 200px"></div>
+</div>
+</body>
+</html>

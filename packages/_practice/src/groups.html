@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Animated Groups</title>
+
+  <style>
+    @keyframes rotate {
+      from {
+        transform: rotateZ(0deg) scale(1) translateX(200px);
+      }
+
+      50% {
+        transform: rotateZ(360deg) scale(1.5) translateX(200px);
+      }
+
+      to {
+        transform: rotateZ(720deg) scale(1) translateX(200px);
+      }
+    }
+
+    @keyframes rotate-counter-clockwise {
+      from {
+        transform: rotateZ(0deg);
+      }
+
+      to {
+        transform: rotateZ(-360deg);
+      }
+    }
+
+    body {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: center;
+      margin: 0;
+      width: 100vw;
+    }
+
+    .container {
+      animation: 20s linear infinite rotate;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 4rem;
+    }
+
+    .row:last-child {
+      margin-bottom: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-gap: 1rem;
+      grid-template-columns: repeat(2, 3rem);
+      grid-template-rows: repeat(2, 3rem);
+    }
+
+    .row .grid {
+      margin-right: 4rem;
+    }
+
+    .row .grid:last-child {
+      margin-right: 0;
+    }
+
+    .cell {
+      animation: 5s linear infinite rotate-counter-clockwise;
+      border: 1px solid black;
+      box-sizing: border-box;
+    }
+
+    .cell:nth-child(1) {
+      background-color: hsla(0, 100%, 52%, 1);
+    }
+
+    .cell:nth-child(2) {
+      background-color: green;
+    }
+
+    .cell:nth-child(3) {
+      background-color: yellow;
+    }
+
+    .cell:nth-child(4) {
+      background-color: hsl(240, 89%, 64%);
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="grid">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+
+    <div class="grid">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="grid">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+
+    <div class="grid">
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+      <div class="cell"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

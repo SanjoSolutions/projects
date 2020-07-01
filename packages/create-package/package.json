@@ -1,0 +1,29 @@
+{
+  "name": "@sanjo/create-package",
+  "description": "Create package",
+  "license": "Unlicense",
+  "version": "0.2.0",
+  "main": "./built/index.js",
+  "bin": "./built/bin/create-package.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/escape-for-reg-exp": "^1.0.0",
+    "@sanjo/read-file": "^1.0.0",
+    "@sanjo/write-file": "^1.0.0",
+    "lodash.sortby": "^4.7.0",
+    "lodash.sorteduniqby": "^4.7.0",
+    "ncp": "^2.0.0"
+  },
+  "devDependencies": {
+    "@sanjo/diff-folders": "^0.1.0",
+    "@sanjo/exec": "^1.0.0",
+    "@sanjo/make-temporary-directory": "^1.0.0",
+    "@sanjo/test-create-package": "^0.1.0",
+    "@types/lodash.sortby": "^4.7.6",
+    "@types/lodash.sorteduniqby": "^4.7.6",
+    "@types/ncp": "^2.0.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

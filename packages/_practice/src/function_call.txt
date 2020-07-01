@@ -1,0 +1,12 @@
+[await] <function name>(<argument 1>, <argument 2>, <…>)[.const|.let]
+await meineMama()
+
+[export] [async] function <function name>(<parameter 1>, <parameter 2>, <…>) {
+
+}
+
+identifier
+function identifier: <verb><noun> in camel case
+variable identifier: <noun> in camel case
+class identifier: <noun> in capitalized words
+

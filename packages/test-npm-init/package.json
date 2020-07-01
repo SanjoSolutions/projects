@@ -1,0 +1,17 @@
+{
+  "name": "@sanjo/test-npm-init",
+  "description": "Test NPM init",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/diff-folders": "^0.1.0",
+    "@sanjo/npm-init": "^0.1.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

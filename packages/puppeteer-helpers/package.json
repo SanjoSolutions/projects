@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/puppeteer-helpers",
+  "description": "Puppeteer helpers",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/puppeteer": "^3.0.1"
+  },
+  "peerDependencies": {
+    "puppeteer": ">=0.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
