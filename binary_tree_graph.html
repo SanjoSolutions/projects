@@ -195,6 +195,7 @@
       let previousBoundingBox = viewportBoundingBox
       let binaryTreeRenderingBoundingBox
       let binaryTreeRendering
+      let totalRenderingWidth
 
       function onResize({canvas, context}) {
         render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox})
@@ -206,15 +207,13 @@
       const canvasRectWidth = canvas.width
       const canvasRectHeight = canvas.height
 
-      const {
-        binaryTreeRendering,
-        totalRenderingWidth,
-        totalRenderingHeight,
-        binaryTreeRenderingBoundingBox
-      } = rerenderBinaryTree(
+      let result = rerenderBinaryTree(
         binaryTree,
         {viewportBoundingBox}
       )
+      binaryTreeRendering = result.binaryTreeRendering
+      totalRenderingWidth = result.totalRenderingWidth
+      binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
 
       function setViewportBoundingBox(newViewportBoundingBox) {
         previousBoundingBox = viewportBoundingBox
@@ -225,12 +224,15 @@
           viewportBoundingBox.y < binaryTreeRenderingBoundingBox.y ||
           viewportBoundingBox.y + viewportBoundingBox.height > binaryTreeRenderingBoundingBox.y + binaryTreeRenderingBoundingBox.height
         ) {
-          rerenderBinaryTree(
+          result = rerenderBinaryTree(
             binaryTree,
             {viewportBoundingBox}
           )
+          binaryTreeRendering = result.binaryTreeRendering
+          totalRenderingWidth = result.totalRenderingWidth
+          binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
         }
-        render({canvas, context})
+        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox})
       }
 
       setViewportBoundingBox({
