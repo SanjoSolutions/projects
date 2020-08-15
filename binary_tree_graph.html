@@ -109,6 +109,10 @@
         nextLevelNodes[index].value = index + 1
       }
 
+      for (let index = numberOfLeafNodes; index < nextLevelNodes.length; index++) {
+
+      }
+
       return binaryTree
     }
 
@@ -182,7 +186,7 @@
     }
 
     async function main() {
-      const binaryTree = createBinaryTree(7)
+      const binaryTree = createBinaryTree(32)
 
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
