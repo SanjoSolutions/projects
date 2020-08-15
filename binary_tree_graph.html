@@ -181,7 +181,7 @@
     }
 
     async function main() {
-      const binaryTree = createBinaryTree(8)
+      const binaryTree = createBinaryTree(1500)
 
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
@@ -232,7 +232,6 @@
         render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox})
       }
 
-      debugger
       const canvasRectWidth = canvas.width / window.devicePixelRatio
       setViewportBoundingBox({
         x: 0,//0.5 * canvasRectWidth - 0.5 * totalRenderingWidth,
@@ -255,6 +254,7 @@
       window.addEventListener('keyup', (event) => {
         if (event.code === 'Space') {
           spacePressed = false
+          previousPosition = undefined
           event.preventDefault()
         }
       })
@@ -273,7 +273,7 @@
       })
 
       window.addEventListener('mousemove', (event) => {
-        if (spacePressed && primaryMouseButtonPressed) {
+        if (spacePressed) {
           const position = {
             x: event.pageX,
             y: event.pageY
@@ -297,6 +297,11 @@
       })
     }
 
+    /**
+     *
+     * @param binaryTree
+     * @param boundingBox The boundingBox for the area of the binary tree rendering that should be rendered.
+     */
     function renderBinaryTree(binaryTree, boundingBox) {
       const paddingToEdge = 16
       const paddingBetweenNodes = 16
@@ -405,10 +410,13 @@
       }
 
       function shouldNodeBeRendered(node) {
-        return (
-          boundingBox.x - nodeRadius <= node.position.x && node.position.x <= boundingBox.x + boundingBox.width + nodeRadius &&
-          boundingBox.y - nodeRadius <= node.position.y && node.position.y <= boundingBox.y + boundingBox.height + nodeRadius
+        const x = window.devicePixelRatio * node.position.x
+        const y = window.devicePixelRatio * node.position.y
+        const result = (
+          boundingBox.x - nodeRadius <= x && x <= x + boundingBox.width + nodeRadius &&
+          boundingBox.y - nodeRadius <= y && y <= y + boundingBox.height + nodeRadius
         )
+        return result
       }
 
       function renderConnections() {
