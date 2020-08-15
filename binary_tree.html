@@ -5,6 +5,7 @@
   <title>Binary Tree</title>
 </head>
 <body>
+<button id="undo">Undo</button>
 <button id="l">L</button>
 <button id="r">R</button>
 <span id="level">1</span>
@@ -21,6 +22,7 @@
   class BinaryTreeNode {
     constructor() {
       this.value = undefined
+      this.parent = undefined
       this.children = new Array(2)
     }
   }
@@ -37,7 +39,9 @@
       let nextLevelNodesIndex = 0
       for (const node of nodes) {
         const childNode0 = new BinaryTreeNode()
+        childNode0.parent = node
         const childNode1 = new BinaryTreeNode()
+        childNode1.parent = node
         node.children[0] = childNode0
         node.children[1] = childNode1
         nextLevelNodes[nextLevelNodesIndex] = childNode0
@@ -74,10 +78,17 @@
   let topNode = binaryTree.root
   let level = 1
 
+  const $undo = document.getElementById('undo')
   const $l = document.getElementById('l')
   const $r = document.getElementById('r')
   const $level = document.getElementById('level')
   const $output = document.getElementById('output')
+
+  $undo.addEventListener('click', () => {
+    topNode = topNode.parent
+    level--
+    $level.textContent = String(level)
+  })
 
   $l.addEventListener('click', () => {
     topNode = topNode.children[0]
@@ -99,6 +110,7 @@
   function output() {
     if (level === numberOfLevels) {
       $output.textContent = String(topNode.value)
+      $undo.setAttribute('disabled', String(true))
       $l.setAttribute('disabled', String(true))
       $r.setAttribute('disabled', String(true))
     }

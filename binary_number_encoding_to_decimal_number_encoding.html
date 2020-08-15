@@ -10,7 +10,7 @@
 <span id="counter"></span>
 <div id="output"></div>
 <script>
-  const maxNumber = 1000000
+  const maxNumber = 1250
   const numberOfBits = calculateNumberOfBits(maxNumber)
   console.log('numberOfBits', numberOfBits)
 
@@ -50,7 +50,9 @@
   }
 
   function output() {
-    console.log(number.toString(2))
+    let numberAsString = number.toString(2)
+    numberAsString = numberAsString.padStart(counter, '0')
+    console.log(numberAsString)
     if (counter === numberOfBits) {
       $output.textContent = String(number)
       $l.setAttribute('disabled', String(true))
