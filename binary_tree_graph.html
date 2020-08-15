@@ -13,7 +13,7 @@
     }
 
     body.moving {
-      cursor: move;
+      cursor: grab;
     }
 
     canvas {
@@ -24,7 +24,10 @@
 </head>
 <body>
   <script>
-    const numberOfLeafNodes = 1000
+    const min = 0
+    const max = 1000
+    const step = 100
+    const numberOfLeafNodes = 2 ** Math.ceil(Math.log2((max - min + 1) / step))
 
     // Zooming
     // Moving
@@ -121,7 +124,7 @@
       }
 
       for (let index = 0; index < numberOfLeafNodes; index++) {
-        nextLevelNodes[index].value = index + 1
+        nextLevelNodes[index].value = min + index * step
       }
 
       return binaryTree
@@ -141,8 +144,8 @@
       )
       context.drawImage(
         binaryTreeRendering,
-        viewportBoundingBox.x,
-        viewportBoundingBox.y,
+        viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x,
+        viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y,
         window.devicePixelRatio * viewportBoundingBox.width / zoom,
         window.devicePixelRatio * viewportBoundingBox.height / zoom,
         0,
@@ -204,19 +207,29 @@
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
       let viewportBoundingBox = {
-        x: 0,
-        y: 0,
-        width: viewportWidth,
-        height: viewportHeight
+        x: 0, // The x-coordinate of the first left top pixel that should be rendered.
+        y: 0, // The y-coordinate of the first left top pixel that should be rendered.
+        width: viewportWidth, // The width of the viewport.
+        height: viewportHeight // The height of the viewport.
       }
       let previousBoundingBox = viewportBoundingBox
+      // x: The x-coordinate of the first left top pixel of the graphics that is rendered in the graphics canvas.
+      // y: The y-coordinate of the first left top pixel of the graphics that is rendered in the graphics canvas.
+      // width: The width of the viewport of the graphics canvas.
+      // height: The height of the viewport of the graphics canvas.
       let binaryTreeRenderingBoundingBox
       let binaryTreeRendering
       let totalRenderingWidth
+      let totalRenderingHeight
       let zoom = 1
 
       function onResize({canvas, context}) {
-        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+        setViewportBoundingBox({
+          x: viewportBoundingBox.x,
+          y: viewportBoundingBox.y,
+          width: window.innerWidth,
+          height: window.innerHeight
+        })
       }
 
       const {canvas, context} = createFullDocumentCanvas(onResize)
@@ -228,6 +241,7 @@
       )
       binaryTreeRendering = result.binaryTreeRendering
       totalRenderingWidth = result.totalRenderingWidth
+      totalRenderingHeight = result.totalRenderingHeight
       binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
 
       function setViewportBoundingBox(newViewportBoundingBox) {
@@ -235,9 +249,9 @@
         viewportBoundingBox = newViewportBoundingBox
         if (
           (binaryTreeRenderingBoundingBox.x > 0 && viewportBoundingBox.x < binaryTreeRenderingBoundingBox.x) ||
-          viewportBoundingBox.x + viewportBoundingBox.width > binaryTreeRenderingBoundingBox.x + binaryTreeRenderingBoundingBox.width ||
+          (binaryTreeRenderingBoundingBox.x + binaryTreeRenderingBoundingBox.width < totalRenderingWidth && viewportBoundingBox.x + window.devicePixelRatio * viewportBoundingBox.width / zoom > binaryTreeRenderingBoundingBox.x + binaryTreeRenderingBoundingBox.width) ||
           (binaryTreeRenderingBoundingBox.y > 0 && viewportBoundingBox.y < binaryTreeRenderingBoundingBox.y) ||
-          viewportBoundingBox.y + viewportBoundingBox.height > binaryTreeRenderingBoundingBox.y + binaryTreeRenderingBoundingBox.height
+          (binaryTreeRenderingBoundingBox.y + binaryTreeRenderingBoundingBox.height < totalRenderingHeight && viewportBoundingBox.y + window.devicePixelRatio * viewportBoundingBox.height / zoom > binaryTreeRenderingBoundingBox.y + binaryTreeRenderingBoundingBox.height)
         ) {
           result = rerenderBinaryTree(
             binaryTree,
@@ -250,9 +264,8 @@
         render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
       }
 
-      const canvasRectWidth = canvas.width / window.devicePixelRatio
       setViewportBoundingBox({
-        x: 0,//0.5 * canvasRectWidth - 0.5 * totalRenderingWidth,
+        x: 0.5 * totalRenderingWidth - 0.5 * canvas.width,
         y: 0,
         width: viewportBoundingBox.width,
         height: viewportBoundingBox.height
@@ -265,13 +278,13 @@
       window.addEventListener('keypress', (event) => {
         if (event.ctrlKey && event.key === '+') {
           zoom += 0.25
-          render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+          setViewportBoundingBox(viewportBoundingBox)
         } else if (event.ctrlKey && event.key === '-') {
-          zoom -= 0.25
-          render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+          zoom = Math.max(0.25, zoom - 0.25)
+          setViewportBoundingBox(viewportBoundingBox)
         } else if (event.ctrlKey && event.key === '0') {
           zoom = 1
-          render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+          setViewportBoundingBox(viewportBoundingBox)
         }
       })
 
@@ -306,7 +319,7 @@
       })
 
       window.addEventListener('mousemove', (event) => {
-        if (spacePressed) {
+        if (spacePressed && primaryMouseButtonPressed) {
           const position = {
             x: event.pageX,
             y: event.pageY
@@ -318,8 +331,8 @@
               y: position.y - previousPosition.y
             }
             setViewportBoundingBox({
-              x: viewportBoundingBox.x + delta.x / zoom,
-              y: viewportBoundingBox.y + delta.y / zoom,
+              x: viewportBoundingBox.x - delta.x / zoom,
+              y: viewportBoundingBox.y - delta.y / zoom,
               width: viewportBoundingBox.width,
               height: viewportBoundingBox.height
             })
@@ -377,12 +390,14 @@
 
       /*
       context.fillStyle = 'blue'
-      context.fillRect(0, 0, canvasWidth, canvasHeight)
+      context.fillRect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
       context.fillStyle = 'black'
       */
+      /*
       context.beginPath()
-      context.rect(0, 0, canvasWidth, canvasHeight)
+      context.rect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
       context.stroke()
+      */
 
       calculatePositions()
       render()
@@ -426,11 +441,11 @@
         while (nodes.length >= 1) {
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index]
-            if (shouldNodeBeRendered(node) && isNodeInViewport(node)) {
+            if (isNodeInViewport(node)) {
               context.beginPath()
               context.arc(node.position.x, node.position.y, nodeRadius, 0, 2 * Math.PI)
               context.stroke()
-              if (node.value) {
+              if (typeof node.value !== 'undefined') {
                 const textMeasures = context.measureText(node.value)
                 context.fillText(
                   node.value,
@@ -444,16 +459,12 @@
         }
       }
 
-      function shouldNodeBeRendered(node) {
-        return !(node.children.flat().length === 0 && !node.value)
-      }
-
       function isNodeInViewport(node) {
         const x = window.devicePixelRatio * node.position.x
         const y = window.devicePixelRatio * node.position.y
         const result = (
-          boundingBox.x - nodeRadius <= x && x <= x + boundingBox.width + nodeRadius &&
-          boundingBox.y - nodeRadius <= y && y <= y + boundingBox.height + nodeRadius
+          boundingBox.x - nodeRadius <= x && x <= x + canvas.width + nodeRadius &&
+          boundingBox.y - nodeRadius <= y && y <= y + canvas.height + nodeRadius
         )
         return result
       }
@@ -464,16 +475,12 @@
         while (nodes.length >= 1) {
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index]
-            if (shouldNodeBeRendered(node)) {
-              const children = node.children.flat()
-              for (const child of children) {
-                if (shouldNodeBeRendered(child)) {
-                  context.beginPath()
-                  context.moveTo(node.position.x, node.position.y + nodeRadius)
-                  context.lineTo(child.position.x, child.position.y - nodeRadius)
-                  context.stroke()
-                }
-              }
+            const children = node.children.flat()
+            for (const child of children) {
+              context.beginPath()
+              context.moveTo(node.position.x, node.position.y + nodeRadius)
+              context.lineTo(child.position.x, child.position.y - nodeRadius)
+              context.stroke()
             }
           }
           nodes = nodes.map(node => node.children).flat()
