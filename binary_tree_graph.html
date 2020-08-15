@@ -126,10 +126,10 @@
       )
       context.drawImage(
         binaryTreeRendering,
-        window.devicePixelRatio * (viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x),
-        window.devicePixelRatio * (viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y),
-        window.devicePixelRatio * (viewportBoundingBox.width),
-        window.devicePixelRatio * (viewportBoundingBox.height),
+        viewportBoundingBox.x,
+        viewportBoundingBox.y,
+        window.devicePixelRatio * viewportBoundingBox.width,
+        window.devicePixelRatio * viewportBoundingBox.height,
         0,
         0,
         canvas.width / window.devicePixelRatio,
@@ -181,7 +181,7 @@
     }
 
     async function main() {
-      const binaryTree = createBinaryTree(1500)
+      const binaryTree = createBinaryTree(8)
 
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
@@ -203,9 +203,6 @@
 
       const {canvas, context} = createFullDocumentCanvas(onResize)
       document.body.appendChild(canvas)
-
-      const canvasRectWidth = canvas.width
-      const canvasRectHeight = canvas.height
 
       let result = rerenderBinaryTree(
         binaryTree,
@@ -235,8 +232,10 @@
         render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox})
       }
 
+      debugger
+      const canvasRectWidth = canvas.width / window.devicePixelRatio
       setViewportBoundingBox({
-        x: 0.5 * totalRenderingWidth - 0.5 * canvasRectWidth,
+        x: 0,//0.5 * canvasRectWidth - 0.5 * totalRenderingWidth,
         y: 0,
         width: viewportBoundingBox.width,
         height: viewportBoundingBox.height
