@@ -12,6 +12,10 @@
       overflow: hidden;
     }
 
+    body.moving {
+      cursor: move;
+    }
+
     canvas {
       width: 100vw;
       height: 100vh;
@@ -20,6 +24,18 @@
 </head>
 <body>
   <script>
+    const numberOfLeafNodes = 1000
+
+    // Zooming
+    // Moving
+    // Rendering of arbitrary big graphics
+      // Regarding limitation of maximum canvas size:
+        // Solution: Render part of the graphics
+        //           which needs to be visible.
+        // and we render as big of a part of the graphics
+        // as possible so that we minimize the rerendering
+        // of the graphics after move actions.
+
     function createFullDocumentCanvas(onDevicePixelRatioOrDocumentSizeChangeFn = noop) {
       const canvas = document.createElement('canvas')
       const context = canvas.getContext('2d')
@@ -35,8 +51,6 @@
         const devicePixelRatio = window.devicePixelRatio
         canvas.width = devicePixelRatio * documentWidth
         canvas.height = devicePixelRatio * documentHeight
-        context.resetTransform()
-        context.scale(devicePixelRatio, devicePixelRatio)
       }
 
       function onDevicePixelRatioOrDocumentSizeChange(event) {
@@ -77,6 +91,7 @@
         this.value = undefined
         this.parent = undefined
         this.children = new Array(2)
+        // For rendering
         this.position = {x: undefined, y: undefined}
       }
     }
@@ -109,10 +124,6 @@
         nextLevelNodes[index].value = index + 1
       }
 
-      for (let index = numberOfLeafNodes; index < nextLevelNodes.length; index++) {
-
-      }
-
       return binaryTree
     }
 
@@ -125,8 +136,8 @@
       context.clearRect(
         0,
         0,
-        canvas.width / window.devicePixelRatio,
-        canvas.height / window.devicePixelRatio
+        canvas.width,
+        canvas.height
       )
       context.drawImage(
         binaryTreeRendering,
@@ -136,8 +147,8 @@
         window.devicePixelRatio * viewportBoundingBox.height / zoom,
         0,
         0,
-        canvas.width / window.devicePixelRatio,
-        canvas.height / window.devicePixelRatio
+        canvas.width,
+        canvas.height
       )
     }
 
@@ -151,6 +162,8 @@
         totalRenderingWidth,
         totalRenderingHeight
       } = renderBinaryTree(binaryTree, binaryTreeRenderingBoundingBox)
+      binaryTreeRenderingBoundingBox.width = Math.min(binaryTreeRenderingBoundingBox.width, totalRenderingWidth)
+      binaryTreeRenderingBoundingBox.height = Math.min(binaryTreeRenderingBoundingBox.height, totalRenderingHeight)
 
       return {binaryTreeRendering, totalRenderingWidth, totalRenderingHeight, binaryTreeRenderingBoundingBox}
     }
@@ -186,14 +199,13 @@
     }
 
     async function main() {
-      const binaryTree = createBinaryTree(32)
+      const binaryTree = createBinaryTree(numberOfLeafNodes)
 
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
       let viewportBoundingBox = {
         x: 0,
         y: 0,
-        // TODO: Handle case when devicePixelRatio changes
         width: viewportWidth,
         height: viewportHeight
       }
@@ -252,10 +264,13 @@
 
       window.addEventListener('keypress', (event) => {
         if (event.ctrlKey && event.key === '+') {
-          zoom *= 2
+          zoom += 0.25
           render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
         } else if (event.ctrlKey && event.key === '-') {
-          zoom /= 2
+          zoom -= 0.25
+          render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+        } else if (event.ctrlKey && event.key === '0') {
+          zoom = 1
           render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
         }
       })
@@ -263,6 +278,7 @@
       window.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
           spacePressed = true
+          document.body.classList.add('moving')
           event.preventDefault()
         }
       })
@@ -271,6 +287,7 @@
         if (event.code === 'Space') {
           spacePressed = false
           previousPosition = undefined
+          document.body.classList.remove('moving')
           event.preventDefault()
         }
       })
@@ -352,8 +369,8 @@
       canvas.width = Math.min(boundingBox.width, totalRenderingWidth)
       canvas.height = Math.min(boundingBox.height, totalRenderingHeight)
 
-      const canvasWidth = canvas.width / window.devicePixelRatio
-      const canvasHeight = canvas.height / window.devicePixelRatio
+      const canvasWidth = canvas.width / devicePixelRatio
+      const canvasHeight = canvas.height / devicePixelRatio
 
       context.translate(-boundingBox.x, -boundingBox.y)
       context.scale(devicePixelRatio, devicePixelRatio)
@@ -384,9 +401,9 @@
             const node = nodes[index]
             let x
             if (numberOfNodes === 1) {
-              x = canvasWidth / 2
+              x = totalRenderingWidth / devicePixelRatio / 2
             } else {
-              x = canvasWidth / 2 - 0.5 * levelWidth + nodeRadius + index * (2 * nodeRadius + spaceBetweenNodesOnLevel)
+              x = totalRenderingWidth / devicePixelRatio / 2 - 0.5 * levelWidth + nodeRadius + index * (2 * nodeRadius + spaceBetweenNodesOnLevel)
             }
             node.position = {
               x,
