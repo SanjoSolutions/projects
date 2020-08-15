@@ -138,6 +138,7 @@
     }
 
     function rerenderBinaryTree(binaryTree, {viewportBoundingBox}) {
+      console.log('rerenderBinaryTree')
       const binaryTreeRenderingBoundingBox = calculateBinaryTreeRenderingBoundingBox(
         viewportBoundingBox
       )
@@ -181,7 +182,7 @@
     }
 
     async function main() {
-      const binaryTree = createBinaryTree(1500)
+      const binaryTree = createBinaryTree(8)
 
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
@@ -217,9 +218,9 @@
         previousBoundingBox = viewportBoundingBox
         viewportBoundingBox = newViewportBoundingBox
         if (
-          viewportBoundingBox.x < binaryTreeRenderingBoundingBox.x ||
+          (binaryTreeRenderingBoundingBox.x > 0 && viewportBoundingBox.x < binaryTreeRenderingBoundingBox.x) ||
           viewportBoundingBox.x + viewportBoundingBox.width > binaryTreeRenderingBoundingBox.x + binaryTreeRenderingBoundingBox.width ||
-          viewportBoundingBox.y < binaryTreeRenderingBoundingBox.y ||
+          (binaryTreeRenderingBoundingBox.y > 0 && viewportBoundingBox.y < binaryTreeRenderingBoundingBox.y) ||
           viewportBoundingBox.y + viewportBoundingBox.height > binaryTreeRenderingBoundingBox.y + binaryTreeRenderingBoundingBox.height
         ) {
           result = rerenderBinaryTree(
@@ -246,7 +247,6 @@
       let previousPosition = undefined
 
       window.addEventListener('keypress', (event) => {
-        console.log('keypress', event)
         if (event.ctrlKey && event.key === '+') {
           zoom *= 2
           render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
@@ -354,12 +354,14 @@
       context.translate(-boundingBox.x, -boundingBox.y)
       context.scale(devicePixelRatio, devicePixelRatio)
 
+      /*
       context.fillStyle = 'blue'
       context.fillRect(0, 0, canvasWidth, canvasHeight)
+      context.fillStyle = 'black'
+      */
       context.beginPath()
       context.rect(0, 0, canvasWidth, canvasHeight)
       context.stroke()
-      context.fillStyle = 'black'
 
       calculatePositions()
       render()
