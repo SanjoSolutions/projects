@@ -182,7 +182,7 @@
     }
 
     async function main() {
-      const binaryTree = createBinaryTree(8)
+      const binaryTree = createBinaryTree(7)
 
       const viewportWidth = window.innerWidth
       const viewportHeight = window.innerHeight
@@ -405,7 +405,7 @@
         while (nodes.length >= 1) {
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index]
-            if (shouldNodeBeRendered(node)) {
+            if (shouldNodeBeRendered(node) && isNodeInViewport(node)) {
               context.beginPath()
               context.arc(node.position.x, node.position.y, nodeRadius, 0, 2 * Math.PI)
               context.stroke()
@@ -424,6 +424,10 @@
       }
 
       function shouldNodeBeRendered(node) {
+        return !(node.children.flat().length === 0 && !node.value)
+      }
+
+      function isNodeInViewport(node) {
         const x = window.devicePixelRatio * node.position.x
         const y = window.devicePixelRatio * node.position.y
         const result = (
@@ -439,12 +443,16 @@
         while (nodes.length >= 1) {
           for (let index = 0; index < nodes.length; index++) {
             const node = nodes[index]
-            const children = node.children.flat()
-            for (const child of children) {
-              context.beginPath()
-              context.moveTo(node.position.x, node.position.y + nodeRadius)
-              context.lineTo(child.position.x, child.position.y - nodeRadius)
-              context.stroke()
+            if (shouldNodeBeRendered(node)) {
+              const children = node.children.flat()
+              for (const child of children) {
+                if (shouldNodeBeRendered(child)) {
+                  context.beginPath()
+                  context.moveTo(node.position.x, node.position.y + nodeRadius)
+                  context.lineTo(child.position.x, child.position.y - nodeRadius)
+                  context.stroke()
+                }
+              }
             }
           }
           nodes = nodes.map(node => node.children).flat()
