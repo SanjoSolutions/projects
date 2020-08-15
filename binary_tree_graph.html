@@ -117,7 +117,7 @@
       return Math.ceil(Math.log2(numberOfLeafNodes) + 1)
     }
 
-    function render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox}) {
+    function render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom}) {
       context.clearRect(
         0,
         0,
@@ -128,8 +128,8 @@
         binaryTreeRendering,
         viewportBoundingBox.x,
         viewportBoundingBox.y,
-        window.devicePixelRatio * viewportBoundingBox.width,
-        window.devicePixelRatio * viewportBoundingBox.height,
+        window.devicePixelRatio * viewportBoundingBox.width / zoom,
+        window.devicePixelRatio * viewportBoundingBox.height / zoom,
         0,
         0,
         canvas.width / window.devicePixelRatio,
@@ -196,9 +196,10 @@
       let binaryTreeRenderingBoundingBox
       let binaryTreeRendering
       let totalRenderingWidth
+      let zoom = 1
 
       function onResize({canvas, context}) {
-        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox})
+        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
       }
 
       const {canvas, context} = createFullDocumentCanvas(onResize)
@@ -229,7 +230,7 @@
           totalRenderingWidth = result.totalRenderingWidth
           binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
         }
-        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox})
+        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
       }
 
       const canvasRectWidth = canvas.width / window.devicePixelRatio
@@ -243,6 +244,17 @@
       let spacePressed = false
       let primaryMouseButtonPressed = false
       let previousPosition = undefined
+
+      window.addEventListener('keypress', (event) => {
+        console.log('keypress', event)
+        if (event.ctrlKey && event.key === '+') {
+          zoom *= 2
+          render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+        } else if (event.ctrlKey && event.key === '-') {
+          zoom /= 2
+          render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+        }
+      })
 
       window.addEventListener('keydown', (event) => {
         if (event.code === 'Space') {
@@ -285,8 +297,8 @@
               y: position.y - previousPosition.y
             }
             setViewportBoundingBox({
-              x: viewportBoundingBox.x + delta.x,
-              y: viewportBoundingBox.y + delta.y,
+              x: viewportBoundingBox.x + delta.x / zoom,
+              y: viewportBoundingBox.y + delta.y / zoom,
               width: viewportBoundingBox.width,
               height: viewportBoundingBox.height
             })
