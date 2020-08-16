@@ -49,7 +49,7 @@
 
     let pyramids
 
-    setBoundingBox({x: 0, y: 0, width, height})
+    setBoundingBox({ x: 0, y: 0, width, height })
 
     function draw() {
         drawPyramids(pyramids)
@@ -60,16 +60,16 @@
     window.addEventListener('keydown', (event) => {
         const key = event.key
         if (key === 'ArrowUp') {
-            setBoundingBox({...boundingBox, y: boundingBox.y + 1})
+            setBoundingBox({ ...boundingBox, y: boundingBox.y + 1 })
             draw()
         } else if (key === 'ArrowRight') {
-            setBoundingBox({...boundingBox, x: boundingBox.x - 1})
+            setBoundingBox({ ...boundingBox, x: boundingBox.x - 1 })
             draw()
         } else if (key === 'ArrowDown') {
-            setBoundingBox({...boundingBox, y: boundingBox.y - 1})
+            setBoundingBox({ ...boundingBox, y: boundingBox.y - 1 })
             draw()
         } else if (key === 'ArrowLeft') {
-            setBoundingBox({...boundingBox, x: boundingBox.x + 1})
+            setBoundingBox({ ...boundingBox, x: boundingBox.x + 1 })
             draw()
         } else if (key === '+') {
             const scaleRatio = 2
@@ -219,7 +219,7 @@
             const currentIterationPyramids = nextIterationPyramids
             nextIterationPyramids = []
 
-            for (const {x, y, radius, angle} of currentIterationPyramids) {
+            for (const { x, y, radius, angle } of currentIterationPyramids) {
                 const nextRadius = radius / theGoldenRatio
                 const minRadius = 0.05
                 if (devicePixelRatio * nextRadius >= minRadius) {
@@ -273,7 +273,7 @@
             const currentIterationPyramids = nextIterationPyramids
             nextIterationPyramids = []
 
-            for (const {x, y, radius, angle} of currentIterationPyramids) {
+            for (const { x, y, radius, angle } of currentIterationPyramids) {
                 const coverRadius = 4 * radius
                 if (
                     boundingBox.x - coverRadius < x && x < boundingBox.x + boundingBox.width + coverRadius &&
@@ -319,7 +319,7 @@
     }
 
     function generatePyramid(x, y, radius, angle) {
-        return {x, y, radius, angle}
+        return { x, y, radius, angle }
     }
 
     function drawPyramids(pyramids) {
@@ -328,12 +328,12 @@
         }
     }
 
-    function drawPyramid({x, y, radius, angle}) {
-        context.save()        
+    function drawPyramid({ x, y, radius, angle }) {
+        context.save()
         context.translate(scale * (x - boundingBox.x), scale * (y - boundingBox.y))
         context.rotate(angle - ((3 / 4) * (2 * Math.PI)))
         context.beginPath()
-        angle = (3 / 4) * (2 * Math.PI) 
+        angle = (3 / 4) * (2 * Math.PI)
         context.lineTo(scale * radius * Math.cos(angle), scale * radius * Math.sin(angle))
         angle += (1 / 3) * (2 * Math.PI)
         context.lineTo(scale * radius * Math.cos(angle), scale * radius * Math.sin(angle))
@@ -344,6 +344,7 @@
         context.stroke()
         context.restore()
 
+        /*
         context.save()
         context.strokeStyle = 'red'
         context.beginPath()
@@ -356,5 +357,6 @@
         )
         context.stroke()
         context.restore()
+        */
     }
 </script>
