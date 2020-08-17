@@ -1,5 +1,3 @@
-import generate from '@babel/generator'
-import * as parser from '@babel/parser'
 import traverse from '@babel/traverse'
 import {
   cloneNode,
@@ -11,13 +9,19 @@ import {
   program,
   stringLiteral,
 } from '@babel/types'
+import * as recast from 'recast'
+import * as babelParser from 'recast/parsers/babel.js'
 
 export function extractFunctions (inputFile, functionNamesToExtract) {
   if (typeof functionNamesToExtract === 'string') {
     functionNamesToExtract = [functionNamesToExtract]
   }
   const { filename, code } = inputFile
-  const ast = parser.parse(code, { sourceType: 'module' })
+  debugger
+  const ast = recast.parse(code, {
+    parser: babelParser,
+    // sourceType: 'module'
+  })
 
   const extractedFunctions = Object.fromEntries(
     functionNamesToExtract.map(
@@ -60,7 +64,8 @@ export function extractFunctions (inputFile, functionNamesToExtract) {
 
   const files = []
   const importStatements = []
-  for (const [functionNameToExtract, extractedFunction] of Object.entries(extractedFunctions)) {
+  for (const [functionNameToExtract, extractedFunction] of
+    Object.entries(extractedFunctions)) {
     const {
       extractedFunctionStatementPath,
       extractedFunctionStatement,
@@ -94,18 +99,22 @@ export function extractFunctions (inputFile, functionNamesToExtract) {
         if (importDeclaration.specifiers.some(isImportSpecifierUsedByExtractedFunction)) {
           const clonedImportDeclaration = cloneNode(importDeclaration)
           clonedImportDeclaration.specifiers =
-            clonedImportDeclaration.specifiers.filter(isImportSpecifierUsedByExtractedFunction)
+            clonedImportDeclaration.specifiers.filter(
+              isImportSpecifierUsedByExtractedFunction)
           extracedFunctionImports.push(clonedImportDeclaration)
         }
       }
 
-      const exportedExtractedFunction = exportNamedDeclaration(extractedFunctionStatement, [])
+      const exportedExtractedFunction = exportNamedDeclaration(
+        extractedFunctionStatement,
+        [],
+      )
       const extractedFunctionFile = file(program(
         extracedFunctionImports.concat([exportedExtractedFunction]),
         [],
         'module',
       ), [], [])
-      const extractedFunctionFileCode = generate(extractedFunctionFile).code
+      const extractedFunctionFileCode = recast.print(extractedFunctionFile).code
 
       files.push({ filename: extractedFunctionFileName, code: extractedFunctionFileCode })
     }
@@ -120,11 +129,13 @@ export function extractFunctions (inputFile, functionNamesToExtract) {
       }
     },
   })
-  const identifierNamesUsedInExportedFromFileSet = new Set(identifierNamesUsedInExportedFromFile)
+  const identifierNamesUsedInExportedFromFileSet = new Set(
+    identifierNamesUsedInExportedFromFile)
   traverse(ast, {
     ImportDeclaration (path) {
       path.node.specifiers =
-        path.node.specifiers.filter(specifier => identifierNamesUsedInExportedFromFileSet.has(specifier.local.name))
+        path.node.specifiers.filter(specifier => identifierNamesUsedInExportedFromFileSet.has(
+          specifier.local.name))
       if (path.node.specifiers.length === 0) {
         path.remove()
       }
@@ -133,7 +144,7 @@ export function extractFunctions (inputFile, functionNamesToExtract) {
 
   ast.program.body.unshift(...importStatements)
 
-  const extractedFromFileCode = generate(ast).code
+  const extractedFromFileCode = recast.print(ast).code
 
   files.unshift({ filename, code: extractedFromFileCode })
 

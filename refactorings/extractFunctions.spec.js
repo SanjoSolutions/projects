@@ -1,7 +1,7 @@
 import { extractFunctions } from './extractFunctions.js'
 
 describe('extract functions', () => {
-  it('extracts a function', () => {
+  it.only('extracts a function', () => {
     const code = `function humanToCamelCase (string) {
   const words = string.split(' ')
   return words[0] + words.slice(1).map(function capitalizeFirstLetter (word) {
@@ -17,7 +17,10 @@ describe('humanToCamelCase', () => {
 `
     const extractFromFilename = 'human-to-camel-case.spec.js'
     const functionNameToExtract = 'humanToCamelCase'
-    const outputFiles = extractFunctions({ filename: extractFromFilename, code }, functionNameToExtract)
+    const outputFiles = extractFunctions(
+      { filename: extractFromFilename, code },
+      functionNameToExtract,
+    )
 
     const extractedFromFileCode = `import { humanToCamelCase } from "./humanToCamelCase.js";
 describe('humanToCamelCase', () => {
@@ -49,7 +52,10 @@ describe('humanToCamelCase', () => {
 `
       const extractFromFilename = 'human-to-camel-case.spec.js'
       const functionNameToExtract = 'humanToCamelCase'
-      const outputFiles = extractFunctions({ filename: extractFromFilename, code }, functionNameToExtract)
+      const outputFiles = extractFunctions(
+        { filename: extractFromFilename, code },
+        functionNameToExtract,
+      )
 
       const extractedFromFileCode = ``
       const exportedFunctionFileCode = `export function humanToCamelCase(string) {
@@ -86,7 +92,10 @@ export function b () {
 `
       const extractFromFilename = 'index.js'
       const functionNameToExtract = 'a'
-      const outputFiles = extractFunctions({ filename: extractFromFilename, code }, functionNameToExtract)
+      const outputFiles = extractFunctions(
+        { filename: extractFromFilename, code },
+        functionNameToExtract,
+      )
 
       const extractedFromFileCode = `import { c } from './c.js';
 import { f } from './ef.js';
@@ -124,7 +133,10 @@ export function c () {
 `
     const extractFromFilename = 'index.js'
     const functionNamesToExtract = ['a', 'b', 'c']
-    const outputFiles = extractFunctions({ filename: extractFromFilename, code }, functionNamesToExtract)
+    const outputFiles = extractFunctions(
+      { filename: extractFromFilename, code },
+      functionNamesToExtract,
+    )
 
     const extractedFromFileCode = ``
     const exportedFunctionAFileCode = `export function a() {}`

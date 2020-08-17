@@ -1,5 +1,5 @@
 import { writeFile } from '../file/writeFile.js'
-import { readFile } from '../packages/readFile/readFile.js'
+import { readFile } from '../packages/read-file/built/readFile.js'
 import { extractFunctions } from './extractFunctions.js'
 
 async function main () {
