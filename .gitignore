@@ -1,5 +1,7 @@
 node_modules/
 .idea/
+.vscode/
+.history/
 /refactorings-build/
 dist/
 build/
@@ -11,3 +13,4 @@ build/
 package.json.lerna_backup
 
 *.tsbuildinfo
+.DS_Store

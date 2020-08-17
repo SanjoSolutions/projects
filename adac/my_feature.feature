@@ -1,4 +1,4 @@
-iFeature: My feature
+Feature: My feature
   As a user
   I want to do …
   so that I can get … fulfilled.
@@ -14,4 +14,3 @@ iFeature: My feature
     And the motor has a defect
     When I call ADAC
     Then an ADAC service worker should be there to repair the motor in 60 minutes or less
-
