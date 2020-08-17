@@ -1,0 +1,18 @@
+{
+  "name": "@sanjo/array",
+  "description": "Array functions",
+  "license": "Unlicense",
+  "version": "0.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+    "@sanjo/arithmetic": "^0.1.0",
+    "@sanjo/comparison": "^0.1.0",
+    "@sanjo/identity": "^1.0.0"
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

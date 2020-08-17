@@ -25,24 +25,24 @@
 <canvas id="canvas"></canvas>
 
 <script type="module">
-  import { max } from './array.js'
+  import { max } from './packages/array/src/array.js'
 
   class ColorMap extends Map {
-    has (color) {
+    has(color) {
       return super.has(this.colorToKey(color))
     }
 
-    get (color) {
+    get(color) {
       return this.has(color) ?
         super.get(this.colorToKey(color)) :
         0
     }
 
-    set (color, count) {
+    set(color, count) {
       super.set(this.colorToKey(color), count)
     }
 
-    colorToKey (color) {
+    colorToKey(color) {
       // return color.join(' ')
       return (
         (
@@ -67,7 +67,7 @@
       )
     }
 
-    keyToColor (key) {
+    keyToColor(key) {
       // return key.split(' ').map(Number)
       return [
         key >>
@@ -234,18 +234,18 @@
 
     const colorArrayLength = 4
 
-    function getBackgroundColor (canvas, context) {
+    function getBackgroundColor(canvas, context) {
       const imageData = context.getImageData(0, 0, 1, 1)
       const data = imageData.data
       return data
     }
 
-    function colorToString (color) {
+    function colorToString(color) {
       const [r, g, b, a] = color
       return `rgba(${r}, ${g}, ${b}, ${a})`
     }
 
-    function countColors (
+    function countColors(
       canvas, context, { x, y, width, height },
     ) {
       const colorCounts = new ColorMap()
@@ -263,12 +263,12 @@
       return colorCounts
     }
 
-    function getPrimaryNonBackgroundColor (
+    function getPrimaryNonBackgroundColor(
       canvas, context, { x, y, width, height },
     ) {
       const colorCounts = countColors(canvas, context, { x, y, width, height })
 
-      function getColorWithHighestCount () {
+      function getColorWithHighestCount() {
         const keyColor = max([...colorCounts], ([key, count]) => count)
         return keyColor ? colorCounts.keyToColor(keyColor[0]) : null
       }
@@ -276,7 +276,12 @@
       return getColorWithHighestCount()
     }
 
-    function nonBackgroundTile (canvas, context, { x, y, width, height }, backgroundColor) {
+    function nonBackgroundTile(
+      canvas,
+      context,
+      { x, y, width, height },
+      backgroundColor,
+    ) {
       let nonBackgroundCount = 0
       const imageData = context.getImageData(x, y, width, height)
       const data = imageData.data
@@ -294,7 +299,7 @@
       return nonBackgroundCount >= halfOfArea
     }
 
-    function colorTile (canvas, context, { x, y, width, height }, color) {
+    function colorTile(canvas, context, { x, y, width, height }, color) {
       const colorCounts = countColors(canvas, context, { x, y, width, height })
       const colorCount = colorCounts.get(color)
       const halfOfArea = 0.5 * width * height
@@ -302,7 +307,7 @@
       return colorCount >= halfOfArea
     }
 
-    function colorsMatch (colorA, colorB) {
+    function colorsMatch(colorA, colorB) {
       return (
         colorA[0] === colorB[0] &&
         colorA[1] === colorB[1] &&

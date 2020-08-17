@@ -6,7 +6,16 @@
       "path": "./animate"
     },
     {
+      "path": "./arithmetic"
+    },
+    {
+      "path": "./array"
+    },
+    {
       "path": "./binary-search"
+    },
+    {
+      "path": "./comparison"
     },
     {
       "path": "./create-browser-package"
@@ -27,6 +36,9 @@
       "path": "./database"
     },
     {
+      "path": "./diff"
+    },
+    {
       "path": "./diff-folders"
     },
     {
@@ -37,6 +49,12 @@
     },
     {
       "path": "./forum-eu-automation"
+    },
+    {
+      "path": "./identity"
+    },
+    {
+      "path": "./image-comparison"
     },
     {
       "path": "./make-temporary-directory"

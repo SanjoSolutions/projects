@@ -1,0 +1,15 @@
+{
+  "name": "@sanjo/arithmetic",
+  "description": "Arithmetic",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,9 @@
   "license": "Unlicense",
   "version": "0.2.0",
   "main": "./built/index.js",
-  "bin": "./built/bin/create-package.js",
+  "bin": {
+    "create-package": "./built/bin/create-package.js"
+  },
   "types": "./built/index.d.js",
   "dependencies": {
     "@sanjo/escape-for-reg-exp": "^1.0.0",

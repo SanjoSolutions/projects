@@ -1,21 +1,21 @@
+import { identity } from '../../packages/identity/src/identity.js'
 import { getAllNCardsCombinations } from './getAllNCardsCombinations.js'
+import { isRoyalFlush } from './isRoyalFlush.js'
 import { isStraightFlush } from './isStraightFlush.js'
 import { sortStraightFlushesDescending } from './sortStraightFlushesDescending.js'
-import { isRoyalFlush } from './isRoyalFlush.js'
-import { identity } from '../../identity.js'
 
-export function getFiveBestCards (cards) {
+export function getFiveBestCards(cards) {
   const madeHandTypes = [
     // royal flush
     {
       isHandType: isRoyalFlush,
-      sortDescending: identity
+      sortDescending: identity,
     },
     // straight flush
     {
       isHandType: isStraightFlush,
-      sortDescending: sortStraightFlushesDescending
-    }
+      sortDescending: sortStraightFlushesDescending,
+    },
     // four of a kind
     // full house S
     // flush S
@@ -26,7 +26,7 @@ export function getFiveBestCards (cards) {
     // high card S
   ]
 
-  for (const {isHandType, sortDescending} of madeHandTypes) {
+  for (const { isHandType, sortDescending } of madeHandTypes) {
     const fiveCardsCombinations = getAllNCardsCombinations(cards, 5)
     const madeHands = [...fiveCardsCombinations].filter(isHandType)
     if (madeHands.length >= 1) {
