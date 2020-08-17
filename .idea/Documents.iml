@@ -2,6 +2,8 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.history" />
+      <excludeFolder url="file://$MODULE_DIR$/.vscode" />
       <excludeFolder url="file://$MODULE_DIR$/automatic_application_for_flats/dist" />
       <excludeFolder url="file://$MODULE_DIR$/din-5008-schreiben/functions/node_modules" />
       <excludeFolder url="file://$MODULE_DIR$/freeCodeCamp" />

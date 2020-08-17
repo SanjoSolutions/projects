@@ -7,6 +7,7 @@
     <mapping directory="$PROJECT_DIR$/automatic_application_for_flats_production" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/forum_eu_header" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/manufacturer-offers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/node_modules/unnamed" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/practice-spec-in-natural-language-to-software" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/template" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/watermark" vcs="Git" />

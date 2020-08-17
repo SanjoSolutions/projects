@@ -30,5 +30,30 @@
     {
       "path": "../write-file"
     }
+  ],
+  "exclude": [
+    "**/babel.config.js",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.spec.js",
+    "**/*.spec.jsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.test.js",
+    "**/*.test.jsx",
+    "**/*.specs.ts",
+    "**/*.specs.tsx",
+    "**/*.specs.js",
+    "**/*.specs.jsx",
+    "**/*.tests.ts",
+    "**/*.tests.tsx",
+    "**/*.tests.js",
+    "**/*.tests.jsx",
+    "**/__tests__/**/*",
+    "**/__mocks__/**/*",
+    "**/testing/fixtures/**/*",
+    "**/built/**/*",
+    "./template/**/*",
+    "./src/expected/**/*"
   ]
 }

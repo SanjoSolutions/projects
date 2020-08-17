@@ -1,4 +1,3 @@
-
-export function concat (...arrays) {
-  return [].concat(...arrays);
+export function concat (...arrays: any[]): any[] {
+  return [].concat(...arrays)
 }
