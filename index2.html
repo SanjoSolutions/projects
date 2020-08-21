@@ -305,10 +305,10 @@
 
     function moveViewport(deltaX, deltaY) {
       viewport = {
-        minX: viewport.minX + deltaX,
-        maxX: viewport.maxX + deltaX,
-        minY: viewport.minY + deltaY,
-        maxY: viewport.maxY + deltaY
+        minX: viewport.minX + Math.floor(deltaX),
+        maxX: viewport.maxX + Math.floor(deltaX),
+        minY: viewport.minY + Math.floor(deltaY),
+        maxY: viewport.maxY + Math.floor(deltaY)
       }
       saveViewportDelayed()
       updateView()
@@ -357,12 +357,14 @@
   async function loadViewport() {
     const viewport = JSON.parse(await getValue('viewport') || JSON.stringify(
       {
-        minX: 0 - 0.5 * window.innerWidth,
-        maxX: 0 + 0.5 * window.innerWidth,
-        minY: 0 - 0.5 * window.innerHeight,
-        maxY: 0 + 0.5 * window.innerHeight
+        minX: Math.floor(0 - 0.5 * window.innerWidth),
+        maxX: Math.floor(0 + 0.5 * window.innerWidth),
+        minY: Math.floor(0 - 0.5 * window.innerHeight),
+        maxY: Math.floor(0 + 0.5 * window.innerHeight)
       })
     )
+    viewport.minX = Math.floor(viewport.minX)
+    viewport.maxY = Math.floor(viewport.maxY)
     viewport.maxX = viewport.minX + window.innerWidth
     viewport.minY = viewport.maxY - window.innerHeight
     return viewport
