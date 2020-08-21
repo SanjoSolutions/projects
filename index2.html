@@ -27,6 +27,9 @@
   import { interpolatePointsOnLine } from './interpolatePointsOnLine2.js'
   import { delay } from './delay.js'
   import { getValue, setValue } from './localStorageDB.js'
+  import { Space } from './Space.js'
+  import { min } from './min.js'
+  import { max } from './max.js'
 
   class Pixel {
     constructor(x, y) {
@@ -47,6 +50,27 @@
 
     const pixels = await load()
 
+    const minX = min(pixels.map(pixel => pixel.x))
+    const maxX = max(pixels.map(pixel => pixel.x))
+    const minY = min(pixels.map(pixel => pixel.y))
+    const maxY = max(pixels.map(pixel => pixel.y))
+    const space = new Space({minX, maxX, minY, maxY})
+    for (const pixel of pixels) {
+      space.set(pixel, true)
+    }
+
+    function getVisiblePixels(viewport) {
+      const visiblePixels = []
+      for (let y = viewport.minY; y <= viewport.maxY; y++) {
+        for (let x = viewport.minX; x <= viewport.maxX; x++) {
+          if (space.get({x, y})) {
+            visiblePixels.push(new Pixel(x, y))
+          }
+        }
+      }
+      return visiblePixels
+    }
+
     const saveDelayed = delay(
       () => {
         save(pixels)
@@ -66,11 +90,26 @@
     context.scale(window.devicePixelRatio, window.devicePixelRatio)
 
     function updateView() {
-      const visiblePixels = getVisiblePixels(viewport, pixels)
-      context.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio)
-      drawPixels(
-        visiblePixels.map(pixel => pixelCoordinatesToViewportCoordinates(viewport, pixel))
-      )
+      // const visiblePixels = getVisiblePixels(viewport)
+      // context.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio)
+      const width = canvas.width
+      const height = canvas.height
+      const imageData = context.createImageData(width, height)
+      for (let y = viewport.minY; y <= viewport.maxY; y++) {
+        for (let x = viewport.minX; x <= viewport.maxX; x++) {
+          if (space.get({x, y})) {
+            const index = ((y - viewport.minY) * width + (x - viewport.minX)) * 4
+            imageData.data[index] = 0
+            imageData.data[index + 1] = 0
+            imageData.data[index + 2] = 0
+            imageData.data[index + 3] = 255
+          }
+        }
+      }
+      context.putImageData(imageData, 0, 0)
+      // drawPixels(
+      //   visiblePixels.map(pixel => pixelCoordinatesToViewportCoordinates(viewport, pixel))
+      // )
     }
 
     updateView()
@@ -296,10 +335,6 @@
     viewport.maxX = viewport.minX + window.innerWidth
     viewport.minY = viewport.maxY - window.innerHeight
     return viewport
-  }
-
-  function getVisiblePixels(viewport, pixels) {
-    return pixels.filter(isPixelVisible.bind(null, viewport))
   }
 
   function isPixelVisible(viewport, pixel) {
