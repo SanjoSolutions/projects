@@ -283,6 +283,26 @@
       updateView()
     }
 
+    function getViewportCenter() {
+      return {
+        x: Math.floor(viewport.minX + 0.5 * (viewport.maxX - viewport.minX)),
+        y: Math.floor(viewport.minY + 0.5 * (viewport.maxY - viewport.minY))
+      }
+    }
+
+    function setViewportCenter(x, y) {
+      const width = window.innerWidth
+      const height = window.innerHeight
+      viewport = {
+        minX: Math.floor(x - 0.5 * width),
+        maxX: Math.floor(x + 0.5 * width),
+        minY: Math.floor(y - 0.5 * height),
+        maxY: Math.floor(y + 0.5 * height)
+      }
+      saveViewportDelayed()
+      updateView()
+    }
+
     function moveViewport(deltaX, deltaY) {
       viewport = {
         minX: viewport.minX + deltaX,
@@ -296,6 +316,8 @@
 
     window.getViewport = getViewport
     window.setViewport  = setViewport
+    window.getViewportCenter = getViewportCenter
+    window.setViewportCenter = setViewportCenter
     window.moveViewport = moveViewport
   }
 
