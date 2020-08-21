@@ -50,10 +50,10 @@
 
     const pixels = await load()
 
-    const minX = min(pixels.map(pixel => pixel.x))
-    const maxX = max(pixels.map(pixel => pixel.x))
-    const minY = min(pixels.map(pixel => pixel.y))
-    const maxY = max(pixels.map(pixel => pixel.y))
+    const minX = Math.floor(min(pixels.map(pixel => pixel.x)))
+    const maxX = Math.ceil(max(pixels.map(pixel => pixel.x)))
+    const minY = Math.floor(min(pixels.map(pixel => pixel.y)))
+    const maxY = Math.ceil(max(pixels.map(pixel => pixel.y)))
     const space = new Space({minX, maxX, minY, maxY})
     for (const pixel of pixels) {
       space.set(pixel, true)
