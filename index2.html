@@ -92,17 +92,22 @@
     function updateView() {
       // const visiblePixels = getVisiblePixels(viewport)
       // context.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio)
+      const devicePixelRatio = window.devicePixelRatio
       const width = canvas.width
       const height = canvas.height
       const imageData = context.createImageData(width, height)
       for (let y = viewport.minY; y <= viewport.maxY; y++) {
         for (let x = viewport.minX; x <= viewport.maxX; x++) {
           if (space.get({x, y})) {
-            const index = ((y - viewport.minY) * width + (x - viewport.minX)) * 4
-            imageData.data[index] = 0
-            imageData.data[index + 1] = 0
-            imageData.data[index + 2] = 0
-            imageData.data[index + 3] = 255
+            for (let yDelta = 0; yDelta < devicePixelRatio; yDelta++) {
+              for (let xDelta = 0; xDelta < devicePixelRatio; xDelta++) {
+                const index = ((devicePixelRatio * (viewport.maxY - y) + yDelta) * width + (devicePixelRatio * (x - viewport.minX) + xDelta)) * 4
+                imageData.data[index] = 0
+                imageData.data[index + 1] = 0
+                imageData.data[index + 2] = 0
+                imageData.data[index + 3] = 255
+              }
+            }
           }
         }
       }
