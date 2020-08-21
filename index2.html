@@ -41,12 +41,14 @@
   async function main() {
     let viewport = await loadViewport()
 
-    const saveViewport = delay(
-      () => {
-        saveViewportBase(viewport)
-      },
-      1000
-    )
+    let saveViewportHandler
+    const saveViewport = () => {
+      if (!saveViewportHandler) {
+        saveViewportHandler = setTimeout(() => {
+          saveViewportBase(viewport)
+        }, 5000)
+      }
+    }
 
     const pixels = await load()
 
@@ -76,7 +78,7 @@
       if (!saveHandler) {
         saveHandler = setTimeout(() => {
           save(pixels)
-        }, 1000)
+        }, 5000)
       }
     }
 
@@ -100,7 +102,8 @@
       const imageData = context.createImageData(width, height)
       for (let y = viewport.minY; y <= viewport.maxY; y++) {
         for (let x = viewport.minX; x <= viewport.maxX; x++) {
-          if (space.get({x, y})) {
+          const pixel = space.get({x, y})
+          if (pixel) {
             for (let yDelta = 0; yDelta < devicePixelRatio; yDelta++) {
               for (let xDelta = 0; xDelta < devicePixelRatio; xDelta++) {
                 const index = ((devicePixelRatio * (viewport.maxY - y) + yDelta) * width + (devicePixelRatio * (x - viewport.minX) + xDelta)) * 4
@@ -127,6 +130,10 @@
       if (saveHandler) {
         clearTimeout(saveHandler)
         saveHandler = undefined
+      }
+      if (saveViewportHandler) {
+        clearTimeout(saveViewportHandler)
+        saveViewportHandler = undefined
       }
       if (!spacePressed && isLeftMouseButton(event)) {
         isDrawing = true
