@@ -41,9 +41,9 @@
   async function main() {
     let viewport = await loadViewport()
 
-    const saveViewportDelayed = delay(
+    const saveViewport = delay(
       () => {
-        saveViewport(viewport)
+        saveViewportBase(viewport)
       },
       1000
     )
@@ -71,12 +71,14 @@
       return visiblePixels
     }
 
-    const saveDelayed = delay(
-      () => {
-        save(pixels)
-      },
-      1000
-    )
+    let saveHandler
+    const saveDelayed = () => {
+      if (!saveHandler) {
+        saveHandler = setTimeout(() => {
+          save(pixels)
+        }, 1000)
+      }
+    }
 
     const pencil = document.querySelector('.pencil')
     const canvas = document.querySelector('canvas')
@@ -122,6 +124,10 @@
     let isDrawing = false
     let lastPoint
     window.addEventListener('mousedown', (event) => {
+      if (saveHandler) {
+        clearTimeout(saveHandler)
+        saveHandler = undefined
+      }
       if (!spacePressed && isLeftMouseButton(event)) {
         isDrawing = true
         const point = eventToPoint(event)
@@ -220,7 +226,7 @@
             minY: viewport.minY + delta.y,
             maxY: viewport.maxY + delta.y
           }
-          saveViewportDelayed()
+          saveViewport()
           updateView()
         }
 
@@ -279,7 +285,7 @@
 
     function setViewport(_viewport) {
       viewport = _viewport
-      saveViewportDelayed()
+      saveViewport()
       updateView()
     }
 
@@ -299,7 +305,7 @@
         minY: Math.floor(y - 0.5 * height),
         maxY: Math.floor(y + 0.5 * height)
       }
-      saveViewportDelayed()
+      saveViewport()
       updateView()
     }
 
@@ -310,7 +316,7 @@
         minY: viewport.minY + Math.floor(deltaY),
         maxY: viewport.maxY + Math.floor(deltaY)
       }
-      saveViewportDelayed()
+      saveViewport()
       updateView()
     }
 
@@ -350,7 +356,7 @@
     return JSON.parse(await getValue('pixels') || '[]')
   }
 
-  function saveViewport(viewport) {
+  function saveViewportBase(viewport) {
     setValue('viewport', JSON.stringify(viewport))
   }
 
