@@ -127,6 +127,7 @@
         const point = eventToPoint(event)
         const pixel = viewportCoordinatesToPixelCoordinates(viewport, point)
         pixels.push(pixel)
+        space.set(pixel, true)
         if (isPixelVisible(viewport, pixel)) {
           drawLine(
             pixelCoordinatesToViewportCoordinates(viewport, pixel),
@@ -145,6 +146,9 @@
         const interpolatedPixels = interpolatePointsOnLine(lastPoint, point)
           .map(point => viewportCoordinatesToPixelCoordinates(viewport, point))
         pixels.push(...interpolatedPixels)
+        for (const pixel of interpolatedPixels) {
+          space.set(pixel, true)
+        }
         const visiblePixels = interpolatedPixels.filter(
           pixel => isPixelVisible(viewport, pixel)
         )
