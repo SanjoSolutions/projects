@@ -25,11 +25,20 @@ export class Space {
   }
 
   get({x, y}) {
+    if (
+      x < this.viewport.minX ||
+      x > this.viewport.maxX ||
+      y < this.viewport.minY ||
+      y > this.viewport.maxY
+    ) {
+      return false
+    }
     const {dataIndex, bitIndex} = this._getIndex({x, y})
     return Boolean((this.view[dataIndex] >> bitIndex) & 1)
   }
 
   set({x, y}, value) {
+    // TODO: Extend space when {x, y} outside of viewport
     const bit = value ? 1 : 0
     const {dataIndex, bitIndex} = this._getIndex({x, y})
     if (bit === 1) {
