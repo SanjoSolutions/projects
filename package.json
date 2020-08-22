@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "script": {
+  "scripts": {
     "test": "jest --runInBand"
   },
   "devDependencies": {
