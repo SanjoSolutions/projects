@@ -25,12 +25,7 @@ export class Space {
   }
 
   get({x, y}) {
-    if (
-      x < this.viewport.minX ||
-      x > this.viewport.maxX ||
-      y < this.viewport.minY ||
-      y > this.viewport.maxY
-    ) {
+    if (this._pixelIsOutsideOfViewport({x, y})) {
       return false
     }
     const {dataIndex, bitIndex} = this._getIndex({x, y})
@@ -46,5 +41,14 @@ export class Space {
     } else if (bit === 0) {
       this.view[dataIndex] = this.view[dataIndex] & (0b11111111 ^ (1 << bitIndex))
     }
+  }
+
+  _pixelIsOutsideOfViewport({x, y}) {
+    return (
+      x < this.viewport.minX ||
+      x > this.viewport.maxX ||
+      y < this.viewport.minY ||
+      y > this.viewport.maxY
+    )
   }
 }
