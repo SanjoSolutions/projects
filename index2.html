@@ -40,13 +40,13 @@
   }
 
   async function main() {
-    let viewport = await loadViewport()
+    let viewport = await loadViewportCenter()
 
-    let saveViewportHandler
-    const saveViewport = () => {
-      if (!saveViewportHandler) {
-        saveViewportHandler = setTimeout(() => {
-          saveViewportBase(viewport)
+    let saveViewportCenterHandler
+    const saveViewportCenter = () => {
+      if (!saveViewportCenterHandler) {
+        saveViewportCenterHandler = setTimeout(() => {
+          saveViewportCenterBase(viewport)
         }, 5000)
       }
     }
@@ -134,9 +134,9 @@
         clearTimeout(saveHandler)
         saveHandler = undefined
       }
-      if (saveViewportHandler) {
-        clearTimeout(saveViewportHandler)
-        saveViewportHandler = undefined
+      if (saveViewportCenterHandler) {
+        clearTimeout(saveViewportCenterHandler)
+        saveViewportCenterHandler = undefined
       }
       if (!spacePressed && isLeftMouseButton(event)) {
         isDrawing = true
@@ -236,7 +236,7 @@
             minY: viewport.minY + delta.y,
             maxY: viewport.maxY + delta.y
           }
-          saveViewport()
+          saveViewportCenter()
           updateView()
         }
 
@@ -295,7 +295,7 @@
 
     function setViewport(_viewport) {
       viewport = _viewport
-      saveViewport()
+      saveViewportCenter()
       updateView()
     }
 
@@ -307,26 +307,19 @@
     }
 
     function setViewportCenter(x, y) {
-      const width = window.innerWidth
-      const height = window.innerHeight
-      viewport = {
-        minX: Math.floor(x - 0.5 * width),
-        maxX: Math.floor(x + 0.5 * width),
-        minY: Math.floor(y - 0.5 * height),
-        maxY: Math.floor(y + 0.5 * height)
-      }
-      saveViewport()
+      viewport = convertViewportCenterToViewport({x, y})
+      saveViewportCenter()
       updateView()
     }
 
     function moveViewport(deltaX, deltaY) {
-      viewport = {
+      viewport = new Viewport({
         minX: viewport.minX + Math.floor(deltaX),
         maxX: viewport.maxX + Math.floor(deltaX),
         minY: viewport.minY + Math.floor(deltaY),
         maxY: viewport.maxY + Math.floor(deltaY)
-      }
-      saveViewport()
+      })
+      saveViewportCenter()
       updateView()
     }
 
@@ -366,27 +359,27 @@
     return JSON.parse(await getValue('pixels') || '[]')
   }
 
-  function saveViewportBase(viewport) {
-    setValue('viewport', JSON.stringify(viewport))
+  function saveViewportCenterBase(viewport) {
+    setValue('viewportCenter', JSON.stringify(getViewportCenter()))
   }
 
-  async function loadViewport() {
-    const viewport = new Viewport(
-      JSON.parse(
-        await getValue('viewport') ||
-        JSON.stringify({
-          minX: Math.floor(0 - 0.5 * window.innerWidth),
-          maxX: Math.floor(0 + 0.5 * window.innerWidth),
-          minY: Math.floor(0 - 0.5 * window.innerHeight),
-          maxY: Math.floor(0 + 0.5 * window.innerHeight)
-        })
-      )
+  async function loadViewportCenter() {
+    const viewportCenter = JSON.parse(
+      await getValue('viewportCenter') ||
+      JSON.stringify({x: 0, y: 0 })
     )
-    viewport.minX = Math.floor(viewport.minX)
-    viewport.maxY = Math.floor(viewport.maxY)
-    viewport.maxX = viewport.minX + window.innerWidth
-    viewport.minY = viewport.maxY - window.innerHeight
-    return viewport
+    return convertViewportCenterToViewport(viewportCenter)
+  }
+
+  function convertViewportCenterToViewport ({x, y}) {
+    const width = window.innerWidth
+    const height = window.innerHeight
+    return new Viewport({
+      minX: Math.floor(x - 0.5 * width),
+      maxX: Math.floor(x + 0.5 * width),
+      minY: Math.floor(y - 0.5 * height),
+      maxY: Math.floor(y + 0.5 * height),
+    })
   }
 
   function isPixelVisible(viewport, pixel) {
