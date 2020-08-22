@@ -41,14 +41,14 @@ function requestPixelsForViewport({minX, maxX, minY, maxY}) {
   socket.send(data)
 }
 
-function createRequestPixelsForViewportPaket ({minX, maxX, minY, maxY}) {
+export function createRequestPixelsForViewportPaket ({minX, maxX, minY, maxY}) {
   const data = new ArrayBuffer(1 + 4 * 8)
   const view = new DataView(data)
   view.setUint8(0, 1)
-  view.setBigInt64(1 + 0 * 8, minX, littleEndian)
-  view.setBigInt64(1 + 1 * 8, maxX, littleEndian)
-  view.setBigInt64(1 + 2 * 8, minY, littleEndian)
-  view.setBigInt64(1 + 3 * 8, maxY, littleEndian)
+  view.setBigInt64(1 + 0 * 8, BigInt(minX), littleEndian)
+  view.setBigInt64(1 + 1 * 8, BigInt(maxX), littleEndian)
+  view.setBigInt64(1 + 2 * 8, BigInt(minY), littleEndian)
+  view.setBigInt64(1 + 3 * 8, BigInt(maxY), littleEndian)
   return data
 }
 
