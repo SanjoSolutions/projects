@@ -3,6 +3,6 @@ export class Viewport {
     this.minX = minX
     this.maxX = maxX
     this.minY = minY
-    this.maxY = maxX
+    this.maxY = maxY
   }
 }
