@@ -27,7 +27,7 @@
   import { interpolatePointsOnLine } from './interpolatePointsOnLine2.js'
   import { delay } from './delay.js'
   import { getValue, setValue } from './localStorageDB.js'
-  import { Space } from './Space.js'
+  import { Space } from './Space2.js'
   import { min } from './min.js'
   import { max } from './max.js'
   import { Viewport } from './Viewport.js'
@@ -61,7 +61,7 @@
     })
     const space = new Space(spaceViewport)
     for (const pixel of pixels) {
-      space.set(pixel, true)
+      space.set(pixel)
     }
 
     function getVisiblePixels(viewport) {
@@ -143,7 +143,7 @@
         const point = eventToPoint(event)
         const pixel = viewportCoordinatesToPixelCoordinates(viewport, point)
         pixels.push(pixel)
-        space.set(pixel, true)
+        space.set(pixel)
         if (isPixelVisible(viewport, pixel)) {
           drawLine(
             pixelCoordinatesToViewportCoordinates(viewport, pixel),
@@ -163,7 +163,7 @@
           .map(point => viewportCoordinatesToPixelCoordinates(viewport, point))
         pixels.push(...interpolatedPixels)
         for (const pixel of interpolatedPixels) {
-          space.set(pixel, true)
+          space.set(pixel)
         }
         const visiblePixels = interpolatedPixels.filter(
           pixel => isPixelVisible(viewport, pixel)
