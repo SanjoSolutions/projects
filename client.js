@@ -7,12 +7,12 @@
   // 2: Receiving pixels drawn by other user (tuple of (x, y) tuples)
 
 // x, y ∈ ℤ
-// 64bit Number for x and y
+// 32bit Number for x and y
 
 // List of length, List item 1, ..., List item n
 // For [{x: 1, y: 2}, {x: 3, y: 4}]
 // 2, 1, 2, 3, 4
-// BigUint64, BigInt64, BigInt64, BigInt64, BigInt64
+// Uint32, Int32, Int32, Int32, Int32
 
 // Network packet format:
 
@@ -24,14 +24,14 @@ function sendPixelsToServer(pixels) {
 }
 
 export function createSendPixelsToServerPaket (pixels) {
-  const data = new ArrayBuffer(1 + 8 + pixels.length * 2 * 8)
+  const data = new ArrayBuffer(1 + 4 + pixels.length * 2 * 4)
   const view = new DataView(data)
   view.setUint8(0, 0)
-  view.setBigUint64(1, BigInt(pixels.length), littleEndian)
+  view.setUint32(1, pixels.length, littleEndian)
   for (let index = 0; index < pixels.length; index++) {
     const { x, y } = pixels[index]
-    view.setBigInt64(1 + 8 + index * 2 * 8, BigInt(x), littleEndian)
-    view.setBigInt64(1 + 8 + index * 2 * 8 + 8, BigInt(y), littleEndian)
+    view.setInt32(1 + 4 + index * 2 * 4, x, littleEndian)
+    view.setInt32(1 + 4 + index * 2 * 4 + 4, y, littleEndian)
   }
   return data
 }
@@ -42,13 +42,13 @@ function requestPixelsForViewport({minX, maxX, minY, maxY}) {
 }
 
 export function createRequestPixelsForViewportPaket ({minX, maxX, minY, maxY}) {
-  const data = new ArrayBuffer(1 + 4 * 8)
+  const data = new ArrayBuffer(1 + 4 * 4)
   const view = new DataView(data)
   view.setUint8(0, 1)
-  view.setBigInt64(1 + 0 * 8, BigInt(minX), littleEndian)
-  view.setBigInt64(1 + 1 * 8, BigInt(maxX), littleEndian)
-  view.setBigInt64(1 + 2 * 8, BigInt(minY), littleEndian)
-  view.setBigInt64(1 + 3 * 8, BigInt(maxY), littleEndian)
+  view.setInt32(1 + 0 * 4, minX, littleEndian)
+  view.setInt32(1 + 1 * 4, maxX, littleEndian)
+  view.setInt32(1 + 2 * 4, minY, littleEndian)
+  view.setInt32(1 + 3 * 4, maxY, littleEndian)
   return data
 }
 
@@ -58,12 +58,12 @@ function onReceivePixelsForViewport(data) {
 
 function onReceivePixelsDrawnByOtherUser(data) {
   const view = new DataView(data)
-  const length = view.getBigUint64(1, littleEndian)
+  const length = view.getUint32(1, littleEndian)
   const pixels = new Array(length)
   for (let index = 0; index < length; index++) {
     const pixel = {
-      x: view.getBigInt64(1 + 8 + index * 2 * 8, littleEndian),
-      y: view.getBigInt64(1 + 8 + index * 2 * 8 + 8, littleEndian)
+      x: view.getInt32(1 + 4 + index * 2 * 4, littleEndian),
+      y: view.getInt32(1 + 4 + index * 2 * 4 + 4, littleEndian)
     }
     pixels[index] = pixel
   }

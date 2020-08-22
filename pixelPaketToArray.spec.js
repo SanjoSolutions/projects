@@ -10,6 +10,6 @@ describe('pixelPaketToArray', () => {
     ]
     const pixelPaket = createSendPixelsToServerPaket(pixels)
     const pixelPaketArray = pixelPaketToArray(pixelPaket)
-    expect(pixelPaketArray).toEqual([0, 2n, 1n, 2n, 3n, 4n])
+    expect(pixelPaketArray).toEqual([0, 2, 1, 2, 3, 4])
   })
 })

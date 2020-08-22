@@ -23,12 +23,12 @@ export function pixelsArrayLengthEquals (a, b) {
 export function getPixelsArrayLength (paket) {
   const view = new DataView(paket)
   const pixelsArrayLengthByteOffset = 1
-  return view.getBigUint64(pixelsArrayLengthByteOffset, littleEndian)
+  return view.getUint32(pixelsArrayLengthByteOffset, littleEndian)
 }
 
 export function pixelsEqual(a, b) {
-  const pixelsByteOffset = 9
-  const ta = new BigInt64Array(a, pixelsByteOffset)
-  const tb = new BigInt64Array(b, pixelsByteOffset)
+  const pixelsByteOffset = 5
+  const ta = new Int32Array(a, pixelsByteOffset)
+  const tb = new Int32Array(b, pixelsByteOffset)
   return arrayEquals(ta, tb)
 }
