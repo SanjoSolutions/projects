@@ -1,3 +1,3 @@
 # TODO
 
-* Convert viewport numbers to BigInt
+* Save before reloading or closing window
