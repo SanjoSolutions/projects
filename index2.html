@@ -30,6 +30,7 @@
   import { Space } from './Space.js'
   import { min } from './min.js'
   import { max } from './max.js'
+  import { Viewport } from './Viewport.js'
 
   class Pixel {
     constructor(x, y) {
@@ -52,11 +53,13 @@
 
     const pixels = await load()
 
-    const minX = Math.floor(min(pixels.map(pixel => pixel.x)))
-    const maxX = Math.ceil(max(pixels.map(pixel => pixel.x)))
-    const minY = Math.floor(min(pixels.map(pixel => pixel.y)))
-    const maxY = Math.ceil(max(pixels.map(pixel => pixel.y)))
-    const space = new Space({minX, maxX, minY, maxY})
+    let spaceViewport = new Viewport({
+      minX: Math.floor(min(pixels.map(pixel => pixel.x))),
+      maxX: Math.ceil(max(pixels.map(pixel => pixel.x))),
+      minY: Math.floor(min(pixels.map(pixel => pixel.y))),
+      maxY: Math.ceil(max(pixels.map(pixel => pixel.y)))
+    })
+    const space = new Space(spaceViewport)
     for (const pixel of pixels) {
       space.set(pixel, true)
     }
@@ -368,13 +371,16 @@
   }
 
   async function loadViewport() {
-    const viewport = JSON.parse(await getValue('viewport') || JSON.stringify(
-      {
-        minX: Math.floor(0 - 0.5 * window.innerWidth),
-        maxX: Math.floor(0 + 0.5 * window.innerWidth),
-        minY: Math.floor(0 - 0.5 * window.innerHeight),
-        maxY: Math.floor(0 + 0.5 * window.innerHeight)
-      })
+    const viewport = new Viewport(
+      JSON.parse(
+        await getValue('viewport') ||
+        JSON.stringify({
+          minX: Math.floor(0 - 0.5 * window.innerWidth),
+          maxX: Math.floor(0 + 0.5 * window.innerWidth),
+          minY: Math.floor(0 - 0.5 * window.innerHeight),
+          maxY: Math.floor(0 + 0.5 * window.innerHeight)
+        })
+      )
     )
     viewport.minX = Math.floor(viewport.minX)
     viewport.maxY = Math.floor(viewport.maxY)

@@ -1,23 +1,24 @@
 export class Space {
-  constructor({minX, maxX, minY, maxY}) {
-    this.minX = minX
-    this.maxX = maxX
-    this.minY = minY
-    this.maxY = maxY
+  constructor(viewport) {
+    this._viewport = viewport
     this.data = new ArrayBuffer(this.width * this.height)
     this.view = new Uint8Array(this.data)
   }
 
+  get viewport() {
+    return this._viewport
+  }
+
   get width() {
-    return Math.ceil((this.maxX - this.minX + 1) / 8) * 8
+    return Math.ceil((this.viewport.maxX - this.viewport.minX + 1) / 8) * 8
   }
 
   get height() {
-    return Math.ceil((this.maxY - this.minY + 1) / 8) * 8
+    return Math.ceil((this.viewport.maxY - this.viewport.minY + 1) / 8) * 8
   }
 
   _getIndex({x, y}) {
-    const index = ((this.maxY - y) * this.width + (this.minX - x))
+    const index = ((this.viewport.maxY - y) * this.width + (this.viewport.minX - x))
     const dataIndex = Math.floor(index / 8)
     const bitIndex = index % 8
     return {dataIndex, bitIndex}
