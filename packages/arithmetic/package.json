@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/arithmetic",
+  "type": "module",
   "description": "Arithmetic",
   "license": "Unlicense",
   "version": "0.1.0",

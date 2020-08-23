@@ -1,4 +1,4 @@
-import { max } from './max'
+import { max } from './max.js'
 
 describe('max', () => {
   it('returns the maximum', () => {

@@ -1,5 +1,5 @@
-export function getIndexSubSequences(length: number): number[][] {
-  let subSequences: number[][] = [[]]
+export function getIndexSubSequences (length) {
+  let subSequences = [[]]
   for (let iteration = 1; iteration <= length; iteration++) {
     const nextSubSequences = []
     for (const subSequence of subSequences) {

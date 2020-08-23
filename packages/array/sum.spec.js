@@ -1,4 +1,4 @@
-import { sum } from './sum'
+import { sum } from './sum.js'
 
 describe('sum', () => {
   it('adds the numbers in an array', () => {

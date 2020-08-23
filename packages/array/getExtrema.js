@@ -1,9 +1,9 @@
 import identity from '@sanjo/identity'
 
 export function getExtrema (
-  array: any[],
-  getter: (value: any) => any = identity,
-  isMoreExtreme: (value: any, currentExtremeValue: any) => boolean,
+  array,
+  getter = identity,
+  isMoreExtreme,
 ): any | null {
   if (array.length === 0) {
     return null

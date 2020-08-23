@@ -1,0 +1,14 @@
+{
+  "name": "@sanjo/specification",
+  "type": "module",
+  "scripts": {
+    "specification": "node index.spec.js"
+  },
+  "version": "1.0.0",
+  "description": "Specification",
+  "keywords": [
+    "specification"
+  ],
+  "license": "Unlicense",
+  "main": "index.js"
+}

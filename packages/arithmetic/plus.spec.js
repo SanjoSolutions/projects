@@ -1,4 +1,4 @@
-import { plus } from './plus'
+import { plus } from './plus.js'
 
 describe('plus', () => {
   it('adds two numbers', () => {

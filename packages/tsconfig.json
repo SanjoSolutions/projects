@@ -6,12 +6,6 @@
       "path": "./animate"
     },
     {
-      "path": "./arithmetic"
-    },
-    {
-      "path": "./array"
-    },
-    {
       "path": "./binary-search"
     },
     {
@@ -94,9 +88,6 @@
     },
     {
       "path": "./test-npm-init"
-    },
-    {
-      "path": "./testa"
     },
     {
       "path": "./write-file"

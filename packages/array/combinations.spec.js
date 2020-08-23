@@ -1,4 +1,4 @@
-import { combinations } from './combinations'
+import { combinations } from './combinations.js'
 
 describe('combinations', () => {
   it('returns all combinations', () => {

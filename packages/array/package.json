@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/array",
+  "type": "module",
   "description": "Array functions",
   "license": "Unlicense",
   "version": "0.0.0",

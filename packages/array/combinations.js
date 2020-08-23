@@ -1,6 +1,6 @@
-import { getIndexSubSequences } from './getIndexSubSequences'
+import { getIndexSubSequences } from './getIndexSubSequences.js'
 
-export function combinations<T>(setOrArray: Set<T> | T[]): T[][] {
+export function combinations (setOrArray) {
   const array = [...setOrArray]
 
   let indexSubSequences
@@ -12,11 +12,12 @@ export function combinations<T>(setOrArray: Set<T> | T[]): T[][] {
     combinations.indexSubSequencesCache.set(length, indexSubSequences)
   }
 
-  const subSequences = indexSubSequences!.map(
-    indexSubSequence => indexSubSequence.map(index => array[index]),
-  )
+  const subSequences = indexSubSequences
+    .map(
+      indexSubSequence => indexSubSequence.map(index => array[index]),
+    )
 
   return subSequences
 }
 
-combinations.indexSubSequencesCache = new Map<number, number[][]>()
+combinations.indexSubSequencesCache = new Map()

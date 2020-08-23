@@ -1,4 +1,4 @@
-import { min } from './min'
+import { min } from './min.js'
 
 describe('min', () => {
   it('returns the minimum', () => {
