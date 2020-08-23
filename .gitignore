@@ -5,6 +5,8 @@ node_modules/
 /refactorings-build/
 dist/
 build/
+*.bundle.js
+*.bundle.cjs
 
 /packages/*/built/
 /packages/*/coverage/
