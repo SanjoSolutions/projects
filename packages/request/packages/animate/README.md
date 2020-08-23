@@ -11,5 +11,5 @@ npm install --save '@sanjo/animate'
 ## How to use
 
 ```js
-import animate from '@sanjo/animate'
+import animate from 'packages/animate/index.js'
 ```

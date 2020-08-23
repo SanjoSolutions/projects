@@ -1,5 +1,5 @@
-export function animate (fn: (elaspedTime: number) => void) {
-  let lastFrameTime: number
+export function animate (fn) {
+  let lastFrameTime
   let shouldStop = false
 
   function stop () {

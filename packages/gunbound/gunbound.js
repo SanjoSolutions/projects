@@ -1,4 +1,4 @@
-import animate from '@sanjo/animate'
+import { animate } from '../animate/animate.js'
 
 // ## Legend
 // ### Units
@@ -16,8 +16,8 @@ const gravityOfEarth = 9.81 // m / s^2 (meter per square second)
 const meterToPixelRatio = 3 // meter to pixel (1 meter equals 10 pixel)
 
 const angle = (
-  5 / 32
-) *
+    5 / 32
+  ) *
   (
     2 * Math.PI
   )  // in rad (radian)
@@ -29,22 +29,25 @@ const dx = 100
 const dy = 0
 
 const windSpeed = 0.1 // m / s (meter per second)
-const windDirection = 0.5 * (2 * Math.PI)  // in rad (radian) (direction to the left)
+const windDirection = 0.5 *
+  (
+    2 * Math.PI
+  )  // in rad (radian) (direction to the left)
 
-const canvas = document.querySelector('canvas') as HTMLCanvasElement
+const canvas = document.querySelector('canvas')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
-const context = canvas.getContext('2d') as CanvasRenderingContext2D
+const context = canvas.getContext('2d')
 
-const initialPoint: Point = { x: 0.5 * window.innerWidth, y: 60 }
-const point: Point = { ...initialPoint }
+const initialPoint = { x: 0.5 * window.innerWidth, y: 60 }
+const point = { ...initialPoint }
 
 let passedTime = 0
 
 let drawnSinceLastClear = false
 const drawDelta = 500
 
-animate((ellapsedTime: number) => {
+animate((ellapsedTime) => {
   if (ellapsedTime === 0) {
     return
   }
@@ -68,7 +71,15 @@ animate((ellapsedTime: number) => {
   ) * Math.sin(windDirection)
 
   const x = initialPoint.x + deltaX + windDeltaX
-  const y = initialPoint.y + deltaY + windDeltaY - 0.5 * gravityOfEarth * meterToPixelRatio * (passedSeconds ** 2)
+  const y = initialPoint.y +
+    deltaY +
+    windDeltaY -
+    0.5 *
+    gravityOfEarth *
+    meterToPixelRatio *
+    (
+      passedSeconds ** 2
+    )
 
   // Draw
   if (drawnSinceLastClear) {
@@ -86,14 +97,14 @@ animate((ellapsedTime: number) => {
   }
 })
 
-function clearCanvas (): void {
+function clearCanvas () {
   context.save()
   context.fillStyle = 'rgba(255, 255, 255, 0.2)'
   context.fillRect(0, 0, canvas.width, canvas.height)
   context.restore()
 }
 
-function drawProjectile ({ x, y }: Point): void {
+function drawProjectile ({ x, y }) {
   context.beginPath()
   context.arc(x, canvas.height - y, 10, 0, 2 * Math.PI)
   context.fill()
@@ -109,7 +120,7 @@ function drawAngle () {
   const drawAngle = 2 * Math.PI - angle
   context.lineTo(
     initialPoint.x + radius * Math.cos(drawAngle),
-    canvas.height - initialPoint.y + radius * Math.sin(drawAngle)
+    canvas.height - initialPoint.y + radius * Math.sin(drawAngle),
   )
   context.stroke()
 }
@@ -127,8 +138,15 @@ function drawPowerBar () {
   context.rect(
     x,
     y,
-    ((speed - minSpeed) / (maxSpeed - minSpeed)) * barWidth,
-    barHeight
+    (
+      (
+        speed - minSpeed
+      ) /
+      (
+        maxSpeed - minSpeed
+      )
+    ) * barWidth,
+    barHeight,
   )
   context.fill()
   context.beginPath()
@@ -136,13 +154,8 @@ function drawPowerBar () {
     x,
     y,
     barWidth,
-    barHeight
+    barHeight,
   )
   context.stroke()
   context.restore()
-}
-
-interface Point {
-  x: number
-  y: number
 }

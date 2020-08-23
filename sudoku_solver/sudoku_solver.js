@@ -1,4 +1,4 @@
-import { concat } from '../packages/array/src/array.js'
+import { concat } from '../packages/array/concat.js'
 import { difference, union } from '../set.js'
 
 export const sudoku = [
@@ -13,7 +13,7 @@ export const sudoku = [
   [0, 0, 0, 0, 0, 0, 0, 0, 3],
 ]
 
-export function renderSudokuToHTML(sudoku) {
+export function renderSudokuToHTML (sudoku) {
   const table = document.createElement('table')
   table.classList.add('sudoku')
   const tbody = document.createElement('tbody')
@@ -30,7 +30,7 @@ export function renderSudokuToHTML(sudoku) {
   return table
 }
 
-export function renderPossibleNumbersToHTML(possibleNumbers) {
+export function renderPossibleNumbersToHTML (possibleNumbers) {
   const table = document.createElement('table')
   table.classList.add('possible-numbers')
   const tbody = document.createElement('tbody')
@@ -51,7 +51,7 @@ export function renderPossibleNumbersToHTML(possibleNumbers) {
   return table
 }
 
-function renderPossibleNumbersAToHTML(possibleNumbersA) {
+function renderPossibleNumbersAToHTML (possibleNumbersA) {
   const table = document.createElement('table')
   const tbody = document.createElement('tbody')
   table.appendChild(tbody)
@@ -72,7 +72,7 @@ function renderPossibleNumbersAToHTML(possibleNumbersA) {
 // console.log(renderPossibleNumbers(possibleNumbers(sudoku)))
 // console.log(solve(possibleNumbers(sudoku)))
 
-export function possibleNumbers(sudoku) {
+export function possibleNumbers (sudoku) {
   const possibleNumbers = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -108,7 +108,7 @@ export function possibleNumbers(sudoku) {
   return possibleNumbers
 }
 
-export function solve(possibleNumbers) {
+export function solve (possibleNumbers) {
   const solutions = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -168,7 +168,7 @@ export function solve(possibleNumbers) {
   return solutions
 }
 
-export function fillSolutions(sudoku, solutions) {
+export function fillSolutions (sudoku, solutions) {
   sudoku = [...sudoku]
   for (let rowIndex = 0; rowIndex < sudoku.length; rowIndex++) {
     for (let columnIndex = 0; columnIndex < sudoku[rowIndex].length; columnIndex++) {
@@ -180,7 +180,7 @@ export function fillSolutions(sudoku, solutions) {
   return sudoku
 }
 
-function renderPossibleNumbers(possibleNumbers) {
+function renderPossibleNumbers (possibleNumbers) {
   return possibleNumbers.map(
     row => {
       const aas = row.map(renderPossibleNumbersA)
@@ -198,7 +198,7 @@ function renderPossibleNumbers(possibleNumbers) {
   ).join('\n' + '-----'.repeat(9) + '---'.repeat(9 - 1) + '\n')
 }
 
-function renderPossibleNumbersA(possibleNumbersA) {
+function renderPossibleNumbersA (possibleNumbersA) {
   const parts = new Array(9)
   for (let number = 1; number <= 9; number++) {
     parts[number - 1] =
@@ -207,19 +207,19 @@ function renderPossibleNumbersA(possibleNumbersA) {
   return parts
 }
 
-function getRowWithout(sudoku, rowIndex, columnIndex) {
+function getRowWithout (sudoku, rowIndex, columnIndex) {
   const row = [...getRow(sudoku, rowIndex)]
   row.splice(columnIndex, 1)
   return row
 }
 
-function getColumnWithout(sudoku, rowIndex, columnIndex) {
+function getColumnWithout (sudoku, rowIndex, columnIndex) {
   const column = [...getColumn(sudoku, columnIndex)]
   column.splice(rowIndex, 1)
   return column
 }
 
-function getBlockWithout(sudoku, rowIndex, columnIndex) {
+function getBlockWithout (sudoku, rowIndex, columnIndex) {
   const block = getBlock(sudoku, rowIndex, columnIndex)
   const blockWidth = 3
   const blockHeight = 3
@@ -228,11 +228,11 @@ function getBlockWithout(sudoku, rowIndex, columnIndex) {
   return block
 }
 
-function getRow(sudoku, rowIndex) {
+function getRow (sudoku, rowIndex) {
   return sudoku[rowIndex]
 }
 
-function getColumn(sudoku, columnIndex) {
+function getColumn (sudoku, columnIndex) {
   const numberOfRows = sudoku.length
   const column = new Array(numberOfRows)
   for (let rowIndex = 0; rowIndex < numberOfRows; rowIndex++) {
@@ -241,7 +241,7 @@ function getColumn(sudoku, columnIndex) {
   return column
 }
 
-function getBlock(sudoku, rowIndex, columnIndex) {
+function getBlock (sudoku, rowIndex, columnIndex) {
   const blockHeight = 3
   const blockWidth = 3
   rowIndex = Math.floor(rowIndex / blockHeight) * blockHeight
