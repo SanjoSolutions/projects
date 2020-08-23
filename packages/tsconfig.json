@@ -48,6 +48,9 @@
       "path": "./exec"
     },
     {
+      "path": "./format"
+    },
+    {
       "path": "./forum-eu-automation"
     },
     {
@@ -91,6 +94,9 @@
     },
     {
       "path": "./test-npm-init"
+    },
+    {
+      "path": "./testa"
     },
     {
       "path": "./write-file"

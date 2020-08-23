@@ -8,6 +8,10 @@ export async function replaceStringInFile (
   stringToReplaceWith: string,
 ): Promise<void> {
   let content = await readFile(filePath)
-  content = content.replace(new RegExp(escapeForRegExp(stringToReplace), 'g'), stringToReplaceWith)
+  content =
+    content.replace(
+      new RegExp(escapeForRegExp(stringToReplace), 'g'),
+      stringToReplaceWith,
+    )
   await writeFile(filePath, content)
 }

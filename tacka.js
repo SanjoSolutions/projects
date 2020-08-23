@@ -1,9 +1,9 @@
-import { animate } from './animate.js'
-import { colorToString } from './colorToString.js'
-import { createFullDocumentCanvas } from './createFullDocumentCanvas.js'
-import { getCenter } from './getCenter.js'
-import { polarCoordinatesToCartesianCoordinates } from './polarCoordinatesToCartesianCoordinates.js'
-import { radianToDegrees } from './radianToDegrees.js'
+import { animate } from './animate.js';
+import { colorToString } from './colorToString.js';
+import { createFullDocumentCanvas } from './createFullDocumentCanvas.js';
+import { getCenter } from './getCenter.js';
+import { polarCoordinatesToCartesianCoordinates } from './polarCoordinatesToCartesianCoordinates.js';
+import { radianToDegrees } from './radianToDegrees.js';
 
 const { canvas, context } = createFullDocumentCanvas()
 document.body.appendChild(canvas)

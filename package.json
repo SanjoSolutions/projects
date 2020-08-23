@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "test": "jest",
     "build": "cd packages && tsc --build",
     "build:watch": "cd packages && tsc --build --watch"
@@ -29,7 +28,7 @@
     "lerna": "^3.22.1",
     "style-loader": "^1.2.1",
     "ts-loader": "^8.0.0",
-    "typescript": "^4.0.1-rc",
+    "typescript": "^4.0.2",
     "webpack": "^5.0.0-beta.22",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
