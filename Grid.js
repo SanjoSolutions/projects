@@ -1,8 +1,24 @@
 export class Grid {
-  constructor (width, height) {
+  constructor (width, height, values = undefined) {
     this.width = width
     this.height = height
-    this.values = new Array(width * height)
+    this._initializeValues(width, height, values)
+  }
+
+  _initializeValues (width, height, values) {
+    const length = width * height
+    if (values) {
+      if (values.length === length) {
+        this.values = values
+      } else {
+        throw new Error(
+          `values length ${values.length} does't match ` +
+          `expected length of ${length}.`,
+        )
+      }
+    } else {
+      this.values = new Array(length)
+    }
   }
 
   get ({ row, column }) {

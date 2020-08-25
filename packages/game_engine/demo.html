@@ -1,0 +1,35 @@
+<style>
+  body {
+    margin: 0;
+  }
+
+  canvas {
+    height: 100vh;
+    width: 100vw;
+  }
+</style>
+
+<script type="module">
+  import { Game } from './Game.js'
+  import { Map as GameEngineMap } from './Map.js'
+  import { Tile } from './Tile.js'
+
+  const sand = new Tile('images/tiles/sand.png')
+  const f = sand
+  const map = new GameEngineMap(20, 12, [
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+    f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
+  ])
+  const game = new Game(document.body, map)
+  game.initialize()
+</script>
