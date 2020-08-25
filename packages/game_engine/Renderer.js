@@ -73,7 +73,12 @@ export class Renderer {
   }
 
   async _renderGameObjects () {
-    for (const object of this.map.objects.reverse()) {
+    for (
+      let index = this.map.objects.length - 1;
+      index >= 0;
+      index--
+    ) {
+      const object = this.map.objects[index]
       await this._renderGameObject(object)
     }
   }
