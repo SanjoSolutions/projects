@@ -2,12 +2,13 @@ import { Grid } from '../../Grid.js'
 import { TILE_HEIGHT, TILE_WIDTH } from './config.js'
 
 export class Map {
-  constructor (width, height, values = undefined) {
+  constructor (width, height, { events, floor } = {}) {
     this.width = width
     this.height = height
     this.tileWidth = TILE_WIDTH
     this.tileHeight = TILE_HEIGHT
-    this.grid = new Grid(width, height, values)
+    this.events = new Grid(width, height, events)
+    this.grid = new Grid(width, height, floor)
     this.objects = []
   }
 

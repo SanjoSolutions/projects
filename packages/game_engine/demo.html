@@ -30,7 +30,23 @@
     f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
     f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f, f,
   ])
-  const game = new Game(document.body, map)
+  const w = new Tile('images/tiles/wood_floor.png')
+  const map2 = new GameEngineMap(20, 12, [
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+  ])
+  const maps = [map, map2]
+  const game = new Game(document.body, maps)
   game.initialize()
   game.start()
 </script>

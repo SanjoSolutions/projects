@@ -4,9 +4,10 @@ import { Mouse } from './Mouse.js'
 import { Renderer } from './Renderer.js'
 
 export class Game {
-  constructor (root, map) {
+  constructor (root, maps) {
     this.root = root
-    this.map = map
+    this.maps = maps
+    this.map = this.maps[0]
     this.character = new Character(this.map)
     this.map.addObject(this.character)
     this.house = new House()
