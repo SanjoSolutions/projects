@@ -1,0 +1,212 @@
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .pencil {
+    border: 1px solid black;
+    border-radius: 50%;
+    box-sizing: border-box;
+    height: 1px;
+    pointer-events: none;
+    position: absolute;
+    width: 1px;
+    z-index: 3;
+  }
+</style>
+
+<div class="pencil"></div>
+<canvas></canvas>
+
+<script>
+  const pencil = document.querySelector('.pencil')
+  const canvas = document.querySelector('canvas')
+  canvas.style.width = window.innerWidth
+  canvas.style.height = window.innerHeight
+  canvas.width = window.devicePixelRatio * window.innerWidth
+  canvas.height = window.devicePixelRatio * window.innerHeight
+  const context = canvas.getContext('2d')
+  context.lineWidth = 1
+  context.lineCap = 'round'
+  context.scale(window.devicePixelRatio, window.devicePixelRatio)
+
+  let isDrawing = false
+  let lastPoint
+  let points = []
+  const figures = []
+  window.addEventListener('mousedown', (event) => {
+    if (isLeftMouseButton(event)) {
+      isDrawing = true
+      const point = eventToPoint(event)
+      points = []
+      points.push(point)
+      drawLine(point, point)
+      lastPoint = point
+    }
+  })
+
+  window.addEventListener('mousemove', (event) => {
+    const point = eventToPoint(event)
+    points.push(point)
+    pencil.style.left = point.x
+    pencil.style.top = point.y
+    if (isDrawing) {
+      drawLine(lastPoint, point)
+      lastPoint = point
+    }
+  })
+
+  window.addEventListener('mouseup', (event) => {
+    isDrawing = false
+
+    const minX = Math.min(...points.map(p => p.x))
+    const maxX = Math.max(...points.map(p => p.x))
+    const minY = Math.min(...points.map(p => p.y))
+    const maxY = Math.max(...points.map(p => p.y))
+    const cornerPoints = [
+      { x: minX, y: minY },
+      { x: maxX, y: minY },
+      { x: maxX, y: maxY },
+      { x: minX, y: maxY },
+    ]
+    const figure = {
+      type: 'polygon',
+      cornerPoints,
+    }
+    figures.push(figure)
+
+    context.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio)
+    for (const figure of figures) {
+      if (figure.type === 'polygon') {
+        drawPolygon(figure.cornerPoints)
+      } else {
+        console.error(`Drawing figure of type "${figure.type}" not implemented.`)
+      }
+    }
+
+    // context.save()
+    // context.fillStyle = 'red'
+    // drawPoints(points)
+    // context.restore()
+    points = []
+  })
+
+  window.addEventListener('wheel', (event) => {
+    const deltaY = event.deltaY
+    if (deltaY !== 0) {
+      if (deltaY < 0) {
+        context.lineWidth *= 2
+      } else if (deltaY > 0) {
+        context.lineWidth = Math.max(1, context.lineWidth / 2)
+      }
+      const pencilRadius = 0.5 * context.lineWidth
+      pencil.style.width = 2 * pencilRadius
+      pencil.style.height = 2 * pencilRadius
+      pencil.style.marginLeft = -pencilRadius
+      pencil.style.marginTop = -pencilRadius
+    }
+  })
+
+  window.addEventListener('resize', throttle(() => {
+    const oldWidth = parseInt(canvas.style.width, 10)
+    const newWidth = window.innerWidth
+    const oldHeight = parseInt(canvas.style.height, 10)
+    const newHeight = window.innerHeight
+
+    if (newWidth > oldWidth || newHeight > oldHeight) {
+      const copyCanvas = document.createElement('canvas')
+      copyCanvas.width = canvas.width
+      copyCanvas.height = canvas.height
+      const copyContext = copyCanvas.getContext('2d')
+      copyContext.putImageData(
+        context.getImageData(0, 0, canvas.width, canvas.height),
+        0,
+        0,
+      )
+
+      if (newWidth > oldWidth) {
+        canvas.style.width = newWidth
+        canvas.width = window.devicePixelRatio * newWidth
+      }
+
+      if (newHeight > oldHeight) {
+        canvas.style.height = newHeight
+        canvas.height = window.devicePixelRatio * newHeight
+      }
+
+      context.resetTransform()
+      context.scale(window.devicePixelRatio, window.devicePixelRatio)
+      context.putImageData(copyContext.getImageData(
+        0,
+        0,
+        copyCanvas.width,
+        copyCanvas.height,
+      ), 0, 0)
+      copyCanvas.remove()
+    }
+  }, 200))
+
+  function throttle (fn, delay) {
+    let handle
+    return (...args) => {
+      if (handle) {
+        clearTimeout(handle)
+      }
+      handle = setTimeout(() => {
+        fn(...args)
+        handle = null
+      }, delay)
+    }
+  }
+
+  function isLeftMouseButton (event) {
+    return event.button === 0
+  }
+
+  function eventToPoint (event) {
+    return { x: event.pageX, y: event.pageY }
+  }
+
+  function drawLine (a, b) {
+    context.beginPath()
+    context.moveTo(a.x, a.y)
+    context.lineTo(b.x, b.y)
+    context.stroke()
+  }
+
+  function drawPolygon (points) {
+    context.beginPath()
+    const firstPoint = points[0]
+    context.moveTo(firstPoint.x, firstPoint.y)
+    for (let index = 1; index < points.length; index++) {
+      const point = points[index]
+      const { x, y } = point
+      context.lineTo(x, y)
+    }
+    context.closePath()
+    context.stroke()
+  }
+
+  function drawPoints (points) {
+    for (const point of points) {
+      context.fillRect(point.x, point.y, 1, 1)
+    }
+  }
+
+  function slope (pointA, pointB) {
+    return (
+      pointB.y - pointA.y
+      ) /
+      (
+        pointB.x - pointA.x
+      )
+  }
+
+  function radianToDegree (value) {
+    return value *
+      (
+        2 * Math.PI
+      )
+  }
+</script>
