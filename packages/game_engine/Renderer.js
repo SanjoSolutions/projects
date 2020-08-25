@@ -7,13 +7,15 @@ export class Renderer {
     this.map = map
   }
 
-  async render () {
+  async initialize () {
     const { canvas, context } = createFullDocumentCanvas()
     this.canvas = canvas
     this.context = context
     this.root.innerHTML = ''
     this.root.appendChild(this.canvas)
+  }
 
+  async render () {
     await this._renderTiles()
     // await this._renderTileGrid()
     await this._renderGameObjects()
@@ -45,11 +47,14 @@ export class Renderer {
   }
 
   async _renderTileGrid () {
+    this.context.save()
+    this.context.strokeStyle = 'rgba(0, 0, 0, 0.03)'
     for (let row = 0; row < this.map.height; row++) {
       for (let column = 0; column < this.map.width; column++) {
         this._renderTileGridCell(row, column)
       }
     }
+    this.context.restore()
   }
 
   async _renderTileGridCell (row, column) {
@@ -66,15 +71,19 @@ export class Renderer {
   }
 
   async _renderGameObjects () {
-    for (const object of this.map.objects) {
-      const image = await loadImage(object.sprite.path)
-      this.context.drawImage(
-        image,
-        object.boundingBox.x,
-        object.boundingBox.y,
-        object.boundingBox.width,
-        object.boundingBox.height,
-      )
+    for (const object of this.map.objects.reverse()) {
+      await this._renderGameObject(object)
     }
+  }
+
+  async _renderGameObject (object) {
+    const image = await loadImage(object.sprite.path)
+    this.context.drawImage(
+      image,
+      object.boundingBox.x - object.origin.x,
+      object.boundingBox.y - object.origin.y,
+      object.boundingBox.width,
+      object.boundingBox.height,
+    )
   }
 }
