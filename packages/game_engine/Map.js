@@ -14,4 +14,12 @@ export class Map {
   addObject (object) {
     this.objects.push(object)
   }
+
+  calculateWidthInPixels () {
+    return this.width * this.tileWidth
+  }
+
+  calculateHeightInPixels () {
+    return this.height * this.tileHeight
+  }
 }

@@ -20,6 +20,7 @@ export class Renderer {
     await this._renderTiles()
     // await this._renderTileGrid()
     await this._renderGameObjects()
+    await this._clearAreaOutsideOfMap()
   }
 
   async _renderTiles () {
@@ -78,13 +79,28 @@ export class Renderer {
   }
 
   async _renderGameObject (object) {
-    const image = await this._loadImage(object.sprite.path)
-    this.context.drawImage(
-      image,
-      object.boundingBox.x - object.origin.x,
-      object.boundingBox.y - object.origin.y,
-      object.boundingBox.width,
-      object.boundingBox.height,
+    if (this._isGameObjectInMap(object)) {
+      const image = await this._loadImage(object.sprite.path)
+      this.context.drawImage(
+        image,
+        object.boundingBox.x,
+        object.boundingBox.y,
+        object.boundingBox.width,
+        object.boundingBox.height,
+      )
+    }
+  }
+
+  _isGameObjectInMap (object) {
+    const ox = object.boundingBox.x
+    const oy = object.boundingBox.y
+    const w = this.map.calculateWidthInPixels()
+    const h = this.map.calculateHeightInPixels()
+    return (
+      ox >= 0 &&
+      ox < w &&
+      oy >= 0 &&
+      oy < h
     )
   }
 
@@ -96,5 +112,32 @@ export class Renderer {
       this.imageCache.set(path, image)
       return image
     }
+  }
+
+  _calculateCanvasWidth () {
+    return this.canvas.width / window.devicePixelRatio
+  }
+
+  _calculateCanvasHeight () {
+    return this.canvas.height / window.devicePixelRatio
+  }
+
+  async _clearAreaOutsideOfMap () {
+    const mapWidth = this.map.calculateWidthInPixels()
+    const mapHeight = this.map.calculateHeightInPixels()
+    const canvasWidth = this._calculateCanvasWidth()
+    const canvasHeight = this._calculateCanvasHeight()
+    this.context.clearRect(
+      mapWidth,
+      0,
+      canvasWidth - mapWidth,
+      canvasHeight,
+    )
+    this.context.clearRect(
+      0,
+      mapHeight,
+      mapWidth,
+      canvasHeight - mapHeight,
+    )
   }
 }

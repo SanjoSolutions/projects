@@ -7,8 +7,8 @@ export class Character extends GameObject {
   constructor (map) {
     super(
       {
-        x: 0.5 * map.width * map.tileWidth,
-        y: 0.5 * map.height * map.tileHeight + 2 * map.tileHeight,
+        x: 0.5 * map.calculateWidthInPixels(),
+        y: 0.5 * map.calculateHeightInPixels() + 2 * map.tileHeight,
         width: TILE_WIDTH,
         height: 3 * TILE_HEIGHT,
       },

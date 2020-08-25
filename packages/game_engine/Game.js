@@ -24,8 +24,8 @@ export class Game {
 
   _moveCharacter ({ x, y }) {
     console.log('moveCharacter', { x, y })
-    this.character.boundingBox.x = x
-    this.character.boundingBox.y = y
+    this.character.boundingBox.x = x - this.character.origin.x
+    this.character.boundingBox.y = y - this.character.origin.y
     this.renderer.render()
   }
 
