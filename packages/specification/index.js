@@ -1,8 +1,11 @@
+import { equals } from '../../equals.js'
+
 let expectCount
 resetExpectCount()
 
 let specificationRunning = false
 const specificationFunctionQueue = []
+
 export async function specification (specificationFunction) {
   specificationFunctionQueue.push(specificationFunction)
   if (!specificationRunning) {
@@ -47,30 +50,30 @@ function incrementExpectCount () {
 
 export function expect (what) {
   return {
-    toEqual(whatElse) {
+    toEqual (whatElse) {
       incrementExpectCount()
-      if (!(what === whatElse)) {
+      if (!(equals(what, whatElse))) {
         throw Error('what !== whatElse', what, whatElse)
       }
     },
-    toHaveType(expectedType) {
+    toHaveType (expectedType) {
       incrementExpectCount()
       if (!(what && what.constructor && what.constructor.name === expectedType.name)) {
         throw Error('has not the type "' + expectedType.name + '"')
       }
     },
-    toThrowError(expectedErrorMessage) {
+    toThrowError (expectedErrorMessage) {
       incrementExpectCount()
       if (!throwsError(what, expectedErrorMessage)) {
         throw Error('Expected to throw error "' + expectedErrorMessage + '"')
       }
     },
-    toExist() {
+    toExist () {
       incrementExpectCount()
       if (typeof what === 'undefined') {
         throw Error('No existance')
       }
-    }
+    },
   }
 }
 

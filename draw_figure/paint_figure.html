@@ -19,7 +19,9 @@
 <div class="pencil"></div>
 <canvas></canvas>
 
-<script>
+<script type="module">
+  import { detectCorners } from './detectCorners.js'
+
   const pencil = document.querySelector('.pencil')
   const canvas = document.querySelector('canvas')
   canvas.style.width = window.innerWidth
@@ -49,8 +51,8 @@
   window.addEventListener('mousemove', (event) => {
     const point = eventToPoint(event)
     points.push(point)
-    pencil.style.left = point.x
-    pencil.style.top = point.y
+    pencil.style.left = point[0]
+    pencil.style.top = point[1]
     if (isDrawing) {
       drawLine(lastPoint, point)
       lastPoint = point
@@ -60,23 +62,42 @@
   window.addEventListener('mouseup', (event) => {
     isDrawing = false
 
-    const minX = Math.min(...points.map(p => p.x))
-    const maxX = Math.max(...points.map(p => p.x))
-    const minY = Math.min(...points.map(p => p.y))
-    const maxY = Math.max(...points.map(p => p.y))
-    const cornerPoints = [
-      { x: minX, y: minY },
-      { x: maxX, y: minY },
-      { x: maxX, y: maxY },
-      { x: minX, y: maxY },
-    ]
+    // Filter points
+    // TODO: Maybe cluster points close together to one centroid point
+    let lastPoint = points[0]
+    const filteredPoints = [lastPoint]
+    for (let index = 1; index < points.length; index++) {
+      const point = points[index]
+      if (
+        point[0] !== lastPoint[0] &&
+        point[1] !== lastPoint[1]
+      ) {
+        filteredPoints.push(point)
+        lastPoint = point
+      }
+    }
+
+    points = filteredPoints
+
+    let cornerPoints = detectCorners(points)
+    if (cornerPoints.length < 2) {
+      cornerPoints = [points[0], points[points.length - 1]]
+    }
+
+    console.log('cornerPoints', cornerPoints)
+
     const figure = {
       type: 'polygon',
       cornerPoints,
     }
     figures.push(figure)
 
-    context.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio)
+    context.clearRect(
+      0,
+      0,
+      canvas.width / window.devicePixelRatio,
+      canvas.height / window.devicePixelRatio,
+    )
     for (const figure of figures) {
       if (figure.type === 'polygon') {
         drawPolygon(figure.cornerPoints)
@@ -85,10 +106,18 @@
       }
     }
 
-    // context.save()
-    // context.fillStyle = 'red'
-    // drawPoints(points)
-    // context.restore()
+    /*
+    context.save()
+    context.fillStyle = 'red'
+    drawPoints(points, 3)
+    context.restore()
+    */
+
+    context.save()
+    context.fillStyle = 'blue'
+    drawPoints(cornerPoints, 3)
+    context.restore()
+
     points = []
   })
 
@@ -165,41 +194,46 @@
   }
 
   function eventToPoint (event) {
-    return { x: event.pageX, y: event.pageY }
+    return [event.pageX, event.pageY]
   }
 
   function drawLine (a, b) {
     context.beginPath()
-    context.moveTo(a.x, a.y)
-    context.lineTo(b.x, b.y)
+    context.moveTo(a[0], a[1])
+    context.lineTo(b[0], b[1])
     context.stroke()
   }
 
   function drawPolygon (points) {
     context.beginPath()
     const firstPoint = points[0]
-    context.moveTo(firstPoint.x, firstPoint.y)
+    context.moveTo(firstPoint[0], firstPoint[1])
     for (let index = 1; index < points.length; index++) {
       const point = points[index]
-      const { x, y } = point
+      const [x, y] = point
       context.lineTo(x, y)
     }
     context.closePath()
     context.stroke()
   }
 
-  function drawPoints (points) {
+  function drawPoints (points, radius = 1) {
     for (const point of points) {
-      context.fillRect(point.x, point.y, 1, 1)
+      context.fillRect(
+        point[0] - 0.5 * (radius - 1),
+        point[1] - 0.5 * (radius - 1),
+        radius,
+        radius,
+      )
     }
   }
 
   function slope (pointA, pointB) {
     return (
-      pointB.y - pointA.y
+        pointB[1] - pointA[1]
       ) /
       (
-        pointB.x - pointA.x
+        pointB[0] - pointA[0]
       )
   }
 
