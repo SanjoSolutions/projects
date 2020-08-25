@@ -99,12 +99,14 @@ export class Renderer {
   _isGameObjectInMap (object) {
     const ox = object.boundingBox.x
     const oy = object.boundingBox.y
+    const ow = object.boundingBox.width
+    const oh = object.boundingBox.height
     const w = this.map.calculateWidthInPixels()
     const h = this.map.calculateHeightInPixels()
     return (
-      ox >= 0 &&
+      ox >= -ow &&
       ox < w &&
-      oy >= 0 &&
+      oy >= -oh &&
       oy < h
     )
   }
