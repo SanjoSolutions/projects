@@ -16,6 +16,26 @@ export class Game {
     this._onPrimaryClick = this._onPrimaryClick.bind(this)
     this.mouse.onPrimaryClick(this._onPrimaryClick)
     this.mouse.listen()
+    this._isRunning = false
+    this._onFrame = this._onFrame.bind(this)
+  }
+
+  start () {
+    this._isRunning = true
+    window.requestAnimationFrame(this._onFrame)
+  }
+
+  stop () {
+    this._isRunning = false
+  }
+
+  _onFrame () {
+    if (this._isRunning) {
+      this.character.moveForOneFrame()
+      this.renderer.render()
+
+      window.requestAnimationFrame(this._onFrame)
+    }
   }
 
   _onPrimaryClick (event) {
@@ -23,10 +43,11 @@ export class Game {
   }
 
   _moveCharacter ({ x, y }) {
-    console.log('moveCharacter', { x, y })
-    this.character.boundingBox.x = x - this.character.origin.x
-    this.character.boundingBox.y = y - this.character.origin.y
-    this.renderer.render()
+    const waypoint = {
+      x: x - this.character.origin.x,
+      y: y - this.character.origin.y,
+    }
+    this.character.waypoints.push(waypoint)
   }
 
   async initialize () {
