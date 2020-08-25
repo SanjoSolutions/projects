@@ -5,6 +5,7 @@ export class Renderer {
   constructor (root, map) {
     this.root = root
     this.map = map
+    this.imageCache = new Map()
   }
 
   async initialize () {
@@ -36,7 +37,7 @@ export class Renderer {
   async _renderTile (row, column, tile) {
     const x = column * this.map.tileWidth
     const y = row * this.map.tileHeight
-    const image = await loadImage(tile.path)
+    const image = await this._loadImage(tile.path)
     this.context.drawImage(
       image,
       x,
@@ -77,7 +78,7 @@ export class Renderer {
   }
 
   async _renderGameObject (object) {
-    const image = await loadImage(object.sprite.path)
+    const image = await this._loadImage(object.sprite.path)
     this.context.drawImage(
       image,
       object.boundingBox.x - object.origin.x,
@@ -85,5 +86,15 @@ export class Renderer {
       object.boundingBox.width,
       object.boundingBox.height,
     )
+  }
+
+  async _loadImage (path) {
+    if (this.imageCache.has(path)) {
+      return this.imageCache.get(path)
+    } else {
+      const image = await loadImage(path)
+      this.imageCache.set(path, image)
+      return image
+    }
   }
 }
