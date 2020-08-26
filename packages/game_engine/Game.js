@@ -12,7 +12,7 @@ export class Game {
     this.map.addObject(this.character)
     this.house = new House()
     this.map.addObject(this.house)
-    this.renderer = new Renderer(root, map)
+    this.renderer = new Renderer(root, this.map)
     this.mouse = new Mouse()
     this._onPrimaryClick = this._onPrimaryClick.bind(this)
     this.mouse.onPrimaryClick(this._onPrimaryClick)
