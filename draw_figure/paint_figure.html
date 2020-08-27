@@ -82,6 +82,26 @@
     let cornerPoints = detectCorners(points)
     if (cornerPoints.length < 2) {
       cornerPoints = [points[0], points[points.length - 1]]
+    } else if (cornerPoints.length === 4) {
+      const a = cornerPoints
+      cornerPoints = [
+        [
+          Math.min(...cornerPoints.map(p => p[0])),
+          Math.min(...cornerPoints.map(p => p[1])),
+        ],
+        [
+          Math.max(...cornerPoints.map(p => p[0])),
+          Math.min(...cornerPoints.map(p => p[1])),
+        ],
+        [
+          Math.max(...cornerPoints.map(p => p[0])),
+          Math.max(...cornerPoints.map(p => p[1])),
+        ],
+        [
+          Math.min(...cornerPoints.map(p => p[0])),
+          Math.max(...cornerPoints.map(p => p[1])),
+        ],
+      ]
     }
 
     console.log('cornerPoints', cornerPoints)
