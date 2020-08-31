@@ -6,7 +6,7 @@ const dimensions = [100, 100, 100]
 const cubeColors = new Grid(dimensions)
 const cubes = new Grid(dimensions)
 
-let color = 0x00ff00
+let color = 0xcccccc
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
@@ -82,19 +82,45 @@ window.addEventListener("pointerup", (event) => {
     const intersections = raycaster.intersectObjects(scene.children)
     const intersection = intersections[0]
     if (intersection) {
+      console.log(intersection)
       if (button === 0) {
-        const position = [
-          Math.round(intersection.point.x),
-          Math.max(0, Math.round(intersection.point.y)),
-          Math.round(intersection.point.z),
-        ]
-        while (cubeColors.get(position)) {
-          position[1]++
+        if (intersection.object.uuid === plane.uuid) {
+          const position = [
+            Math.round(intersection.point.x),
+            Math.max(0, Math.round(intersection.point.y)),
+            Math.round(intersection.point.z),
+          ]
+          while (cubeColors.get(position)) {
+            position[1]++
+          }
+          cubeColors.set(position, color)
+          const cube = createCube(color, position)
+          cubes.set(position, cube)
+          scene.add(cube)
+        } else {
+          // cube
+          const position = intersection.object.position.toArray()
+          const faceIndex = intersection.faceIndex
+          if ([0, 1].includes(faceIndex)) {
+            position[0] += 1
+          } else if ([2, 3].includes(faceIndex)) {
+            position[0] -= 1
+          } else if ([4, 5].includes(faceIndex)) {
+            position[1] += 1
+          } else if ([6, 7].includes(faceIndex)) {
+            position[1] -= 1
+          } else if ([8, 9].includes(faceIndex)) {
+            position[2] += 1
+          } else if ([10, 11].includes(faceIndex)) {
+            position[2] -= 1
+          }
+          if (!cubeColors.get(position)) {
+            cubeColors.set(position, color)
+            const cube = createCube(color, position)
+            cubes.set(position, cube)
+            scene.add(cube)
+          }
         }
-        cubeColors.set(position, color)
-        const cube = createCube(color, position)
-        cubes.set(position, cube)
-        scene.add(cube)
       } else if (button === 2) {
         const position = intersection.object.position.toArray()
         const cubeColor = cubeColors.get(position)
