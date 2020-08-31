@@ -8,7 +8,9 @@ export class Grid {
 
   _calculateIndex(position) {
     return position.reduce(
-      (result, value, index) => result + value * this.dimensions[index]
+      (result, value, index) =>
+        result +
+        value * (index === 0 ? 1 : multiply(this.dimensions.slice(0, index)))
     )
   }
 

@@ -4,11 +4,14 @@ import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitC
 
 const dimensions = [100, 100, 100]
 const cubeColors = new Grid(dimensions)
+window.cubeColors = cubeColors
 
 cubeColors.set([0, 0, 0], 0x00ff00)
 cubeColors.set([1, 0, 0], 0xff0000)
 
 const cubes = new Grid(dimensions)
+
+let color = 0x00ff00
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
@@ -18,6 +21,7 @@ const camera = new THREE.PerspectiveCamera(
   1000
 )
 camera.position.y = 2
+camera.position.z = 5
 
 const renderer = new THREE.WebGLRenderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -59,7 +63,68 @@ for (const [position, cube] of cubes.entries()) {
   }
 }
 
-camera.position.z = 5
+const raycaster = new THREE.Raycaster()
+
+function setColor(_color) {
+  color = _color
+}
+
+window.setColor = setColor
+
+let lastCameraPosition
+renderer.domElement.addEventListener("pointerdown", () => {
+  lastCameraPosition = camera.position.clone()
+})
+
+function onPrimaryMouseClick(event) {
+  if (camera.position.equals(lastCameraPosition)) {
+    const mousePosition = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    )
+    raycaster.setFromCamera(mousePosition, camera)
+    const intersections = raycaster.intersectObjects(scene.children)
+    const intersection = intersections[0]
+    if (intersection) {
+      const position = [
+        Math.round(intersection.point.x),
+        Math.max(0, Math.round(intersection.point.y)),
+        Math.round(intersection.point.z),
+      ]
+      while (cubeColors.get(position)) {
+        position[1]++
+      }
+      cubeColors.set(position, color)
+      const cube = createCube(color, position)
+      cubes.set(position, cube)
+      scene.add(cube)
+    }
+  }
+}
+
+window.addEventListener("click", onPrimaryMouseClick)
+
+window.addEventListener("contextmenu", () => {
+  if (camera.position.equals(lastCameraPosition)) {
+    const mousePosition = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    )
+    raycaster.setFromCamera(mousePosition, camera)
+    const intersections = raycaster.intersectObjects(scene.children)
+    const intersection = intersections[0]
+    if (intersection) {
+      const position = intersection.object.position.toArray()
+      const cubeColor = cubeColors.get(position)
+      if (cubeColor) {
+        cubeColors.set(position, undefined)
+        const cube = cubes.get(position)
+        scene.remove(cube)
+        cubes.set(position, undefined)
+      }
+    }
+  }
+})
 
 const animate = function () {
   requestAnimationFrame(animate)
