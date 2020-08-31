@@ -11,6 +11,7 @@ export const applyForFlatOffer = createApplyForFlatOffer({
   openForm,
   fillForm,
   submitForm,
+  // FIXME: Screenshot doesn't show success message
   saveScreenshot: saveScreenshotOfFlatOfferApplication,
-  closePage
+  closePage() {} // closePage
 })

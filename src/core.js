@@ -89,9 +89,10 @@ function fetchFlatOffers (getBrowser, intervalBetweenProcessRuns, flatOfferFetch
 }
 
 // TODO: Needs unit tests
-function kommtInFrage (contactData, flatOffer) {
+export function kommtInFrage (contactData, flatOffer) {
   const maxColdRentPlusColdServiceCharges = 463.65
   const maxWarmServiceCharges = 76.50
+  const monthlyIncome = 972.15 /* AG2 */ + 100 /* Abzugsfreier Nebenverdienst */
   return (
     (
       (
@@ -116,7 +117,7 @@ function kommtInFrage (contactData, flatOffer) {
     flatOffer.numberOfRooms <= 2 &&
     (
       !flatOffer.url.includes('howoge') ||
-      972.15 + 100 /* Abzugsfreier Nebenverdienst */ >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
+      monthlyIncome >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
     ) &&
     (!isBoolean(flatOffer.selfRenovation) || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
   )
@@ -168,6 +169,7 @@ async function apply (getBrowser, contactData, flatOffer) {
 }
 
 // IMPROVEMENT: Structure code of haveAppliedForFlatOffer and registerFlatOfferAsAppliedTo like fetchedFlatOffers.js
+// IMPROVEMENT: Save flatOffer data for manual validation (like it is done for fetchedFlatOffers.json)
 function haveAppliedForFlatOffer (flatOffer) {
   // FIXME: User readJSON instead of require
   const flatOffersAppliedTo = require('../flatOffersAppliedTo.json')
