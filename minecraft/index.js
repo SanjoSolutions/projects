@@ -73,16 +73,16 @@ renderer.domElement.addEventListener("pointerdown", () => {
 
 window.addEventListener("pointerup", (event) => {
   const button = event.button
-  if (button === 0) {
-    if (camera.position.equals(lastCameraPosition)) {
-      const mousePosition = new THREE.Vector2(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -(event.clientY / window.innerHeight) * 2 + 1
-      )
-      raycaster.setFromCamera(mousePosition, camera)
-      const intersections = raycaster.intersectObjects(scene.children)
-      const intersection = intersections[0]
-      if (intersection) {
+  if ([0, 2].includes(button) && camera.position.equals(lastCameraPosition)) {
+    const mousePosition = new THREE.Vector2(
+      (event.clientX / window.innerWidth) * 2 - 1,
+      -(event.clientY / window.innerHeight) * 2 + 1
+    )
+    raycaster.setFromCamera(mousePosition, camera)
+    const intersections = raycaster.intersectObjects(scene.children)
+    const intersection = intersections[0]
+    if (intersection) {
+      if (button === 0) {
         const position = [
           Math.round(intersection.point.x),
           Math.max(0, Math.round(intersection.point.y)),
@@ -95,18 +95,7 @@ window.addEventListener("pointerup", (event) => {
         const cube = createCube(color, position)
         cubes.set(position, cube)
         scene.add(cube)
-      }
-    }
-  } else if (button === 2) {
-    if (camera.position.equals(lastCameraPosition)) {
-      const mousePosition = new THREE.Vector2(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -(event.clientY / window.innerHeight) * 2 + 1
-      )
-      raycaster.setFromCamera(mousePosition, camera)
-      const intersections = raycaster.intersectObjects(scene.children)
-      const intersection = intersections[0]
-      if (intersection) {
+      } else if (button === 2) {
         const position = intersection.object.position.toArray()
         const cubeColor = cubeColors.get(position)
         if (cubeColor) {
