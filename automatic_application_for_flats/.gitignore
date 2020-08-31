@@ -1,0 +1,12 @@
+node_modules
+/src/config.js
+/flatOffersAppliedTo.json
+/flatOffersAppliedTo.backup.json
+/fetchedFlatOffers.json
+/fetchedFlatOffers.backup.json
+/run.sh
+/screenshots/*
+!/screenshots/.gitkeep
+/dist
+/web_server.log
+.idea
