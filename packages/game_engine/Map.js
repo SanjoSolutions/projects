@@ -1,8 +1,8 @@
-import { Grid } from '../../Grid.js'
-import { TILE_HEIGHT, TILE_WIDTH } from './config.js'
+import { Grid2D as Grid } from '../../Grid2D.js';
+import { TILE_HEIGHT, TILE_WIDTH } from './config.js';
 
 export class Map {
-  constructor (width, height, { events, floor } = {}) {
+  constructor(width, height, { events, floor } = {}) {
     this.width = width
     this.height = height
     this.tileWidth = TILE_WIDTH
@@ -12,15 +12,15 @@ export class Map {
     this.objects = []
   }
 
-  addObject (object) {
+  addObject(object) {
     this.objects.push(object)
   }
 
-  calculateWidthInPixels () {
+  calculateWidthInPixels() {
     return this.width * this.tileWidth
   }
 
-  calculateHeightInPixels () {
+  calculateHeightInPixels() {
     return this.height * this.tileHeight
   }
 }

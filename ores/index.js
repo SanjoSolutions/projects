@@ -1,18 +1,18 @@
-import { Grid } from '../Grid.js'
-import { selectRandom } from '../selectRandom.js'
+import { Grid2D as Grid } from '../Grid2D.js';
+import { selectRandom } from '../selectRandom.js';
 
-const ORES = ['Coal', 'Gold', 'Silver', 'Copper', 'Iron']
-const ORE_SYMBOLS = ['C', 'G', 'S', 'P', 'I']
+const ORES = ["Coal", "Gold", "Silver", "Copper", "Iron"]
+const ORE_SYMBOLS = ["C", "G", "S", "P", "I"]
 const ORE_PROBABILITIES = new Map([
-  ['Coal', 0.20],
-  ['Gold', 0.05],
-  ['Silver', 0.07],
-  ['Copper', 0.13],
-  ['Iron', 0.55],
+  ["Coal", 0.2],
+  ["Gold", 0.05],
+  ["Silver", 0.07],
+  ["Copper", 0.13],
+  ["Iron", 0.55],
 ])
 
 export class OresMap {
-  constructor (width, height) {
+  constructor(width, height) {
     this.width = width
     this.height = height
     this.grid = new Grid(width, height)
@@ -23,15 +23,12 @@ export class OresMap {
 }
 
 export class OreDeposisator {
-  constructor (map) {
+  constructor(map) {
     this.map = map
   }
 
-  depositOres () {
-    const chanceForRock = 3 /
-      (
-        20 * 24
-      )
+  depositOres() {
+    const chanceForRock = 3 / (20 * 24)
     const chanceForRockContinuation = 1 / 3
 
     let rockFields = []
@@ -52,7 +49,10 @@ export class OreDeposisator {
     for (const rockStartPoint of rockStartPoints) {
       const { position, type } = rockStartPoint
       let distance = 1
-      let fieldsWithDistance = this.fieldsWithDistanceToPoint(position, distance)
+      let fieldsWithDistance = this.fieldsWithDistanceToPoint(
+        position,
+        distance
+      )
       let previousCloserFields
       let closerFields = [rockStartPoint]
       while (fieldsWithDistance.length >= 1) {
@@ -61,7 +61,9 @@ export class OreDeposisator {
         for (const field of fieldsWithDistance) {
           if (
             Math.random() < chanceForRockContinuation &&
-            previousCloserFields.some(mf => fieldsNextToEachOther(mf.position, field))
+            previousCloserFields.some((mf) =>
+              fieldsNextToEachOther(mf.position, field)
+            )
           ) {
             const mapField = { position: field, type }
             closerFields.push(mapField)
@@ -79,7 +81,7 @@ export class OreDeposisator {
     }
   }
 
-  fieldsWithDistanceToPoint ({ x: sx, y: sy }, distance) {
+  fieldsWithDistanceToPoint({ x: sx, y: sy }, distance) {
     const fields = []
 
     const y1 = sy - distance
@@ -130,31 +132,28 @@ export class OreDeposisator {
   }
 }
 
-function positionToCell (position) {
+function positionToCell(position) {
   return {
     row: position.y + 1,
     column: position.x + 1,
   }
 }
 
-function fieldsNextToEachOther (a, b) {
-  return (
-    Math.abs(a.x - b.x) <= 1 &&
-    Math.abs(a.y - b.y) <= 1
-  )
+function fieldsNextToEachOther(a, b) {
+  return Math.abs(a.x - b.x) <= 1 && Math.abs(a.y - b.y) <= 1
 }
 
-export function displayMap (map) {
+export function displayMap(map) {
   const grid = map.grid
-  let output = ''
+  let output = ""
   for (let y = 0; y < grid.height; y++) {
     for (let x = 0; x < grid.width; x++) {
       const cell = positionToCell({ x, y })
       const ore = grid.get(cell)
-      const oreSymbol = ore ? ORE_SYMBOLS[ORES.indexOf(ore)] : ' '
-      output += oreSymbol + ' '
+      const oreSymbol = ore ? ORE_SYMBOLS[ORES.indexOf(ore)] : " "
+      output += oreSymbol + " "
     }
-    output = output.substr(0, output.length - 1) + '\n'
+    output = output.substr(0, output.length - 1) + "\n"
   }
   output = output.substr(0, output.length - 1)
   console.log(output)
