@@ -82,7 +82,6 @@ window.addEventListener("pointerup", (event) => {
     const intersections = raycaster.intersectObjects(scene.children)
     const intersection = intersections[0]
     if (intersection) {
-      console.log(intersection)
       if (button === 0) {
         if (intersection.object.uuid === plane.uuid) {
           const position = [
