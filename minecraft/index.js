@@ -1,5 +1,14 @@
+import { Grid } from '../Grid.js';
 import * as THREE from './node_modules/three/build/three.module.js';
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
+
+const dimensions = [100, 100, 100]
+const cubeColors = new Grid(dimensions)
+
+cubeColors.set([0, 0, 0], 0x00ff00)
+cubeColors.set([1, 0, 0], 0xff0000)
+
+const cubes = new Grid(dimensions)
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(
@@ -38,11 +47,17 @@ scene.add(directionalLight)
 const plane = createPlane()
 scene.add(plane)
 
-const cube1 = createCube(0x00ff00, { x: 0, y: 0, z: 0 })
-scene.add(cube1)
+for (const [position, cubeColor] of cubeColors.entries()) {
+  if (cubeColor) {
+    cubes.set(position, createCube(cubeColor, position))
+  }
+}
 
-const cube2 = createCube(0xff0000, { x: 1, y: 0, z: 0 })
-scene.add(cube2)
+for (const [position, cube] of cubes.entries()) {
+  if (cube) {
+    scene.add(cube)
+  }
+}
 
 camera.position.z = 5
 
@@ -73,9 +88,7 @@ function createCube(color, position) {
   const geometry = new THREE.BoxGeometry(1, 1, 1)
   const material = new THREE.MeshStandardMaterial({ color })
   const cube = new THREE.Mesh(geometry, material)
-  cube.position.x = position.x
-  cube.position.y = position.y
-  cube.position.z = position.z
+  cube.position.set(...position)
   cube.castShadow = true
   return cube
 }
