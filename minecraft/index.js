@@ -15,9 +15,11 @@ const maxHeight = 100
 const boundaryBox = [planeWidth, maxHeight, planeDepth]
 
 async function main() {
-  const storageKey = "cubeColors"
+  const cubeColorsStorageKey = "cubeColors"
+  const cameraPositionStorageKey = "cameraPosition"
+  const cameraTargetStorageKey = "cameraTarget"
   async function loadCubeColors() {
-    return getValue(storageKey)
+    return getValue(cubeColorsStorageKey)
   }
 
   const dimensions = [planeWidth, maxHeight, planeDepth]
@@ -31,7 +33,7 @@ async function main() {
   let hasUnsavedChanges = false
   const [saveCubeColorsDebounced, cancelSaveCubeColors] = cancelableDebounce(
     function () {
-      setValue(storageKey, getCubeColors())
+      setValue(cubeColorsStorageKey, getCubeColors())
       hasUnsavedChanges = false
       console.log("saved")
     },
@@ -49,6 +51,36 @@ async function main() {
     }
   }
 
+  let hasUnsavedCameraChanges = false
+  const [saveCameraDebounced, cancelSaveCamera] = cancelableDebounce(
+    function () {
+      setValue(cameraPositionStorageKey, camera.position.toArray())
+      setValue(cameraTargetStorageKey, controls.target.toArray())
+      hasUnsavedCameraChanges = false
+      console.log("saved camera")
+    },
+    1000
+  )
+
+  function saveCamera() {
+    hasUnsavedCameraChanges = true
+    saveCameraDebounced()
+  }
+
+  function saveCubeColorsIfHasUnsavedChanges() {
+    if (hasUnsavedCameraChanges) {
+      saveCamera()
+    }
+  }
+
+  async function loadCameraTarget() {
+    return await getValue(cameraTargetStorageKey)
+  }
+
+  async function loadCameraPosition() {
+    return await getValue(cameraPositionStorageKey)
+  }
+
   let lightness = 0.8
   let color = 0xcccccc
 
@@ -59,9 +91,9 @@ async function main() {
     0.1,
     1000
   )
-  camera.position.x = 0.5 * planeWidth
-  camera.position.y = 10
-  camera.position.z = 0.5 * planeDepth + 10
+  const defaultCameraPosition = [0.5 * planeWidth, 10, 0.5 * planeDepth + 10]
+  const storedCameraPosition = await loadCameraPosition()
+  camera.position.fromArray(storedCameraPosition || defaultCameraPosition)
 
   const renderer = new THREE.WebGLRenderer()
   renderer.setPixelRatio(window.devicePixelRatio)
@@ -74,7 +106,18 @@ async function main() {
   controls.minDistance = 1
   controls.maxDistance = 5000
 
-  controls.target = new THREE.Vector3(0.5 * planeWidth, 0, 0.5 * planeDepth)
+  controls.addEventListener("start", () => {
+    cancelSaveCamera()
+  })
+
+  controls.addEventListener("end", () => {
+    saveCamera()
+  })
+
+  const controlTarget = await loadCameraTarget()
+  controls.target = controlTarget
+    ? new THREE.Vector3(...controlTarget)
+    : new THREE.Vector3(0.5 * planeWidth, 0, 0.5 * planeDepth)
   controls.update()
 
   // const ambientLight = createAmbientLight()
