@@ -1,4 +1,8 @@
+import { colorToString } from '../colorToString.js';
 import { Grid } from '../Grid.js';
+import { hslToRgb } from '../hslToRgb.js';
+import { radianToDegrees } from '../radianToDegrees.js';
+import { rgbToHsl } from '../rgbToHsl.js';
 import * as THREE from './node_modules/three/build/three.module.js';
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 
@@ -6,6 +10,7 @@ const dimensions = [100, 100, 100]
 const cubeColors = new Grid(dimensions)
 const cubes = new Grid(dimensions)
 
+let lightness = 0.8
 let color = 0xcccccc
 
 const scene = new THREE.Scene()
@@ -19,6 +24,7 @@ camera.position.y = 2
 camera.position.z = 5
 
 const renderer = new THREE.WebGLRenderer()
+renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.shadowMap.enabled = true
 document.body.appendChild(renderer.domElement)
@@ -28,8 +34,8 @@ controls.maxPolarAngle = Math.PI * 0.5
 controls.minDistance = 1
 controls.maxDistance = 5000
 
-const ambientLight = createAmbientLight()
-scene.add(ambientLight)
+// const ambientLight = createAmbientLight()
+// scene.add(ambientLight)
 
 const hemisphereLight = createHemisphereLight()
 scene.add(hemisphereLight)
@@ -37,11 +43,11 @@ scene.add(hemisphereLight)
 const directionalLight = createDirectionalLight()
 scene.add(directionalLight)
 
-// const directionalLightHelper = new THREE.DirectionalLightHelper(
-//   directionalLight,
-//   10
-// )
-// scene.add(directionalLightHelper)
+const directionalLightHelper = new THREE.DirectionalLightHelper(
+  directionalLight,
+  10
+)
+scene.add(directionalLightHelper)
 
 const plane = createPlane()
 scene.add(plane)
@@ -71,12 +77,12 @@ renderer.domElement.addEventListener("pointerdown", () => {
   lastCameraPosition = camera.position.clone()
 })
 
-window.addEventListener("pointerup", (event) => {
+renderer.domElement.addEventListener("pointerup", (event) => {
   const button = event.button
   if ([0, 2].includes(button) && camera.position.equals(lastCameraPosition)) {
     const mousePosition = new THREE.Vector2(
-      (event.clientX / window.innerWidth) * 2 - 1,
-      -(event.clientY / window.innerHeight) * 2 + 1
+      (event.pageX / window.innerWidth) * 2 - 1,
+      -(event.pageY / window.innerHeight) * 2 + 1
     )
     raycaster.setFromCamera(mousePosition, camera)
     const intersections = raycaster.intersectObjects(scene.children)
@@ -134,6 +140,15 @@ window.addEventListener("pointerup", (event) => {
   }
 })
 
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(window.innerWidth, window.innerHeight)
+}
+
+window.addEventListener("resize", onWindowResize, false)
+
 const animate = function () {
   requestAnimationFrame(animate)
 
@@ -144,6 +159,147 @@ const animate = function () {
 }
 
 animate()
+
+// Color picker
+const colorPicker = document.createElement("div")
+colorPicker.classList.add("color-picker")
+colorPicker.style.backgroundColor = "#" + color.toString(16)
+
+const colorFieldWidth = 12 // rem
+const colorFieldHeight = 12 // rem
+const lightnessFieldCanvasWidth = 3
+const lightnessFieldCanvasHeight = colorFieldHeight
+const colorPickerDialogWidth = 12 + 1 + lightnessFieldCanvasWidth
+const colorPickerDialogHeight = colorFieldHeight + 2 * 1
+const colorPickerDialog = document.createElement("div")
+colorPickerDialog.classList.add("color-picker-dialog")
+colorPickerDialog.style.width = colorPickerDialogWidth + "rem"
+colorPickerDialog.style.height = colorPickerDialogHeight + "rem"
+
+const colorField = document.createElement("canvas")
+colorField.classList.add("color-field")
+const devicePixelRatio = window.devicePixelRatio
+const width = colorFieldWidth * 16
+const height = colorFieldHeight * 16
+colorField.width = devicePixelRatio * width
+colorField.height = devicePixelRatio * height
+colorField.style.width = colorFieldWidth + "rem"
+colorField.style.height = colorFieldHeight + "rem"
+const context = colorField.getContext("2d")
+context.scale(devicePixelRatio, devicePixelRatio)
+
+const center = { x: 0.5 * width, y: 0.5 * height }
+const maxRadius = 0.5 * width
+
+function renderColorField() {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const angle = Math.atan2(y - center.y, x - center.x)
+      const radius = Math.sqrt((center.x - x) ** 2 + (center.y - y) ** 2)
+      const normalizedRadius = radius / maxRadius
+      const color = {
+        hue: Math.round(radianToDegrees(angle)),
+        saturation: normalizedRadius,
+        lightness,
+      }
+      const colorString = colorToString(color)
+      context.fillStyle = colorString
+      context.fillRect(x, y, 1, 1)
+    }
+  }
+}
+
+renderColorField()
+
+colorField.addEventListener("click", (event) => {
+  const x = event.offsetX
+  const y = event.offsetY
+  let angle = Math.atan2(y - center.y, x - center.x)
+  if (angle < 0) {
+    angle += 2 * Math.PI
+  }
+  const radius = Math.sqrt((center.x - x) ** 2 + (center.y - y) ** 2)
+  const normalizedRadius = radius / maxRadius
+  const colorHSL = {
+    hue: Math.round(radianToDegrees(angle)),
+    saturation: normalizedRadius,
+    lightness,
+  }
+  const colorRGB = hslToRgb(
+    colorHSL.hue / 360,
+    colorHSL.saturation,
+    colorHSL.lightness
+  )
+  color = colorRGB[0] * 16 ** 4 + colorRGB[1] * 16 ** 2 + colorRGB[2]
+  colorPicker.style.backgroundColor = "#" + color.toString(16)
+  renderLightnessField()
+})
+
+const lightnessField = document.createElement("canvas")
+lightnessField.classList.add("lightness-field")
+const lightnessFieldWidth = lightnessFieldCanvasWidth * 16
+const lightnessFieldHeight = lightnessFieldCanvasHeight * 16
+lightnessField.width = devicePixelRatio * lightnessFieldWidth
+lightnessField.height = devicePixelRatio * lightnessFieldHeight
+lightnessField.style.width = lightnessFieldCanvasWidth + "rem"
+lightnessField.style.height = lightnessFieldCanvasHeight + "rem"
+const lightnessFieldContext = lightnessField.getContext("2d")
+lightnessFieldContext.scale(devicePixelRatio, devicePixelRatio)
+
+lightnessField.addEventListener("click", (event) => {
+  const y = event.offsetY
+  lightness = 1 - y / lightnessFieldHeight
+  const colorHSL = rgbToHsl(
+    (color >> 16) & 0xff,
+    (color >> 8) & 0xff,
+    color & 0xff
+  )
+  const _color = {
+    hue: colorHSL[0] * 360,
+    saturation: colorHSL[1],
+    lightness,
+  }
+  const colorRGB = hslToRgb(
+    _color.hue / 360,
+    _color.saturation,
+    _color.lightness
+  )
+  color = colorRGB[0] * 16 ** 4 + colorRGB[1] * 16 ** 2 + colorRGB[2]
+  colorPicker.style.backgroundColor = "#" + color.toString(16)
+  renderColorField()
+})
+
+function renderLightnessField() {
+  const colorHSL = rgbToHsl(
+    (color >> 16) & 0xff,
+    (color >> 8) & 0xff,
+    color & 0xff
+  )
+  for (let y = 0; y < lightnessFieldHeight; y++) {
+    const lightness = 1 - y / lightnessFieldHeight
+    const _color = {
+      hue: colorHSL[0] * 360,
+      saturation: colorHSL[1],
+      lightness,
+    }
+    const colorString = colorToString(_color)
+    lightnessFieldContext.fillStyle = colorString
+    lightnessFieldContext.fillRect(0, y, lightnessFieldWidth, 1)
+  }
+}
+
+renderLightnessField()
+
+const colorPickerSelector = document.createElement("div")
+colorPickerSelector.classList.add("color-picker-selector")
+
+colorPickerDialog.appendChild(colorField)
+colorPickerDialog.appendChild(lightnessField)
+colorPickerDialog.appendChild(colorPickerSelector)
+
+document.body.appendChild(colorPickerDialog)
+document.body.appendChild(colorPicker)
+// // Color picker
 
 function createPlane() {
   const geometry = new THREE.PlaneBufferGeometry(100, 100)
@@ -171,17 +327,33 @@ function createAmbientLight() {
 }
 
 function createHemisphereLight() {
-  const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6)
-  hemisphereLight.color.setHSL(0.6, 1, 0.6)
-  hemisphereLight.groundColor.setHSL(0.095, 1, 0.75)
-  hemisphereLight.position.set(0, 50, 0)
+  const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.3)
+  // hemisphereLight.color.setHSL(0.6, 1, 0.6)
+  // hemisphereLight.groundColor.setHSL(0.095, 1, 0.75)
+  hemisphereLight.position.set(0, 70, 0)
   return hemisphereLight
 }
 
 function createDirectionalLight() {
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-  directionalLight.position.set(-2, 2, 1)
+  // directionalLight.color.setHSL(0.1, 1, 0.95)
+  directionalLight.position.set(-1, 1.75, 1)
+  directionalLight.position.multiplyScalar(30)
+
   directionalLight.castShadow = true
+
+  directionalLight.shadow.mapSize.width = 2048
+  directionalLight.shadow.mapSize.height = 2048
+
+  var distance = 50
+
+  directionalLight.shadow.camera.left = -distance
+  directionalLight.shadow.camera.right = distance
+  directionalLight.shadow.camera.top = distance
+  directionalLight.shadow.camera.bottom = -distance
+
+  directionalLight.shadow.camera.far = 3500
+  directionalLight.shadow.bias = -0.0001
 
   return directionalLight
 }
