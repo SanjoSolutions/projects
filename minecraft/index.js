@@ -334,7 +334,7 @@ async function main() {
   colorField.addEventListener("pointerdown", () => {
     colorFieldPointerDown = true
   })
-  colorField.addEventListener("pointerup", () => {
+  window.addEventListener("pointerup", () => {
     colorFieldPointerDown = false
   })
   colorField.addEventListener("pointermove", (event) => {
