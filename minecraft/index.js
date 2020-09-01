@@ -1,9 +1,8 @@
 import { cancelableDebounce } from '../cancelableDebounce.js';
 import { colorToString } from '../colorToString.js';
 import { Grid } from '../Grid.js';
-import { hslToRgb } from '../hslToRgb.js';
 import { getValue, setValue } from '../localStorageDB.js';
-import { radianToDegrees } from '../radianToDegrees.js';
+import { mapAngleToBetween0And1 } from '../mapAngleToBetween0And1.js';
 import { rgbToHsl } from '../rgbToHsl.js';
 import * as THREE from './node_modules/three/build/three.module.js';
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
@@ -81,8 +80,7 @@ async function main() {
     return await getValue(cameraPositionStorageKey)
   }
 
-  let lightness = 0.8
-  let color = 0xcccccc
+  let color = [0, 0, 0.8]
 
   const scene = new THREE.Scene()
   const camera = new THREE.PerspectiveCamera(
@@ -140,7 +138,17 @@ async function main() {
 
   for (const [position, cubeColor] of cubeColors.entries()) {
     if (cubeColor) {
-      cubes.set(position, createCube(cubeColor, position))
+      let normalizedCubeColor
+      if (Number.isInteger(cubeColor)) {
+        normalizedCubeColor = rgbToHsl(
+          (cubeColor >> 16) & 0xff,
+          cubeColor >> 8 && 0xff,
+          cubeColor & 0xff
+        )
+      } else {
+        normalizedCubeColor = cubeColor
+      }
+      cubes.set(position, createCube(normalizedCubeColor, position))
     }
   }
 
@@ -262,7 +270,7 @@ async function main() {
   // Color picker
   const colorPicker = document.createElement("div")
   colorPicker.classList.add("color-picker")
-  colorPicker.style.backgroundColor = "#" + color.toString(16)
+  colorPicker.style.backgroundColor = colorToString(color)
 
   const colorFieldWidth = 12 // rem
   const colorFieldHeight = 12 // rem
@@ -296,12 +304,12 @@ async function main() {
         const angle = Math.atan2(y - center.y, x - center.x)
         const radius = Math.sqrt((center.x - x) ** 2 + (center.y - y) ** 2)
         const normalizedRadius = radius / maxRadius
-        const color = {
-          hue: Math.round(radianToDegrees(angle)),
-          saturation: normalizedRadius,
-          lightness,
-        }
-        const colorString = colorToString(color)
+        const _color = [
+          mapAngleToBetween0And1(angle),
+          normalizedRadius,
+          color[2],
+        ]
+        const colorString = colorToString(_color)
         context.fillStyle = colorString
         context.fillRect(x, y, 1, 1)
       }
@@ -313,24 +321,11 @@ async function main() {
   function onColorFieldMouseEvent(event) {
     const x = event.offsetX
     const y = event.offsetY
-    let angle = Math.atan2(y - center.y, x - center.x)
-    if (angle < 0) {
-      angle += 2 * Math.PI
-    }
+    const angle = Math.atan2(y - center.y, x - center.x)
     const radius = Math.sqrt((center.x - x) ** 2 + (center.y - y) ** 2)
     const normalizedRadius = radius / maxRadius
-    const colorHSL = {
-      hue: Math.round(radianToDegrees(angle)),
-      saturation: normalizedRadius,
-      lightness,
-    }
-    const colorRGB = hslToRgb(
-      colorHSL.hue / 360,
-      colorHSL.saturation,
-      colorHSL.lightness
-    )
-    color = colorRGB[0] * 16 ** 4 + colorRGB[1] * 16 ** 2 + colorRGB[2]
-    colorPicker.style.backgroundColor = "#" + color.toString(16)
+    color = [mapAngleToBetween0And1(angle), normalizedRadius, color[2]]
+    colorPicker.style.backgroundColor = colorToString(color)
     renderLightnessField()
   }
 
@@ -361,24 +356,9 @@ async function main() {
 
   function onLightnessFieldMouseEvent(event) {
     const y = event.offsetY
-    lightness = 1 - y / lightnessFieldHeight
-    const colorHSL = rgbToHsl(
-      (color >> 16) & 0xff,
-      (color >> 8) & 0xff,
-      color & 0xff
-    )
-    const _color = {
-      hue: colorHSL[0] * 360,
-      saturation: colorHSL[1],
-      lightness,
-    }
-    const colorRGB = hslToRgb(
-      _color.hue / 360,
-      _color.saturation,
-      _color.lightness
-    )
-    color = colorRGB[0] * 16 ** 4 + colorRGB[1] * 16 ** 2 + colorRGB[2]
-    colorPicker.style.backgroundColor = "#" + color.toString(16)
+    const lightness = 1 - y / lightnessFieldHeight
+    color[2] = lightness
+    colorPicker.style.backgroundColor = colorToString(color)
     renderColorField()
   }
 
@@ -398,18 +378,9 @@ async function main() {
   })
 
   function renderLightnessField() {
-    const colorHSL = rgbToHsl(
-      (color >> 16) & 0xff,
-      (color >> 8) & 0xff,
-      color & 0xff
-    )
     for (let y = 0; y < lightnessFieldHeight; y++) {
       const lightness = 1 - y / lightnessFieldHeight
-      const _color = {
-        hue: colorHSL[0] * 360,
-        saturation: colorHSL[1],
-        lightness,
-      }
+      const _color = [color[0], color[1], lightness]
       const colorString = colorToString(_color)
       lightnessFieldContext.fillStyle = colorString
       lightnessFieldContext.fillRect(0, y, lightnessFieldWidth, 1)
@@ -446,7 +417,8 @@ function createPlane() {
 
 function createCube(color, position) {
   const geometry = new THREE.BoxGeometry(1, 1, 1)
-  const material = new THREE.MeshStandardMaterial({ color })
+  const material = new THREE.MeshStandardMaterial()
+  material.color.setHSL(...color)
   const cube = new THREE.Mesh(geometry, material)
   cube.position.set(...position)
   cube.castShadow = true
