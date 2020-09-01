@@ -211,7 +211,7 @@ function renderColorField() {
 
 renderColorField()
 
-colorField.addEventListener("click", (event) => {
+function onColorFieldMouseEvent(event) {
   const x = event.offsetX
   const y = event.offsetY
   let angle = Math.atan2(y - center.y, x - center.x)
@@ -233,6 +233,20 @@ colorField.addEventListener("click", (event) => {
   color = colorRGB[0] * 16 ** 4 + colorRGB[1] * 16 ** 2 + colorRGB[2]
   colorPicker.style.backgroundColor = "#" + color.toString(16)
   renderLightnessField()
+}
+
+colorField.addEventListener("click", onColorFieldMouseEvent)
+let colorFieldPointerDown = false
+colorField.addEventListener("pointerdown", () => {
+  colorFieldPointerDown = true
+})
+colorField.addEventListener("pointerup", () => {
+  colorFieldPointerDown = false
+})
+colorField.addEventListener("pointermove", (event) => {
+  if (colorFieldPointerDown) {
+    onColorFieldMouseEvent(event)
+  }
 })
 
 const lightnessField = document.createElement("canvas")
@@ -246,7 +260,7 @@ lightnessField.style.height = lightnessFieldCanvasHeight + "rem"
 const lightnessFieldContext = lightnessField.getContext("2d")
 lightnessFieldContext.scale(devicePixelRatio, devicePixelRatio)
 
-lightnessField.addEventListener("click", (event) => {
+function onLightnessFieldMouseEvent(event) {
   const y = event.offsetY
   lightness = 1 - y / lightnessFieldHeight
   const colorHSL = rgbToHsl(
@@ -267,6 +281,21 @@ lightnessField.addEventListener("click", (event) => {
   color = colorRGB[0] * 16 ** 4 + colorRGB[1] * 16 ** 2 + colorRGB[2]
   colorPicker.style.backgroundColor = "#" + color.toString(16)
   renderColorField()
+}
+
+lightnessField.addEventListener("click", onLightnessFieldMouseEvent)
+
+let lightnessFieldPointerDown = false
+lightnessField.addEventListener("pointerdown", () => {
+  lightnessFieldPointerDown = true
+})
+lightnessField.addEventListener("pointerup", () => {
+  lightnessFieldPointerDown = false
+})
+lightnessField.addEventListener("pointermove", (event) => {
+  if (lightnessFieldPointerDown) {
+    onLightnessFieldMouseEvent(event)
+  }
 })
 
 function renderLightnessField() {
