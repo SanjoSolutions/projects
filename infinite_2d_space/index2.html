@@ -24,13 +24,13 @@
 <canvas></canvas>
 
 <script type="module">
-  import { interpolatePointsOnLine } from './interpolatePointsOnLine2.js'
-  import { delay } from './delay.js'
-  import { getValue, setValue } from './localStorageDB.js'
-  import { Space } from './Space2.js'
-  import { min } from './min.js'
-  import { max } from './max.js'
-  import { Viewport } from './Viewport.js'
+  import { interpolatePointsOnLine } from "./interpolatePointsOnLine2.js"
+  import { delay } from "./delay.js"
+  import { getValue, setValue } from "../localStorageDB.js"
+  import { Space } from "./Space2.js"
+  import { min } from "./min.js"
+  import { max } from "./max.js"
+  import { Viewport } from "./Viewport.js"
 
   class Pixel {
     constructor(x, y) {
@@ -54,10 +54,10 @@
     const pixels = await load()
 
     let spaceViewport = new Viewport({
-      minX: Math.floor(min(pixels.map(pixel => pixel.x))),
-      maxX: Math.ceil(max(pixels.map(pixel => pixel.x))),
-      minY: Math.floor(min(pixels.map(pixel => pixel.y))),
-      maxY: Math.ceil(max(pixels.map(pixel => pixel.y)))
+      minX: Math.floor(min(pixels.map((pixel) => pixel.x))),
+      maxX: Math.ceil(max(pixels.map((pixel) => pixel.x))),
+      minY: Math.floor(min(pixels.map((pixel) => pixel.y))),
+      maxY: Math.ceil(max(pixels.map((pixel) => pixel.y))),
     })
     const space = new Space(spaceViewport)
     for (const pixel of pixels) {
@@ -68,7 +68,7 @@
       const visiblePixels = []
       for (let y = viewport.minY; y <= viewport.maxY; y++) {
         for (let x = viewport.minX; x <= viewport.maxX; x++) {
-          if (space.get({x, y})) {
+          if (space.get({ x, y })) {
             visiblePixels.push(new Pixel(x, y))
           }
         }
@@ -85,15 +85,15 @@
       }
     }
 
-    const pencil = document.querySelector('.pencil')
-    const canvas = document.querySelector('canvas')
+    const pencil = document.querySelector(".pencil")
+    const canvas = document.querySelector("canvas")
     canvas.style.width = window.innerWidth
     canvas.style.height = window.innerHeight
     canvas.width = window.devicePixelRatio * window.innerWidth
     canvas.height = window.devicePixelRatio * window.innerHeight
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext("2d")
     context.lineWidth = 1
-    context.lineCap = 'round'
+    context.lineCap = "round"
     context.scale(window.devicePixelRatio, window.devicePixelRatio)
 
     function updateView() {
@@ -105,11 +105,14 @@
       const imageData = context.createImageData(width, height)
       for (let y = viewport.minY; y <= viewport.maxY; y++) {
         for (let x = viewport.minX; x <= viewport.maxX; x++) {
-          const pixel = space.get({x, y})
+          const pixel = space.get({ x, y })
           if (pixel) {
             for (let yDelta = 0; yDelta < devicePixelRatio; yDelta++) {
               for (let xDelta = 0; xDelta < devicePixelRatio; xDelta++) {
-                const index = ((devicePixelRatio * (viewport.maxY - y) + yDelta) * width + (devicePixelRatio * (x - viewport.minX) + xDelta)) * 4
+                const index =
+                  ((devicePixelRatio * (viewport.maxY - y) + yDelta) * width +
+                    (devicePixelRatio * (x - viewport.minX) + xDelta)) *
+                  4
                 imageData.data[index] = 0
                 imageData.data[index + 1] = 0
                 imageData.data[index + 2] = 0
@@ -129,7 +132,7 @@
 
     let isDrawing = false
     let lastPoint
-    window.addEventListener('mousedown', (event) => {
+    window.addEventListener("mousedown", (event) => {
       if (saveHandler) {
         clearTimeout(saveHandler)
         saveHandler = undefined
@@ -154,28 +157,32 @@
       }
     })
 
-    window.addEventListener('mousemove', (event) => {
+    window.addEventListener("mousemove", (event) => {
       const point = eventToPoint(event)
       pencil.style.left = point.x
       pencil.style.top = point.y
       if (!spacePressed && isDrawing) {
-        const interpolatedPixels = interpolatePointsOnLine(lastPoint, point)
-          .map(point => viewportCoordinatesToPixelCoordinates(viewport, point))
+        const interpolatedPixels = interpolatePointsOnLine(
+          lastPoint,
+          point
+        ).map((point) => viewportCoordinatesToPixelCoordinates(viewport, point))
         pixels.push(...interpolatedPixels)
         for (const pixel of interpolatedPixels) {
           space.set(pixel)
         }
-        const visiblePixels = interpolatedPixels.filter(
-          pixel => isPixelVisible(viewport, pixel)
+        const visiblePixels = interpolatedPixels.filter((pixel) =>
+          isPixelVisible(viewport, pixel)
         )
         drawPixels(
-          visiblePixels.map(pixel => pixelCoordinatesToViewportCoordinates(viewport, pixel))
+          visiblePixels.map((pixel) =>
+            pixelCoordinatesToViewportCoordinates(viewport, pixel)
+          )
         )
         lastPoint = point
       }
     })
 
-    window.addEventListener('mouseup', (event) => {
+    window.addEventListener("mouseup", (event) => {
       isDrawing = false
       saveDelayed()
     })
@@ -186,53 +193,53 @@
     let primaryMouseButtonPressed = false
     let previousPosition = undefined
 
-    window.addEventListener('keydown', (event) => {
-      if (event.code === 'Space') {
+    window.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
         spacePressed = true
-        document.body.classList.add('moving')
+        document.body.classList.add("moving")
         event.preventDefault()
       }
     })
 
-    window.addEventListener('keyup', (event) => {
-      if (event.code === 'Space') {
+    window.addEventListener("keyup", (event) => {
+      if (event.code === "Space") {
         spacePressed = false
         previousPosition = undefined
-        document.body.classList.remove('moving')
+        document.body.classList.remove("moving")
         event.preventDefault()
       }
     })
 
-    window.addEventListener('mousedown', (event) => {
+    window.addEventListener("mousedown", (event) => {
       if (event.button === 0) {
         primaryMouseButtonPressed = true
       }
     })
 
-    window.addEventListener('mouseup', (event) => {
+    window.addEventListener("mouseup", (event) => {
       if (event.button === 0) {
         primaryMouseButtonPressed = false
         previousPosition = undefined
       }
     })
 
-    window.addEventListener('mousemove', (event) => {
+    window.addEventListener("mousemove", (event) => {
       if (spacePressed && primaryMouseButtonPressed) {
         const position = {
           x: event.pageX,
-          y: event.pageY
+          y: event.pageY,
         }
 
         if (previousPosition) {
           const delta = {
             x: position.x - previousPosition.x,
-            y: position.y - previousPosition.y
+            y: position.y - previousPosition.y,
           }
           viewport = {
             minX: viewport.minX - delta.x,
             maxX: viewport.maxX - delta.x,
             minY: viewport.minY + delta.y,
-            maxY: viewport.maxY + delta.y
+            maxY: viewport.maxY + delta.y,
           }
           saveViewportCenter()
           updateView()
@@ -244,35 +251,46 @@
 
     // Move END
 
-    window.addEventListener('resize', throttle(() => {
-      const oldWidth = parseInt(canvas.style.width, 10)
-      const newWidth = window.innerWidth
-      const oldHeight = parseInt(canvas.style.height, 10)
-      const newHeight = window.innerHeight
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        const oldWidth = parseInt(canvas.style.width, 10)
+        const newWidth = window.innerWidth
+        const oldHeight = parseInt(canvas.style.height, 10)
+        const newHeight = window.innerHeight
 
-      if (newWidth > oldWidth || newHeight > oldHeight) {
-        const copyCanvas = document.createElement('canvas')
-        copyCanvas.width = canvas.width
-        copyCanvas.height = canvas.height
-        const copyContext = copyCanvas.getContext('2d')
-        copyContext.putImageData(context.getImageData(0, 0, canvas.width, canvas.height), 0, 0)
+        if (newWidth > oldWidth || newHeight > oldHeight) {
+          const copyCanvas = document.createElement("canvas")
+          copyCanvas.width = canvas.width
+          copyCanvas.height = canvas.height
+          const copyContext = copyCanvas.getContext("2d")
+          copyContext.putImageData(
+            context.getImageData(0, 0, canvas.width, canvas.height),
+            0,
+            0
+          )
 
-        if (newWidth > oldWidth) {
-          canvas.style.width = newWidth
-          canvas.width = window.devicePixelRatio * newWidth
+          if (newWidth > oldWidth) {
+            canvas.style.width = newWidth
+            canvas.width = window.devicePixelRatio * newWidth
+          }
+
+          if (newHeight > oldHeight) {
+            canvas.style.height = newHeight
+            canvas.height = window.devicePixelRatio * newHeight
+          }
+
+          context.resetTransform()
+          context.scale(window.devicePixelRatio, window.devicePixelRatio)
+          context.putImageData(
+            copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height),
+            0,
+            0
+          )
+          copyCanvas.remove()
         }
-
-        if (newHeight > oldHeight) {
-          canvas.style.height = newHeight
-          canvas.height = window.devicePixelRatio * newHeight
-        }
-
-        context.resetTransform()
-        context.scale(window.devicePixelRatio, window.devicePixelRatio)
-        context.putImageData(copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height), 0, 0)
-        copyCanvas.remove()
-      }
-    }, 200))
+      }, 200)
+    )
 
     function drawLine(a, b) {
       context.beginPath()
@@ -300,12 +318,12 @@
     function getViewportCenter() {
       return {
         x: Math.floor(viewport.minX + 0.5 * (viewport.maxX - viewport.minX)),
-        y: Math.floor(viewport.minY + 0.5 * (viewport.maxY - viewport.minY))
+        y: Math.floor(viewport.minY + 0.5 * (viewport.maxY - viewport.minY)),
       }
     }
 
     function setViewportCenter(x, y) {
-      viewport = convertViewportCenterToViewport({x, y})
+      viewport = convertViewportCenterToViewport({ x, y })
       saveViewportCenter()
       updateView()
     }
@@ -315,14 +333,14 @@
         minX: viewport.minX + Math.floor(deltaX),
         maxX: viewport.maxX + Math.floor(deltaX),
         minY: viewport.minY + Math.floor(deltaY),
-        maxY: viewport.maxY + Math.floor(deltaY)
+        maxY: viewport.maxY + Math.floor(deltaY),
       })
       saveViewportCenter()
       updateView()
     }
 
     window.getViewport = getViewport
-    window.setViewport  = setViewport
+    window.setViewport = setViewport
     window.getViewportCenter = getViewportCenter
     window.setViewportCenter = setViewportCenter
     window.moveViewport = moveViewport
@@ -346,30 +364,29 @@
   }
 
   function eventToPoint(event) {
-    return {x: event.pageX, y: event.pageY}
+    return { x: event.pageX, y: event.pageY }
   }
 
   function save(pixels) {
-    setValue('pixels', JSON.stringify(pixels))
+    setValue("pixels", JSON.stringify(pixels))
   }
 
   async function load() {
-    return JSON.parse(await getValue('pixels') || '[]')
+    return JSON.parse((await getValue("pixels")) || "[]")
   }
 
   function saveViewportCenterBase(viewport) {
-    setValue('viewportCenter', JSON.stringify(getViewportCenter()))
+    setValue("viewportCenter", JSON.stringify(getViewportCenter()))
   }
 
   async function loadViewportCenter() {
     const viewportCenter = JSON.parse(
-      await getValue('viewportCenter') ||
-      JSON.stringify({x: 0, y: 0 })
+      (await getValue("viewportCenter")) || JSON.stringify({ x: 0, y: 0 })
     )
     return convertViewportCenterToViewport(viewportCenter)
   }
 
-  function convertViewportCenterToViewport ({x, y}) {
+  function convertViewportCenterToViewport({ x, y }) {
     const width = window.innerWidth
     const height = window.innerHeight
     return new Viewport({
@@ -382,8 +399,10 @@
 
   function isPixelVisible(viewport, pixel) {
     return (
-      (pixel.x >= viewport.minX && pixel.x <= viewport.maxX) &&
-      (pixel.y >= viewport.minY && pixel.y <= viewport.maxY)
+      pixel.x >= viewport.minX &&
+      pixel.x <= viewport.maxX &&
+      pixel.y >= viewport.minY &&
+      pixel.y <= viewport.maxY
     )
   }
 
@@ -391,16 +410,16 @@
     if (isPixelVisible(viewport, pixel)) {
       const x = pixel.x - viewport.minX
       const y = viewport.maxY - pixel.y
-      return {x, y}
+      return { x, y }
     } else {
-      throw new Error('Pixel not in viewport')
+      throw new Error("Pixel not in viewport")
     }
   }
 
-  function viewportCoordinatesToPixelCoordinates(viewport, {x, y}) {
+  function viewportCoordinatesToPixelCoordinates(viewport, { x, y }) {
     return {
       x: viewport.minX + x,
-      y: viewport.maxY - y
+      y: viewport.maxY - y,
     }
   }
 </script>

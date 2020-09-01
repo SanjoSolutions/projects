@@ -1,9 +1,12 @@
 import { multiply } from './packages/arithmetic/multiply.js';
 
 export class Grid {
-  constructor(dimensions) {
+  #values
+
+  constructor(dimensions, values = undefined) {
     this.dimensions = dimensions
-    this.values = new Array(multiply(dimensions))
+    const length = multiply(dimensions)
+    this.#values = values ? Array.from(values) : new Array(length)
   }
 
   _calculateIndex(position) {
@@ -15,11 +18,11 @@ export class Grid {
   }
 
   get(position) {
-    return this.values[this._calculateIndex(position)]
+    return this.#values[this._calculateIndex(position)]
   }
 
   set(position, value) {
-    this.values[this._calculateIndex(position)] = value
+    this.#values[this._calculateIndex(position)] = value
   }
 
   entries() {
@@ -39,5 +42,9 @@ export class Grid {
       }
       return entries.flat()
     }
+  }
+
+  values() {
+    return this.#values
   }
 }
