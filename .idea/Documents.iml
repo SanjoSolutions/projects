@@ -19,7 +19,7 @@
     </content>
     <content url="file://$MODULE_DIR$/din-5008-schreiben/functions/node_modules" />
     <content url="file://$MODULE_DIR$/refactorings/node_modules" />
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.8 (unnamed)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="@types/jest" level="application" />
     <orderEntry type="module" module-name="babel" />
