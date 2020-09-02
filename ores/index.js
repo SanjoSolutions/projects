@@ -17,17 +17,17 @@ export class OresMap {
     this.height = height
     this.grid = new Grid(width, height)
 
-    const oreDeposisator = new OreDeposisator(this)
-    oreDeposisator.depositOres()
+    const orePlacer = new OrePlacer(this)
+    orePlacer.placeOres()
   }
 }
 
-export class OreDeposisator {
+export class OrePlacer {
   constructor(map) {
     this.map = map
   }
 
-  depositOres() {
+  placeOres() {
     const chanceForRock = 3 / (20 * 24)
     const chanceForRockContinuation = 1 / 3
 

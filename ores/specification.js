@@ -1,1 +1,2 @@
-import './OreDeposisator.spec.js'
+import './OrePlacer.spec.js';
+
