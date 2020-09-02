@@ -1,4 +1,4 @@
-import { removeQuotes } from '../removeQuotes.js'
+import { removeQuotes } from '../removeQuotes.js';
 
 /**
  * Parses CSV text to an array of rows. Each row is an array of cells.
@@ -8,7 +8,6 @@ import { removeQuotes } from '../removeQuotes.js'
  * @param text {string} CSV text
  * @returns {any[][]} Parsed CSV as array of arrays.
  */
-export function parseCsv (text) {
+export function parseCsv(text) {
   return text.split(/\r\n|\r|\n/g).slice(1).map(row => row.split(',').map(removeQuotes))
 }
-
