@@ -1,19 +1,27 @@
-import { equals } from '../../equals.js'
+import { equals } from '../../equals.js';
 
 let expectCount
 resetExpectCount()
 
 let specificationRunning = false
+let specificationLabel = undefined
 const specificationFunctionQueue = []
 
-export async function specification (specificationFunction) {
+export async function specification(specificationLabelOrFunction, specificationFunction) {
+  if (typeof specificationLabelOrFunction === 'function') {
+    specificationLabel = undefined
+    specificationFunction = specificationLabelOrFunction
+  } else {
+    specificationLabel = specificationLabelOrFunction
+  }
+
   specificationFunctionQueue.push(specificationFunction)
   if (!specificationRunning) {
     await runSpecificationFunctions()
   }
 }
 
-async function runSpecificationFunctions () {
+async function runSpecificationFunctions() {
   specificationRunning = true
   let specificationFunction = specificationFunctionQueue.shift()
   while (specificationFunction) {
@@ -23,7 +31,7 @@ async function runSpecificationFunctions () {
   specificationRunning = false
 }
 
-async function runSpecificationFunction (specificationFunction) {
+async function runSpecificationFunction(specificationFunction) {
   resetExpectCount()
 
   await specificationFunction()
@@ -33,42 +41,44 @@ async function runSpecificationFunction (specificationFunction) {
     throw Error('specification has no expectation')
   } else if (expectCount > 1) {
     throw Error('specification has more than one expectation')
+  } else if (specificationLabel) {
+    console.log(`✓ ${specificationLabel}`)
   }
 }
 
-function getExpectCount () {
+function getExpectCount() {
   return expectCount
 }
 
-function resetExpectCount () {
+function resetExpectCount() {
   expectCount = 0
 }
 
-function incrementExpectCount () {
+function incrementExpectCount() {
   expectCount++
 }
 
-export function expect (what) {
+export function expect(what) {
   return {
-    toEqual (whatElse) {
+    toEqual(whatElse) {
       incrementExpectCount()
       if (!(equals(what, whatElse))) {
         throw Error('what !== whatElse', what, whatElse)
       }
     },
-    toHaveType (expectedType) {
+    toHaveType(expectedType) {
       incrementExpectCount()
       if (!(what && what.constructor && what.constructor.name === expectedType.name)) {
         throw Error('has not the type "' + expectedType.name + '"')
       }
     },
-    toThrowError (expectedErrorMessage) {
+    toThrowError(expectedErrorMessage) {
       incrementExpectCount()
       if (!throwsError(what, expectedErrorMessage)) {
         throw Error('Expected to throw error "' + expectedErrorMessage + '"')
       }
     },
-    toExist () {
+    toExist() {
       incrementExpectCount()
       if (typeof what === 'undefined') {
         throw Error('No existance')
@@ -77,7 +87,7 @@ export function expect (what) {
   }
 }
 
-export function throwsError (what, expectedErrorMessage) {
+export function throwsError(what, expectedErrorMessage) {
   try {
     what()
     return false
@@ -95,6 +105,9 @@ export function throwsError (what, expectedErrorMessage) {
 }
 
 process.on('unhandledRejection', function (reason) {
+  if (specificationLabel) {
+    console.log(`✗ ${specificationLabel}`)
+  }
   console.error(reason)
   process.exit(1)
 })
