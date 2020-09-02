@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Binary Number Encoding to Decimal Number Encoding</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      word-break: break-all;
+    }
+
+    canvas {
+      width: 100%;
+      height: 40px;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-crisp-edges;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+  </style>
+</head>
+<body>
+<button id="l">L</button>
+<button id="r">R</button>
+<div style="margin-top: 0.25rem;">
+  <canvas id="canvas" width="300" height="40"></canvas>
+</div>
+<div id="output" style="margin-top: 0.25rem;"></div>
+<script>
+  const initialMinNumber = 0n
+  const initialMaxNumber = 10n ** 1025n
+  let minNumber = initialMinNumber
+  let maxNumber = initialMaxNumber
+
+  const $l = document.getElementById('l')
+  const $r = document.getElementById('r')
+  const $canvas = document.getElementById('canvas')
+  const {width: bodyWidth} = document.body.getBoundingClientRect()
+  const devicePixelRatio = window.devicePixelRatio
+  $canvas.width = devicePixelRatio * bodyWidth
+  $canvas.height = devicePixelRatio * 40
+  const context = $canvas.getContext('2d')
+  context.scale(devicePixelRatio, devicePixelRatio)
+  context.font = 'normal 16px -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"'
+  const $output = document.getElementById('output')
+
+  $l.addEventListener('click', () => {
+    const range = maxNumber - minNumber
+    const halfRange = range / 2n
+    minNumber += halfRange
+    next()
+  })
+
+  $r.addEventListener('click', () => {
+    const range = maxNumber - minNumber
+    const halfRange = range / 2n
+    maxNumber -= halfRange
+    next()
+  })
+
+  function next() {
+    updateVisualization()
+  }
+
+  function updateVisualization() {
+    const canvasWidth = canvas.width / devicePixelRatio
+    const canvasHeight = canvas.height / devicePixelRatio
+
+    const paddingLeftRight = 32
+    const spaceBetweenTextAndLine = 4
+    const minimumSpaceBetweenLabels = 8
+    const y = canvasHeight / 2
+    const height = canvasHeight / 2
+
+    const lowerBound = minNumber
+    const upperBound = maxNumber
+
+    const width = canvasWidth - 2 * paddingLeftRight
+    const range = BigInt(initialMaxNumber - initialMinNumber)
+    const left = 1 / (Number((range * 100n) / (lowerBound || 1n)) / 100)
+    // 1 - upperBound / range
+    const right = 1 - 1 / (Number((range * 100n) / (upperBound || 1n)) / 100)
+
+    context.clearRect(0, 0, canvasWidth, canvasHeight)
+
+    const lineWidth = 1
+    const leftLineX = paddingLeftRight + left * width
+    context.fillRect(leftLineX, y, lineWidth, height)
+    const rightLineX = Math.max(
+      canvasWidth - paddingLeftRight - right * width,
+      leftLineX + 4
+    )
+    context.fillRect(rightLineX, y, lineWidth, height)
+    context.fillRect(
+      leftLineX,
+      y + height / 2,
+      rightLineX - leftLineX,
+      lineWidth
+    )
+
+    const lowerBoundString = String(bigIntToScientificNotationExact(lowerBound))
+    const upperBoundString = String(bigIntToScientificNotationExact(upperBound))
+
+    const lowerBoundTextMeasures = context.measureText(lowerBoundString)
+    const lowerBoundTextWidth = lowerBoundTextMeasures.actualBoundingBoxLeft + lowerBoundTextMeasures.actualBoundingBoxRight
+    const lowerBoundTextHeight = lowerBoundTextMeasures.actualBoundingBoxAscent + lowerBoundTextMeasures.actualBoundingBoxDescent
+
+    const upperBoundTextMeasures = context.measureText(upperBoundString)
+    const upperBoundTextWidth = upperBoundTextMeasures.actualBoundingBoxLeft + upperBoundTextMeasures.actualBoundingBoxRight
+    const upperBoundTextHeight = upperBoundTextMeasures.actualBoundingBoxAscent + upperBoundTextMeasures.actualBoundingBoxDescent
+
+    const lowerBoundTextLeft = Math.min(
+      leftLineX,
+      canvasWidth - paddingLeftRight - upperBoundTextWidth - minimumSpaceBetweenLabels - 0.5 * lowerBoundTextWidth
+    )
+
+    const upperBoundTextRight = Math.max(
+      rightLineX,
+      lowerBoundTextLeft + 0.5 * lowerBoundTextWidth + minimumSpaceBetweenLabels + 0.5 * upperBoundTextWidth
+    )
+
+    context.fillText(
+      lowerBoundString,
+      lowerBoundTextLeft - 0.5 * lowerBoundTextWidth,
+      y - spaceBetweenTextAndLine
+    )
+
+    if (upperBoundString !== lowerBoundString) {
+      context.fillText(
+        upperBoundString,
+        upperBoundTextRight - 0.5 * upperBoundTextWidth,
+        y - spaceBetweenTextAndLine
+      )
+    }
+
+    $output.innerHTML = '[' +
+      bigIntToScientificNotationExact(lowerBound) + '; ' +
+      bigIntToScientificNotationExact(upperBound) +
+      ']'
+  }
+
+  function bigIntToScientificNotation(number) {
+    const numberAsString = number.toString(10)
+    return numberAsString[0] + ' * 10^' + (numberAsString.length - 1)
+  }
+
+  function bigIntToScientificNotationExact(number) {
+    const numberAsString = number.toString()
+    const match = /^(\d*?)(0*)$/.exec(numberAsString)
+    const numberOfTrailingZeros = match[2].length
+    const leadingNonZeroNumbers = String(match[1] || 1)
+    let m
+    if (leadingNonZeroNumbers === '1') {
+      m = leadingNonZeroNumbers
+    } else {
+      m = '0.' + leadingNonZeroNumbers
+    }
+    const exponent = numberOfTrailingZeros +
+      (leadingNonZeroNumbers === '1' ? 0 : leadingNonZeroNumbers.length)
+    return m + ' × 10' + toSuperscript(String(exponent))
+  }
+
+  function toSuperscript(string) {
+    const replacements = new Map([
+      ['0', '⁰'],
+      ['1', '¹'],
+      ['2', '²'],
+      ['3', '³'],
+      ['4', '⁴'],
+      ['5', '⁵'],
+      ['6', '⁶'],
+      ['7', '⁷'],
+      ['8', '⁸'],
+      ['9', '⁹'],
+    ])
+    return (
+      string
+        .split('')
+        .map(character => {
+          return replacements.has(character) ? replacements.get(character) : character
+        })
+        .join('')
+    )
+  }
+</script>
+</body>
+</html>
