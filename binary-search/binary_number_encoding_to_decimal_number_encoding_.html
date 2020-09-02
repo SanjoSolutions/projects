@@ -9,7 +9,7 @@
 <body>
   <p style="margin-bottom: 0.25rem;">
     This calibration is devoted to God.<br>
-    In name of God I have permission to calibrate the consciousness level of what is held in mind.
+    In the name of highest good, I have permission to calibrate the consciousness level of what is held in mind.
   </p>
   <button id="l">L</button>
   <button id="r">R</button>
@@ -17,10 +17,12 @@
   <div id="output"></div>
   <script>
     const maxNumber = 1000
-    const numberOfNachkommastellen = 1
+    const numberOfNachkommastellen = 0
     const effectiveMaxNumber = maxNumber * 10 ** numberOfNachkommastellen
     const numberOfBits = calculateNumberOfBits(effectiveMaxNumber)
+    console.log('effectiveMaxNumber', effectiveMaxNumber)
     console.log('numberOfBits', numberOfBits)
+    console.log(2 ** numberOfBits)
 
     function calculateNumberOfBits(maxNumber) {
       // 2 ** numberOfBits = maxNumber
