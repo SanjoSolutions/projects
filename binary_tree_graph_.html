@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Binary Tree Graph</title>
   <style>
@@ -22,22 +23,23 @@
     }
   </style>
 </head>
+
 <body>
   <script>
-    const min = 0
-    const max = 1000
-    const step = 100
-    const numberOfLeafNodes = 2 ** Math.ceil(Math.log2((max - min + 1) / step))
+    const min = 1
+    const max = 7
+    const step = 1
+    const numberOfLeafNodes = (max - min + 1) / step
 
     // Zooming
     // Moving
     // Rendering of arbitrary big graphics
-      // Regarding limitation of maximum canvas size:
-        // Solution: Render part of the graphics
-        //           which needs to be visible.
-        // and we render as big of a part of the graphics
-        // as possible so that we minimize the rerendering
-        // of the graphics after move actions.
+    // Regarding limitation of maximum canvas size:
+    // Solution: Render part of the graphics
+    //           which needs to be visible.
+    // and we render as big of a part of the graphics
+    // as possible so that we minimize the rerendering
+    // of the graphics after move actions.
 
     function createFullDocumentCanvas(onDevicePixelRatioOrDocumentSizeChangeFn = noop) {
       const canvas = document.createElement('canvas')
@@ -58,10 +60,10 @@
 
       function onDevicePixelRatioOrDocumentSizeChange(event) {
         setCanvasSizeAndScale()
-        onDevicePixelRatioOrDocumentSizeChangeFn({canvas, context}, event)
+        onDevicePixelRatioOrDocumentSizeChangeFn({ canvas, context }, event)
       }
 
-      return {canvas, context}
+      return { canvas, context }
     }
 
     function listenToDevicePixelRatioChange(callback) {
@@ -81,7 +83,7 @@
       registerDevicePixelRatioChangeListener(onDevicePixelRatioChange)
     }
 
-    function noop() {}
+    function noop() { }
 
     class BinaryTree {
       constructor() {
@@ -95,7 +97,7 @@
         this.parent = undefined
         this.children = new Array(2)
         // For rendering
-        this.position = {x: undefined, y: undefined}
+        this.position = { x: undefined, y: undefined }
       }
     }
 
@@ -109,23 +111,29 @@
         nodes = nextLevelNodes
         nextLevelNodes = new Array(2 ** (levelIndex + 1))
         let nextLevelNodesIndex = 0
-        for (const node of nodes) {
-          const childNode0 = new BinaryTreeNode()
-          childNode0.parent = node
-          const childNode1 = new BinaryTreeNode()
-          childNode1.parent = node
-          node.children[0] = childNode0
-          node.children[1] = childNode1
-          nextLevelNodes[nextLevelNodesIndex] = childNode0
-          nextLevelNodesIndex++
-          nextLevelNodes[nextLevelNodesIndex] = childNode1
-          nextLevelNodesIndex++
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index]
+          console.log(parentOfChildren(levelIndex, index, numberOfLeafNodes))
+          if (parentOfChildren(levelIndex, index, numberOfLeafNodes)[0] < numberOfLeafNodes) {
+            const childNode0 = new BinaryTreeNode()
+            childNode0.parent = node
+            const childNode1 = new BinaryTreeNode()
+            childNode1.parent = node
+            node.children[0] = childNode0
+            node.children[1] = childNode1
+            nextLevelNodes[nextLevelNodesIndex] = childNode0
+            nextLevelNodesIndex++
+            nextLevelNodes[nextLevelNodesIndex] = childNode1
+            nextLevelNodesIndex++
+          }
         }
       }
 
+      /*
       for (let index = 0; index < numberOfLeafNodes; index++) {
         nextLevelNodes[index].value = min + index * step
       }
+      */
 
       return binaryTree
     }
@@ -135,7 +143,14 @@
       return Math.ceil(Math.log2(numberOfLeafNodes) + 1)
     }
 
-    function render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom}) {
+    function parentOfChildren(level, index, numberOfLeafNodes) {
+      numberOfLeafNodes = 2 ** Math.ceil(Math.log2(numberOfLeafNodes))
+      const numberOfChildren = (numberOfLeafNodes / (2 ** level))
+      const startIndex = index * numberOfChildren
+      return [startIndex, startIndex + numberOfChildren - 1]
+    }
+
+    function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom }) {
       context.clearRect(
         0,
         0,
@@ -155,7 +170,7 @@
       )
     }
 
-    function rerenderBinaryTree(binaryTree, {viewportBoundingBox}) {
+    function rerenderBinaryTree(binaryTree, { viewportBoundingBox }) {
       console.log('rerenderBinaryTree')
       const binaryTreeRenderingBoundingBox = calculateBinaryTreeRenderingBoundingBox(
         viewportBoundingBox
@@ -168,7 +183,7 @@
       binaryTreeRenderingBoundingBox.width = Math.min(binaryTreeRenderingBoundingBox.width, totalRenderingWidth)
       binaryTreeRenderingBoundingBox.height = Math.min(binaryTreeRenderingBoundingBox.height, totalRenderingHeight)
 
-      return {binaryTreeRendering, totalRenderingWidth, totalRenderingHeight, binaryTreeRenderingBoundingBox}
+      return { binaryTreeRendering, totalRenderingWidth, totalRenderingHeight, binaryTreeRenderingBoundingBox }
     }
 
     function calculateBinaryTreeRenderingBoundingBox(viewportBoundingBox) {
@@ -223,7 +238,7 @@
       let totalRenderingHeight
       let zoom = 1
 
-      function onResize({canvas, context}) {
+      function onResize({ canvas, context }) {
         setViewportBoundingBox({
           x: viewportBoundingBox.x,
           y: viewportBoundingBox.y,
@@ -232,12 +247,12 @@
         })
       }
 
-      const {canvas, context} = createFullDocumentCanvas(onResize)
+      const { canvas, context } = createFullDocumentCanvas(onResize)
       document.body.appendChild(canvas)
 
       let result = rerenderBinaryTree(
         binaryTree,
-        {viewportBoundingBox}
+        { viewportBoundingBox }
       )
       binaryTreeRendering = result.binaryTreeRendering
       totalRenderingWidth = result.totalRenderingWidth
@@ -255,18 +270,18 @@
         ) {
           result = rerenderBinaryTree(
             binaryTree,
-            {viewportBoundingBox}
+            { viewportBoundingBox }
           )
           binaryTreeRendering = result.binaryTreeRendering
           totalRenderingWidth = result.totalRenderingWidth
           binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
         }
-        render({canvas, context}, {binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom})
+        render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom })
       }
 
       setViewportBoundingBox({
         x: 0.5 * totalRenderingWidth - 0.5 * canvas.width,
-        y: canvas.height >= totalRenderingHeight ? -0.5 * (canvas.height - totalRenderingHeight) : 0,
+        y: 0,
         width: viewportBoundingBox.width,
         height: viewportBoundingBox.height
       })
@@ -446,9 +461,10 @@
               context.arc(node.position.x, node.position.y, nodeRadius, 0, 2 * Math.PI)
               context.stroke()
               if (typeof node.value !== 'undefined') {
-                const textMeasures = context.measureText(node.value)
+                const value = node.value.toFixed(1)
+                const textMeasures = context.measureText(value)
                 context.fillText(
-                  node.value,
+                  value,
                   node.position.x - 0.5 * (textMeasures.actualBoundingBoxLeft + textMeasures.actualBoundingBoxRight),
                   node.position.y + 0.5 * (textMeasures.actualBoundingBoxAscent + textMeasures.actualBoundingBoxDescent)
                 )
@@ -487,7 +503,7 @@
         }
       }
 
-      return {canvas, totalRenderingWidth, totalRenderingHeight}
+      return { canvas, totalRenderingWidth, totalRenderingHeight }
     }
 
     function getNumberOfNodes(binaryTree) {
@@ -503,4 +519,5 @@
     document.addEventListener('DOMContentLoaded', main)
   </script>
 </body>
+
 </html>

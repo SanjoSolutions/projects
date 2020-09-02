@@ -24,10 +24,10 @@
 </head>
 <body>
   <script>
-    const min = 0
+    const min = 1
     const max = 1000
-    const step = 100
-    const numberOfLeafNodes = 2 ** Math.ceil(Math.log2((max - min + 1) / step))
+    const step = 1
+    const numberOfLeafNodes = (max - min + 1) / step
 
     // Zooming
     // Moving
