@@ -1,4 +1,11 @@
-import { removeQuotes } from '../removeQuotes.js';
+
+// Standard: https://tools.ietf.org/html/rfc4180
+
+const textData = '[\x20-\x21\x23-\x2B\x2D-\x7E]'
+const escaped = `"((?:${textData}|,|\r|\n|"")*)"`
+const nonEscaped = `((?:${textData})*)`
+const field = `(?:${escaped}|${nonEscaped})`
+const record = `(${field}(?:,${field})*)(?:\r\n|\n|\r){0,1}`
 
 /**
  * Parses CSV text to an array of rows. Each row is an array of cells.
@@ -8,6 +15,29 @@ import { removeQuotes } from '../removeQuotes.js';
  * @param text {string} CSV text
  * @returns {any[][]} Parsed CSV as array of arrays.
  */
-export function parseCsv(text) {
-  return text.split(/\r\n|\r|\n/g).slice(1).map(row => row.split(',').map(removeQuotes))
+export function parseCsv(csv) {
+  const rows = []
+  const regExp = new RegExp(record, 'g')
+  let match
+  while (regExp.lastIndex < csv.length && (match = regExp.exec(csv))) {
+    const line = match[1]
+    const row = parseCsvLine(line)
+    rows.push(row)
+  }
+  return rows
+}
+
+export function parseCsvLine(line) {
+  const cells = []
+  const regExp = new RegExp(field, 'g')
+  let match
+  while (
+    (regExp.lastIndex === 0 || line[regExp.lastIndex - 1] === ',') &&
+    (match = regExp.exec(line))
+  ) {
+    const cell = match[1] ?? match[2]
+    cells.push(cell)
+    regExp.lastIndex++ // skip comma
+  }
+  return cells
 }
