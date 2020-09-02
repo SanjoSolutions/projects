@@ -144,7 +144,7 @@ specification(function () {
 
 specification(function () {
   const { stderr } = runToExistFail()
-  expect(stderr.includes('Error: No existance')).toEqual(true)
+  expect(stderr.includes('Error: No existence')).toEqual(true)
 })
 
 function runToExistFail() {
@@ -209,7 +209,7 @@ function runAsyncTwo() {
 specification(function () {
   const { stdout } = runSpecificationWithLabelPass()
   expect(
-    /^✓ test\n/.test(stdout)
+    /^✓ test 1\n✓ test 2\n/.test(stdout)
   ).toEqual(true)
 })
 

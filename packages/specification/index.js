@@ -8,6 +8,7 @@ let specificationLabel = undefined
 const specificationFunctionQueue = []
 
 export async function specification(specificationLabelOrFunction, specificationFunction) {
+  let specificationLabel
   if (typeof specificationLabelOrFunction === 'function') {
     specificationLabel = undefined
     specificationFunction = specificationLabelOrFunction
@@ -15,34 +16,39 @@ export async function specification(specificationLabelOrFunction, specificationF
     specificationLabel = specificationLabelOrFunction
   }
 
-  specificationFunctionQueue.push(specificationFunction)
+  specificationFunctionQueue.push({
+    label: specificationLabel,
+    function: specificationFunction
+  })
   if (!specificationRunning) {
-    await runSpecificationFunctions()
+    await runSpecifications()
   }
 }
 
-async function runSpecificationFunctions() {
+async function runSpecifications() {
   specificationRunning = true
-  let specificationFunction = specificationFunctionQueue.shift()
-  while (specificationFunction) {
-    await runSpecificationFunction(specificationFunction)
-    specificationFunction = specificationFunctionQueue.shift()
+  let specification = specificationFunctionQueue.shift()
+  while (specification) {
+    await runSpecification(specification)
+    specification = specificationFunctionQueue.shift()
   }
   specificationRunning = false
 }
 
-async function runSpecificationFunction(specificationFunction) {
+async function runSpecification(specification) {
+  specificationLabel = specification.label
+
   resetExpectCount()
 
-  await specificationFunction()
+  await specification.function()
 
   const expectCount = getExpectCount()
   if (expectCount === 0) {
     throw Error('specification has no expectation')
   } else if (expectCount > 1) {
     throw Error('specification has more than one expectation')
-  } else if (specificationLabel) {
-    console.log(`✓ ${specificationLabel}`)
+  } else if (specification.label) {
+    console.log(`✓ ${specification.label}`)
   }
 }
 
@@ -81,7 +87,7 @@ export function expect(what) {
     toExist() {
       incrementExpectCount()
       if (typeof what === 'undefined') {
-        throw Error('No existance')
+        throw Error('No existence')
       }
     },
   }
