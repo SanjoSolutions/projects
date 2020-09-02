@@ -28,6 +28,7 @@ outcomes = {
 }
 
 def create_strategy():
+  # even distribution
   probability = 1.0 / len(actions)
   return dict(((action, probability) for action in actions))
 
@@ -88,5 +89,5 @@ def calculate_accumulated_regret(player_index):
   return sum(regrets[player_index].values())
 
 
-cfr(number_of_iterations = 100000)
+cfr(number_of_iterations = 10000)
 print(strategies)
