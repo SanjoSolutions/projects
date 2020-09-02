@@ -1,8 +1,7 @@
 import { expect, specification } from '../packages/specification/index.js';
 import { parseCsv, parseCsvLine } from './parseCsv.js';
 
-specification(() => {
-  console.log('parseCsv')
+specification('parseCsv', () => {
   const csv = '"aaa","b\r\nbb","ccc"\r\nzzz,yyy,xxx'
   const data = parseCsv(csv)
   expect(data).toEqual([
@@ -11,7 +10,6 @@ specification(() => {
   ])
 })
 
-specification(() => {
-  console.log('parseCsvLine')
+specification('parseCsvLine', () => {
   expect(parseCsvLine('",",')).toEqual([",", ""])
 })
