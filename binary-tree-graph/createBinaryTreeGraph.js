@@ -1,3 +1,5 @@
+import { calculateViewport, zoomable } from '../zoomable.js';
+
 function createFullDocumentCanvas(onDevicePixelRatioOrDocumentSizeChangeFn = noop) {
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
@@ -102,12 +104,18 @@ function calculateNumberOfLevels(numberOfLeafNodes) {
 }
 
 function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom }) {
+  context.save()
+
   context.clearRect(
     0,
     0,
     canvas.width,
     canvas.height
   )
+
+  const scale = window.devicePixelRatio * zoom
+  context.scale(scale, scale)
+
   context.drawImage(
     binaryTreeRendering,
     viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x,
@@ -116,9 +124,11 @@ function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox,
     window.devicePixelRatio * viewportBoundingBox.height / zoom,
     0,
     0,
-    canvas.width,
-    canvas.height
+    canvas.width / window.devicePixelRatio,
+    canvas.height / window.devicePixelRatio
   )
+
+  context.restore()
 }
 
 function rerenderBinaryTree(binaryTree, { viewportBoundingBox }) {
@@ -205,27 +215,27 @@ function renderBinaryTree(binaryTree, boundingBox) {
   canvas.width = Math.min(boundingBox.width, totalRenderingWidth)
   canvas.height = Math.min(boundingBox.height, totalRenderingHeight)
 
-  const canvasWidth = canvas.width / devicePixelRatio
-  const canvasHeight = canvas.height / devicePixelRatio
-
   context.translate(-boundingBox.x, -boundingBox.y)
   context.scale(devicePixelRatio, devicePixelRatio)
 
   /*
-  context.fillStyle = 'blue'
+  const canvasWidth = canvas.width / devicePixelRatio
+  const canvasHeight = canvas.height / devicePixelRatio
+
+  context.save()
+
+  context.fillStyle = '#FAFAFA'
   context.fillRect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
-  context.fillStyle = 'black'
-  */
-  /*
+
   context.beginPath()
   context.rect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
   context.stroke()
+
+  context.restore()
   */
 
   calculatePositions()
   render()
-
-  context.restore()
 
   function calculatePositions() {
     let nodes = [binaryTree.root]
@@ -405,7 +415,7 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
   }
 
   setViewportBoundingBox({
-    x: 0.5 * totalRenderingWidth - 0.5 * canvas.width,
+    x: -0.5 * (viewportBoundingBox.width - totalRenderingWidth / window.devicePixelRatio),
     y: canvas.height >= totalRenderingHeight ? -0.5 * (canvas.height - totalRenderingHeight) : 0,
     width: viewportBoundingBox.width,
     height: viewportBoundingBox.height
@@ -414,19 +424,6 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
   let spacePressed = false
   let primaryMouseButtonPressed = false
   let previousPosition = undefined
-
-  window.addEventListener('keypress', (event) => {
-    if (event.ctrlKey && event.key === '+') {
-      zoom += 0.25
-      setViewportBoundingBox(viewportBoundingBox)
-    } else if (event.ctrlKey && event.key === '-') {
-      zoom = Math.max(0.25, zoom - 0.25)
-      setViewportBoundingBox(viewportBoundingBox)
-    } else if (event.ctrlKey && event.key === '0') {
-      zoom = 1
-      setViewportBoundingBox(viewportBoundingBox)
-    }
-  })
 
   window.addEventListener('keydown', (event) => {
     if (event.code === 'Space') {
@@ -481,6 +478,15 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
       previousPosition = position
     }
   })
+
+  function onZoom(_zoom) {
+    console.log('zoom', _zoom)
+    const previousZoom = zoom
+    zoom = _zoom
+    setViewportBoundingBox(calculateViewport(viewportBoundingBox, previousZoom, zoom))
+  }
+
+  zoomable(onZoom)
 
   return canvas
 }

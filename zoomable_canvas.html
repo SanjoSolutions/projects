@@ -19,7 +19,7 @@
 <body>
 	<canvas id="canvas"></canvas>
 	<script type="module">
-		import { zoomable } from './zoomable.js'
+		import { zoomable, calculateViewport } from './zoomable.js'
 
 		const devicePixelRatio = window.devicePixelRatio
 		const canvas = document.getElementById('canvas')
@@ -65,17 +65,6 @@
 			zoom = _zoom
 			viewport = calculateViewport(viewport, previousZoom, zoom)
 			render()
-		}
-
-		function calculateViewport(viewport, previousZoom, zoom) {
-			const newWidth = viewport.width * (previousZoom / zoom)
-			const newHeight = viewport.height * (previousZoom / zoom)
-			return {
-				x: viewport.x + 0.5 * (viewport.width - newWidth),
-				y: viewport.y + 0.5 * (viewport.height - newHeight),
-				width: newWidth,
-				height: newHeight
-			}
 		}
 
 		zoomable(onZoom)
