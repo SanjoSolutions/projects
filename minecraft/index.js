@@ -167,8 +167,25 @@ async function main() {
   window.setColor = setColor
 
   let lastCameraPosition
-  renderer.domElement.addEventListener("pointerdown", () => {
-    cancelSaveCubeColors()
+  renderer.domElement.addEventListener("pointerdown", (event) => {
+    if (event.button === 0 && event.altKey) {
+      const mousePosition = new THREE.Vector2(
+        (event.pageX / window.innerWidth) * 2 - 1,
+        -(event.pageY / window.innerHeight) * 2 + 1
+      )
+      raycaster.setFromCamera(mousePosition, camera)
+      const intersections = raycaster.intersectObjects(scene.children)
+      const intersection = intersections[0]
+      if (intersection && intersection.object.uuid !== plane.uuid) {
+        const { h, s, l } = intersection.object.material.color.getHSL()
+        color = [h, s, l]
+        colorPicker.style.backgroundColor = colorToString(color)
+        renderColorField()
+        renderLightnessField()
+      }
+    } else {
+      cancelSaveCubeColors()
+    }
     lastCameraPosition = camera.position.clone()
   })
 
@@ -190,7 +207,7 @@ async function main() {
 
   renderer.domElement.addEventListener("pointerup", (event) => {
     const button = event.button
-    if ([0, 2].includes(button) && camera.position.equals(lastCameraPosition)) {
+    if ([0, 2].includes(button) && !event.altKey && camera.position.equals(lastCameraPosition)) {
       const mousePosition = new THREE.Vector2(
         (event.pageX / window.innerWidth) * 2 - 1,
         -(event.pageY / window.innerHeight) * 2 + 1
