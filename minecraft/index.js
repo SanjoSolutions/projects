@@ -476,8 +476,9 @@ function createHemisphereLight() {
 function createDirectionalLight() {
   const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
   // directionalLight.color.setHSL(0.1, 1, 0.95)
-  directionalLight.position.set(-1, 1.75, 1)
-  directionalLight.position.multiplyScalar(30)
+  directionalLight.position.set(planeWidth + 25, 125, planeDepth + 25)
+  directionalLight.target.position.set(0.5 * planeWidth, 0, 0.5 * planeDepth)
+  directionalLight.target.updateMatrixWorld()
 
   directionalLight.castShadow = true
 
