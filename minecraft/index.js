@@ -441,7 +441,7 @@ main()
 
 function createPlane() {
   const geometry = new THREE.PlaneBufferGeometry(planeWidth, planeDepth)
-  const material = new THREE.MeshStandardMaterial({ color: 0xdddddd })
+  const material = new THREE.MeshStandardMaterial({ color: 'hsl(16, 25%, 50%)' })
   const plane = new THREE.Mesh(geometry, material)
   plane.rotation.x = -Math.PI / 2
   plane.position.x = 0.5 * planeWidth - 0.5
