@@ -398,7 +398,7 @@ async function main() {
   lightnessField.addEventListener("pointerdown", () => {
     lightnessFieldPointerDown = true
   })
-  lightnessField.addEventListener("pointerup", () => {
+  window.addEventListener("pointerup", () => {
     lightnessFieldPointerDown = false
   })
   lightnessField.addEventListener("pointermove", (event) => {
