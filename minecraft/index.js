@@ -101,6 +101,7 @@ async function main() {
 
   const controls = new OrbitControls(camera, renderer.domElement)
   controls.screenSpacePanning = false
+  controls.maxPolarAngle = 0.5 * Math.PI
 
   controls.addEventListener("start", () => {
     cancelSaveCamera()
