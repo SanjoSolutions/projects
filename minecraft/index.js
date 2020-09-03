@@ -71,7 +71,7 @@ async function main() {
     saveCameraDebounced()
   }
 
-  function saveCubeColorsIfHasUnsavedChanges() {
+  function saveCameraIfHasUnsavedChanges() {
     if (hasUnsavedCameraChanges) {
       saveCamera()
     }
@@ -280,6 +280,7 @@ async function main() {
       }
     }
     saveCubeColorsIfHasUnsavedChanges()
+    saveCameraIfHasUnsavedChanges()
   })
 
   function onWindowResize() {
