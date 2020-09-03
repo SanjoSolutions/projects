@@ -7,6 +7,9 @@ import { rgbToHsl } from '../rgbToHsl.js';
 import * as THREE from './node_modules/three/build/three.module.js';
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 
+const title = 'Minecraft'
+const unsavedTitle = title + ' •'
+
 const planeWidth = 100
 const planeDepth = 100
 const maxHeight = 100
@@ -34,6 +37,7 @@ async function main() {
     function () {
       setValue(cubeColorsStorageKey, getCubeColors())
       hasUnsavedChanges = false
+      document.title = title
       console.log("saved")
     },
     1000
@@ -41,6 +45,7 @@ async function main() {
 
   function saveCubeColors() {
     hasUnsavedChanges = true
+    document.title = unsavedTitle
     saveCubeColorsDebounced()
   }
 
