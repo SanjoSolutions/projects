@@ -216,7 +216,7 @@ async function main() {
 
   renderer.domElement.addEventListener("pointerup", (event) => {
     const button = event.button
-    if ([0, 2].includes(button) && !event.altKey && camera.position.equals(lastCameraPosition)) {
+    if ([0, 2].includes(button) && !event.altKey && (!lastCameraPosition || camera.position.equals(lastCameraPosition))) {
       const mousePosition = new THREE.Vector2(
         (event.pageX / window.innerWidth) * 2 - 1,
         -(event.pageY / window.innerHeight) * 2 + 1
