@@ -194,7 +194,7 @@ async function main() {
       raycaster.setFromCamera(mousePosition, camera)
       const intersections = raycaster.intersectObjects(scene.children)
       const intersection = intersections[0]
-      if (intersection && intersection.object.uuid !== plane.uuid) {
+      if (intersection) {
         const { h, s, l } = intersection.object.material.color.getHSL()
         color = [h, s, l]
         colorPicker.style.backgroundColor = colorToString(color)
