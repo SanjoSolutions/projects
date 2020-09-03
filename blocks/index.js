@@ -7,7 +7,7 @@ import { rgbToHsl } from '../rgbToHsl.js';
 import * as THREE from './node_modules/three/build/three.module.js';
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 
-const title = 'Minecraft'
+const title = 'Blocks'
 const unsavedTitle = title + ' •'
 
 const planeWidth = 100
