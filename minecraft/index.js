@@ -116,7 +116,7 @@ async function main() {
     saveCamera()
   })
 
-  const controlTarget = null // await loadCameraTarget()
+  const controlTarget = await loadCameraTarget()
   controls.target = controlTarget
     ? new THREE.Vector3(...controlTarget)
     : new THREE.Vector3(0.5 * planeWidth, 0, 0.5 * planeDepth)
