@@ -100,9 +100,7 @@ async function main() {
   document.body.appendChild(renderer.domElement)
 
   const controls = new OrbitControls(camera, renderer.domElement)
-  controls.maxPolarAngle = Math.PI * 0.5
-  controls.minDistance = 1
-  controls.maxDistance = 5000
+  controls.screenSpacePanning = false
 
   controls.addEventListener("start", () => {
     cancelSaveCamera()
@@ -112,7 +110,7 @@ async function main() {
     saveCamera()
   })
 
-  const controlTarget = await loadCameraTarget()
+  const controlTarget = null // await loadCameraTarget()
   controls.target = controlTarget
     ? new THREE.Vector3(...controlTarget)
     : new THREE.Vector3(0.5 * planeWidth, 0, 0.5 * planeDepth)
