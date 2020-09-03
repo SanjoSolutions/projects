@@ -200,7 +200,7 @@ async function main() {
 
   function addCube(color, position) {
     if (isPositionInBoundaryBox(position)) {
-      cubeColors.set(position, color)
+      cubeColors.set(position, Array.from(color))
       const cube = createCube(color, position)
       cubes.set(position, cube)
       scene.add(cube)
