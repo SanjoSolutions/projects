@@ -3,7 +3,6 @@ import { colorToString } from '../colorToString.js';
 import { Grid } from '../Grid.js';
 import { getValue, setValue } from '../localStorageDB.js';
 import { mapAngleToBetween0And1 } from '../mapAngleToBetween0And1.js';
-import { rgbToHsl } from '../rgbToHsl.js';
 import * as THREE from './node_modules/three/build/three.module.js';
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls.js';
 
@@ -21,7 +20,7 @@ async function main() {
   const cameraPositionStorageKey = "cameraPosition"
   const cameraTargetStorageKey = "cameraTarget"
   async function loadCubeColors() {
-    return getValue(cubeColorsStorageKey)
+    return await getValue(cubeColorsStorageKey)
   }
 
   const dimensions = [planeWidth, maxHeight, planeDepth]
@@ -142,17 +141,7 @@ async function main() {
 
   for (const [position, cubeColor] of cubeColors.entries()) {
     if (cubeColor) {
-      let normalizedCubeColor
-      if (Number.isInteger(cubeColor)) {
-        normalizedCubeColor = rgbToHsl(
-          (cubeColor >> 16) & 0xff,
-          cubeColor >> 8 && 0xff,
-          cubeColor & 0xff
-        )
-      } else {
-        normalizedCubeColor = cubeColor
-      }
-      cubes.set(position, createCube(normalizedCubeColor, position))
+      cubes.set(position, createCube(cubeColor, position))
     }
   }
 
