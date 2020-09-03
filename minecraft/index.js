@@ -164,6 +164,20 @@ async function main() {
 
   window.setColor = setColor
 
+  let colorPickerModeClass = 'color-picker-mode'
+
+  window.addEventListener('keydown', (event) => {
+    if (event.altKey) {
+      document.body.classList.add(colorPickerModeClass)
+    }
+  })
+
+  window.addEventListener('keyup', (event) => {
+    if (!event.altKey) {
+      document.body.classList.remove(colorPickerModeClass)
+    }
+  })
+
   let lastCameraPosition
   renderer.domElement.addEventListener("pointerdown", (event) => {
     if (event.button === 0 && event.altKey) {
