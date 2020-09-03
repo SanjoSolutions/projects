@@ -184,7 +184,9 @@ async function main() {
       const intersections = raycaster.intersectObjects(scene.children)
       const intersection = intersections[0]
       if (intersection) {
-        const { h, s, l } = intersection.object.material.color.getHSL()
+        const hsl = {}
+        intersection.object.material.color.getHSL(hsl)
+        const { h, s, l } = hsl
         color = [h, s, l]
         colorPicker.style.backgroundColor = colorToString(color)
         renderColorField()
