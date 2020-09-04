@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Zoomable Canvas</title>
+
+	<style>
+		body {
+			margin: 0;
+		}
+
+		canvas {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="module">
+		import { zoomable } from './zoomable.js'
+
+		const devicePixelRatio = window.devicePixelRatio
+		const canvas = document.getElementById('canvas')
+		const documentWidth = window.innerWidth
+		const documentHeight = window.innerHeight
+		canvas.width = devicePixelRatio * documentWidth
+		canvas.height = devicePixelRatio * documentHeight
+
+		let viewport = {
+			x: 0,
+			y: 0,
+			width: documentWidth,
+			height: documentHeight
+		}
+
+		let zoom = 1
+		const context = canvas.getContext('2d')
+
+		function render() {
+			context.save()
+			const zoom2X = documentWidth / viewport.width
+			const zoom2Y = documentHeight / viewport.height
+			console.log(zoom, zoom2X,)
+			const scale = devicePixelRatio * zoom
+			context.scale(scale, scale)
+			context.translate(-viewport.x, -viewport.y)
+
+			context.clearRect(0, 0, documentWidth, documentHeight)
+
+			context.beginPath()
+			const width = 100
+			const height = 100
+			const x = 0.5 * (documentWidth - width)
+			const y = 0.5 * (documentHeight - height)
+			context.rect(x, y, width, height)
+			context.stroke()
+
+			context.restore()
+		}
+
+		render()
+
+		function onZoom(_zoom) {
+			console.log('zoom', _zoom)
+			const previousZoom = zoom
+			zoom = _zoom
+			viewport = calculateViewport(viewport, previousZoom, zoom)
+			render()
+		}
+
+		function calculateViewport(viewport, previousZoom, zoom) {
+			const newWidth = viewport.width * (previousZoom / zoom)
+			const newHeight = viewport.height * (previousZoom / zoom)
+			return {
+				x: viewport.x + 0.5 * (viewport.width - newWidth),
+				y: viewport.y + 0.5 * (viewport.height - newHeight),
+				width: newWidth,
+				height: newHeight
+			}
+		}
+
+		zoomable(onZoom)
+
+		/*
+		function zoomable(onZoom) {
+			let zoom = 1
+
+			window.addEventListener('wheel', function onWheel(event) {
+				if (event.ctrlKey) {
+					zoom = Math.max(1, zoom - event.deltaY * 0.01)
+					onZoom(zoom)
+				}
+			})
+		}
+		*/
+
+
+		/*
+		function zoomable(element, onZoom) {
+			let zoom = 1
+			const pointerEventCache = []
+
+			function distanceToZoomDelta(distance) {
+				return distance / 100
+			}
+
+			function getEventCacheIndexForPointer(pointerId) {
+				return pointerEventCache.findIndex(
+					pointerEvent => pointerEvent.pointerId === pointerId
+				)
+			}
+
+			function getEventForPointer(pointerId) {
+				return pointerEventCache.find(
+					pointerEvent => pointerEvent.pointerId === pointerId
+				)
+			}
+
+			function removeEventFromPointerEventCache(pointerId) {
+				const pointerEventIndex = getEventCacheIndexForPointer(pointerId)
+				if (pointerEventIndex) {
+					pointerEventCache.splice(pointerEventIndex, 1)
+				}
+			}
+
+			function updatePointerEventInCache(pointerEvent) {
+				const pointerEventIndex = getEventCacheIndexForPointer(pointerEvent.pointerId)
+				if (pointerEventIndex) {
+					pointerEventCache[pointerEventIndex] = pointerEvent
+				}
+			}
+
+			function onPointerDown(pointerEvent) {
+				pointerEventCache.push(pointerEvent)
+			}
+
+			let previousDistance
+
+			function onPointerMove(pointerEvent) {
+				console.log('onPointerMove', pointerEvent.pointerId)
+				updatePointerEventInCache(pointerEvent)
+				if (pointerEventCache.length === 2) {
+					const firstPointerEvent = pointerEventCache[0]
+					const secondPointerEvent = pointerEventCache[1]
+					const distance = Math.sqrt(
+							(secondPointerEvent.clientX - firstPointerEvent.clientX) ** 2 +
+							(secondPointerEvent.clientY - firstPointerEvent.clientY) ** 2
+					)
+					if (previousDistance) {
+						const distanceDelta = distance - previousDistance
+						const zoomDelta = distanceToZoomDelta(distanceDelta)
+						zoom += zoomDelta
+						onZoom(zoom)
+					}
+					previousDistance = distance
+				}
+			}
+
+			function onPointerUp(pointerEvent) {
+				removeEventFromPointerEventCache(pointerEvent)
+				if (pointerEventCache.length < 2) {
+					previousDistance = undefined
+				}
+			}
+
+			element.addEventListener('pointerdown', onPointerDown)
+			element.addEventListener('pointermove', onPointerMove)
+			element.addEventListener('pointerup', onPointerUp)
+			element.addEventListener('pointercancel', onPointerUp)
+			element.addEventListener('pointerout', onPointerUp)
+			element.addEventListener('pointerleave', onPointerUp)
+		}
+		*/
+	</script>
+</body>
+
+</html>

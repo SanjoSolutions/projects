@@ -1,6 +1,0 @@
-{
-  "private": true,
-  "devDependencies": {
-    "typescript": "^4.0.0-dev.20200703"
-  }
-}
