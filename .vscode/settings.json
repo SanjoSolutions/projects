@@ -3,6 +3,7 @@
     "python.formatting.provider": "yapf",
     "git.ignoreLimitWarning": true,
     "cSpell.words": [
-        "Renderable"
+        "Renderable",
+        "zoomable"
     ]
 }
