@@ -44,7 +44,9 @@ function listenToDevicePixelRatioChange(callback) {
   registerDevicePixelRatioChangeListener(onDevicePixelRatioChange)
 }
 
-function noop() { }
+function noop() {
+
+}
 
 function createBinaryTree({ min, max, step, showLabels }) {
   if (typeof showLabels === 'undefined') {

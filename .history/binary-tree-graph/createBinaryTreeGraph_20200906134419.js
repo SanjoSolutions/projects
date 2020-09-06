@@ -1,6 +1,5 @@
 import { calculateViewport, zoomable } from '../zoomable.js';
 import { BinaryTree } from './BinaryTree';
-import { BinaryTreeNode } from './BinaryTreeNode';
 
 function createFullDocumentCanvas(onDevicePixelRatioOrDocumentSizeChangeFn = noop) {
   const canvas = document.createElement('canvas')
@@ -45,6 +44,16 @@ function listenToDevicePixelRatioChange(callback) {
 }
 
 function noop() { }
+
+export class BinaryTreeNode {
+  constructor() {
+    this.value = undefined
+    this.parent = undefined
+    this.children = new Array(2)
+    // For rendering
+    this.position = { x: undefined, y: undefined }
+  }
+}
 
 function createBinaryTree({ min, max, step, showLabels }) {
   if (typeof showLabels === 'undefined') {
