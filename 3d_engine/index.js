@@ -15,20 +15,47 @@ document.body.appendChild(renderer.domElement)
 const light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1)
 scene.add(light)
 
-const geometry = new THREE.BoxGeometry()
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-const cube = new THREE.Mesh(geometry, material)
-scene.add(cube)
+const directionalLight = createDirectionalLight()
+scene.add(directionalLight)
+
+const geometry = new THREE.SphereGeometry(0.5, 128, 128)
+const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+const object = new THREE.Mesh(geometry, material)
+scene.add(object)
 
 camera.position.z = 5
 
 const animate = function () {
   requestAnimationFrame(animate)
 
-  cube.rotation.x += 0.01
-  cube.rotation.y += 0.01
+  object.rotation.x += 0.01
+  object.rotation.y += 0.01
 
   renderer.render(scene, camera)
 }
 
 animate()
+
+function createDirectionalLight() {
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+  directionalLight.position.set(25, 25, 25)
+  directionalLight.target.position.set(0, 0, 0)
+  directionalLight.target.updateMatrixWorld()
+
+  directionalLight.castShadow = true
+
+  directionalLight.shadow.mapSize.width = 2048
+  directionalLight.shadow.mapSize.height = 2048
+
+  var distance = 50
+
+  directionalLight.shadow.camera.left = -distance
+  directionalLight.shadow.camera.right = distance
+  directionalLight.shadow.camera.top = distance
+  directionalLight.shadow.camera.bottom = -distance
+
+  directionalLight.shadow.camera.far = 3500
+  directionalLight.shadow.bias = -0.0001
+
+  return directionalLight
+}
