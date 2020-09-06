@@ -1,24 +1,38 @@
-const A = {
-  a: 2,
-  b: -1
+const resources = new Set(['wood', 'water'])
+
+const woodworker = {
+  wood: 2,
+  water: -1
 }
 
-const B = {
-  b: 1
+const fountain = {
+  water: 1
 }
 
-const _ = [A, B]
+const factories = [woodworker, fountain]
+const totalYield = calculateTotalYield(factories)
+const timeInterval = hours(1)
+const yield = calculateYieldInTimeInterval(timeInterval, totalYield)
 
-function t(_) {
-  return sum(_)
+/**
+ *
+ * @param {object[]} factories Factories
+ */
+export function calculateTotalYield(factories) {
+  return sum(factories)
 }
 
-function p(t, o) {
-  return times(t, o)
+/**
+ *
+ * @param {number} timeInterval Time interval in seconds.
+ * @param {object} yield Yield
+ */
+export function calculateYieldInTimeInterval(timeInterval, yield) {
+  return times(timeInterval, yield)
 }
 
 
-function sum(array) {
+export function sum(array) {
   if (typeof array[0] === 'number') {
     return sumNumbers(array)
   } else {
@@ -27,8 +41,8 @@ function sum(array) {
 }
 
 function sumObjects(objects) {
-  const keys = new Set(objects.map(object => Object.keys(object)).flat())
-  return Object.fromEntries(keys.map(key => [key, sum(objects.map(object => object[key]))]))
+  const keys = Array.from(new Set(objects.map(object => Object.keys(object)).flat()))
+  return Object.fromEntries(keys.map(key => [key, sum(objects.map(object => object[key] ?? 0))]))
 }
 
 function sumNumbers(numbers) {
@@ -39,8 +53,16 @@ function plus(a, b) {
   return a + b
 }
 
-function times(number, object) {
+export function times(number, object) {
   return Object.fromEntries(
     Object.entries(object).map(([key, value]) => [key, number * value])
   )
+}
+
+/**
+ * Converts hours into seconds.
+ * @param {number} amount Number of hours
+ */
+export function hours(amount) {
+  return amount * 60 * 60
 }
