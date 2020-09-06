@@ -1,3 +1,4 @@
+import { isOnLine } from '../isOnLine.js';
 import { calculateViewport, zoomable } from '../zoomable.js';
 import { BinaryTree } from './BinaryTree.js';
 import { BinaryTreeNode } from './BinaryTreeNode.js';
@@ -119,13 +120,14 @@ function rerenderBinaryTree(binaryTree, { viewportBoundingBox }) {
   )
   const {
     canvas: binaryTreeRendering,
+    renderableBinaryTree,
     totalRenderingWidth,
     totalRenderingHeight
   } = renderBinaryTree(binaryTree, binaryTreeRenderingBoundingBox)
   binaryTreeRenderingBoundingBox.width = Math.min(binaryTreeRenderingBoundingBox.width, totalRenderingWidth)
   binaryTreeRenderingBoundingBox.height = Math.min(binaryTreeRenderingBoundingBox.height, totalRenderingHeight)
 
-  return { binaryTreeRendering, totalRenderingWidth, totalRenderingHeight, binaryTreeRenderingBoundingBox }
+  return { binaryTreeRendering, renderableBinaryTree, totalRenderingWidth, totalRenderingHeight, binaryTreeRenderingBoundingBox }
 }
 
 function calculateBinaryTreeRenderingBoundingBox(viewportBoundingBox) {
@@ -158,6 +160,9 @@ function calculateBinaryTreeRenderingBoundingBox(viewportBoundingBox) {
   }
 }
 
+const nodeRadius = 16
+const paddingToEdge = 16
+
 /**
  *
  * @param binaryTree
@@ -165,9 +170,7 @@ function calculateBinaryTreeRenderingBoundingBox(viewportBoundingBox) {
  */
 function renderBinaryTree(binaryTree, boundingBox) {
   const renderableBinaryTree = createRenderableBinaryTree(binaryTree)
-  const paddingToEdge = 16
   const paddingBetweenNodes = 16
-  const nodeRadius = 16
 
   const numberOfNodes = getNumberOfNodes(renderableBinaryTree)
   const numberOfLevels = numberOfNodes.length
@@ -307,7 +310,7 @@ function renderBinaryTree(binaryTree, boundingBox) {
     }
   }
 
-  return { canvas, totalRenderingWidth, totalRenderingHeight }
+  return { canvas, renderableBinaryTree, totalRenderingWidth, totalRenderingHeight }
 }
 
 function getNumberOfNodes(binaryTree) {
@@ -353,6 +356,7 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
   // height: The height of the viewport of the graphics canvas.
   let binaryTreeRenderingBoundingBox
   let binaryTreeRendering
+  let renderableBinaryTree
   let totalRenderingWidth
   let totalRenderingHeight
   let zoom = 1
@@ -373,6 +377,7 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
     { viewportBoundingBox }
   )
   binaryTreeRendering = result.binaryTreeRendering
+  renderableBinaryTree = result.renderableBinaryTree
   totalRenderingWidth = result.totalRenderingWidth
   totalRenderingHeight = result.totalRenderingHeight
   binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
@@ -391,6 +396,7 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
         { viewportBoundingBox }
       )
       binaryTreeRendering = result.binaryTreeRendering
+      renderableBinaryTree = result.renderableBinaryTree
       totalRenderingWidth = result.totalRenderingWidth
       binaryTreeRenderingBoundingBox = result.binaryTreeRenderingBoundingBox
     }
@@ -399,7 +405,7 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
 
   setViewportBoundingBox({
     x: -0.5 * (viewportBoundingBox.width - totalRenderingWidth / window.devicePixelRatio),
-    y: canvas.height >= totalRenderingHeight ? -0.5 * (canvas.height - totalRenderingHeight) : 0,
+    y: 0,
     width: viewportBoundingBox.width,
     height: viewportBoundingBox.height
   })
@@ -428,8 +434,48 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
   window.addEventListener('mousedown', (event) => {
     if (event.button === 0) {
       primaryMouseButtonPressed = true
+      if (!spacePressed) {
+        const clickPosition = { x: event.pageX, y: event.pageY }
+        const connection = findConnectionLineClickedOn(renderableBinaryTree, clickPosition)
+        if (connection) {
+          const [node, child] = connection
+          const binaryTreeGraphicsScale = window.devicePixelRatio
+          setViewportBoundingBox({
+            x: child.position.x - 0.5 * viewportBoundingBox.width,
+            y: child.position.y - nodeRadius - paddingToEdge,
+            width: viewportBoundingBox.width,
+            height: viewportBoundingBox.height
+          })
+        }
+      }
     }
   })
+
+  function findConnectionLineClickedOn(renderableBinaryTree, clickPosition) {
+    let nodes = [renderableBinaryTree.root]
+    do {
+      for (const node of nodes) {
+        for (const child of node.children) {
+          if (child) {
+            const nodePosition = {
+              x: node.position.x - viewportBoundingBox.x,
+              y: node.position.y - viewportBoundingBox.y + nodeRadius
+            }
+            const childPosition = {
+              x: child.position.x - viewportBoundingBox.x,
+              y: child.position.y - viewportBoundingBox.y - nodeRadius
+            }
+            if (isOnLine(nodePosition, childPosition, clickPosition)) {
+              return [node, child]
+            }
+          }
+        }
+      }
+      nodes = nodes.map(node => node.children).flat()
+    } while (nodes.length >= 1)
+
+    return null
+  }
 
   window.addEventListener('mouseup', (event) => {
     if (event.button === 0) {
