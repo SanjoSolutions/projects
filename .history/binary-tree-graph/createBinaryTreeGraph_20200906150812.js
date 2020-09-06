@@ -91,6 +91,8 @@ function calculateNumberOfLevels(numberOfLeafNodes) {
 }
 
 function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom }) {
+  context.save()
+
   context.clearRect(
     0,
     0,
@@ -98,19 +100,23 @@ function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox,
     canvas.height
   )
 
-  const binaryTreeGraphicsScale = window.devicePixelRatio
+  const scale = window.devicePixelRatio * zoom
+  debugger
+  context.scale(scale, scale)
 
   context.drawImage(
     binaryTreeRendering,
-    binaryTreeGraphicsScale * (viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x),
-    binaryTreeGraphicsScale * (viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y),
-    binaryTreeGraphicsScale * viewportBoundingBox.width,
-    binaryTreeGraphicsScale * viewportBoundingBox.height,
+    viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x,
+    viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y,
+    scale * viewportBoundingBox.width,
+    scale * viewportBoundingBox.height,
     0,
     0,
     window.innerWidth,
     window.innerHeight
   )
+
+  context.restore()
 }
 
 function rerenderBinaryTree(binaryTree, { viewportBoundingBox }) {

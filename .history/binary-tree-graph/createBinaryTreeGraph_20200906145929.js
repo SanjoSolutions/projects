@@ -91,6 +91,8 @@ function calculateNumberOfLevels(numberOfLeafNodes) {
 }
 
 function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox, binaryTreeRenderingBoundingBox, zoom }) {
+  context.save()
+
   context.clearRect(
     0,
     0,
@@ -98,19 +100,22 @@ function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox,
     canvas.height
   )
 
-  const binaryTreeGraphicsScale = window.devicePixelRatio
+  const scale = window.devicePixelRatio * zoom
+  context.scale(scale, scale)
 
   context.drawImage(
     binaryTreeRendering,
-    binaryTreeGraphicsScale * (viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x),
-    binaryTreeGraphicsScale * (viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y),
-    binaryTreeGraphicsScale * viewportBoundingBox.width,
-    binaryTreeGraphicsScale * viewportBoundingBox.height,
+    viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x,
+    viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y,
+    window.devicePixelRatio * viewportBoundingBox.width,
+    window.devicePixelRatio * viewportBoundingBox.height,
     0,
     0,
-    window.innerWidth,
-    window.innerHeight
+    canvas.width / window.devicePixelRatio,
+    canvas.height / window.devicePixelRatio
   )
+
+  context.restore()
 }
 
 function rerenderBinaryTree(binaryTree, { viewportBoundingBox }) {
@@ -466,10 +471,7 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
     console.log('zoom', _zoom)
     const previousZoom = zoom
     zoom = _zoom
-    const centerA = viewportBoundingBox.x + 0.5 * viewportBoundingBox.width
     setViewportBoundingBox(calculateViewport(viewportBoundingBox, previousZoom, zoom))
-    const centerB = viewportBoundingBox.x + 0.5 * viewportBoundingBox.width
-    console.log('centers', centerA, centerB, centerA === centerB)
   }
 
   zoomable(onZoom)

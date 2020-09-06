@@ -1,4 +1,4 @@
-import { BinaryTreeNode } from './BinaryTreeNode.js';
+import { BinaryTreeNode } from './BinaryTreeNode';
 
 export class BinaryTree {
   constructor() {

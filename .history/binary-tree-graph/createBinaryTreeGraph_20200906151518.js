@@ -98,14 +98,14 @@ function render({ canvas, context }, { binaryTreeRendering, viewportBoundingBox,
     canvas.height
   )
 
-  const binaryTreeGraphicsScale = window.devicePixelRatio
+  const scale = window.devicePixelRatio * zoom
 
   context.drawImage(
     binaryTreeRendering,
-    binaryTreeGraphicsScale * (viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x),
-    binaryTreeGraphicsScale * (viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y),
-    binaryTreeGraphicsScale * viewportBoundingBox.width,
-    binaryTreeGraphicsScale * viewportBoundingBox.height,
+    window.devicePixelRatio * (viewportBoundingBox.x - binaryTreeRenderingBoundingBox.x),
+    window.devicePixelRatio * (viewportBoundingBox.y - binaryTreeRenderingBoundingBox.y),
+    window.devicePixelRatio * viewportBoundingBox.width,
+    window.devicePixelRatio * viewportBoundingBox.height,
     0,
     0,
     window.innerWidth,
