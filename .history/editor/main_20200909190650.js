@@ -1,0 +1,10 @@
+import { createEditor } from './index.js';
+
+export function main() {
+  const editor = createEditor()
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.appendChild(editor)
+  })
+}
+
+main()
