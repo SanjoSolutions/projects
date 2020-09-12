@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+.selection {
+  box-sizing: border-box;
+  border: 1px solid white;
+  width: 96px;
+  height: 96px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.building-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 240px;
+  background-color: beige;
+  color: black;
+  border-left: 1px solid white;
+}

@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+}
+
+.selection {
+  box-sizing: border-box;
+  border: 1px solid white;
+  width: 96px;
+  height: 96px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
