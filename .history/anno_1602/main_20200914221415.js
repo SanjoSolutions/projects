@@ -35,7 +35,7 @@ const selectionHeight = 96
 function updateSelectionStyle() {
   selection.style.width = `${selectedBuilding?.width ?? selectionWidth}px`
   selection.style.height = `${selectedBuilding?.height ?? selectionHeight}px`
-  selection.style.backgroundColor = selectedBuilding?.backgroundColor ?? 'transparent'
+  selection.style.backgroundColor = selectedBuilding?.backgroundColor
 }
 
 updateSelectionStyle()
@@ -91,6 +91,7 @@ window.addEventListener('click', (event) => {
 })
 
 window.addEventListener('keydown', (event) => {
+  debugger
   if (event.code === 'Escape') {
     selectedBuilding = null
     updateSelectionStyle()
