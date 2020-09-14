@@ -35,9 +35,9 @@ const selectionWidth = 96
 const selectionHeight = 96
 
 function updateSelectionStyle() {
-  selection.style.width = `${selectedBuilding?.width || selectionWidth}px`
-  selection.style.height = `${selectedBuilding?.height || selectionHeight}px`
-  selection.style.backgroundColor = selectedBuilding?.backgroundColor || 'transparent'
+  selection.style.width = `${selectedBuilding?.width ?? selectionWidth}px`
+  selection.style.height = `${selectedBuilding?.height ?? selectionHeight}px`
+  selection.style.backgroundColor = selectedBuilding?.backgroundColor ?? 'transparent'
 }
 
 updateSelectionStyle()
@@ -47,7 +47,6 @@ buildingMenu.addEventListener('click', (event) => {
   const $buildings = Array.from(buildingMenu.querySelectorAll('.building'))
   const buildingIndex = $buildings.indexOf($target)
   if (buildingIndex !== -1) {
-    event.stopPropagation()
     selectBuilding(buildings[buildingIndex])
   }
 })
@@ -108,12 +107,12 @@ function calculateSelectionCoordinates(event) {
 }
 
 function build({ x, y }) {
+  const building = { ...selectedBuilding }
+  built.push({
+    position: { x, y },
+    building
+  })
   if (selectedBuilding) {
-    const building = { ...selectedBuilding }
-    built.push({
-      position: { x, y },
-      building
-    })
     drawBuilding(building, { x, y })
   }
 }

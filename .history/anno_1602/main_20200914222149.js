@@ -47,7 +47,6 @@ buildingMenu.addEventListener('click', (event) => {
   const $buildings = Array.from(buildingMenu.querySelectorAll('.building'))
   const buildingIndex = $buildings.indexOf($target)
   if (buildingIndex !== -1) {
-    event.stopPropagation()
     selectBuilding(buildings[buildingIndex])
   }
 })
@@ -108,12 +107,13 @@ function calculateSelectionCoordinates(event) {
 }
 
 function build({ x, y }) {
+  const building = { ...selectedBuilding }
+  built.push({
+    position: { x, y },
+    building
+  })
+  debugger
   if (selectedBuilding) {
-    const building = { ...selectedBuilding }
-    built.push({
-      position: { x, y },
-      building
-    })
     drawBuilding(building, { x, y })
   }
 }

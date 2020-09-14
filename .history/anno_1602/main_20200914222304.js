@@ -47,7 +47,7 @@ buildingMenu.addEventListener('click', (event) => {
   const $buildings = Array.from(buildingMenu.querySelectorAll('.building'))
   const buildingIndex = $buildings.indexOf($target)
   if (buildingIndex !== -1) {
-    event.stopPropagation()
+    event.preventDefault()
     selectBuilding(buildings[buildingIndex])
   }
 })
@@ -114,6 +114,7 @@ function build({ x, y }) {
       position: { x, y },
       building
     })
+    debugger
     drawBuilding(building, { x, y })
   }
 }

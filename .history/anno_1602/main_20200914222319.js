@@ -114,6 +114,7 @@ function build({ x, y }) {
       position: { x, y },
       building
     })
+    debugger
     drawBuilding(building, { x, y })
   }
 }
