@@ -20,29 +20,33 @@ export function verifyContactData (contactData) {
     'applicationMessage',
     'numberOfAdults',
     'numberOfChildren',
-    'personGroups',
     'monthlyIncome',
     'earliestDateToMoveIn',
     'wbs',
     'hasPets',
     'threatenedByLossOfHousing',
     'firstTimeHousehold',
-    'mBill'
+    'mBill',
   ]
   const missingRequiredFields = getMissingFields(minimumRequiredFields, contactData)
   if (missingRequiredFields.length >= 1) {
-    throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(', ')}`)
+    throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(
+      ', ')}`)
   }
 }
 
-export function process (getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
+export function process (
+  getBrowser,
+  flatOfferFetchers,
+  { intervalBetweenProcessRuns, contactData, shouldStop },
+) {
   console.log('Fetching flat offers...')
   fetchFlatOffers(
     getBrowser,
     intervalBetweenProcessRuns,
     flatOfferFetchers,
     onFlatOffer.bind(null, getBrowser, contactData),
-    shouldStop
+    shouldStop,
   )
 }
 
@@ -82,7 +86,13 @@ export async function getFlatOfferFetchers () {
   return flatOfferFetchers
 }
 
-function fetchFlatOffers (getBrowser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer, shouldStop) {
+function fetchFlatOffers (
+  getBrowser,
+  intervalBetweenProcessRuns,
+  flatOfferFetchers,
+  onFlatOffer,
+  shouldStop,
+) {
   for (const fetch of flatOfferFetchers) {
     fetch(getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop)
   }
@@ -99,8 +109,11 @@ export function kommtInFrage (contactData, flatOffer) {
         isNumber(flatOffer.coldRent) &&
         isNumber(flatOffer.coldServiceCharges) &&
         isNumber(flatOffer.warmServiceCharges) &&
-        flatOffer.coldRent + flatOffer.coldServiceCharges <= maxColdRentPlusColdServiceCharges &&
-        flatOffer.warmServiceCharges <= maxWarmServiceCharges
+        flatOffer.coldRent +
+        flatOffer.coldServiceCharges <=
+        maxColdRentPlusColdServiceCharges &&
+        flatOffer.warmServiceCharges <=
+        maxWarmServiceCharges
       ) ||
       (
         isNumber(flatOffer.warmRent) &&
@@ -109,7 +122,10 @@ export function kommtInFrage (contactData, flatOffer) {
       (
         isNumber(flatOffer.coldRent) &&
         isNumber(flatOffer.serviceCharges) &&
-        flatOffer.coldRent + flatOffer.serviceCharges <= maxColdRentPlusColdServiceCharges + maxWarmServiceCharges
+        flatOffer.coldRent +
+        flatOffer.serviceCharges <=
+        maxColdRentPlusColdServiceCharges +
+        maxWarmServiceCharges
       )
     ) &&
     forPeopleOfAge(flatOffer, 29) &&
@@ -119,7 +135,9 @@ export function kommtInFrage (contactData, flatOffer) {
       !flatOffer.url.includes('howoge') ||
       monthlyIncome >= 3 * totalRent(flatOffer) // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
     ) &&
-    (!isBoolean(flatOffer.selfRenovation) || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
+    (!isBoolean(flatOffer.selfRenovation) ||
+      flatOffer.selfRenovation ===
+      Boolean(contactData.selfRenovation))
   )
 }
 
@@ -128,7 +146,9 @@ function totalRent (flatOffer) {
     isNumber(flatOffer.coldRent) &&
     isNumber(flatOffer.coldServiceCharges) &&
     isNumber(flatOffer.warmServiceCharges)) {
-    return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
+    return flatOffer.coldRent +
+      flatOffer.coldServiceCharges +
+      flatOffer.warmServiceCharges
   } else if (isNumber(flatOffer.warmRent)) {
     return flatOffer.warmRent
   } else if (
@@ -182,7 +202,7 @@ async function registerFlatOfferAsAppliedTo (flatOffer) {
   flatOffersAppliedTo.push(flatOffer.url)
   await fs.writeFile(
     path.resolve(__dirname, '..', 'flatOffersAppliedTo.json'),
-    JSON.stringify(flatOffersAppliedTo, null, 2)
+    JSON.stringify(flatOffersAppliedTo, null, 2),
   )
 }
 

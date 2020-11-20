@@ -12,5 +12,5 @@ export const applyForFlatOffer = createApplyForFlatOffer({
   fillForm,
   submitForm,
   saveScreenshot: saveScreenshotOfFlatOfferApplication,
-  closePage
+  closePage,
 })

@@ -9,13 +9,12 @@ export function getRequiredFields () {
     'applicationMessage',
     'numberOfAdults',
     'numberOfChildren',
-    'personGroups',
     'monthlyIncome',
     'earliestDateToMoveIn',
     'wbs',
     'hasPets',
     'threatenedByLossOfHousing',
     'firstTimeHousehold',
-    'mBill'
+    'mBill',
   ]
 }

@@ -11,7 +11,8 @@ async function main () {
   const flatOfferFetchers = await getFlatOfferFetchers()
 
   let browserPromise
-  function getBrowser() {
+
+  function getBrowser () {
     if (!browserPromise) {
       browserPromise = createBrowser()
       browserPromise.then(browser => {
@@ -38,25 +39,29 @@ async function main () {
     return !shouldRun()
   }
 
-  function runProcess() {
+  function runProcess () {
     console.log('Starting.')
-    process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop })
+    process(
+      getBrowser,
+      flatOfferFetchers,
+      { intervalBetweenProcessRuns, contactData, shouldStop },
+    )
     onProcessStop(scheduleNextProcessStart)
   }
 
-  function onProcessStop(callback) {
+  function onProcessStop (callback) {
     timerForHour(runToHour, () => {
       console.log('Stopping.')
       callback()
     })
   }
 
-  function scheduleNextProcessStart() {
+  function scheduleNextProcessStart () {
     console.log('Scheduling next process start.')
     timerForHour(runFromHour, runProcess)
   }
 
-  function timerForHour(hour, callback) {
+  function timerForHour (hour, callback) {
     let hoursUntilTimeout
     const now = new Date()
     const currentUTCHour = now.getUTCHours()
@@ -66,8 +71,10 @@ async function main () {
       hoursUntilTimeout = 24 - currentUTCHour + hour
     }
     const oneHourInMilliseconds = 1 * 60 * 60 * 1000
-    const nextProcessStartTime = Math.floor(Date.now() / oneHourInMilliseconds) * oneHourInMilliseconds
-      + (hoursUntilTimeout * oneHourInMilliseconds)
+    const nextProcessStartTime = Math.floor(Date.now() / oneHourInMilliseconds) *
+      oneHourInMilliseconds
+      +
+      (hoursUntilTimeout * oneHourInMilliseconds)
     setTimeout(callback, nextProcessStartTime - Date.now())
   }
 
@@ -87,7 +94,7 @@ async function createBrowser () {
     headless: false,
     defaultViewport: {
       width: 1024,
-      height: 768
-    }
+      height: 768,
+    },
   })
 }
