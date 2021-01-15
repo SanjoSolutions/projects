@@ -1,6 +1,14 @@
 import {noop} from './noop.js'
 import {listenToDevicePixelRatioChange} from './listenToDevicePixelRatioChange.js'
 
+/**
+ * @usage
+ * Also requires the following CSS:
+ * canvas {
+ *   width: 100%;
+ *   height: 100%;
+ * }
+ */
 export function createFullDocumentCanvas(onDevicePixelRatioOrDocumentSizeChangeFn = noop) {
     const canvas = document.createElement('canvas')
     const context = canvas.getContext('2d')
