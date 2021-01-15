@@ -4,6 +4,10 @@ import {listenToDevicePixelRatioChange} from './listenToDevicePixelRatioChange.j
 /**
  * @usage
  * Also requires the following CSS:
+ * body {
+ *   margin: 0;
+ * }
+ *
  * canvas {
  *   width: 100%;
  *   height: 100%;
