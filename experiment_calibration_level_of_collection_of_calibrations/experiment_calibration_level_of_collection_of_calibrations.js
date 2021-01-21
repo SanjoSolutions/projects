@@ -74,9 +74,9 @@ const calibrations = [
 
 const calibrationsValues = calibrations.map(calibration => BigInt(10) **
   BigInt(calibration))
-const averageCalibrationValue = approximatedLog10(average(calibrationsValues))
+const averageCalibrationValue = log10BigInt(average(calibrationsValues))
 console.log('average:', averageCalibrationValue)
-console.log('median:', approximatedLog10(median(calibrationsValues)))
+console.log('median:', log10BigInt(median(calibrationsValues)))
 
 function average (values) {
   return values.reduce((sum, value) => sum + value) / BigInt(values.length)
@@ -108,8 +108,30 @@ function wholeNumberLog10 (value) {
  *   log10(x) = log10(10 ** numberOfDigits(x)) + log10(x / 10 ** numberOfDigits(x))
  *   log10(x) = numberOfDigits(x) + log10(x / 10 ** numberOfDigits(x))
  */
-export function approximatedLog10 (x) {
+export function log10BigInt (x) {
+  return logBigInt(10, x)
+}
+
+/**
+ * Only supports numbers with number of digits
+ * less or equal to the maximum number (Number.MAX_SAFE_INTEGER).
+ *
+ * Explanation for calculation:
+ *   log(10 ** x) = x
+ *   log10(x * y) = log10(x) + log10(y)
+ *   x = (10 ** numberOfDigits(x)) * (x / 10 ** numberOfDigits(x))
+ *   log10(x) = log10(10 ** numberOfDigits(x)) + log10(x / 10 ** numberOfDigits(x))
+ *   log10(x) = numberOfDigits(x) + log10(x / 10 ** numberOfDigits(x))
+ */
+export function logBigInt (base, x) {
   const xAsString = x.toString()
   const numberOfDigitsOfX = xAsString.length
-  return numberOfDigitsOfX + Math.log10(Number(`0.${xAsString}`))
+  return numberOfDigitsOfX * log(base, 10) + Math.log10(sign * Number(`0.${xAsString}`))
+}
+
+/**
+ * @see https://en.wikipedia.org/wiki/Logarithm#Change_of_base
+ */
+export function log (base, x) {
+  return Math.log10(x) / Math.log10(base)
 }
