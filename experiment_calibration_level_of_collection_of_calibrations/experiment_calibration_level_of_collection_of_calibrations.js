@@ -96,8 +96,20 @@ function wholeNumberLog10 (value) {
   return valueString.length
 }
 
-export function approximatedLog10 (value) {
-  const valueString = value.toString()
-  return valueString.length + Math.log10(Number(`0.${valueString}`))
+/**
+ * Currently only supports positive numbers or 0
+ * and only supports numbers with number of digits
+ * less or equal to the maximum number (Number.MAX_SAFE_INTEGER).
+ *
+ * Explanation for calculation:
+ *   log10(10 ** x) = x
+ *   log10(x * y) = log10(x) + log10(y)
+ *   x = (10 ** numberOfDigits(x)) * (x / 10 ** numberOfDigits(x))
+ *   log10(x) = log10(10 ** numberOfDigits(x)) + log10(x / 10 ** numberOfDigits(x))
+ *   log10(x) = numberOfDigits(x) + log10(x / 10 ** numberOfDigits(x))
+ */
+export function approximatedLog10 (x) {
+  const xAsString = x.toString()
+  const numberOfDigitsOfX = xAsString.length
+  return numberOfDigitsOfX + Math.log10(Number(`0.${xAsString}`))
 }
-
