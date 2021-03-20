@@ -1,6 +1,7 @@
 {
+  "license": "SEE LICENSE IN LICENSE",
   "name": "@sanjo/compose",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "bin": {
     "compose": "index.js"
@@ -9,5 +10,10 @@
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/compose"
-  }
+  },
+  "keywords": [
+    "build",
+    "website builder",
+    "page builder"
+  ]
 }
