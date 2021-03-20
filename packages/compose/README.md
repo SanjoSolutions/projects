@@ -28,9 +28,9 @@ node node_modules/@sanjo/compose/index.js watch
 
 A `compose.user.js` file can be added with exported functions that will be
 available in the templates. See
-the [example project](https://github.com/SanjoSolutions/unnamed/packages/compose/example)
+the [example project](https://github.com/SanjoSolutions/unnamed/tree/main/packages/compose/example)
 for an example.
 
 ## Example
 
-[Example](https://github.com/SanjoSolutions/unnamed/packages/compose/example)
+[Example](https://github.com/SanjoSolutions/unnamed/tree/main/packages/compose/example)
