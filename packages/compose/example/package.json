@@ -1,0 +1,10 @@
+{
+  "type": "module",
+  "scripts": {
+    "watch": "node node_modules/@sanjo/compose/index.js watch",
+    "build": "node node_modules/@sanjo/compose/index.js"
+  },
+  "devDependencies": {
+    "@sanjo/compose": ".."
+  }
+}

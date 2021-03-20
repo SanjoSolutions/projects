@@ -1,0 +1,13 @@
+{
+  "name": "@sanjo/compose",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "compose": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/compose"
+  }
+}
