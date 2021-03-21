@@ -1,43 +1,6 @@
 {
-  "functions": {
-    "source": "functions"
-  },
   "hosting": {
     "public": "public",
-    "rewrites": [
-      {
-        "source": "/process",
-        "function": "process"
-      },
-      {
-        "source": "/pay",
-        "function": "pay"
-      },
-      {
-        "source":"/error",
-        "destination":"/error.html",
-        "type": 301
-      },
-      {
-        "source":"/cancel",
-        "destination":"/cancel.html",
-        "type": 301
-      },
-      {
-        "source":"/download",
-        "destination":"/download.html",
-        "type": 301
-      },
-      {
-        "source":"/impressum",
-        "destination":"/impressum.html",
-        "type": 301
-      },
-      {
-        "source":"/datenschutzbestimmung",
-        "destination":"/datenschutzbestimmung.html",
-        "type": 301
-      }
-    ]
+    "rewrites": []
   }
 }
