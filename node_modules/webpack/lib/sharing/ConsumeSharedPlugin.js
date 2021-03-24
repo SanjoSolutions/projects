@@ -5,7 +5,7 @@
 
 "use strict";
 
-const validateOptions = require("schema-utils");
+const { validate } = require("schema-utils");
 const schema = require("../../schemas/plugins/sharing/ConsumeSharedPlugin.json");
 const ModuleNotFoundError = require("../ModuleNotFoundError");
 const RuntimeGlobals = require("../RuntimeGlobals");
@@ -40,7 +40,7 @@ class ConsumeSharedPlugin {
 	 */
 	constructor(options) {
 		if (typeof options !== "string") {
-			validateOptions(schema, options, { name: "Consumes Shared Plugin" });
+			validate(schema, options, { name: "Consumes Shared Plugin" });
 		}
 
 		/** @type {[string, ConsumeOptions][]} */
@@ -292,6 +292,7 @@ class ConsumeSharedPlugin {
 					PLUGIN_NAME,
 					(chunk, set) => {
 						set.add(RuntimeGlobals.module);
+						set.add(RuntimeGlobals.moduleCache);
 						set.add(RuntimeGlobals.moduleFactoriesAddOnly);
 						set.add(RuntimeGlobals.shareScopeMap);
 						set.add(RuntimeGlobals.initializeSharing);

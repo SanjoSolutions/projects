@@ -7,6 +7,7 @@
 const RuntimeGlobals = require("../RuntimeGlobals");
 const RuntimeModule = require("../RuntimeModule");
 const Template = require("../Template");
+const { first } = require("../util/SetHelpers");
 
 /** @typedef {import("../Chunk")} Chunk */
 /** @typedef {import("../Compilation")} Compilation */
@@ -100,6 +101,9 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 					addChunk(c);
 				}
 			}
+		}
+		for (const entrypoint of chunk.getAllReferencedAsyncEntrypoints()) {
+			addChunk(entrypoint.chunks[entrypoint.chunks.length - 1]);
 		}
 
 		/** @type {Map<string, Set<string | number>>} */
@@ -256,9 +260,7 @@ class GetChunkFilenameRuntimeModule extends RuntimeModule {
 								Array.from(staticUrls, ([url, ids]) => {
 									const condition =
 										ids.size === 1
-											? `chunkId === ${JSON.stringify(
-													ids.values().next().value
-											  )}`
+											? `chunkId === ${JSON.stringify(first(ids))}`
 											: `{${Array.from(
 													ids,
 													id => `${JSON.stringify(id)}:1`

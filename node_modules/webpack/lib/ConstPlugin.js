@@ -10,6 +10,8 @@ const ConstDependency = require("./dependencies/ConstDependency");
 const { evaluateToString } = require("./javascript/JavascriptParserHelpers");
 const { parseResource } = require("./util/identifier");
 
+/** @typedef {import("estree").Expression} ExpressionNode */
+/** @typedef {import("estree").Super} SuperNode */
 /** @typedef {import("./Compiler")} Compiler */
 
 const collectDeclaration = (declarations, pattern) => {
@@ -113,7 +115,7 @@ class ConstPlugin {
 	 * @returns {void}
 	 */
 	apply(compiler) {
-		const cacheParseResource = parseResource.bindCache(compiler.root);
+		const cachedParseResource = parseResource.bindCache(compiler.root);
 		compiler.hooks.compilation.tap(
 			"ConstPlugin",
 			(compilation, { normalModuleFactory }) => {
@@ -133,10 +135,12 @@ class ConstPlugin {
 						const param = parser.evaluateExpression(statement.test);
 						const bool = param.asBool();
 						if (typeof bool === "boolean") {
-							if (statement.test.type !== "Literal") {
+							if (!param.couldHaveSideEffects()) {
 								const dep = new ConstDependency(`${bool}`, param.range);
 								dep.loc = statement.loc;
 								parser.state.module.addPresentationalDependency(dep);
+							} else {
+								parser.walkExpression(statement.test);
 							}
 							const branchToRemove = bool
 								? statement.alternate
@@ -204,10 +208,12 @@ class ConstPlugin {
 							const param = parser.evaluateExpression(expression.test);
 							const bool = param.asBool();
 							if (typeof bool === "boolean") {
-								if (expression.test.type !== "Literal") {
+								if (!param.couldHaveSideEffects()) {
 									const dep = new ConstDependency(` ${bool}`, param.range);
 									dep.loc = expression.loc;
 									parser.state.module.addPresentationalDependency(dep);
+								} else {
+									parser.walkExpression(expression.test);
 								}
 								// Expressions do not hoist.
 								// It is safe to remove the dead branch.
@@ -218,15 +224,12 @@ class ConstPlugin {
 								//
 								// the generated code is:
 								//
-								//   false ? undefined : otherExpression();
+								//   false ? 0 : otherExpression();
 								//
 								const branchToRemove = bool
 									? expression.alternate
 									: expression.consequent;
-								const dep = new ConstDependency(
-									"undefined",
-									branchToRemove.range
-								);
+								const dep = new ConstDependency("0", branchToRemove.range);
 								dep.loc = branchToRemove.loc;
 								parser.state.module.addPresentationalDependency(dep);
 								return bool;
@@ -291,7 +294,10 @@ class ConstPlugin {
 										(expression.operator === "&&" && bool) ||
 										(expression.operator === "||" && !bool);
 
-									if (param.isBoolean() || keepRight) {
+									if (
+										!param.couldHaveSideEffects() &&
+										(param.isBoolean() || keepRight)
+									) {
 										// for case like
 										//
 										//   return'development'===process.env.NODE_ENV&&'foo'
@@ -308,7 +314,7 @@ class ConstPlugin {
 									}
 									if (!keepRight) {
 										const dep = new ConstDependency(
-											"false",
+											"0",
 											expression.right.range
 										);
 										dep.loc = expression.loc;
@@ -316,16 +322,118 @@ class ConstPlugin {
 									}
 									return keepRight;
 								}
+							} else if (expression.operator === "??") {
+								const param = parser.evaluateExpression(expression.left);
+								const keepRight = param && param.asNullish();
+								if (typeof keepRight === "boolean") {
+									// ------------------------------------------
+									//
+									// Given the following code:
+									//
+									//   nonNullish ?? someExpression();
+									//
+									// the generated code is:
+									//
+									//   nonNullish ?? 0;
+									//
+									// ------------------------------------------
+									//
+									// Given the following code:
+									//
+									//   nullish ?? someExpression();
+									//
+									// the generated code is:
+									//
+									//   null ?? someExpression();
+									//
+									if (!param.couldHaveSideEffects() && keepRight) {
+										// cspell:word returnnull
+										// for case like
+										//
+										//   return('development'===process.env.NODE_ENV&&null)??'foo'
+										//
+										// we need a space before the bool to prevent result like
+										//
+										//   returnnull??'foo'
+										//
+										const dep = new ConstDependency(" null", param.range);
+										dep.loc = expression.loc;
+										parser.state.module.addPresentationalDependency(dep);
+									} else {
+										const dep = new ConstDependency(
+											"0",
+											expression.right.range
+										);
+										dep.loc = expression.loc;
+										parser.state.module.addPresentationalDependency(dep);
+										parser.walkExpression(expression.left);
+									}
+
+									return keepRight;
+								}
 							}
 						}
 					);
+					parser.hooks.optionalChaining.tap("ConstPlugin", expr => {
+						/** @type {ExpressionNode[]} */
+						const optionalExpressionsStack = [];
+						/** @type {ExpressionNode|SuperNode} */
+						let next = expr.expression;
+
+						while (
+							next.type === "MemberExpression" ||
+							next.type === "CallExpression"
+						) {
+							if (next.type === "MemberExpression") {
+								if (next.optional) {
+									// SuperNode can not be optional
+									optionalExpressionsStack.push(
+										/** @type {ExpressionNode} */ (next.object)
+									);
+								}
+								next = next.object;
+							} else {
+								if (next.optional) {
+									// SuperNode can not be optional
+									optionalExpressionsStack.push(
+										/** @type {ExpressionNode} */ (next.callee)
+									);
+								}
+								next = next.callee;
+							}
+						}
+
+						while (optionalExpressionsStack.length) {
+							const expression = optionalExpressionsStack.pop();
+							const evaluated = parser.evaluateExpression(expression);
+
+							if (evaluated && evaluated.asNullish()) {
+								// ------------------------------------------
+								//
+								// Given the following code:
+								//
+								//   nullishMemberChain?.a.b();
+								//
+								// the generated code is:
+								//
+								//   undefined;
+								//
+								// ------------------------------------------
+								//
+								const dep = new ConstDependency(" undefined", expr.range);
+								dep.loc = expr.loc;
+								parser.state.module.addPresentationalDependency(dep);
+								return true;
+							}
+						}
+					});
 					parser.hooks.evaluateIdentifier
 						.for("__resourceQuery")
 						.tap("ConstPlugin", expr => {
 							if (parser.scope.isAsmJs) return;
 							if (!parser.state.module) return;
 							return evaluateToString(
-								cacheParseResource(parser.state.module.resource).query
+								cachedParseResource(parser.state.module.resource).query
 							)(expr);
 						});
 					parser.hooks.expression
@@ -335,7 +443,7 @@ class ConstPlugin {
 							if (!parser.state.module) return;
 							const dep = new CachedConstDependency(
 								JSON.stringify(
-									cacheParseResource(parser.state.module.resource).query
+									cachedParseResource(parser.state.module.resource).query
 								),
 								expr.range,
 								"__resourceQuery"
@@ -351,7 +459,7 @@ class ConstPlugin {
 							if (parser.scope.isAsmJs) return;
 							if (!parser.state.module) return;
 							return evaluateToString(
-								cacheParseResource(parser.state.module.resource).fragment
+								cachedParseResource(parser.state.module.resource).fragment
 							)(expr);
 						});
 					parser.hooks.expression
@@ -361,7 +469,7 @@ class ConstPlugin {
 							if (!parser.state.module) return;
 							const dep = new CachedConstDependency(
 								JSON.stringify(
-									cacheParseResource(parser.state.module.resource).fragment
+									cachedParseResource(parser.state.module.resource).fragment
 								),
 								expr.range,
 								"__resourceFragment"

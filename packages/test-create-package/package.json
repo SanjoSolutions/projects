@@ -10,8 +10,6 @@
     "@sanjo/test-npm-init": "^0.1.0",
     "@sanjo/write-json": "^1.0.0"
   },
-  "devDependencies": {
-  },
   "publishConfig": {
     "access": "public"
   }

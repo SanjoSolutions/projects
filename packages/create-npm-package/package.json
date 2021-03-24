@@ -9,8 +9,6 @@
     "@sanjo/exec": "1.0.0",
     "@sanjo/write-json": "^1.0.0"
   },
-  "devDependencies": {
-  },
   "publishConfig": {
     "access": "public"
   }

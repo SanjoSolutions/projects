@@ -6,16 +6,18 @@
 "use strict";
 
 const { ConcatSource } = require("webpack-sources");
-const { UsageState } = require("../ModuleGraph");
+const { UsageState } = require("../ExportsInfo");
 const propertyAccess = require("../util/propertyAccess");
+const { getEntryRuntime } = require("../util/runtime");
 const AbstractLibraryPlugin = require("./AbstractLibraryPlugin");
 
 /** @typedef {import("webpack-sources").Source} Source */
 /** @typedef {import("../../declarations/WebpackOptions").LibraryOptions} LibraryOptions */
 /** @typedef {import("../../declarations/WebpackOptions").LibraryType} LibraryType */
+/** @typedef {import("../Chunk")} Chunk */
 /** @typedef {import("../Compiler")} Compiler */
 /** @typedef {import("../Module")} Module */
-/** @typedef {import("../javascript/JavascriptModulesPlugin").RenderContext} RenderContext */
+/** @typedef {import("../javascript/JavascriptModulesPlugin").StartupRenderContext} StartupRenderContext */
 /** @template T @typedef {import("./AbstractLibraryPlugin").LibraryContext<T>} LibraryContext<T> */
 
 /**
@@ -56,38 +58,54 @@ class ExportPropertyLibraryPlugin extends AbstractLibraryPlugin {
 
 	/**
 	 * @param {Module} module the exporting entry module
+	 * @param {string} entryName the name of the entrypoint
 	 * @param {LibraryContext<T>} libraryContext context
 	 * @returns {void}
 	 */
-	finishEntryModule(module, { options, compilation: { moduleGraph } }) {
+	finishEntryModule(
+		module,
+		entryName,
+		{ options, compilation, compilation: { moduleGraph } }
+	) {
+		const runtime = getEntryRuntime(compilation, entryName);
 		if (options.export) {
 			const exportsInfo = moduleGraph.getExportInfo(
 				module,
 				Array.isArray(options.export) ? options.export[0] : options.export
 			);
-			exportsInfo.used = UsageState.Used;
+			exportsInfo.setUsed(UsageState.Used, runtime);
 			exportsInfo.canMangleUse = false;
 		} else {
 			const exportsInfo = moduleGraph.getExportsInfo(module);
 			if (this.nsObjectUsed) {
-				exportsInfo.setUsedInUnknownWay();
+				exportsInfo.setUsedInUnknownWay(runtime);
 			} else {
-				exportsInfo.setAllKnownExportsUsed();
+				exportsInfo.setAllKnownExportsUsed(runtime);
 			}
 		}
 		moduleGraph.addExtraReason(module, "used as library export");
 	}
+
+	/**
+	 * @param {Chunk} chunk the chunk
+	 * @param {Set<string>} set runtime requirements
+	 * @param {LibraryContext<T>} libraryContext context
+	 * @returns {void}
+	 */
+	runtimeRequirements(chunk, set, libraryContext) {}
+
 	/**
 	 * @param {Source} source source
-	 * @param {RenderContext} renderContext render context
+	 * @param {Module} module module
+	 * @param {StartupRenderContext} renderContext render context
 	 * @param {LibraryContext<T>} libraryContext context
 	 * @returns {Source} source with library export
 	 */
-	render(source, renderContext, { options }) {
+	renderStartup(source, module, renderContext, { options }) {
 		if (!options.export) return source;
-		const postfix = propertyAccess(
+		const postfix = `__webpack_exports__ = __webpack_exports__${propertyAccess(
 			Array.isArray(options.export) ? options.export : [options.export]
-		);
+		)};\n`;
 		return new ConcatSource(source, postfix);
 	}
 }

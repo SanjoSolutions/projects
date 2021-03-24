@@ -5,7 +5,7 @@
 
 "use strict";
 
-const { OriginalSource } = require("webpack-sources");
+const { OriginalSource, RawSource } = require("webpack-sources");
 const AsyncDependenciesBlock = require("../AsyncDependenciesBlock");
 const Module = require("../Module");
 const RuntimeGlobals = require("../RuntimeGlobals");
@@ -31,6 +31,7 @@ const ContainerExposedDependency = require("./ContainerExposedDependency");
 /**
  * @typedef {Object} ExposeOptions
  * @property {string[]} import requests to exposed modules (last one is exported)
+ * @property {string} name custom chunk name for the exposed module
  */
 
 const SOURCE_TYPES = new Set(["javascript"]);
@@ -100,14 +101,17 @@ class ContainerEntryModule extends Module {
 	build(options, compilation, resolver, fs, callback) {
 		this.buildMeta = {};
 		this.buildInfo = {
-			strict: true
+			strict: true,
+			topLevelDeclarations: new Set(["moduleMap", "get", "init"])
 		};
 
 		this.clearDependenciesAndBlocks();
 
 		for (const [name, options] of this._exposes) {
 			const block = new AsyncDependenciesBlock(
-				undefined,
+				{
+					name: options.name
+				},
 				{ name },
 				options.import[options.import.length - 1]
 			);
@@ -193,8 +197,10 @@ class ContainerEntryModule extends Module {
 			`var moduleMap = {`,
 			Template.indent(getters.join(",\n")),
 			"};",
-			`var get = ${runtimeTemplate.basicFunction("module", [
-				"return (",
+			`var get = ${runtimeTemplate.basicFunction("module, getScope", [
+				`${RuntimeGlobals.currentRemoteGetScope} = getScope;`,
+				// reusing the getScope variable to avoid creating a new var (and module is also used later)
+				"getScope = (",
 				Template.indent([
 					`${RuntimeGlobals.hasOwnProperty}(moduleMap, module)`,
 					Template.indent([
@@ -205,16 +211,19 @@ class ContainerEntryModule extends Module {
 						)})`
 					])
 				]),
-				");"
+				");",
+				`${RuntimeGlobals.currentRemoteGetScope} = undefined;`,
+				"return getScope;"
 			])};`,
-			`var init = ${runtimeTemplate.basicFunction("shareScope", [
+			`var init = ${runtimeTemplate.basicFunction("shareScope, initScope", [
+				`if (!${RuntimeGlobals.shareScopeMap}) return;`,
 				`var oldScope = ${RuntimeGlobals.shareScopeMap}[${JSON.stringify(
 					this._shareScope
 				)}];`,
 				`var name = ${JSON.stringify(this._shareScope)}`,
 				`if(oldScope && oldScope !== shareScope) throw new Error("Container initialization failed as it has already been initialized with a different share scope");`,
 				`${RuntimeGlobals.shareScopeMap}[name] = shareScope;`,
-				`return ${RuntimeGlobals.initializeSharing}(name);`
+				`return ${RuntimeGlobals.initializeSharing}(name, initScope);`
 			])};`,
 			"",
 			"// This exports getters to disallow modifications",
@@ -228,7 +237,9 @@ class ContainerEntryModule extends Module {
 
 		sources.set(
 			"javascript",
-			new OriginalSource(source, "webpack/container-entry")
+			this.useSourceMap || this.useSimpleSourceMap
+				? new OriginalSource(source, "webpack/container-entry")
+				: new RawSource(source)
 		);
 
 		return {

@@ -11,6 +11,13 @@ const util = require("util");
 const deprecationCache = new Map();
 
 /**
+ * @typedef {Object} FakeHookMarker
+ * @property {true} _fakeHook it's a fake hook
+ */
+
+/** @template T @typedef {T & FakeHookMarker} FakeHook<T> */
+
+/**
  * @param {string} message deprecation message
  * @param {string} code deprecation code
  * @returns {Function} function to trigger deprecation
@@ -127,20 +134,24 @@ exports.arrayToSetDeprecation = (set, name) => {
 		};
 		return fn;
 	};
-	let indexerDefined = 0;
+	const defineIndexGetter = index => {
+		Object.defineProperty(set, index, {
+			get: createIndexGetter(index),
+			set(value) {
+				throw new Error(
+					`${name} was changed from Array to Set (indexing Array with write is not possible)`
+				);
+			}
+		});
+	};
+	defineIndexGetter(0);
+	let indexerDefined = 1;
 	Object.defineProperty(set, "length", {
 		get() {
 			dLength();
 			const length = this.size;
-			for (indexerDefined; indexerDefined < length; indexerDefined++) {
-				Object.defineProperty(set, indexerDefined, {
-					get: createIndexGetter(indexerDefined),
-					set(value) {
-						throw new Error(
-							`${name} was changed from Array to Set (indexing Array with write is not possible)`
-						);
-					}
-				});
+			for (indexerDefined; indexerDefined < length + 1; indexerDefined++) {
+				defineIndexGetter(indexerDefined);
 			}
 			return length;
 		},
@@ -196,7 +207,7 @@ exports.soonFrozenObjectDeprecation = (obj, name, code, note = "") => {
  * @param {string} code deprecation code
  * @returns {T} object with property access deprecated
  */
-exports.deprecateAllProperties = (obj, message, code) => {
+const deprecateAllProperties = (obj, message, code) => {
 	const newObj = {};
 	const descriptors = Object.getOwnPropertyDescriptors(obj);
 	for (const name of Object.keys(descriptors)) {
@@ -225,4 +236,21 @@ exports.deprecateAllProperties = (obj, message, code) => {
 		}
 	}
 	return /** @type {T} */ (newObj);
+};
+exports.deprecateAllProperties = deprecateAllProperties;
+
+/**
+ * @template T
+ * @param {T} fakeHook fake hook implementation
+ * @param {string=} message deprecation message (not deprecated when unset)
+ * @param {string=} code deprecation code (not deprecated when unset)
+ * @returns {FakeHook<T>} fake hook which redirects
+ */
+exports.createFakeHook = (fakeHook, message, code) => {
+	if (message && code) {
+		fakeHook = deprecateAllProperties(fakeHook, message, code);
+	}
+	return Object.freeze(
+		Object.assign(fakeHook, { _fakeHook: /** @type {true} */ (true) })
+	);
 };

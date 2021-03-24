@@ -7,7 +7,9 @@
 
 /** @typedef {import("webpack-sources").ReplaceSource} ReplaceSource */
 /** @typedef {import("./ChunkGraph")} ChunkGraph */
+/** @typedef {import("./ConcatenationScope")} ConcatenationScope */
 /** @typedef {import("./Dependency")} Dependency */
+/** @typedef {import("./Dependency").RuntimeSpec} RuntimeSpec */
 /** @typedef {import("./DependencyTemplates")} DependencyTemplates */
 /** @typedef {import("./InitFragment")} InitFragment */
 /** @typedef {import("./Module")} Module */
@@ -22,7 +24,9 @@
  * @property {ChunkGraph} chunkGraph the chunk graph
  * @property {Set<string>} runtimeRequirements the requirements for runtime
  * @property {Module} module current module
+ * @property {RuntimeSpec} runtime current runtimes, for which code is generated
  * @property {InitFragment[]} initFragments mutable array of init fragments for the current module
+ * @property {ConcatenationScope=} concatenationScope when in a concatenated module, information about other concatenated modules
  */
 
 class DependencyTemplate {

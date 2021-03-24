@@ -33,6 +33,7 @@ module.exports = function () {
 	var currentUpdateApplyHandlers;
 	var queuedInvalidatedModules;
 
+	// eslint-disable-next-line no-unused-vars
 	$hmrModuleData$ = currentModuleData;
 
 	$interceptModuleExecution$.push(function (options) {
@@ -66,7 +67,7 @@ module.exports = function () {
 					me.children.push(request);
 				}
 			} else {
-				console.trace(
+				console.warn(
 					"[HMR] unexpected require(" +
 						request +
 						") from disposed module " +
@@ -103,6 +104,7 @@ module.exports = function () {
 		var hot = {
 			// private stuff
 			_acceptedDependencies: {},
+			_acceptedErrorHandlers: {},
 			_declinedDependencies: {},
 			_selfAccepted: false,
 			_selfDeclined: false,
@@ -117,13 +119,18 @@ module.exports = function () {
 
 			// Module API
 			active: true,
-			accept: function (dep, callback) {
+			accept: function (dep, callback, errorHandler) {
 				if (dep === undefined) hot._selfAccepted = true;
 				else if (typeof dep === "function") hot._selfAccepted = dep;
-				else if (typeof dep === "object" && dep !== null)
-					for (var i = 0; i < dep.length; i++)
+				else if (typeof dep === "object" && dep !== null) {
+					for (var i = 0; i < dep.length; i++) {
 						hot._acceptedDependencies[dep[i]] = callback || function () {};
-				else hot._acceptedDependencies[dep] = callback || function () {};
+						hot._acceptedErrorHandlers[dep[i]] = errorHandler;
+					}
+				} else {
+					hot._acceptedDependencies[dep] = callback || function () {};
+					hot._acceptedErrorHandlers[dep] = errorHandler;
+				}
 			},
 			decline: function (dep) {
 				if (dep === undefined) hot._selfDeclined = true;

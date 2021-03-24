@@ -4,12 +4,9 @@
   "license": "Unlicense",
   "version": "0.0.0",
   "main": "./index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "@sanjo/animate": "^1.0.0"
-  },
-  "devDependencies": {
   },
   "publishConfig": {
     "access": "public"

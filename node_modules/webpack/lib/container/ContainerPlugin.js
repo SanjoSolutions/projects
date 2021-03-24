@@ -5,7 +5,7 @@
 
 "use strict";
 
-const validateOptions = require("schema-utils");
+const { validate } = require("schema-utils");
 const schema = require("../../schemas/plugins/container/ContainerPlugin.json");
 const ContainerEntryDependency = require("./ContainerEntryDependency");
 const ContainerEntryModuleFactory = require("./ContainerEntryModuleFactory");
@@ -22,7 +22,7 @@ class ContainerPlugin {
 	 * @param {ContainerPluginOptions} options options
 	 */
 	constructor(options) {
-		validateOptions(schema, options, { name: "Container Plugin" });
+		validate(schema, options, { name: "Container Plugin" });
 
 		this._options = {
 			name: options.name,
@@ -35,10 +35,12 @@ class ContainerPlugin {
 			exposes: parseOptions(
 				options.exposes,
 				item => ({
-					import: Array.isArray(item) ? item : [item]
+					import: Array.isArray(item) ? item : [item],
+					name: undefined
 				}),
 				item => ({
-					import: Array.isArray(item.import) ? item.import : [item.import]
+					import: Array.isArray(item.import) ? item.import : [item.import],
+					name: item.name || undefined
 				})
 			)
 		};

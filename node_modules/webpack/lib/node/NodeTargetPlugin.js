@@ -9,9 +9,53 @@ const ExternalsPlugin = require("../ExternalsPlugin");
 
 /** @typedef {import("../Compiler")} Compiler */
 
-const builtins =
-	// eslint-disable-next-line node/no-unsupported-features/node-builtins,node/no-deprecated-api
-	require("module").builtinModules || Object.keys(process.binding("natives"));
+const builtins = [
+	"assert",
+	"async_hooks",
+	"buffer",
+	"child_process",
+	"cluster",
+	"console",
+	"constants",
+	"crypto",
+	"dgram",
+	"dns",
+	"dns/promises",
+	"domain",
+	"events",
+	"fs",
+	"fs/promises",
+	"http",
+	"http2",
+	"https",
+	"inspector",
+	"module",
+	"net",
+	"os",
+	"path",
+	"perf_hooks",
+	"process",
+	"punycode",
+	"querystring",
+	"readline",
+	"repl",
+	"stream",
+	"stream/promises",
+	"string_decoder",
+	"sys",
+	"timers",
+	"timers/promises",
+	"tls",
+	"trace_events",
+	"tty",
+	"url",
+	"util",
+	"v8",
+	"vm",
+	"wasi",
+	"worker_threads",
+	"zlib"
+];
 
 class NodeTargetPlugin {
 	/**

@@ -9,8 +9,6 @@
     "@sanjo/create-npm-package": "^0.1.0",
     "@sanjo/make-temporary-directory": "^1.0.0"
   },
-  "devDependencies": {
-  },
   "publishConfig": {
     "access": "public"
   }

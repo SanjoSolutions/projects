@@ -13,6 +13,7 @@ const makeSerializable = require("./util/makeSerializable");
 /** @typedef {import("../declarations/WebpackOptions").WebpackOptionsNormalized} WebpackOptions */
 /** @typedef {import("./ChunkGraph")} ChunkGraph */
 /** @typedef {import("./Compilation")} Compilation */
+/** @typedef {import("./Dependency").UpdateHashContext} UpdateHashContext */
 /** @typedef {import("./DependencyTemplates")} DependencyTemplates */
 /** @typedef {import("./Module").CodeGenerationContext} CodeGenerationContext */
 /** @typedef {import("./Module").CodeGenerationResult} CodeGenerationResult */
@@ -27,14 +28,18 @@ const makeSerializable = require("./util/makeSerializable");
 const TYPES = new Set(["javascript"]);
 
 class RawModule extends Module {
-	constructor(source, identifier, readableIdentifier) {
+	/**
+	 * @param {string} source source code
+	 * @param {string} identifier unique identifier
+	 * @param {string=} readableIdentifier readable identifier
+	 * @param {ReadonlySet<string>=} runtimeRequirements runtime requirements needed for the source code
+	 */
+	constructor(source, identifier, readableIdentifier, runtimeRequirements) {
 		super("javascript/dynamic", null);
-		/** @type {string} */
 		this.sourceStr = source;
-		/** @type {string} */
 		this.identifierStr = identifier || this.sourceStr;
-		/** @type {string} */
 		this.readableIdentifierStr = readableIdentifier || this.identifierStr;
+		this.runtimeRequirements = runtimeRequirements || null;
 	}
 
 	/**
@@ -98,7 +103,7 @@ class RawModule extends Module {
 	 */
 	codeGeneration(context) {
 		const sources = new Map();
-		if (this.useSourceMap) {
+		if (this.useSourceMap || this.useSimpleSourceMap) {
 			sources.set(
 				"javascript",
 				new OriginalSource(this.sourceStr, this.identifier())
@@ -106,17 +111,17 @@ class RawModule extends Module {
 		} else {
 			sources.set("javascript", new RawSource(this.sourceStr));
 		}
-		return { sources, runtimeRequirements: null };
+		return { sources, runtimeRequirements: this.runtimeRequirements };
 	}
 
 	/**
 	 * @param {Hash} hash the hash used to track dependencies
-	 * @param {ChunkGraph} chunkGraph the chunk graph
+	 * @param {UpdateHashContext} context context
 	 * @returns {void}
 	 */
-	updateHash(hash, chunkGraph) {
+	updateHash(hash, context) {
 		hash.update(this.sourceStr);
-		super.updateHash(hash, chunkGraph);
+		super.updateHash(hash, context);
 	}
 
 	serialize(context) {
@@ -125,6 +130,7 @@ class RawModule extends Module {
 		write(this.sourceStr);
 		write(this.identifierStr);
 		write(this.readableIdentifierStr);
+		write(this.runtimeRequirements);
 
 		super.serialize(context);
 	}
@@ -135,6 +141,7 @@ class RawModule extends Module {
 		this.sourceStr = read();
 		this.identifierStr = read();
 		this.readableIdentifierStr = read();
+		this.runtimeRequirements = read();
 
 		super.deserialize(context);
 	}

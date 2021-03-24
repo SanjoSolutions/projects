@@ -8,8 +8,6 @@
   "dependencies": {
     "@sanjo/request": "^0.2.0"
   },
-  "devDependencies": {
-  },
   "publishConfig": {
     "access": "public"
   }

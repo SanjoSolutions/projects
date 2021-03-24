@@ -11,8 +11,6 @@
     "@sanjo/comparison": "^0.1.0",
     "@sanjo/identity": "^1.0.0"
   },
-  "devDependencies": {
-  },
   "publishConfig": {
     "access": "public"
   }

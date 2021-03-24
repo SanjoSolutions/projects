@@ -8,8 +8,6 @@
   "dependencies": {
     "@sanjo/binary-search": "^1.0.0"
   },
-  "devDependencies": {
-  },
   "publishConfig": {
     "access": "public"
   }

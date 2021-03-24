@@ -11,6 +11,7 @@ const NullDependency = require("./NullDependency");
 /** @typedef {import("../ChunkGraph")} ChunkGraph */
 /** @typedef {import("../Dependency").ExportSpec} ExportSpec */
 /** @typedef {import("../Dependency").ExportsSpec} ExportsSpec */
+/** @typedef {import("../Dependency").UpdateHashContext} UpdateHashContext */
 /** @typedef {import("../ModuleGraph")} ModuleGraph */
 /** @typedef {import("../util/Hash")} Hash */
 
@@ -40,18 +41,6 @@ class StaticExportsDependency extends NullDependency {
 			canMangle: this.canMangle,
 			dependencies: undefined
 		};
-	}
-
-	/**
-	 * Update the hash
-	 * @param {Hash} hash hash to be updated
-	 * @param {ChunkGraph} chunkGraph chunk graph
-	 * @returns {void}
-	 */
-	updateHash(hash, chunkGraph) {
-		hash.update(JSON.stringify(this.exports));
-		if (this.canMangle) hash.update("canMangle");
-		super.updateHash(hash, chunkGraph);
 	}
 
 	serialize(context) {

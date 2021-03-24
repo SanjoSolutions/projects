@@ -6,6 +6,7 @@
 "use strict";
 
 const NormalModule = require("../NormalModule");
+const LazySet = require("../util/LazySet");
 const LoaderDependency = require("./LoaderDependency");
 
 /** @typedef {import("../Module")} Module */
@@ -73,10 +74,17 @@ class LoaderPlugin {
 								if (!referencedModule) {
 									return callback(new Error("Cannot load the module"));
 								}
+								if (referencedModule.getNumberOfErrors() > 0) {
+									return callback(
+										new Error("The loaded module contains errors")
+									);
+								}
 								const moduleSource = referencedModule.originalSource();
 								if (!moduleSource) {
-									throw new Error(
-										"The module created for a LoaderDependency must have an original source"
+									return callback(
+										new Error(
+											"The module created for a LoaderDependency must have an original source"
+										)
 									);
 								}
 								let source, map;
@@ -88,16 +96,28 @@ class LoaderPlugin {
 									map = moduleSource.map();
 									source = moduleSource.source();
 								}
-								if (referencedModule.buildInfo.fileDependencies) {
-									for (const d of referencedModule.buildInfo.fileDependencies) {
-										loaderContext.addDependency(d);
-									}
+								const fileDependencies = new LazySet();
+								const contextDependencies = new LazySet();
+								const missingDependencies = new LazySet();
+								const buildDependencies = new LazySet();
+								referencedModule.addCacheDependencies(
+									fileDependencies,
+									contextDependencies,
+									missingDependencies,
+									buildDependencies
+								);
+
+								for (const d of fileDependencies) {
+									loaderContext.addDependency(d);
 								}
-								if (referencedModule.buildInfo.contextDependencies) {
-									for (const d of referencedModule.buildInfo
-										.contextDependencies) {
-										loaderContext.addContextDependency(d);
-									}
+								for (const d of contextDependencies) {
+									loaderContext.addContextDependency(d);
+								}
+								for (const d of missingDependencies) {
+									loaderContext.addMissingDependency(d);
+								}
+								for (const d of buildDependencies) {
+									loaderContext.addBuildDependency(d);
 								}
 								return callback(null, source, map, referencedModule);
 							}

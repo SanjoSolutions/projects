@@ -15,7 +15,7 @@ const {
 	evaluateToString,
 	evaluateToNumber
 } = require("../javascript/JavascriptParserHelpers");
-const memorize = require("../util/memorize");
+const memoize = require("../util/memoize");
 const propertyAccess = require("../util/propertyAccess");
 const ConstDependency = require("./ConstDependency");
 
@@ -24,7 +24,7 @@ const ConstDependency = require("./ConstDependency");
 /** @typedef {import("../NormalModule")} NormalModule */
 /** @typedef {import("../javascript/JavascriptParser")} Parser */
 
-const getCriticalDependencyWarning = memorize(() =>
+const getCriticalDependencyWarning = memoize(() =>
 	require("./CriticalDependencyWarning")
 );
 
@@ -56,26 +56,27 @@ class ImportMetaPlugin {
 							"ImportMetaPlugin",
 							toConstantDependency(parser, JSON.stringify("object"))
 						);
-					parser.hooks.metaProperty.tap(
-						"ImportMetaPlugin",
-						toConstantDependency(parser, "Object()")
-					);
-					parser.hooks.metaProperty.tap("ImportMetaPlugin", metaProperty => {
-						const CriticalDependencyWarning = getCriticalDependencyWarning();
-						parser.state.module.addWarning(
-							new ModuleDependencyWarning(
-								parser.state.module,
-								new CriticalDependencyWarning(
-									"Accessing import.meta directly is unsupported (only property access is supported)"
-								),
-								metaProperty.loc
-							)
-						);
-						const dep = new ConstDependency("Object()", metaProperty.range);
-						dep.loc = metaProperty.loc;
-						parser.state.module.addPresentationalDependency(dep);
-						return true;
-					});
+					parser.hooks.expression
+						.for("import.meta")
+						.tap("ImportMetaPlugin", metaProperty => {
+							const CriticalDependencyWarning = getCriticalDependencyWarning();
+							parser.state.module.addWarning(
+								new ModuleDependencyWarning(
+									parser.state.module,
+									new CriticalDependencyWarning(
+										"Accessing import.meta directly is unsupported (only property access is supported)"
+									),
+									metaProperty.loc
+								)
+							);
+							const dep = new ConstDependency(
+								`${parser.isAsiPosition(metaProperty.range[0]) ? ";" : ""}({})`,
+								metaProperty.range
+							);
+							dep.loc = metaProperty.loc;
+							parser.state.module.addPresentationalDependency(dep);
+							return true;
+						});
 					parser.hooks.evaluateTypeof
 						.for("import.meta")
 						.tap("ImportMetaPlugin", evaluateToString("object"));
@@ -157,6 +158,8 @@ class ImportMetaPlugin {
 							const expr = /** @type {MemberExpression} */ (expression);
 							if (
 								expr.object.type === "MetaProperty" &&
+								expr.object.meta.name === "import" &&
+								expr.object.property.name === "meta" &&
 								expr.property.type ===
 									(expr.computed ? "Literal" : "Identifier")
 							) {

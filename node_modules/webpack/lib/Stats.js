@@ -5,7 +5,9 @@
 
 "use strict";
 
+/** @typedef {import("../declarations/WebpackOptions").StatsOptions} StatsOptions */
 /** @typedef {import("./Compilation")} Compilation */
+/** @typedef {import("./stats/DefaultStatsFactoryPlugin").StatsCompilation} StatsCompilation */
 
 class Stats {
 	/**
@@ -13,9 +15,18 @@ class Stats {
 	 */
 	constructor(compilation) {
 		this.compilation = compilation;
-		this.hash = compilation.hash;
-		this.startTime = undefined;
-		this.endTime = undefined;
+	}
+
+	get hash() {
+		return this.compilation.hash;
+	}
+
+	get startTime() {
+		return this.compilation.startTime;
+	}
+
+	get endTime() {
+		return this.compilation.endTime;
 	}
 
 	/**
@@ -38,6 +49,10 @@ class Stats {
 		);
 	}
 
+	/**
+	 * @param {(string|StatsOptions)=} options stats options
+	 * @returns {StatsCompilation} json output
+	 */
 	toJson(options) {
 		options = this.compilation.createStatsOptions(options, {
 			forToString: false
@@ -46,9 +61,7 @@ class Stats {
 		const statsFactory = this.compilation.createStatsFactory(options);
 
 		return statsFactory.create("compilation", this.compilation, {
-			compilation: this.compilation,
-			startTime: this.startTime,
-			endTime: this.endTime
+			compilation: this.compilation
 		});
 	}
 
@@ -61,9 +74,7 @@ class Stats {
 		const statsPrinter = this.compilation.createStatsPrinter(options);
 
 		const data = statsFactory.create("compilation", this.compilation, {
-			compilation: this.compilation,
-			startTime: this.startTime,
-			endTime: this.endTime
+			compilation: this.compilation
 		});
 		const result = statsPrinter.print("compilation", data);
 		return result === undefined ? "" : result;

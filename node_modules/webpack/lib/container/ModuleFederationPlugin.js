@@ -5,12 +5,13 @@
 
 "use strict";
 
-const validateOptions = require("schema-utils");
+const { validate } = require("schema-utils");
 const schema = require("../../schemas/plugins/container/ModuleFederationPlugin.json");
 const SharePlugin = require("../sharing/SharePlugin");
 const ContainerPlugin = require("./ContainerPlugin");
 const ContainerReferencePlugin = require("./ContainerReferencePlugin");
 
+/** @typedef {import("../../declarations/plugins/container/ModuleFederationPlugin").ExternalsType} ExternalsType */
 /** @typedef {import("../../declarations/plugins/container/ModuleFederationPlugin").ModuleFederationPluginOptions} ModuleFederationPluginOptions */
 /** @typedef {import("../../declarations/plugins/container/ModuleFederationPlugin").Shared} Shared */
 /** @typedef {import("../Compiler")} Compiler */
@@ -20,7 +21,7 @@ class ModuleFederationPlugin {
 	 * @param {ModuleFederationPluginOptions} options options
 	 */
 	constructor(options) {
-		validateOptions(schema, options, { name: "Module Federation Plugin" });
+		validate(schema, options, { name: "Module Federation Plugin" });
 
 		this._options = options;
 	}
@@ -34,7 +35,11 @@ class ModuleFederationPlugin {
 		const { _options: options } = this;
 		const library = options.library || { type: "var", name: options.name };
 		const remoteType =
-			options.remoteType || (options.library ? options.library.type : "script");
+			options.remoteType ||
+			(options.library &&
+			schema.definitions.ExternalsType.enum.includes(options.library.type)
+				? /** @type {ExternalsType} */ (options.library.type)
+				: "script");
 		if (
 			library &&
 			!compiler.options.output.enabledLibraryTypes.includes(library.type)
