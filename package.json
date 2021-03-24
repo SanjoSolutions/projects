@@ -9,7 +9,6 @@
     "build:watch": "cd packages && tsc --build --watch"
   },
   "workspaces": [
-    ".",
     "packages/*"
   ],
   "devDependencies": {
