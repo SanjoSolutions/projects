@@ -1,42 +1,47 @@
 /**
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
- * Assumes r, g, and b are contained in the set [0, 255] and
- * returns h, s, and l in the set [0, 1].
+ * Assumes red, green, and blue are contained in the set [0, 255] and
+ * returns hue, saturation, and lightness in the set [0, 1].
  *
  * Source: https://stackoverflow.com/a/9493060/759971
+ * License: https://stackoverflow.com/help/licensing
+ * The code has been modified.
+ * License for modifications: https://creativecommons.org/licenses/by-sa/4.0/
  *
- * @param   {number}  r       The red color value
- * @param   {number}  g       The green color value
- * @param   {number}  b       The blue color value
+ * @param   {number}  red     The red color value
+ * @param   {number}  green   The green color value
+ * @param   {number}  blue    The blue color value
  * @return  {Array}           The HSL representation
  */
-export function rgbToHsl(r, g, b) {
-  ;(r /= 255), (g /= 255), (b /= 255)
-  const max = Math.max(r, g, b),
-    min = Math.min(r, g, b)
-  let h,
-    s,
-    l = (max + min) / 2
+export function rgbToHsl(red, green, blue) {
+  red /= 255
+  green /= 255
+  blue /= 255
+  const max = Math.max(red, green, blue)
+  const min = Math.min(red, green, blue)
+  let hue
+  let saturation
+  const lightness = (max + min) / 2
 
   if (max == min) {
-    h = s = 0 // achromatic
+    hue = saturation = 0 // achromatic
   } else {
     var d = max - min
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
+    saturation = lightness > 0.5 ? d / (2 - max - min) : d / (max + min)
     switch (max) {
-      case r:
-        h = (g - b) / d + (g < b ? 6 : 0)
+      case red:
+        hue = (green - blue) / d + (green < blue ? 6 : 0)
         break
-      case g:
-        h = (b - r) / d + 2
+      case green:
+        hue = (blue - red) / d + 2
         break
-      case b:
-        h = (r - g) / d + 4
+      case blue:
+        hue = (red - green) / d + 4
         break
     }
-    h /= 6
+    hue /= 6
   }
 
-  return [h, s, l]
+  return [hue, saturation, lightness]
 }
