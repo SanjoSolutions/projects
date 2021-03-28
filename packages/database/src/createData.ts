@@ -1,3 +1,3 @@
 export function createData () {
-  return { a: 1 }
+  return { id: 1 }
 }

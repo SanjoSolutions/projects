@@ -1,21 +1,26 @@
-import { IFileSystem } from './IFileSystem'
+import { Collection } from './Collection'
+import type { ICollection } from './ICollection'
+import { IStorage } from './IStorage'
 
 export class Database {
-  _storeFilePath: string
-  _fileSystem: IFileSystem
-  _store: any[] = []
+  _storage: IStorage
+  _collections: Map<string, ICollection>
 
-  constructor (storeFilePath: string, fileSystem: IFileSystem) {
-    this._storeFilePath = storeFilePath
-    this._fileSystem = fileSystem
+  constructor (storage: IStorage) {
+    this._storage = storage
+    this._collections = new Map()
   }
 
-  async store (data: any) {
-    this._store.push(data)
-    await this._fileSystem.store(this._storeFilePath, JSON.stringify(this._store))
+  async createCollection(collectionName: string): Promise<void> {
+    const collection = new Collection(collectionName, this._storage)
+    this._collections.set(collectionName, collection)
   }
 
-  find (): any[] {
-    return this._store
+  async getCollections(): Promise<string[]> {
+    return Array.from(this._collections.keys())
+  }
+
+  async getCollection(collectionName: string): Promise<ICollection | undefined> {
+    return this._collections.get(collectionName)!
   }
 }

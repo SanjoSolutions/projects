@@ -1,9 +1,8 @@
 import { Database } from './Database'
 import { InMemoryFileSystem } from './InMemoryFileSystem'
+import { IStorage } from './IStorage'
 
-export function createDatabase () {
-  const fileSystem = new InMemoryFileSystem()
-  const storeFilePath = 'store.json'
-  const database = new Database(storeFilePath, fileSystem)
-  return { fileSystem, storeFilePath, database }
+export function createDatabase (storage: IStorage) {
+  const database = new Database(storage)
+  return database
 }
