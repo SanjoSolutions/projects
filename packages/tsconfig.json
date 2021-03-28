@@ -88,6 +88,9 @@
     },
     {
       "path": "./write-file"
+    },
+    {
+      "path": "./animate"
     }
   ]
 }

@@ -3,7 +3,8 @@
   "description": "Animate",
   "license": "Unlicense",
   "version": "1.0.0",
-  "main": "./index.js",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
   "publishConfig": {
     "access": "public"
   }

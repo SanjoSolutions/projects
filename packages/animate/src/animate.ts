@@ -1,5 +1,5 @@
-export function animate (fn) {
-  let lastFrameTime
+export function animate (fn: Function): { stop: () => void } {
+  let lastFrameTime: number
   let shouldStop = false
 
   function stop () {

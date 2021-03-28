@@ -13,7 +13,7 @@
 <body>
 
 <script type="module">
-  import { animate } from './animate.js'
+  import { animate } from './packages/animate/built/animate.js'
   import { createFullDocumentCanvas } from './createFullDocumentCanvas.js'
   import { colorToString } from './colorToString.js'
   import { randomColor } from './randomColor.js'
@@ -50,7 +50,10 @@
   }
   const rainDropLifeTime = 5000
   animate(() => {
-    rainDrops = rainDrops.filter(({ spawnTime }) => Date.now() - spawnTime <= rainDropLifeTime)
+    rainDrops =
+      rainDrops.filter(({ spawnTime }) => Date.now() -
+        spawnTime <=
+        rainDropLifeTime)
 
     for (let index = 0; index < numRainDropsPerFrame; index++) {
       rainDrops.push({
@@ -104,7 +107,7 @@
     context.restore()
     */
 
-    rainDrops.forEach(function drawRainDrop ({ x, y, spawnTime }) {
+    rainDrops.forEach(function drawRainDrop({ x, y, spawnTime }) {
       context.fillStyle = colorToString({
         ...rainDropBaseColor,
         alpha: 1 -
@@ -135,7 +138,7 @@
   const flowerDingRadius = 5
   const numFlowerDinger = 6
 
-  function drawFlower ({ x, y, color }) {
+  function drawFlower({ x, y, color }) {
     const angleDelta = (
       2 * Math.PI
     ) / numFlowerDinger
@@ -159,7 +162,7 @@
     context.fill()
   }
 
-  function clear () {
+  function clear() {
     context.clearRect(0, 0, window.innerWidth, window.innerHeight)
   }
 </script>
