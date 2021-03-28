@@ -1,10 +1,11 @@
-import { IFileSystem } from './IFileSystem';
+import type { ICollection } from './ICollection';
+import { IStorage } from './IStorage';
 export declare class Database {
-    _storeFilePath: string;
-    _fileSystem: IFileSystem;
-    _store: any[];
-    constructor(storeFilePath: string, fileSystem: IFileSystem);
-    store(data: any): Promise<void>;
-    find(): any[];
+    _storage: IStorage;
+    _collections: Map<string, ICollection>;
+    constructor(storage: IStorage);
+    createCollection(collectionName: string): Promise<void>;
+    getCollections(): Promise<string[]>;
+    getCollection(collectionName: string): Promise<ICollection | undefined>;
 }
 //# sourceMappingURL=Database.d.ts.map

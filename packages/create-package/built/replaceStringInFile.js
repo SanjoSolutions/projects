@@ -9,7 +9,8 @@ const read_file_1 = __importDefault(require("@sanjo/read-file"));
 const write_file_1 = __importDefault(require("@sanjo/write-file"));
 async function replaceStringInFile(filePath, stringToReplace, stringToReplaceWith) {
     let content = await read_file_1.default(filePath);
-    content = content.replace(new RegExp(escape_for_reg_exp_1.default(stringToReplace), 'g'), stringToReplaceWith);
+    content =
+        content.replace(new RegExp(escape_for_reg_exp_1.default(stringToReplace), 'g'), stringToReplaceWith);
     await write_file_1.default(filePath, content);
 }
 exports.replaceStringInFile = replaceStringInFile;

@@ -1,8 +1,4 @@
 import { Database } from './Database';
-import { InMemoryFileSystem } from './InMemoryFileSystem';
-export declare function createDatabase(): {
-    fileSystem: InMemoryFileSystem;
-    storeFilePath: string;
-    database: Database;
-};
+import { IStorage } from './IStorage';
+export declare function createDatabase(storage: IStorage): Database;
 //# sourceMappingURL=createDatabase.d.ts.map

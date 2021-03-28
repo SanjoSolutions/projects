@@ -1,18 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Database = void 0;
+const Collection_1 = require("./Collection");
 class Database {
-    constructor(storeFilePath, fileSystem) {
-        this._store = [];
-        this._storeFilePath = storeFilePath;
-        this._fileSystem = fileSystem;
+    constructor(storage) {
+        this._storage = storage;
+        this._collections = new Map();
     }
-    async store(data) {
-        this._store.push(data);
-        await this._fileSystem.store(this._storeFilePath, JSON.stringify(this._store));
+    async createCollection(collectionName) {
+        const collection = new Collection_1.Collection(collectionName, this._storage);
+        this._collections.set(collectionName, collection);
     }
-    find() {
-        return this._store;
+    async getCollections() {
+        return Array.from(this._collections.keys());
+    }
+    async getCollection(collectionName) {
+        return this._collections.get(collectionName);
     }
 }
 exports.Database = Database;

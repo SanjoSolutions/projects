@@ -1,4 +1,4 @@
 export declare function createData(): {
-    a: number;
+    id: number;
 };
 //# sourceMappingURL=createData.d.ts.map
