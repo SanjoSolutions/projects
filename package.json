@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "build": "cd packages && tsc --build",
-    "build:watch": "cd packages && tsc --build --watch"
+    "build:watch": "cd packages && tsc --build --watch",
+    "postinstall": "husky install"
   },
   "workspaces": [
     "packages/*"
@@ -24,7 +25,9 @@
     "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
+    "husky": ">=6",
     "jest": "^26.0.1",
+    "lint-staged": ">=10",
     "prettier": "2.2.1",
     "style-loader": "^1.2.1",
     "ts-loader": "^8.0.0",
@@ -33,5 +36,8 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^5.0.9"
+  },
+  "lint-staged": {
+    "*.{ts,js,css,md}": "prettier --write"
   }
 }
