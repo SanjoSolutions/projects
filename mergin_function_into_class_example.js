@@ -1,10 +1,6 @@
-class Foo {
+class Foo {}
 
-}
-
-function fn () {
-
-}
+function fn() {}
 
 Object.assign(Foo.prototype, { fn })
 

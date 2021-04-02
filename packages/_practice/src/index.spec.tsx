@@ -2,28 +2,31 @@
  * @jest-environment jsdom
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from "react"
+import ReactDOM from "react-dom"
 
-function createGreeting ({ greeting, name }: { greeting: string, name: string }): string {
-  return greeting + ' ' + name
+function createGreeting({
+  greeting,
+  name,
+}: {
+  greeting: string
+  name: string
+}): string {
+  return greeting + " " + name
 }
 
-function Greeting ({ greeting, name }: { greeting: string, name: string }) {
-  return (
-    <div>
-      {createGreeting({ greeting, name })}
-    </div>
-  )
+function Greeting({ greeting, name }: { greeting: string; name: string }) {
+  return <div>{createGreeting({ greeting, name })}</div>
 }
 
-describe('Greeting', () => {
+describe("Greeting", () => {
   it('renders "Hello Susi"', () => {
-    const element = <Greeting greeting={'Hello'} name={'Susi'}/>
-    const container = document.createElement('div')
+    const element = <Greeting greeting={"Hello"} name={"Susi"} />
+    const container = document.createElement("div")
     document.body.appendChild(container)
     ReactDOM.render(element, container)
-    expect(container.innerHTML)
-      .toEqual('<div>' + createGreeting({ greeting: 'Hello', name: 'Susi' }) + '</div>')
+    expect(container.innerHTML).toEqual(
+      "<div>" + createGreeting({ greeting: "Hello", name: "Susi" }) + "</div>"
+    )
   })
 })

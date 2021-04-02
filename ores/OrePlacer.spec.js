@@ -1,6 +1,6 @@
-import { equals } from '../equals.js';
-import { expect, specification } from '../packages/specification/index.js';
-import { OrePlacer2, OresMap } from './index.js';
+import { equals } from "../equals.js"
+import { expect, specification } from "../packages/specification/index.js"
+import { OrePlacer2, OresMap } from "./index.js"
 
 specification(() => {
   const map = new OresMap(3, 3)

@@ -1,43 +1,38 @@
 <script src="launchpad/launchpad.js"></script>
 
 <script>
-  async function main () {
+  async function main() {
     class Grid {
-      constructor (width, height) {
+      constructor(width, height) {
         this.width = width
         this.height = height
         this.values = new Array(width * height)
       }
 
-      get ({row, column}) {
-        return this.values[this.calculateIndex({row, column})]
+      get({ row, column }) {
+        return this.values[this.calculateIndex({ row, column })]
       }
 
-      set ({row, column}, value) {
-        this.values[this.calculateIndex({row, column})] = value
+      set({ row, column }, value) {
+        this.values[this.calculateIndex({ row, column })] = value
       }
 
-      calculateIndex ({row, column}) {
+      calculateIndex({ row, column }) {
         return (row - 1) * this.width + (column - 1)
       }
 
-      fill (value) {
+      fill(value) {
         this.values.fill(value)
       }
 
-      clone () {
+      clone() {
         const grid = new Grid(this.width, this.height)
         grid.values = Array.from(this.values)
         return grid
       }
     }
 
-    const colors = [
-      null,
-      new Color(3, 0),
-      new Color(3, 3),
-      new Color(0, 3)
-    ]
+    const colors = [null, new Color(3, 0), new Color(3, 3), new Color(0, 3)]
     const midiAccess = await navigator.requestMIDIAccess()
     const launchpad = autoDetectLaunchpad(midiAccess)
 
@@ -72,26 +67,26 @@
       }
     })
 
-    function createInitialSequences () {
+    function createInitialSequences() {
       return [createSequence()]
     }
 
-    function createSequence () {
+    function createSequence() {
       return [createFrame()]
     }
 
-    function createFrame () {
+    function createFrame() {
       const frame = new Grid(8, 8)
       frame.fill(colors[0])
       return frame
     }
 
-    function save () {
-      localStorage.setItem('sequences', JSON.stringify(sequences))
+    function save() {
+      localStorage.setItem("sequences", JSON.stringify(sequences))
     }
 
-    function load () {
-      const sequencesJSON = localStorage.getItem('sequences')
+    function load() {
+      const sequencesJSON = localStorage.getItem("sequences")
 
       if (sequencesJSON) {
         try {
@@ -104,24 +99,26 @@
       }
     }
 
-    function parseSequences (sequencesJSON) {
+    function parseSequences(sequencesJSON) {
       return JSON.parse(sequencesJSON).map(parseSequence)
     }
 
-    function parseSequence (sequenceJSON) {
+    function parseSequence(sequenceJSON) {
       return sequenceJSON.map(parseFrame)
     }
 
-    function parseFrame (frameJSON) {
+    function parseFrame(frameJSON) {
       const frame = createFrame()
-      frame.values = frameJSON.values.map(value => value ? new Color(value.green, value.red) : null)
+      frame.values = frameJSON.values.map((value) =>
+        value ? new Color(value.green, value.red) : null
+      )
       return frame
     }
 
     let shouldStop = true
     let isPlaying = false
 
-    async function play () {
+    async function play() {
       shouldStop = false
       isPlaying = true
 
@@ -138,11 +135,11 @@
       isPlaying = false
     }
 
-    function stop () {
+    function stop() {
       shouldStop = true
     }
 
-    function togglePlayStop () {
+    function togglePlayStop() {
       if (!shouldStop) {
         stop()
       } else {
@@ -152,20 +149,21 @@
 
     let bpmTaps = []
 
-    function calculateBPM () {
+    function calculateBPM() {
       if (bpmTaps.length >= 2) {
         const firstBpmTap = bpmTaps[0]
         const lastBpmTap = bpmTaps[bpmTaps.length - 1]
         const duration = lastBpmTap - firstBpmTap
-        return bpmTaps.length * 60000 / duration
+        return (bpmTaps.length * 60000) / duration
       } else {
         return 128
       }
     }
 
-    function onTap ({row, column}) {
+    function onTap({ row, column }) {
       if (column === 9 && row === 1) {
-        const lastBpmTap = bpmTaps.length > 0 ? bpmTaps[bpmTaps.length - 1] : null
+        const lastBpmTap =
+          bpmTaps.length > 0 ? bpmTaps[bpmTaps.length - 1] : null
         if (lastBpmTap && lastBpmTap <= Date.now() - 10000) {
           bmpTaps = []
         }
@@ -175,22 +173,22 @@
       if (!isPlaying) {
         if (column !== 9) {
           const frame = getCurrentFrame()
-          const color = frame.get({row, column})
+          const color = frame.get({ row, column })
           const nextColor = getNextColor(color)
-          frame.set({row, column}, nextColor)
-          led({row, column}, nextColor)
+          frame.set({ row, column }, nextColor)
+          led({ row, column }, nextColor)
           save()
         }
       }
     }
 
-    function previousSequence () {
+    function previousSequence() {
       currentSequenceIndex = Math.max(0, currentSequenceIndex - 1)
       updateFrame()
       displayCurrentFrame()
     }
 
-    function nextSequence () {
+    function nextSequence() {
       currentSequenceIndex++
       if (currentSequenceIndex >= sequences.length) {
         sequences.push(createSequence())
@@ -199,17 +197,17 @@
       displayCurrentFrame()
     }
 
-    function updateFrame () {
+    function updateFrame() {
       frames = sequences[currentSequenceIndex]
       currentFrameIndex = 0
     }
 
-    function previousFrame () {
+    function previousFrame() {
       currentFrameIndex = Math.max(0, currentFrameIndex - 1)
       displayCurrentFrame()
     }
 
-    function nextFrame () {
+    function nextFrame() {
       currentFrameIndex++
       if (currentFrameIndex >= frames.length) {
         frames.push(createFrame())
@@ -217,7 +215,7 @@
       displayCurrentFrame()
     }
 
-    function deleteCurrentFrame () {
+    function deleteCurrentFrame() {
       frames.splice(currentFrameIndex, 1)
       if (frames.length === 0) {
         frames.push(createFrame())
@@ -225,56 +223,59 @@
       previousFrame()
     }
 
-    function insertFrame () {
+    function insertFrame() {
       currentFrameIndex += 1
       frames.splice(currentFrameIndex, 0, createFrame())
       displayCurrentFrame()
     }
 
-    function displayCurrentFrame () {
+    function displayCurrentFrame() {
       displayFrame(getCurrentFrame())
     }
 
-    function displayFrame (frame) {
+    function displayFrame(frame) {
       for (let row = 1; row <= frame.height; row++) {
         for (let column = 1; column <= frame.width; column++) {
-          const previousCell = lastDisplayedFrame.get({row, column})
-          const cell = frame.get({row, column})
-          if (cell !== previousCell || (previousCell && cell && !cell.equals(previousCell))) {
-            led({row, column}, frame.get({row, column}))
+          const previousCell = lastDisplayedFrame.get({ row, column })
+          const cell = frame.get({ row, column })
+          if (
+            cell !== previousCell ||
+            (previousCell && cell && !cell.equals(previousCell))
+          ) {
+            led({ row, column }, frame.get({ row, column }))
           }
         }
       }
       lastDisplayedFrame = frame
     }
 
-    function led ({row, column}, color) {
+    function led({ row, column }, color) {
       if (color === null) {
-        launchpad.ledOff({row, column})
+        launchpad.ledOff({ row, column })
       } else {
-        launchpad.ledOn({row, column}, color)
+        launchpad.ledOn({ row, column }, color)
       }
     }
 
-    function getCurrentFrame () {
+    function getCurrentFrame() {
       return frames[currentFrameIndex]
     }
 
-    function getNextColor (color) {
+    function getNextColor(color) {
       const currentColorIndex = colors.indexOf(color)
       const nextColorIndex = (currentColorIndex + 1) % colors.length
       return colors[nextColorIndex]
     }
   }
 
-  function wait (interval) {
-    return new Promise(resolve => setTimeout(resolve, interval))
+  function wait(interval) {
+    return new Promise((resolve) => setTimeout(resolve, interval))
   }
 
-  function run (fn) {
+  function run(fn) {
     fn().then(
-      result => console.log(result),
-      error => console.error(error)
+      (result) => console.log(result),
+      (error) => console.error(error)
     )
   }
 

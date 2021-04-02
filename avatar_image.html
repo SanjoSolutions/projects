@@ -20,11 +20,11 @@
 <div class="avatar-images"></div>
 
 <script type="module">
-  import { colorToString } from './colorToString.js'
-  import { randomColor } from './randomColor.js'
-  import { randomInteger } from './randomInteger.js'
+  import { colorToString } from "./colorToString.js"
+  import { randomColor } from "./randomColor.js"
+  import { randomInteger } from "./randomInteger.js"
 
-  function rem (value) {
+  function rem(value) {
     return value * 16
   }
 
@@ -33,34 +33,43 @@
   const avatarWidth = rem(3)
   const avatarHeight = rem(3)
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     createInitialAvatarImages()
 
-    const $avatarImages = document.querySelector('.avatar-images')
-    const $$avatarImages = Array.from(document.querySelectorAll('.avatar-image'))
+    const $avatarImages = document.querySelector(".avatar-images")
+    const $$avatarImages = Array.from(
+      document.querySelectorAll(".avatar-image")
+    )
     let $toggledAvatar
     setInterval(() => {
-      const colorAttribute = 'data-color'
+      const colorAttribute = "data-color"
       if ($toggledAvatar) {
         if ($$avatarImages.includes($toggledAvatar)) {
-          $toggledAvatar.style.backgroundColor = $toggledAvatar.getAttribute(colorAttribute)
+          $toggledAvatar.style.backgroundColor = $toggledAvatar.getAttribute(
+            colorAttribute
+          )
           $toggledAvatar.removeAttribute(colorAttribute)
         }
         $toggledAvatar = null
       } else {
-        $toggledAvatar = $$avatarImages[randomInteger(0, $$avatarImages.length - 1)]
-        $toggledAvatar.setAttribute(colorAttribute, $toggledAvatar.style.backgroundColor)
+        $toggledAvatar =
+          $$avatarImages[randomInteger(0, $$avatarImages.length - 1)]
+        $toggledAvatar.setAttribute(
+          colorAttribute,
+          $toggledAvatar.style.backgroundColor
+        )
         $toggledAvatar.style.backgroundColor = null
       }
     }, 1600)
 
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       const oldNumberOfAvatarImages = $$avatarImages.length
 
       const numberOfAvatarImages = calculateNumberOfAvatarImagesToCoverDocument()
 
       if (numberOfAvatarImages > oldNumberOfAvatarImages) {
-        const numberOfNewAvatarImages = numberOfAvatarImages - $$avatarImages.length
+        const numberOfNewAvatarImages =
+          numberOfAvatarImages - $$avatarImages.length
         const $$newAvatarImages = createAvatarImages(numberOfNewAvatarImages)
         $$avatarImages.push(...$$newAvatarImages)
         $avatarImages.append(...$$newAvatarImages)
@@ -72,10 +81,10 @@
       }
     })
 
-    window.addEventListener('mousemove', (event) => {
+    window.addEventListener("mousemove", (event) => {
       const mouseX = event.pageX
       const mouseY = event.pageY
-      $$avatarImages.forEach($avatarImage => {
+      $$avatarImages.forEach(($avatarImage) => {
         const { x, y, width, height } = $avatarImage.getBoundingClientRect()
         const cx = x + 0.5 * width
         const cy = y + 0.5 * height
@@ -101,31 +110,31 @@
     })
   })
 
-  function calculateNumberOfAvatarImagesToCoverDocument () {
-    const numberOfRows = Math.floor((
-      window.innerHeight - paddingTop
-    ) / avatarWidth)
-    const numberOfColumns = Math.floor((
-      window.innerWidth - paddingLeft
-    ) / avatarHeight)
+  function calculateNumberOfAvatarImagesToCoverDocument() {
+    const numberOfRows = Math.floor(
+      (window.innerHeight - paddingTop) / avatarWidth
+    )
+    const numberOfColumns = Math.floor(
+      (window.innerWidth - paddingLeft) / avatarHeight
+    )
     const numberOfAvatarImages = numberOfRows * numberOfColumns
     return numberOfAvatarImages
   }
 
-  function createInitialAvatarImages () {
+  function createInitialAvatarImages() {
     const numberOfAvatarImages = calculateNumberOfAvatarImagesToCoverDocument()
 
-    const $avatarImages = document.querySelector('.avatar-images')
+    const $avatarImages = document.querySelector(".avatar-images")
 
     const $$avatarImages = [
-      createAvatarImage('#b71c1c'),
+      createAvatarImage("#b71c1c"),
       ...createAvatarImages(numberOfAvatarImages - 1),
     ]
 
     $avatarImages.append(...$$avatarImages)
   }
 
-  function createAvatarImages (numberOfAvatarImagesToCreate) {
+  function createAvatarImages(numberOfAvatarImagesToCreate) {
     const $$avatarImages = []
     let avatarCounter = 0
     while (avatarCounter < numberOfAvatarImagesToCreate) {
@@ -137,9 +146,9 @@
     return $$avatarImages
   }
 
-  function createAvatarImage (color) {
-    const avatarImage = document.createElement('div')
-    avatarImage.classList.add('avatar-image')
+  function createAvatarImage(color) {
+    const avatarImage = document.createElement("div")
+    avatarImage.classList.add("avatar-image")
     avatarImage.style.backgroundColor = color
     return avatarImage
   }

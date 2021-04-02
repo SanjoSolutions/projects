@@ -1,15 +1,15 @@
-import { describe, it } from '@jest/globals'
-import { createSendPixelsToServerPaket } from './client.js'
-import { littleEndian } from './littleEndian.js'
-import { pixelPaketToArray } from './pixelPaketToArray.js'
-import { pixelPaketEquals } from './pixelsPaketEquals.js'
+import { describe, it } from "@jest/globals"
+import { createSendPixelsToServerPaket } from "./client.js"
+import { littleEndian } from "./littleEndian.js"
+import { pixelPaketToArray } from "./pixelPaketToArray.js"
+import { pixelPaketEquals } from "./pixelsPaketEquals.js"
 
-describe('client', () => {
-  describe('createSendPixelsToServerPaket', () => {
-    it('creates a paket for sending pixels to the server', () => {
+describe("client", () => {
+  describe("createSendPixelsToServerPaket", () => {
+    it("creates a paket for sending pixels to the server", () => {
       const pixels = [
-        {x: 1, y: 2},
-        {x: 3, y: 4}
+        { x: 1, y: 2 },
+        { x: 3, y: 4 },
       ]
       const paket = createSendPixelsToServerPaket(pixels)
       const expectedPaket = new ArrayBuffer(21)

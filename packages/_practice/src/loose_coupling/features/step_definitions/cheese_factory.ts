@@ -1,9 +1,9 @@
-const { Then } = require('cucumber')
-const { When } = require('cucumber')
+const { Then } = require("cucumber")
+const { When } = require("cucumber")
 
-const createJ$ = require('@sanjo/jasmine-expect').createJ$
+const createJ$ = require("@sanjo/jasmine-expect").createJ$
 // const createSpyEnv = require('@sanjo/jasmine-spy').createEnv;
-const createExpectEnv = require('@sanjo/jasmine-expect').createEnv
+const createExpectEnv = require("@sanjo/jasmine-expect").createEnv
 
 const j$ = createJ$()
 const expectEnv = createExpectEnv(j$)

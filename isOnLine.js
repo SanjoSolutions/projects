@@ -1,4 +1,4 @@
-import { equalsApproximately } from './equalsApproximately.js';
+import { equalsApproximately } from "./equalsApproximately.js"
 
 export function isOnLine(a, b, p) {
   if (b.x < a.x) {
@@ -10,6 +10,10 @@ export function isOnLine(a, b, p) {
   return (
     p.x >= a.x &&
     p.x <= b.x &&
-    equalsApproximately(p.y, ((b.y - a.y) / (b.x - a.x)) * (p.x - a.x) + a.y, 24)
+    equalsApproximately(
+      p.y,
+      ((b.y - a.y) / (b.x - a.x)) * (p.x - a.x) + a.y,
+      24
+    )
   )
 }

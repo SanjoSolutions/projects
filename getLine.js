@@ -1,4 +1,4 @@
-import { lastMatch } from './lastMatch.js'
+import { lastMatch } from "./lastMatch.js"
 
 /**
  * Returns the full line, that the given index lies within, without leading or ending line break characters.
@@ -6,7 +6,7 @@ import { lastMatch } from './lastMatch.js'
  * @param index {number} Index that lies within the line that should be returned
  * @returns {string} The line
  */
-export function getLine (text, index) {
+export function getLine(text, index) {
   let lineStartMatch = lastMatch(text, /\r\n|\n|\r/g, index - 1)
   let lineStartIndex
   if (lineStartMatch === null) {

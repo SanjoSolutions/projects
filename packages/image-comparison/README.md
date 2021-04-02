@@ -11,5 +11,5 @@ npm install --save '@sanjo/image-comparison'
 ## How to use
 
 ```js
-import imageComparison from '@sanjo/image-comparison'
+import imageComparison from "@sanjo/image-comparison"
 ```

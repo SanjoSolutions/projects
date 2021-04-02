@@ -14,26 +14,26 @@ class MoneyMaker {
   private _workTimes: WorkTime[]
   private _hourlyRate: HourlyRate
 
-  constructor (stopClock: IStopClock) {
+  constructor(stopClock: IStopClock) {
     this._stopClock = stopClock
     this._workTimes = []
     this._hourlyRate = 0
   }
 
-  setHourlyRate (hourlyRate: HourlyRate): void {
+  setHourlyRate(hourlyRate: HourlyRate): void {
     this._hourlyRate = hourlyRate
   }
 
-  startWorking (): void {
+  startWorking(): void {
     this._stopClock.start()
   }
 
-  stopWorking (): void {
+  stopWorking(): void {
     const workTime = this._stopClock.stop()
     this._workTimes.push(workTime)
   }
 
-  getMoneyEarned (): Money {
+  getMoneyEarned(): Money {
     return calculateMoneyEarnedFromWorkTimes(this._workTimes, this._hourlyRate)
   }
 }
@@ -44,19 +44,19 @@ interface IStopClock {
 }
 
 class StopClock implements IStopClock {
-  private stoppedTime: { start: Date, end?: Date } | null
+  private stoppedTime: { start: Date; end?: Date } | null
 
-  constructor () {
+  constructor() {
     this.stoppedTime = null
   }
 
-  start () {
+  start() {
     this.stoppedTime = { start: new Date() }
   }
 
-  stop (): WorkTime {
+  stop(): WorkTime {
     if (!this.stoppedTime) {
-      throw new Error('Stop clock has not been started yet.')
+      throw new Error("Stop clock has not been started yet.")
     }
     this.stoppedTime.end = new Date()
     return this.stoppedTime as WorkTime
@@ -67,55 +67,64 @@ class StopClockMock implements IStopClock {
   private _workTimes: WorkTime[]
   private _currentWorkTimeIndex: number
 
-  constructor (workTimes: WorkTime[]) {
+  constructor(workTimes: WorkTime[]) {
     this._workTimes = workTimes
     this._currentWorkTimeIndex = -1
   }
 
-  start () {
+  start() {
     this._currentWorkTimeIndex += 1
   }
 
-  stop () {
+  stop() {
     return this._workTimes[this._currentWorkTimeIndex]
   }
 }
 
-function calculateMoneyEarnedFromWorkTimes (
+function calculateMoneyEarnedFromWorkTimes(
   workTimes: WorkTime[],
-  hourlyRate: HourlyRate,
+  hourlyRate: HourlyRate
 ): Money {
   return calculateMoneyEarned(calculateTimeWorked(workTimes), hourlyRate)
 }
 
-function calculateMoneyEarned (timeWorked: number, hourlyRate: HourlyRate): Money {
+function calculateMoneyEarned(
+  timeWorked: number,
+  hourlyRate: HourlyRate
+): Money {
   return millisecondsToHours(timeWorked * hourlyRate)
 }
 
-function calculateTimeWorked (workTimes: WorkTime[]): TimeSpan {
-  const timesWorked = workTimes.map(({ start, end }) => calculateTimeSpan(start, end))
+function calculateTimeWorked(workTimes: WorkTime[]): TimeSpan {
+  const timesWorked = workTimes.map(({ start, end }) =>
+    calculateTimeSpan(start, end)
+  )
   return sum(timesWorked)
 }
 
-function millisecondsToHours (milliseconds: TimeSpan): number {
+function millisecondsToHours(milliseconds: TimeSpan): number {
   return milliseconds / 1000 / 60 / 60
 }
 
-function calculateTimeSpan (startTime: Date, endTime: Date): TimeSpan {
+function calculateTimeSpan(startTime: Date, endTime: Date): TimeSpan {
   return endTime.getTime() - startTime.getTime()
 }
 
-function sum (numbers: number[]) {
+function sum(numbers: number[]) {
   return numbers.reduce((sum, number) => sum + number)
 }
 
-function generateDate (hour: number, minute: number = 0): Date {
-  return new Date(`2020-06-30 ${String(hour).padStart(2, '0')}:${String(minute)
-    .padStart(2, '0')}`)
+function generateDate(hour: number, minute: number = 0): Date {
+  return new Date(
+    `2020-06-30 ${String(hour).padStart(2, "0")}:${String(minute).padStart(
+      2,
+      "0"
+    )}`
+  )
 }
 
-describe('MoneyMaker', () => {
-  it('makes money', () => {
+describe("MoneyMaker", () => {
+  it("makes money", () => {
     const workTimes = [
       {
         start: generateDate(9),
@@ -136,16 +145,19 @@ describe('MoneyMaker', () => {
       moneyMaker.stopWorking()
     }
 
-    expect(moneyMaker.getMoneyEarned())
-      .toEqual(calculateMoneyEarnedFromWorkTimes(workTimes, hourlyRate))
+    expect(moneyMaker.getMoneyEarned()).toEqual(
+      calculateMoneyEarnedFromWorkTimes(workTimes, hourlyRate)
+    )
   })
 })
 
-describe('StopClock', () => {
-  describe('when stop clock is stopped before it has been started', () => {
-    it('throws an error', () => {
+describe("StopClock", () => {
+  describe("when stop clock is stopped before it has been started", () => {
+    it("throws an error", () => {
       const stopClock = new StopClock()
-      expect(() => stopClock.stop()).toThrowError('Stop clock has not been started yet.')
+      expect(() => stopClock.stop()).toThrowError(
+        "Stop clock has not been started yet."
+      )
     })
   })
 })

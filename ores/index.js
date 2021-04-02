@@ -1,5 +1,5 @@
-import { Grid2D as Grid } from '../Grid2D.js';
-import { selectRandom } from '../selectRandom.js';
+import { Grid2D as Grid } from "../Grid2D.js"
+import { selectRandom } from "../selectRandom.js"
 
 const ORES = ["Coal", "Gold", "Silver", "Copper", "Iron"]
 const ORE_SYMBOLS = ["C", "G", "S", "P", "I"]

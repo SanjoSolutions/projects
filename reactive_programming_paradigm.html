@@ -1,58 +1,58 @@
 <script>
-    class Stream {
-        constructor() {
-            this.subscribers = []
-        }
-
-        push(event) {
-            this.subscribers.forEach(subscriber => subscriber(event))
-        }
-
-        filter(condition) {
-            const stream = new Stream()
-            this.subscribers.push(event => {
-                if (condition(event)) {
-                    stream.push(event)
-                }
-            })
-            return stream
-        }
-
-        map(mapper) {
-            const stream = new Stream()
-            this.subscribers.push(event => {
-                stream.push(mapper(event))
-            })
-            return stream
-        }
-
-        forEach(iterator) {
-            this.subscribers.push(iterator)
-        }
+  class Stream {
+    constructor() {
+      this.subscribers = []
     }
 
-    class MouseEventStream extends Stream {
-        constructor() {
-            super()
-            window.addEventListener('mousedown', this.push.bind(this))
-            window.addEventListener('mousemove', this.push.bind(this))
-            window.addEventListener('mouseup', this.push.bind(this))
+    push(event) {
+      this.subscribers.forEach((subscriber) => subscriber(event))
+    }
+
+    filter(condition) {
+      const stream = new Stream()
+      this.subscribers.push((event) => {
+        if (condition(event)) {
+          stream.push(event)
         }
+      })
+      return stream
     }
 
-    function createMouseEventStream() {
-        return new MouseEventStream()
+    map(mapper) {
+      const stream = new Stream()
+      this.subscribers.push((event) => {
+        stream.push(mapper(event))
+      })
+      return stream
     }
 
-    const mouseDownAndMoveEventStream = createMouseEventStream()
-        .filter(event => {
-            return ['mousedown', 'mousemove'].includes(event.type)
-        })
-        .map(event => ({
-            x: document.body.scrollLeft + event.pageX,
-            y: document.body.scrollTop + event.pageY
-        }))
-        .forEach(function drawPoint({x, y}) {
-            console.log('drawPoint', {x, y})
-        })
+    forEach(iterator) {
+      this.subscribers.push(iterator)
+    }
+  }
+
+  class MouseEventStream extends Stream {
+    constructor() {
+      super()
+      window.addEventListener("mousedown", this.push.bind(this))
+      window.addEventListener("mousemove", this.push.bind(this))
+      window.addEventListener("mouseup", this.push.bind(this))
+    }
+  }
+
+  function createMouseEventStream() {
+    return new MouseEventStream()
+  }
+
+  const mouseDownAndMoveEventStream = createMouseEventStream()
+    .filter((event) => {
+      return ["mousedown", "mousemove"].includes(event.type)
+    })
+    .map((event) => ({
+      x: document.body.scrollLeft + event.pageX,
+      y: document.body.scrollTop + event.pageY,
+    }))
+    .forEach(function drawPoint({ x, y }) {
+      console.log("drawPoint", { x, y })
+    })
 </script>

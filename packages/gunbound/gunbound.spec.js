@@ -1,5 +1,3 @@
 export {}
 
-describe('gunbound', () => {
-
-})
+describe("gunbound", () => {})

@@ -1,48 +1,55 @@
 <style>
-    .row {
-        display: flex;
-    }
+  .row {
+    display: flex;
+  }
 
-    .column {
-        margin-right: 1rem;
-    }
+  .column {
+    margin-right: 1rem;
+  }
 
-    table {
-        border: 3px solid black;
-        border-collapse: collapse;
-        line-height: 1rem
-    }
+  table {
+    border: 3px solid black;
+    border-collapse: collapse;
+    line-height: 1rem;
+  }
 
-    td {
-        border: 1px solid black;
-        box-sizing: border-box;
-        padding: 2px;
-        height: 1.375rem;
-        width: 1.375rem;
-        min-width: 1.375rem;
-        text-align: center;
-        vertical-align: middle;
-    }
+  td {
+    border: 1px solid black;
+    box-sizing: border-box;
+    padding: 2px;
+    height: 1.375rem;
+    width: 1.375rem;
+    min-width: 1.375rem;
+    text-align: center;
+    vertical-align: middle;
+  }
 
-    td:nth-child(3n) {
-        border-right: 2px solid black;
-    }
+  td:nth-child(3n) {
+    border-right: 2px solid black;
+  }
 
-    tr:nth-child(3n) td {
-        border-bottom: 2px solid black;
-    }
+  tr:nth-child(3n) td {
+    border-bottom: 2px solid black;
+  }
 
-    .possible-numbers td table {
-        border: 0 none;
-    }
+  .possible-numbers td table {
+    border: 0 none;
+  }
 
-    .possible-numbers td table td {
-        border: 0 none;
-    }
+  .possible-numbers td table td {
+    border: 0 none;
+  }
 </style>
 
 <script type="module">
-  import { sudoku as initialSudoku, renderSudokuToHTML, possibleNumbers as getPossibleNumbers, renderPossibleNumbersToHTML, solve, fillSolutions } from './sudoku_solver.js'
+  import {
+    sudoku as initialSudoku,
+    renderSudokuToHTML,
+    possibleNumbers as getPossibleNumbers,
+    renderPossibleNumbersToHTML,
+    solve,
+    fillSolutions,
+  } from "./sudoku_solver.js"
 
   let sudoku = [...initialSudoku]
   let possibleNumbers = [
@@ -54,7 +61,7 @@
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null]
+    [null, null, null, null, null, null, null, null, null],
   ]
   let solutions = [
     [null, null, null, null, null, null, null, null, null],
@@ -65,27 +72,27 @@
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
-    [null, null, null, null, null, null, null, null, null]
+    [null, null, null, null, null, null, null, null, null],
   ]
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     render()
   })
 
   function render() {
-    document.body.innerHTML = ''
+    document.body.innerHTML = ""
 
-    const row = document.createElement('div')
-    row.classList.add('row')
+    const row = document.createElement("div")
+    row.classList.add("row")
 
-    const column1 = document.createElement('div')
-    column1.classList.add('column')
+    const column1 = document.createElement("div")
+    column1.classList.add("column")
 
-    const column2 = document.createElement('div')
-    column2.classList.add('column')
+    const column2 = document.createElement("div")
+    column2.classList.add("column")
 
-    const column3 = document.createElement('div')
-    column3.classList.add('column')
+    const column3 = document.createElement("div")
+    column3.classList.add("column")
 
     row.append(column1, column2, column3)
 
@@ -93,11 +100,11 @@
 
     column1.appendChild(renderSudokuToHTML(sudoku))
 
-    column1.appendChild(document.createElement('br'))
+    column1.appendChild(document.createElement("br"))
 
-    const button = document.createElement('button')
-    button.innerText = 'Next'
-    button.addEventListener('click', () => {
+    const button = document.createElement("button")
+    button.innerText = "Next"
+    button.addEventListener("click", () => {
       possibleNumbers = getPossibleNumbers(sudoku)
       solutions = solve(possibleNumbers)
       sudoku = fillSolutions(sudoku, solutions)

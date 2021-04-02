@@ -1,15 +1,14 @@
-import createTemporaryNPMPackage from '@sanjo/create-temporary-npm-package'
-import testNpmInit from '@sanjo/test-npm-init'
-import writeJSON from '@sanjo/write-json'
-import { promises as fs } from 'fs'
-import path from 'path'
+import createTemporaryNPMPackage from "@sanjo/create-temporary-npm-package"
+import testNpmInit from "@sanjo/test-npm-init"
+import writeJSON from "@sanjo/write-json"
+import { promises as fs } from "fs"
+import path from "path"
 
-export function testCreatePackage (
+export function testCreatePackage(
   createPackagePackageName: string,
   createPackagePackagePath: string,
-  createPackagePackageArguments: string[],
+  createPackagePackageArguments: string[]
 ) {
-
   describe(createPackagePackageName, () => {
     let rootPath: string
 
@@ -19,12 +18,12 @@ export function testCreatePackage (
           [createPackagePackageName]: `file:${createPackagePackagePath}`,
         },
       })
-      const packagesPath = path.join(rootPath, 'packages')
+      const packagesPath = path.join(rootPath, "packages")
       await fs.mkdir(packagesPath)
-      await writeJSON(path.join(packagesPath, 'tsconfig.json'), {
-        'files': [],
-        'include': [],
-        'references': [],
+      await writeJSON(path.join(packagesPath, "tsconfig.json"), {
+        files: [],
+        include: [],
+        references: [],
       })
     })
 
@@ -32,13 +31,13 @@ export function testCreatePackage (
       await fs.rmdir(rootPath, { recursive: true })
     })
 
-    it('creates a package', async () => {
-      const expectedPath = path.join(createPackagePackagePath, 'src/expected')
+    it("creates a package", async () => {
+      const expectedPath = path.join(createPackagePackagePath, "src/expected")
       await testNpmInit(
         rootPath,
         createPackagePackageName,
         createPackagePackageArguments,
-        expectedPath,
+        expectedPath
       )
     })
   })

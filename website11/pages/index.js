@@ -1,11 +1,9 @@
-import {render as renderLayout} from '../layouts/default.js'
+import { render as renderLayout } from "../layouts/default.js"
 
 export function render(renderer) {
-    return renderLayout(
-        renderer,
-        {
-            title: 'Home',
-            content: `
+  return renderLayout(renderer, {
+    title: "Home",
+    content: `
                 <div class="starter-template">
                     <h1>Home</h1>
                     <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a
@@ -25,8 +23,7 @@ export function render(renderer) {
                     </div>
                 
                     <div class="row row-cols-1 row-cols-md-2 justify-content-center" style="max-width: 690px;">
-                    ${
-                `<div class="col mb-3">
+                    ${`<div class="col mb-3">
                         <div class="card">
                             <div class="pt-3 pr-3 pl-3">
                                 <img src="assets/img/heart.png" class="card-img-top" alt="Heart">
@@ -37,11 +34,9 @@ export function render(renderer) {
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
-                    </div>`.repeat(9)
-            }
+                    </div>`.repeat(9)}
                     </div>
                 </div>
             `,
-        }
-    )
+  })
 }

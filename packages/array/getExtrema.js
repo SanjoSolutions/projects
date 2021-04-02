@@ -1,9 +1,9 @@
-import identity from '@sanjo/identity'
+import identity from "@sanjo/identity"
 
-export function getExtrema (
+export function getExtrema(
   array,
   getter = identity,
-  isMoreExtreme,
+  isMoreExtreme
 ): any | null {
   if (array.length === 0) {
     return null

@@ -1,5 +1,5 @@
-import type { ICollection } from './ICollection'
-import { IStorage } from './IStorage'
+import type { ICollection } from "./ICollection"
+import { IStorage } from "./IStorage"
 
 export class Collection implements ICollection {
   _name: string
@@ -10,14 +10,14 @@ export class Collection implements ICollection {
     this._storage = storage
   }
 
-  async insert (dataEntry: any): Promise<void> {
-    const collection = await this._storage.get(this._name) || []
+  async insert(dataEntry: any): Promise<void> {
+    const collection = (await this._storage.get(this._name)) || []
     collection.push(dataEntry)
     await this._storage.set(this._name, collection)
   }
 
-  async find (): Promise<any[]> {
-    const collection = await this._storage.get(this._name) || []
+  async find(): Promise<any[]> {
+    const collection = (await this._storage.get(this._name)) || []
     return Array.from(collection)
   }
 }

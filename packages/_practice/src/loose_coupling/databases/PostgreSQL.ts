@@ -1,9 +1,5 @@
 export class PostgreSQL {
-  find () {
+  find() {}
 
-  }
-
-  save (data) {
-
-  }
+  save(data) {}
 }

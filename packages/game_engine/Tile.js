@@ -1,5 +1,5 @@
 export class Tile {
-  constructor (path) {
+  constructor(path) {
     this.path = path
   }
 }

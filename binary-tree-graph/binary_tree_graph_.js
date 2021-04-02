@@ -1,4 +1,4 @@
-import { createBinaryTreeGraph } from './createBinaryTreeGraph.js';
+import { createBinaryTreeGraph } from "./createBinaryTreeGraph.js"
 
 const min = 1
 const max = 7
@@ -10,4 +10,4 @@ async function main() {
   document.body.appendChild(binaryTreeGraph)
 }
 
-document.addEventListener('DOMContentLoaded', main)
+document.addEventListener("DOMContentLoaded", main)

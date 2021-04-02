@@ -1,11 +1,11 @@
-jest.mock('http')
-jest.mock('https')
+jest.mock("http")
+jest.mock("https")
 
-import { request } from './request'
-import http from 'http'
-import https from 'https'
+import { request } from "./request"
+import http from "http"
+import https from "https"
 
-describe('request', () => {
+describe("request", () => {
   beforeEach(function () {
     const httpRequestMock = (url: any, options: any, callback: any) => {
       return {
@@ -13,18 +13,18 @@ describe('request', () => {
         end: jest.fn().mockImplementation(() => {
           const response = {
             headers: {
-              'content-type': 'application/json'
+              "content-type": "application/json",
             },
             setEncoding: jest.fn(),
             on: jest.fn(),
             once: jest.fn().mockImplementation((eventName, callback) => {
-              if (eventName === 'end') {
+              if (eventName === "end") {
                 setImmediate(callback)
               }
-            })
+            }),
           }
           setImmediate(() => callback(response))
-        })
+        }),
       }
     }
 
@@ -32,8 +32,8 @@ describe('request', () => {
     ;(https.request as jest.Mock).mockImplementation(httpRequestMock)
   })
 
-  it('supports HTTP', async () => {
-    const url = 'http://www.example.com'
+  it("supports HTTP", async () => {
+    const url = "http://www.example.com"
     const options = {}
     await request(url)
     expect(http.request).toHaveBeenCalledWith(
@@ -43,8 +43,8 @@ describe('request', () => {
     )
   })
 
-  it('supports HTTPS', async () => {
-    const url = 'https://www.example.com'
+  it("supports HTTPS", async () => {
+    const url = "https://www.example.com"
     const options = {}
     await request(url)
     expect(https.request).toHaveBeenCalledWith(
@@ -54,11 +54,11 @@ describe('request', () => {
     )
   })
 
-  it('supports POST', async () => {
-    const url = 'http://www.example.com'
-    const options = {method: 'POST'}
-    const data = ''
-    await request(url, {...options}, data)
+  it("supports POST", async () => {
+    const url = "http://www.example.com"
+    const options = { method: "POST" }
+    const data = ""
+    await request(url, { ...options }, data)
     expect(http.request).toHaveBeenCalledWith(
       url,
       options,
@@ -66,11 +66,11 @@ describe('request', () => {
     )
   })
 
-  it('supports PUT', async () => {
-    const url = 'http://www.example.com'
-    const options = {method: 'PUT'}
-    const data = ''
-    await request(url, {...options}, data)
+  it("supports PUT", async () => {
+    const url = "http://www.example.com"
+    const options = { method: "PUT" }
+    const data = ""
+    await request(url, { ...options }, data)
     expect(http.request).toHaveBeenCalledWith(
       url,
       options,

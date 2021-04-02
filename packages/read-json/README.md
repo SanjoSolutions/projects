@@ -11,7 +11,7 @@ npm install --save '@sanjo/read-json'
 ## How to use
 
 ```js
-import readJSON from '@sanjo/read-json'
+import readJSON from "@sanjo/read-json"
 
-const json = await readJSON('./path_to_file.json')
+const json = await readJSON("./path_to_file.json")
 ```

@@ -1,10 +1,10 @@
-import readFile from '@sanjo/read-file'
-import writeFile from '@sanjo/write-file'
-import { replaceString } from './replaceString'
+import readFile from "@sanjo/read-file"
+import writeFile from "@sanjo/write-file"
+import { replaceString } from "./replaceString"
 
-export async function replaceStringsInFile (
+export async function replaceStringsInFile(
   filePath: string,
-  replacements: Map<string, string>,
+  replacements: Map<string, string>
 ): Promise<void> {
   let content = await readFile(filePath)
   for (const [stringToReplace, stringToReplaceWith] of replacements.entries()) {
@@ -12,4 +12,3 @@ export async function replaceStringsInFile (
   }
   await writeFile(filePath, content)
 }
-

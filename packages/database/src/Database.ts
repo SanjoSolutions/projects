@@ -1,12 +1,12 @@
-import { Collection } from './Collection'
-import type { ICollection } from './ICollection'
-import { IStorage } from './IStorage'
+import { Collection } from "./Collection"
+import type { ICollection } from "./ICollection"
+import { IStorage } from "./IStorage"
 
 export class Database {
   _storage: IStorage
   _collections: Map<string, ICollection>
 
-  constructor (storage: IStorage) {
+  constructor(storage: IStorage) {
     this._storage = storage
     this._collections = new Map()
   }
@@ -20,7 +20,9 @@ export class Database {
     return Array.from(this._collections.keys())
   }
 
-  async getCollection(collectionName: string): Promise<ICollection | undefined> {
+  async getCollection(
+    collectionName: string
+  ): Promise<ICollection | undefined> {
     return this._collections.get(collectionName)!
   }
 }

@@ -24,8 +24,8 @@ function findMatches(graph, matcher) {
   return graph.nodes.filter(matcher)
 }
 
-describe('connect', () => {
-  it('connects two nodes', () => {
+describe("connect", () => {
+  it("connects two nodes", () => {
     const a = new Node()
     const b = new Node()
     connect(a, b)
@@ -36,33 +36,33 @@ describe('connect', () => {
   })
 })
 
-describe('findFirstMatch', () => {
-  it('finds the first match', () => {
-    const a = new Node('a')
-    const b = new Node('b')
-    const c = new Node('c')
+describe("findFirstMatch", () => {
+  it("finds the first match", () => {
+    const a = new Node("a")
+    const b = new Node("b")
+    const c = new Node("c")
     connect(a, b)
     connect(b, c)
     const graph = new Graph([a, b, c])
     const matcher = (node) => {
-      return node.value === 'b'
+      return node.value === "b"
     }
     const match = findFirstMatch(graph, matcher)
     expect(match).toBe(b)
   })
 })
 
-describe('findMatches', () => {
-  it('finds matches', () => {
-    const a = new Node('m')
-    const b = new Node('f')
-    const c = new Node('f')
+describe("findMatches", () => {
+  it("finds matches", () => {
+    const a = new Node("m")
+    const b = new Node("f")
+    const c = new Node("f")
     connect(a, b)
     connect(a, c)
     connect(b, c)
     const graph = new Graph([a, b, c])
     const matcher = (node) => {
-      return node.value === 'f'
+      return node.value === "f"
     }
     const matches = findMatches(graph, matcher)
     expect(matches).toHaveLength(2)

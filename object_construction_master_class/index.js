@@ -1,6 +1,8 @@
 function A() {
   return {
-    foo() { return 'bar' }
+    foo() {
+      return "bar"
+    },
   }
 }
 
@@ -9,13 +11,12 @@ console.log(a)
 console.log(a.foo)
 console.log(a.foo())
 
-
-function B() {
-
-}
+function B() {}
 
 B.prototype = {
-  foo() { return 'bar' }
+  foo() {
+    return "bar"
+  },
 }
 
 const b = new B()
@@ -23,18 +24,25 @@ console.log(b)
 console.log(b.foo)
 console.log(b.foo())
 
-
 class Page {
-  goto() { return 'goto' }
+  goto() {
+    return "goto"
+  }
 }
 
 const MyPageBase = {
-  getFoo() { return null },
-  getFoo2() { return null }
+  getFoo() {
+    return null
+  },
+  getFoo2() {
+    return null
+  },
 }
 
 const MyPage = Object.assign({}, MyPageBase, {
-  getFoo() { return 'bar' }
+  getFoo() {
+    return "bar"
+  },
 })
 
 function decoratePage(page) {
@@ -49,20 +57,21 @@ console.log(page.getFoo)
 console.log(page.getFoo())
 console.log(page.getFoo2())
 
-
 const MyPage = Object.assign({}, MyPageBase, {
-  getFoo() { return 'bar' }
+  getFoo() {
+    return "bar"
+  },
 })
 
 let MyPage = {}
 Object.assign(MyPage, MyPageBase)
 Object.assign(MyPage, {
-  getFoo() { return 'bar' }
+  getFoo() {
+    return "bar"
+  },
 })
 
-
 Object.assign(MyPage, MyPageBase)
-
 
 // naming problem
 

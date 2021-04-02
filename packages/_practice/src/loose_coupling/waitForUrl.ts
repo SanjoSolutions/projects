@@ -1,7 +1,7 @@
-import request from '@sanjo/request'
-import { waitFor } from './waitFor'
+import request from "@sanjo/request"
+import { waitFor } from "./waitFor"
 
-export async function waitForUrl (url) {
+export async function waitForUrl(url) {
   const condition = async () => {
     try {
       await request(url)

@@ -29,7 +29,7 @@
     minX: 0 - 0.5 * window.innerWidth,
     maxX: 0 + 0.5 * window.innerWidth,
     minY: 0 - 0.5 * window.innerHeight,
-    maxY: 0 + 0.5 * window.innerHeight
+    maxY: 0 + 0.5 * window.innerHeight,
   }
 
   function getVisibleEntities(viewport, entities) {
@@ -38,8 +38,10 @@
 
   function isEntityVisible(viewport, entity) {
     return (
-      (entity.x + entity.width >= viewport.minX && entity.x <= viewport.maxX) &&
-      (entity.y + entity.height >= viewport.minY && entity.y <= viewport.maxY)
+      entity.x + entity.width >= viewport.minX &&
+      entity.x <= viewport.maxX &&
+      entity.y + entity.height >= viewport.minY &&
+      entity.y <= viewport.maxY
     )
   }
 
@@ -47,16 +49,16 @@
     if (isEntityVisible(viewport, entity)) {
       const x = entity.x - viewport.minX
       const y = viewport.maxY - entity.y
-      return {x, y}
+      return { x, y }
     } else {
-      throw new Error('Entity not in viewport')
+      throw new Error("Entity not in viewport")
     }
   }
 
-  function viewportCoordinatesToEntityCoordinates(viewport, {x, y}) {
+  function viewportCoordinatesToEntityCoordinates(viewport, { x, y }) {
     return {
       x: viewport.minX + x,
-      y: viewport.maxY - y
+      y: viewport.maxY - y,
     }
   }
 
@@ -68,15 +70,17 @@
   }
 
   function updateView() {
-    entityGraphics = getVisibleEntities(viewport, entities).map(createEntityGraphics)
-    document.body.innerHTML = ''
+    entityGraphics = getVisibleEntities(viewport, entities).map(
+      createEntityGraphics
+    )
+    document.body.innerHTML = ""
     document.body.append(...entityGraphics)
   }
 
   function createEntityGraphics(entity) {
-    const graphics = document.createElement('div')
-    const {x, y} = entityCoordinatesToViewportCoordinates(viewport, entity)
-    graphics.classList.add('graphics')
+    const graphics = document.createElement("div")
+    const { x, y } = entityCoordinatesToViewportCoordinates(viewport, entity)
+    graphics.classList.add("graphics")
     graphics.style.left = x
     graphics.style.top = y
     graphics.style.width = entity.width
@@ -98,13 +102,13 @@
       minX: viewport.minX + deltaX,
       maxX: viewport.maxX + deltaX,
       minY: viewport.minY + deltaY,
-      maxY: viewport.maxY + deltaY
+      maxY: viewport.maxY + deltaY,
     }
     updateView()
   }
 
   window.createEntity = createEntity
   window.getViewport = getViewport
-  window.setViewport  = setViewport
+  window.setViewport = setViewport
   window.moveViewport = moveViewport
 </script>

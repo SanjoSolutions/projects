@@ -11,5 +11,5 @@ npm install --save '@sanjo/test-npm-init'
 ## How to use
 
 ```js
-import testNpmInit from '@sanjo/test-npm-init'
+import testNpmInit from "@sanjo/test-npm-init"
 ```

@@ -1,9 +1,5 @@
 export class MongoDB {
-  find () {
+  find() {}
 
-  }
-
-  save (data) {
-
-  }
+  save(data) {}
 }

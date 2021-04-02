@@ -12,7 +12,7 @@ export function interpolatePointsOnLine(a, b) {
     for (let x = minX; x <= maxX; x++) {
       const point = {
         x,
-        y: Math.round(m * (x - a.x) + a.y)
+        y: Math.round(m * (x - a.x) + a.y),
       }
       points.push(point)
     }
@@ -31,13 +31,13 @@ export function interpolatePointsOnLine(a, b) {
       for (let y = minY; y <= maxY; y++) {
         const point = {
           x: Math.round(m * (y - a.y) + a.x),
-          y
+          y,
         }
         points.push(point)
       }
       return points
     } else {
-      return [{x: minX, y: minY}]
+      return [{ x: minX, y: minY }]
     }
   }
 }

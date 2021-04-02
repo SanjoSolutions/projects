@@ -1,5 +1,5 @@
 export interface ICollection {
-  insert (dataEntry: any): Promise<void>
+  insert(dataEntry: any): Promise<void>
 
-  find (): Promise<any[]>
+  find(): Promise<any[]>
 }

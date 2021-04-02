@@ -1,5 +1,5 @@
-import { Grid2D as Grid } from '../../Grid2D.js';
-import { TILE_HEIGHT, TILE_WIDTH } from './config.js';
+import { Grid2D as Grid } from "../../Grid2D.js"
+import { TILE_HEIGHT, TILE_WIDTH } from "./config.js"
 
 export class Map {
   constructor(width, height, { events, floor } = {}) {

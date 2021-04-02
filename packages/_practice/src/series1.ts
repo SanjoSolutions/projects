@@ -1,4 +1,4 @@
-function series1 (to) {
+function series1(to) {
   const numbers = new Array(to)
   let index = 0
   let number = 1

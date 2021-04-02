@@ -1,1 +1,1 @@
-export { writeJSON as default } from './writeJSON'
+export { writeJSON as default } from "./writeJSON"

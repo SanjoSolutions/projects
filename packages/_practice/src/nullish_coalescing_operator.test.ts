@@ -1,7 +1,7 @@
-describe('nullish coalescing operator', () => {
-  test('', () => {
+describe("nullish coalescing operator", () => {
+  test("", () => {
     const value = null
-    const defaultValue = 'a'
+    const defaultValue = "a"
 
     const result1 = value ?? defaultValue
     expect(result1).toEqual(defaultValue)
@@ -11,6 +11,6 @@ describe('nullish coalescing operator', () => {
   })
 })
 
-function isNullish (value) {
+function isNullish(value) {
   return value === null || value === undefined
 }

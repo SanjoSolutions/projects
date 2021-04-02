@@ -1,4 +1,4 @@
-import { getKeyConstantFromLookUp } from '../getKeyConstantFromLookUp.js'
+import { getKeyConstantFromLookUp } from "../getKeyConstantFromLookUp.js"
 
 /**
  * Replaces a string value with the reference string (`R.string.<keyConstant>`) from the look-up.
@@ -8,7 +8,7 @@ import { getKeyConstantFromLookUp } from '../getKeyConstantFromLookUp.js'
  * @returns {string} Reference string. E.g. R.string.example when key constant has the value "example".
  * @throws StringValueNotFoundError
  */
-export function replaceStringValue (lookUp, stringValue) {
+export function replaceStringValue(lookUp, stringValue) {
   const keyConstant = getKeyConstantFromLookUp(lookUp, stringValue)
   return `R.string.${keyConstant}`
 }

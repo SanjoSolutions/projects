@@ -1,5 +1,5 @@
 export class Model {
-  constructor (data: Object) {
+  constructor(data: Object) {
     Object.assign(this, data)
   }
 }

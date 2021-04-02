@@ -1,14 +1,14 @@
-export function createLineToLine ({width, height, color, backgroundColor}) {
+export function createLineToLine({ width, height, color, backgroundColor }) {
   const lineWidth = 0.45 * width
   const connectionLineWidth = 0.1 * width
 
-  const canvas = document.createElement('canvas')
+  const canvas = document.createElement("canvas")
   canvas.width = width
   canvas.height = height
 
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d")
 
-  context.strokeStyle = color || 'black'
+  context.strokeStyle = color || "black"
   context.lineWidth = 1
 
   if (backgroundColor) {
@@ -23,18 +23,18 @@ export function createLineToLine ({width, height, color, backgroundColor}) {
   context.stroke()
 
   return {
-    get element () {
+    get element() {
       return canvas
-    }
+    },
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const options = {width: 496, height: 32, color: 'yellow'}
-  const container = document.createElement('div')
-  container.style.width = options.width + 'px'
-  container.style.padding = '1rem'
-  container.style.backgroundColor = 'black'
+document.addEventListener("DOMContentLoaded", () => {
+  const options = { width: 496, height: 32, color: "yellow" }
+  const container = document.createElement("div")
+  container.style.width = options.width + "px"
+  container.style.padding = "1rem"
+  container.style.backgroundColor = "black"
   const lineToLine = createLineToLine(options)
   container.appendChild(lineToLine.element)
   document.body.appendChild(container)

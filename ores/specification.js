@@ -1,2 +1,1 @@
-import './OrePlacer.spec.js';
-
+import "./OrePlacer.spec.js"

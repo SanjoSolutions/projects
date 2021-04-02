@@ -9,11 +9,11 @@ export function union(setA, setB) {
 }
 
 export function intersection(setA, setB) {
-  return new Set([...setA].filter(value => setB.has(value)))
+  return new Set([...setA].filter((value) => setB.has(value)))
 }
 
 export function difference(setA, setB) {
-  return new Set([...setA].filter(value => !setB.has(value)))
+  return new Set([...setA].filter((value) => !setB.has(value)))
 }
 
 export function symmetricDifference(setA, setB) {
@@ -22,7 +22,9 @@ export function symmetricDifference(setA, setB) {
 
 export function cartesianProduct(setA, setB) {
   const result = new Set()
-  setA.forEach(valueA => setB.forEach(valueB => result.add([valueA, valueB])))
+  setA.forEach((valueA) =>
+    setB.forEach((valueB) => result.add([valueA, valueB]))
+  )
   return result
 }
 
@@ -32,10 +34,10 @@ export function powerSet(set) {
 
   const indexSubSequences = getIndexSubSequences(array.length)
 
-  const subSequences = indexSubSequences.map(
-    indexSubSequence => indexSubSequence.map(index => array[index]),
+  const subSequences = indexSubSequences.map((indexSubSequence) =>
+    indexSubSequence.map((index) => array[index])
   )
-  const subSets = subSequences.map(subSequence => new Set(subSequence))
+  const subSets = subSequences.map((subSequence) => new Set(subSequence))
   const result = new Set(subSets)
 
   return result
@@ -47,9 +49,8 @@ function getIndexSubSequences(length) {
   do {
     const nextSubSequences = []
     for (const subSequence of subSequences) {
-      const lastValue = subSequence.length > 0
-        ? subSequence[subSequence.length - 1]
-        : -1
+      const lastValue =
+        subSequence.length > 0 ? subSequence[subSequence.length - 1] : -1
       for (let value = lastValue + 1; value < length; value++) {
         nextSubSequences.push([...subSequence, value])
       }

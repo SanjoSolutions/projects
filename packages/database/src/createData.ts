@@ -1,3 +1,3 @@
-export function createData () {
+export function createData() {
   return { id: 1 }
 }

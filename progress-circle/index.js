@@ -1,28 +1,26 @@
-import { animate } from '../animate.js'
+import { animate } from "../animate.js"
 
-function normalizeProgress (progress) {
+function normalizeProgress(progress) {
   return Math.max(0, Math.min(progress, 1))
 }
 
-function createProgressCircle ({ width, height, progress, label }) {
+function createProgressCircle({ width, height, progress, label }) {
   progress = normalizeProgress(progress)
 
-  const canvas = document.createElement('canvas')
+  const canvas = document.createElement("canvas")
   canvas.width = width
   canvas.height = height
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d")
 
-  const color = 'greenyellow'
+  const color = "greenyellow"
   context.lineWidth = 20
   context.strokeStyle = color
   context.fillStyle = color
-  context.font = '2.5rem sans-serif'
+  context.font = "2.5rem sans-serif"
 
-  const startAngle = (
-    3 / 4
-  ) * 2 * Math.PI
+  const startAngle = (3 / 4) * 2 * Math.PI
 
-  function draw () {
+  function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height)
 
     const center = { x: canvas.width / 2, y: canvas.height / 2 }
@@ -34,7 +32,7 @@ function createProgressCircle ({ width, height, progress, label }) {
       center.y,
       radius - 0.5 * context.lineWidth,
       startAngle,
-      startAngle + progress * 2 * Math.PI,
+      startAngle + progress * 2 * Math.PI
     )
     context.stroke()
 
@@ -42,15 +40,16 @@ function createProgressCircle ({ width, height, progress, label }) {
       const text = `${Math.round(progress * 100)}%`
       context.beginPath()
       const textMetrics = context.measureText(text)
-      const textWidth = Math.abs(textMetrics.actualBoundingBoxLeft) +
+      const textWidth =
+        Math.abs(textMetrics.actualBoundingBoxLeft) +
         Math.abs(textMetrics.actualBoundingBoxRight)
-      const textHeight = textMetrics.actualBoundingBoxAscent +
+      const textHeight =
+        textMetrics.actualBoundingBoxAscent +
         textMetrics.actualBoundingBoxDescent
       context.fillText(
         text,
         center.x - 0.5 * textWidth,
-        center.y +
-        0.5 * textHeight,
+        center.y + 0.5 * textHeight
       )
     }
   }
@@ -58,15 +57,15 @@ function createProgressCircle ({ width, height, progress, label }) {
   draw()
 
   return {
-    get element () {
+    get element() {
       return canvas
     },
 
-    get progress () {
+    get progress() {
       return progress
     },
 
-    set progress (value) {
+    set progress(value) {
       value = normalizeProgress(value)
       const { stop } = animate((elapsedTime) => {
         if (Math.abs(progress - value) < 0.01) {
@@ -74,15 +73,8 @@ function createProgressCircle ({ width, height, progress, label }) {
           draw()
           stop()
         } else {
-          const delta = (
-              elapsedTime /
-              (
-                1000 / 60
-              )
-            ) *
-            (
-              value > progress ? 0.01 : -0.01
-            )
+          const delta =
+            (elapsedTime / (1000 / 60)) * (value > progress ? 0.01 : -0.01)
           progress = progress + delta
           draw()
         }
@@ -91,7 +83,7 @@ function createProgressCircle ({ width, height, progress, label }) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const progressCircle = createProgressCircle({
     width: 200,
     height: 200,

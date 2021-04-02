@@ -1,6 +1,6 @@
-import { littleEndian } from './littleEndian.js'
+import { littleEndian } from "./littleEndian.js"
 
-export function convertRequestPixelsForViewportPaketToArray (paket) {
+export function convertRequestPixelsForViewportPaketToArray(paket) {
   const view = new DataView(paket)
   return [
     view.getUint8(0),

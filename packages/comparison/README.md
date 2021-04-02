@@ -11,5 +11,5 @@ npm install --save '@sanjo/comparison'
 ## How to use
 
 ```js
-import comparison from '@sanjo/comparison'
+import comparison from "@sanjo/comparison"
 ```

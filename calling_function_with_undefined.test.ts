@@ -1,7 +1,7 @@
 export {}
 
-test('calling function with undefined', () => {
-  function fn (...args: any[]): number {
+test("calling function with undefined", () => {
+  function fn(...args: any[]): number {
     return args.length
   }
 

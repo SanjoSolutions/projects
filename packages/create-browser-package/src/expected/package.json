@@ -9,10 +9,8 @@
     "build": "webpack",
     "build:watch": "webpack-dev-server --open"
   },
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   }

@@ -1,12 +1,8 @@
-class Model {
+class Model {}
 
-}
+class MongoDB {}
 
-class MongoDB {
-
-}
-
-function api (id) {
+function api(id) {
   const modelState = mongoDB.get(id)
   const newModelState = businessLogic(modelState)
   mongoDB.save(newModelState)
@@ -14,39 +10,39 @@ function api (id) {
   return response
 }
 
-function businessLogic (modelState) {
+function businessLogic(modelState) {
   return newModelState
 }
 
 // ---
 
-function api () {
+function api() {
   businessLogic(id)
   return response
 }
 
 class ModelRepository {
-  get (id) {
+  get(id) {
     return postgreSQL.get(id)
   }
 
-  save (modelState) {
+  save(modelState) {
     postgreSQL.save(modelState)
   }
 }
 
-function businessLogic (id) {
+function businessLogic(id) {
   const modelState = modelRepository.get(id)
   const newModelState = businessLogic(modelState)
   modelRepository.save(newModelState)
 }
 
 class Debate {
-  constructor () {
+  constructor() {
     this.positions = []
   }
 
-  getMostPopularPositions () {
+  getMostPopularPositions() {
     return sortDescending(this.positions, ({ views }) => views).slice(0, 5)
     // return _.chain(this.position).sortBy(…).reverse().take(5).value()
     // _(…).lodashFunction().lodashFunction()….value()

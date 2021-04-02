@@ -1,13 +1,13 @@
 export class InMemory {
-  constructor () {
+  constructor() {
     this.collection = []
   }
 
-  save (model) {
+  save(model) {
     this.collection.push(model)
   }
 
-  find () {
+  find() {
     return this.collection
   }
 }

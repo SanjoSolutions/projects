@@ -1,8 +1,8 @@
-export function removeDuplicates (points) {
+export function removeDuplicates(points) {
   const duplicateFreePoints = []
   const lookup = new Map()
   for (const point of points) {
-    const {x, y} = point
+    const { x, y } = point
     let set = lookup.get(x)
     if (!set || !set.has(y)) {
       duplicateFreePoints.push(point)

@@ -1,19 +1,19 @@
-import request from '@sanjo/request'
-import type { Server } from 'http'
-import http from 'http'
-import { HTTPServer } from './HTTPServer'
+import request from "@sanjo/request"
+import type { Server } from "http"
+import http from "http"
+import { HTTPServer } from "./HTTPServer"
 
-describe('HTTP server', () => {
-  describe('when no port has been passed', () => {
-    it('listens on port 80 by default', async () => {
-      const httpServerMock = {
+describe("HTTP server", () => {
+  describe("when no port has been passed", () => {
+    it("listens on port 80 by default", async () => {
+      const httpServerMock = ({
         on: jest.fn(),
         listen: jest.fn().mockImplementation((port, callback) => {
           callback()
         }),
         close: jest.fn(),
-      } as unknown as Server
-      jest.spyOn(http, 'createServer').mockReturnValue(httpServerMock)
+      } as unknown) as Server
+      jest.spyOn(http, "createServer").mockReturnValue(httpServerMock)
       const httpServer = new HTTPServer()
       await httpServer.listen()
       expect(httpServerMock.listen).toHaveBeenCalledWith(80, expect.anything())
@@ -22,10 +22,10 @@ describe('HTTP server', () => {
 })
 
 // FIXME: Brittle?
-describe.skip('HTTP server', () => {
+describe.skip("HTTP server", () => {
   const port = 8082
 
-  async function requestToLocalhost (pathname: string) {
+  async function requestToLocalhost(pathname: string) {
     return await request(`http://localhost:${port}${pathname}`)
   }
 
@@ -40,50 +40,50 @@ describe.skip('HTTP server', () => {
     await httpServer.close()
   })
 
-  it('serves pages over HTTP', async () => {
-    httpServer.route('/', 'Hello world!')
-    httpServer.route('/2', 'Hello world 2!')
+  it("serves pages over HTTP", async () => {
+    httpServer.route("/", "Hello world!")
+    httpServer.route("/2", "Hello world 2!")
 
-    const response = await requestToLocalhost('/')
+    const response = await requestToLocalhost("/")
     expect(response).toMatchObject({
       status: 200,
-      body: 'Hello world!',
+      body: "Hello world!",
     })
 
-    const response2 = await requestToLocalhost('/2')
+    const response2 = await requestToLocalhost("/2")
     expect(response2).toMatchObject({
       status: 200,
-      body: 'Hello world 2!',
+      body: "Hello world 2!",
     })
   }, 30000)
 
-  it('returns status code 404 when page not found', async () => {
-    const response = await requestToLocalhost('/')
+  it("returns status code 404 when page not found", async () => {
+    const response = await requestToLocalhost("/")
     expect(response).toMatchObject({
       status: 404,
     })
   })
 
-  it('can return custom 404 response', async () => {
+  it("can return custom 404 response", async () => {
     httpServer.setNotFoundRequestHandler((request, response) => {
-      response.end('Lollipop')
+      response.end("Lollipop")
     })
 
-    const response = await requestToLocalhost('/')
+    const response = await requestToLocalhost("/")
     expect(response).toMatchObject({
       status: 404,
-      body: 'Lollipop',
+      body: "Lollipop",
     })
   })
 
-  it('can serve HTML pages', async () => {
-    httpServer.route('/', '<div>Welcome</div>', 'text/html')
+  it("can serve HTML pages", async () => {
+    httpServer.route("/", "<div>Welcome</div>", "text/html")
 
-    const response = await requestToLocalhost('/')
+    const response = await requestToLocalhost("/")
     expect(response).toMatchObject({
       status: 200,
-      contentType: 'text/html',
-      body: '<div>Welcome</div>',
+      contentType: "text/html",
+      body: "<div>Welcome</div>",
     })
   })
 })

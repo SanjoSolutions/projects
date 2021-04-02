@@ -1,4 +1,4 @@
-export function getDiffSubsequences (fromArray, toArray, matchingSubsequences) {
+export function getDiffSubsequences(fromArray, toArray, matchingSubsequences) {
   const diffSubsequences = []
 
   if (matchingSubsequences.length === 0) {
@@ -22,12 +22,19 @@ export function getDiffSubsequences (fromArray, toArray, matchingSubsequences) {
       const previousMatchingSubsequence = matchingSubsequences[index - 1]
       const currentMatchingSubsequence = matchingSubsequences[index]
       diffSubsequences.push([
-        { from: previousMatchingSubsequence[0].to, to: currentMatchingSubsequence[0].from },
-        { from: previousMatchingSubsequence[1].to, to: currentMatchingSubsequence[1].from },
+        {
+          from: previousMatchingSubsequence[0].to,
+          to: currentMatchingSubsequence[0].from,
+        },
+        {
+          from: previousMatchingSubsequence[1].to,
+          to: currentMatchingSubsequence[1].from,
+        },
       ])
     }
 
-    const lastMatchingSubsequence = matchingSubsequences[matchingSubsequences.length - 1]
+    const lastMatchingSubsequence =
+      matchingSubsequences[matchingSubsequences.length - 1]
     if (
       lastMatchingSubsequence[0].to < fromArray.length ||
       lastMatchingSubsequence[1].to < toArray.length
@@ -40,5 +47,4 @@ export function getDiffSubsequences (fromArray, toArray, matchingSubsequences) {
   }
 
   return diffSubsequences
-
 }

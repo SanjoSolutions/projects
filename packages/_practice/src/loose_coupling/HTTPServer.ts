@@ -1,29 +1,34 @@
-import type { IncomingMessage, RequestListener, Server, ServerResponse } from 'http'
-import http from 'http'
-import { URL } from 'url'
-import { promisify } from 'util'
+import type {
+  IncomingMessage,
+  RequestListener,
+  Server,
+  ServerResponse,
+} from "http"
+import http from "http"
+import { URL } from "url"
+import { promisify } from "util"
 
-const protocol = 'http'
+const protocol = "http"
 
-function createDefaultRequestHandler (
+function createDefaultRequestHandler(
   responseText: string,
-  contentType: string | null = null,
+  contentType: string | null = null
 ): RequestListener {
-  return function defaultRequestHandler (
+  return function defaultRequestHandler(
     request: IncomingMessage,
-    response: ServerResponse,
+    response: ServerResponse
   ) {
     if (contentType) {
-      response.setHeader('content-type', contentType)
+      response.setHeader("content-type", contentType)
     }
     response.writeHead(200)
     response.end(responseText)
   }
 }
 
-function notFoundRequestHandler (
+function notFoundRequestHandler(
   request: IncomingMessage,
-  response: ServerResponse,
+  response: ServerResponse
 ): void {
   response.end()
 }
@@ -34,36 +39,40 @@ export class HTTPServer {
   private _requestHandlers: Map<string, RequestListener>
   private _notFoundRequestHandler: RequestListener
 
-  constructor (port: number = 80) {
+  constructor(port: number = 80) {
     this._port = port
     this._requestListener = this._requestListener.bind(this)
     this._onError = this._onError.bind(this)
     this._server = http.createServer(this._requestListener)
-    this._server.on('error', this._onError)
+    this._server.on("error", this._onError)
     this._requestHandlers = new Map()
     this._notFoundRequestHandler = notFoundRequestHandler
   }
 
-  route (pathname: string, responseText: string, contentType: string | null = null) {
+  route(
+    pathname: string,
+    responseText: string,
+    contentType: string | null = null
+  ) {
     this._requestHandlers.set(
       pathname,
-      createDefaultRequestHandler(responseText, contentType),
+      createDefaultRequestHandler(responseText, contentType)
     )
   }
 
-  async listen () {
+  async listen() {
     await promisify(this._server.listen.bind(this._server))(this._port)
   }
 
-  async close () {
+  async close() {
     await promisify(this._server.close.bind(this._server))()
   }
 
-  setNotFoundRequestHandler (requestHandler: RequestListener) {
+  setNotFoundRequestHandler(requestHandler: RequestListener) {
     this._notFoundRequestHandler = requestHandler
   }
 
-  _requestListener (request: IncomingMessage, response: ServerResponse): void {
+  _requestListener(request: IncomingMessage, response: ServerResponse): void {
     const url = new URL(request.url!, `${protocol}://${request.headers.host}`)
     const pathname = url.pathname
     if (this._requestHandlers.has(pathname)) {
@@ -73,13 +82,12 @@ export class HTTPServer {
     }
   }
 
-  _handleNotFound (request: IncomingMessage, response: ServerResponse) {
+  _handleNotFound(request: IncomingMessage, response: ServerResponse) {
     response.writeHead(404)
     this._notFoundRequestHandler(request, response)
   }
 
-  _onError (error: Error) {
-    console.error('HTTPServer error', error)
+  _onError(error: Error) {
+    console.error("HTTPServer error", error)
   }
-
 }

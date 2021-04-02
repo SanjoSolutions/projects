@@ -1,5 +1,5 @@
-import { Grid } from './Grid.js';
-import { expect, specification } from './packages/specification/index.js';
+import { Grid } from "./Grid.js"
+import { expect, specification } from "./packages/specification/index.js"
 
 specification(() => {
   const grid = new Grid([3, 3, 3])

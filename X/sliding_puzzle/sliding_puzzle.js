@@ -6,19 +6,23 @@ slidingPuzzle[0] = null
 
 console.log(slidingPuzzleToString(slidingPuzzle))
 
-function slidingPuzzleToString (slidingPuzzle) {
-  let output = ''
+function slidingPuzzleToString(slidingPuzzle) {
+  let output = ""
   for (let row = 0; row < height; row++) {
-    output += slidingPuzzle.slice(row * width, (row + 1) * width).map(slidingPuzzleValueToString).join(' ') + '\n'
+    output +=
+      slidingPuzzle
+        .slice(row * width, (row + 1) * width)
+        .map(slidingPuzzleValueToString)
+        .join(" ") + "\n"
   }
   return output
 }
 
-function slidingPuzzleValueToString (value) {
-  return (value === null ? '' : String(value)).padStart(3, ' ')
+function slidingPuzzleValueToString(value) {
+  return (value === null ? "" : String(value)).padStart(3, " ")
 }
 
-function movePiece (slidingPuzzle, index) {
+function movePiece(slidingPuzzle, index) {
   const emptySlotIndex = slidingPuzzle.indexOf(null)
   slidingPuzzle = [...slidingPuzzle]
   slidingPuzzle[emptySlotIndex] = slidingPuzzle[index]
@@ -26,22 +30,18 @@ function movePiece (slidingPuzzle, index) {
   return slidingPuzzle
 }
 
-function isValidMove (fromIndex, toIndex) {
+function isValidMove(fromIndex, toIndex) {
   const fromPosition = indexToPosition(fromIndex)
   const toPosition = indexToPosition(toIndex)
   return (
-    (
-      Math.abs(toPosition.row - fromPosition.row) === 1 &&
-      Math.abs(toPosition.column - fromPosition.column) === 0
-    ) ||
-    (
-      Math.abs(toPosition.row - fromPosition.row) === 0 &&
-      Math.abs(toPosition.column - fromPosition.column) === 1
-    )
+    (Math.abs(toPosition.row - fromPosition.row) === 1 &&
+      Math.abs(toPosition.column - fromPosition.column) === 0) ||
+    (Math.abs(toPosition.row - fromPosition.row) === 0 &&
+      Math.abs(toPosition.column - fromPosition.column) === 1)
   )
 }
 
-function shuffleTimes (slidingPuzzle, numberOfTimes) {
+function shuffleTimes(slidingPuzzle, numberOfTimes) {
   for (let shuffleNumber = 1; shuffleNumber <= numberOfTimes; shuffleNumber++) {
     slidingPuzzle = shuffle(slidingPuzzle)
   }
@@ -50,43 +50,52 @@ function shuffleTimes (slidingPuzzle, numberOfTimes) {
 
 let lastShuffleToIndex = null
 
-function shuffle (slidingPuzzle) {
+function shuffle(slidingPuzzle) {
   const emptySlotIndex = slidingPuzzle.indexOf(null)
   const movableIndexes = series(0, slidingPuzzle.length - 1).filter(
-    index => index !== lastShuffleToIndex && isValidMove(index, emptySlotIndex)
+    (index) =>
+      index !== lastShuffleToIndex && isValidMove(index, emptySlotIndex)
   )
-  const index = movableIndexes[Math.floor(Math.random() * movableIndexes.length)]
+  const index =
+    movableIndexes[Math.floor(Math.random() * movableIndexes.length)]
   slidingPuzzle = movePiece(slidingPuzzle, index)
   lastShuffleToIndex = emptySlotIndex
   return slidingPuzzle
 }
 
-function indexToPosition (index) {
+function indexToPosition(index) {
   return {
     row: Math.floor(index / width),
-    column: index % width
+    column: index % width,
   }
 }
 
-async function renderSlidingPuzzle (slidingPuzzle) {
-  const image = await loadImage('images/cat.jpg')
+async function renderSlidingPuzzle(slidingPuzzle) {
+  const image = await loadImage("images/cat.jpg")
   let scaledWidth
   let scaledHeight
   if (image.naturalWidth < image.naturalHeight) {
     scaledWidth = 256
-    scaledHeight = Math.round((scaledWidth / image.naturalWidth) * image.naturalHeight)
+    scaledHeight = Math.round(
+      (scaledWidth / image.naturalWidth) * image.naturalHeight
+    )
   } else {
     scaledHeight = 256
-    scaledWidth = Math.round((scaledHeight / image.naturalHeight) * image.naturalWidth)
+    scaledWidth = Math.round(
+      (scaledHeight / image.naturalHeight) * image.naturalWidth
+    )
   }
-  const $slidingPuzzle = document.createElement('div')
-  $slidingPuzzle.classList.add('sliding-puzzle')
+  const $slidingPuzzle = document.createElement("div")
+  $slidingPuzzle.classList.add("sliding-puzzle")
   for (const value of slidingPuzzle) {
     if (value !== null) {
-      const $slidingPuzzlePiece = document.createElement('div')
-      $slidingPuzzlePiece.classList.add('sliding-puzzle__piece', `sliding-puzzle__piece--top-right-${value}`)
+      const $slidingPuzzlePiece = document.createElement("div")
+      $slidingPuzzlePiece.classList.add(
+        "sliding-puzzle__piece",
+        `sliding-puzzle__piece--top-right-${value}`
+      )
       // $slidingPuzzlePiece.innerText = value
-      $slidingPuzzlePiece.setAttribute('data-value', value)
+      $slidingPuzzlePiece.setAttribute("data-value", value)
       $slidingPuzzlePiece.style.backgroundSize = `${scaledWidth}px ${scaledHeight}px`
       $slidingPuzzle.appendChild($slidingPuzzlePiece)
     }
@@ -94,8 +103,8 @@ async function renderSlidingPuzzle (slidingPuzzle) {
   return $slidingPuzzle
 }
 
-async function loadImage (url) {
-  return new Promise(resolve => {
+async function loadImage(url) {
+  return new Promise((resolve) => {
     const image = new Image()
     image.onload = () => {
       resolve(image)
@@ -104,7 +113,7 @@ async function loadImage (url) {
   })
 }
 
-function series (fromNumberInclusive, toNumberInclusive) {
+function series(fromNumberInclusive, toNumberInclusive) {
   const values = []
   for (let value = fromNumberInclusive; value <= toNumberInclusive; value++) {
     values.push(value)
@@ -112,19 +121,19 @@ function series (fromNumberInclusive, toNumberInclusive) {
   return values
 }
 
-function wait (numberOfSeconds) {
-  return new Promise(resolve => setTimeout(resolve, numberOfSeconds * 1000))
+function wait(numberOfSeconds) {
+  return new Promise((resolve) => setTimeout(resolve, numberOfSeconds * 1000))
 }
 
-async function main () {
+async function main() {
   const $slidingPuzzle = await renderSlidingPuzzle(slidingPuzzle)
 
   const $slidingPuzzlePieces = Array.from($slidingPuzzle.children)
 
-  function updatePositions () {
+  function updatePositions() {
     for (const $slidingPuzzlePiece of $slidingPuzzlePieces) {
-      let className = 'sliding-puzzle__piece'
-      const value = Number($slidingPuzzlePiece.getAttribute('data-value'))
+      let className = "sliding-puzzle__piece"
+      const value = Number($slidingPuzzlePiece.getAttribute("data-value"))
       const slotIndex = slidingPuzzle.indexOf(value)
       className += ` sliding-puzzle__piece--top-right-${value}`
       className += ` sliding-puzzle__piece--position-${slotIndex}`
@@ -132,9 +141,13 @@ async function main () {
     }
   }
 
-  async function animatedShuffle () {
+  async function animatedShuffle() {
     const numberOfShuffles = 100
-    for (let shuffleNumber = 1; shuffleNumber <= numberOfShuffles; shuffleNumber++) {
+    for (
+      let shuffleNumber = 1;
+      shuffleNumber <= numberOfShuffles;
+      shuffleNumber++
+    ) {
       slidingPuzzle = shuffle(slidingPuzzle)
       updatePositions()
       await wait(1)
@@ -171,43 +184,57 @@ async function main () {
   let initialOffsetX
   let initialOffsetY
   let lastMousePosition
-  $slidingPuzzle.addEventListener('mousedown', (event) => {
+  $slidingPuzzle.addEventListener("mousedown", (event) => {
     const target = event.target
-    if (target.classList.contains('sliding-puzzle__piece')) {
+    if (target.classList.contains("sliding-puzzle__piece")) {
       const $slidingPuzzlePiece = target
-      const value = Number($slidingPuzzlePiece.getAttribute('data-value'))
+      const value = Number($slidingPuzzlePiece.getAttribute("data-value"))
       const slotIndex = slidingPuzzle.indexOf(value)
       const emptySlotIndex = slidingPuzzle.indexOf(null)
       if (isValidMove(slotIndex, emptySlotIndex)) {
         $movingSlidingPuzzlePiece = $slidingPuzzlePiece
         initialOffsetX = $movingSlidingPuzzlePiece.offsetLeft
         initialOffsetY = $movingSlidingPuzzlePiece.offsetTop
-        $movingSlidingPuzzlePiece.classList.add('sliding-puzzle__piece--moving')
+        $movingSlidingPuzzlePiece.classList.add("sliding-puzzle__piece--moving")
         lastMousePosition = {
           x: event.pageX,
-          y: event.pageY
+          y: event.pageY,
         }
       }
     }
   })
 
-  function extracted ($movingSlidingPuzzlePiece, initialOffsetX, initialOffsetY) {
+  function extracted(
+    $movingSlidingPuzzlePiece,
+    initialOffsetX,
+    initialOffsetY
+  ) {
     let translateX = $movingSlidingPuzzlePiece.offsetLeft - initialOffsetX
     let translateY = $movingSlidingPuzzlePiece.offsetTop - initialOffsetY
 
-    const value = Number($movingSlidingPuzzlePiece.getAttribute('data-value'))
+    const value = Number($movingSlidingPuzzlePiece.getAttribute("data-value"))
     const slotIndex = slidingPuzzle.indexOf(value)
     const emptySlotIndex = slidingPuzzle.indexOf(null)
     const slotPosition = indexToPosition(slotIndex)
     const emptySlotPosition = indexToPosition(emptySlotIndex)
-    const minimumTranslateX = emptySlotPosition.column < slotPosition.column ? -64 : 0
-    const maximumTranslateX = emptySlotPosition.column > slotPosition.column ? 64 : 0
+    const minimumTranslateX =
+      emptySlotPosition.column < slotPosition.column ? -64 : 0
+    const maximumTranslateX =
+      emptySlotPosition.column > slotPosition.column ? 64 : 0
     const minimumTranslateY = emptySlotPosition.row < slotPosition.row ? -64 : 0
     const maximumTranslateY = emptySlotPosition.row > slotPosition.row ? 64 : 0
-    return { translateX, translateY, slotIndex, minimumTranslateX, maximumTranslateX, minimumTranslateY, maximumTranslateY }
+    return {
+      translateX,
+      translateY,
+      slotIndex,
+      minimumTranslateX,
+      maximumTranslateX,
+      minimumTranslateY,
+      maximumTranslateY,
+    }
   }
 
-  window.addEventListener('mousemove', (event) => {
+  window.addEventListener("mousemove", (event) => {
     if ($movingSlidingPuzzlePiece) {
       let {
         translateX,
@@ -215,28 +242,34 @@ async function main () {
         minimumTranslateX,
         maximumTranslateX,
         minimumTranslateY,
-        maximumTranslateY
+        maximumTranslateY,
       } = extracted($movingSlidingPuzzlePiece, initialOffsetX, initialOffsetY)
 
       const mousePosition = {
         x: event.pageX,
-        y: event.pageY
+        y: event.pageY,
       }
       const deltaX = mousePosition.x - lastMousePosition.x
       const deltaY = mousePosition.y - lastMousePosition.y
       translateX += deltaX
       translateY += deltaY
-      translateX = Math.max(minimumTranslateX, Math.min(translateX, maximumTranslateX))
-      translateY = Math.max(minimumTranslateY, Math.min(translateY, maximumTranslateY))
+      translateX = Math.max(
+        minimumTranslateX,
+        Math.min(translateX, maximumTranslateX)
+      )
+      translateY = Math.max(
+        minimumTranslateY,
+        Math.min(translateY, maximumTranslateY)
+      )
 
-      $movingSlidingPuzzlePiece.style.left = (initialOffsetX + translateX) + 'px'
-      $movingSlidingPuzzlePiece.style.top = (initialOffsetY + translateY) + 'px'
+      $movingSlidingPuzzlePiece.style.left = initialOffsetX + translateX + "px"
+      $movingSlidingPuzzlePiece.style.top = initialOffsetY + translateY + "px"
 
       lastMousePosition = mousePosition
     }
   })
 
-  window.addEventListener('mouseup', (event) => {
+  window.addEventListener("mouseup", (event) => {
     if ($movingSlidingPuzzlePiece) {
       let {
         translateX,
@@ -245,10 +278,10 @@ async function main () {
         minimumTranslateX,
         maximumTranslateX,
         minimumTranslateY,
-        maximumTranslateY
+        maximumTranslateY,
       } = extracted($movingSlidingPuzzlePiece, initialOffsetX, initialOffsetY)
 
-      function hasMoved () {
+      function hasMoved() {
         return (
           (minimumTranslateX !== 0 && translateX === minimumTranslateX) ||
           (minimumTranslateY !== 0 && translateY === minimumTranslateY) ||
@@ -261,7 +294,9 @@ async function main () {
         slidingPuzzle = movePiece(slidingPuzzle, slotIndex)
         updatePositions()
       }
-      $movingSlidingPuzzlePiece.classList.remove('sliding-puzzle__piece--moving')
+      $movingSlidingPuzzlePiece.classList.remove(
+        "sliding-puzzle__piece--moving"
+      )
       $movingSlidingPuzzlePiece.style.left = null
       $movingSlidingPuzzlePiece.style.top = null
       $movingSlidingPuzzlePiece = null
@@ -269,5 +304,4 @@ async function main () {
   })
 }
 
-document.addEventListener('DOMContentLoaded', main)
-
+document.addEventListener("DOMContentLoaded", main)

@@ -7,7 +7,7 @@
  * @param fromIndex The index to start the search at from the right (right boundary)
  * @returns {*} A match object like RegExp.exec returns or null when no match has been found
  */
-export function lastMatch (text, regExp, fromIndex = null) {
+export function lastMatch(text, regExp, fromIndex = null) {
   if (fromIndex === null) {
     fromIndex = text.length - 1
   }

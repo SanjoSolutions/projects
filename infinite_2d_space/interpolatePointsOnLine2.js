@@ -1,4 +1,4 @@
-import { removeDuplicates } from './removeDuplicates.js'
+import { removeDuplicates } from "./removeDuplicates.js"
 
 export function interpolatePointsOnLine(a, b) {
   const minX = Math.round(Math.min(a.x, b.x))
@@ -14,7 +14,7 @@ export function interpolatePointsOnLine(a, b) {
     for (let x = minX; x <= maxX; x += 0.1) {
       const point = {
         x: Math.round(x),
-        y: Math.round(m * (x - a.x) + a.y)
+        y: Math.round(m * (x - a.x) + a.y),
       }
       points.push(point)
     }
@@ -33,13 +33,13 @@ export function interpolatePointsOnLine(a, b) {
       for (let y = minY; y <= maxY; y += 0.1) {
         const point = {
           x: Math.round(m * (y - a.y) + a.x),
-          y: Math.round(y)
+          y: Math.round(y),
         }
         points.push(point)
       }
       return removeDuplicates(points)
     } else {
-      return [{x: minX, y: minY}]
+      return [{ x: minX, y: minY }]
     }
   }
 }

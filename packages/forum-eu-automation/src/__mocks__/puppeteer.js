@@ -1,7 +1,7 @@
 const puppeteer = {
-  launch () {
+  launch() {
     return Promise.resolve({
-      newPage () {
+      newPage() {
         return {
           goto: jest.fn(),
         }

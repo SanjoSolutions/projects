@@ -1,4 +1,4 @@
-export function getIndexSubSequences (length) {
+export function getIndexSubSequences(length) {
   let subSequences = [[]]
   for (let iteration = 1; iteration <= length; iteration++) {
     const nextSubSequences = []

@@ -1,14 +1,14 @@
-import child_process from 'child_process';
+import child_process from "child_process"
 
-import { expect, specification, throwsError } from './index.js';
+import { expect, specification, throwsError } from "./index.js"
 
 function runSpecification(specificationFilePath) {
   const { status, stdout, stderr } = child_process.spawnSync(
-    'node --experimental-modules --no-warnings ' + specificationFilePath,
+    "node --experimental-modules --no-warnings " + specificationFilePath,
     {
       shell: true,
-      encoding: 'utf-8',
-      stdio: 'pipe'
+      encoding: "utf-8",
+      stdio: "pipe",
     }
   )
   return { status, stdout, stderr }
@@ -21,11 +21,13 @@ specification(function () {
 
 specification(function () {
   const { stdout } = runSpecificationThatPasses()
-  expect(stdout.includes('\u001b[32mSpecification passed.\u001b[0m\n')).toEqual(true)
+  expect(stdout.includes("\u001b[32mSpecification passed.\u001b[0m\n")).toEqual(
+    true
+  )
 })
 
 function runSpecificationThatPasses() {
-  return runSpecification('data/specification_that_passes.spec.js')
+  return runSpecification("data/specification_that_passes.spec.js")
 }
 
 specification(function () {
@@ -35,11 +37,11 @@ specification(function () {
 
 specification(function () {
   const { stdout } = runSpecificationThatFails()
-  expect(stdout.includes('Specification passed.')).toEqual(false)
+  expect(stdout.includes("Specification passed.")).toEqual(false)
 })
 
 function runSpecificationThatFails() {
-  return runSpecification('data/specification_that_fails.spec.js')
+  return runSpecification("data/specification_that_fails.spec.js")
 }
 
 specification(function () {
@@ -49,11 +51,13 @@ specification(function () {
 
 specification(function () {
   const { stderr } = runSpecificationWithoutExpectation()
-  expect(stderr.includes('Error: specification has no expectation\n')).toEqual(true)
+  expect(stderr.includes("Error: specification has no expectation\n")).toEqual(
+    true
+  )
 })
 
 function runSpecificationWithoutExpectation() {
-  return runSpecification('data/specification_without_expectation.spec.js')
+  return runSpecification("data/specification_without_expectation.spec.js")
 }
 
 specification(function () {
@@ -63,25 +67,35 @@ specification(function () {
 
 specification(function () {
   const { stderr } = runSpecificationWithTwoExpectations()
-  expect(stderr.includes('Error: specification has more than one expectation\n')).toEqual(true)
+  expect(
+    stderr.includes("Error: specification has more than one expectation\n")
+  ).toEqual(true)
 })
 
 function runSpecificationWithTwoExpectations() {
-  return runSpecification('data/specification_with_two_expectations.spec.js')
+  return runSpecification("data/specification_with_two_expectations.spec.js")
 }
 
 specification(function () {
-  const { status } = runSpecificationWithoutExpectationAfterSpecificationThatPasses()
+  const {
+    status,
+  } = runSpecificationWithoutExpectationAfterSpecificationThatPasses()
   expect(status).toEqual(1)
 })
 
 specification(function () {
-  const { stderr } = runSpecificationWithoutExpectationAfterSpecificationThatPasses()
-  expect(stderr.includes('Error: specification has no expectation\n')).toEqual(true)
+  const {
+    stderr,
+  } = runSpecificationWithoutExpectationAfterSpecificationThatPasses()
+  expect(stderr.includes("Error: specification has no expectation\n")).toEqual(
+    true
+  )
 })
 
 function runSpecificationWithoutExpectationAfterSpecificationThatPasses() {
-  return runSpecification('data/specification_without_expectation_after_specification_that_passes.spec.js')
+  return runSpecification(
+    "data/specification_without_expectation_after_specification_that_passes.spec.js"
+  )
 }
 
 specification(function () {
@@ -89,8 +103,7 @@ specification(function () {
 })
 
 specification(function () {
-  class A {
-  }
+  class A {}
   const a = new A()
   expect(a).toHaveType(A)
 })
@@ -101,39 +114,45 @@ specification(function () {
 })
 
 function runToHaveTypeFail() {
-  return runSpecification('data/to_have_type_fail.spec.js')
+  return runSpecification("data/to_have_type_fail.spec.js")
 }
 
 specification(function () {
   expect(function () {
-    throw Error('<error message>')
-  }).toThrowError('<error message>')
+    throw Error("<error message>")
+  }).toThrowError("<error message>")
 })
 
 specification(function () {
-  expect(throwsError(function () {
-    throw Error('<error message>')
-  })).toEqual(true)
+  expect(
+    throwsError(function () {
+      throw Error("<error message>")
+    })
+  ).toEqual(true)
 })
 
 specification(function () {
-  expect(throwsError(function () { })).toEqual(false)
+  expect(throwsError(function () {})).toEqual(false)
 })
 
 specification(function () {
-  expect(throwsError(function () {
-    throw Error('<error message>')
-  }, '<error message>')).toEqual(true)
+  expect(
+    throwsError(function () {
+      throw Error("<error message>")
+    }, "<error message>")
+  ).toEqual(true)
 })
 
 specification(function () {
-  expect(throwsError(function () {
-    throw Error('<error message>')
-  }, '<another error message>')).toEqual(false)
+  expect(
+    throwsError(function () {
+      throw Error("<error message>")
+    }, "<another error message>")
+  ).toEqual(false)
 })
 
 specification(function () {
-  const { status, stderr } = runSpecification('data/to_exist_pass.spec.js')
+  const { status, stderr } = runSpecification("data/to_exist_pass.spec.js")
   expect(status).toEqual(0)
 })
 
@@ -144,11 +163,11 @@ specification(function () {
 
 specification(function () {
   const { stderr } = runToExistFail()
-  expect(stderr.includes('Error: No existence')).toEqual(true)
+  expect(stderr.includes("Error: No existence")).toEqual(true)
 })
 
 function runToExistFail() {
-  return runSpecification('data/to_exist_fail.spec.js')
+  return runSpecification("data/to_exist_fail.spec.js")
 }
 
 specification(function () {
@@ -157,7 +176,7 @@ specification(function () {
 })
 
 function runToThrowErrorPass() {
-  return runSpecification('data/to_throw_error_pass.spec.js')
+  return runSpecification("data/to_throw_error_pass.spec.js")
 }
 
 specification(function () {
@@ -167,11 +186,13 @@ specification(function () {
 
 specification(function () {
   const { stderr } = runToThrowErrorFail()
-  expect(stderr.includes('Error: Expected to throw error "<another error message>"')).toEqual(true)
+  expect(
+    stderr.includes('Error: Expected to throw error "<another error message>"')
+  ).toEqual(true)
 })
 
 function runToThrowErrorFail() {
-  return runSpecification('data/to_throw_error_fail.spec.js')
+  return runSpecification("data/to_throw_error_fail.spec.js")
 }
 
 specification(function () {
@@ -180,7 +201,7 @@ specification(function () {
 })
 
 function runAsync() {
-  return runSpecification('data/async.spec.js')
+  return runSpecification("data/async.spec.js")
 }
 
 specification(function () {
@@ -190,11 +211,11 @@ specification(function () {
 
 specification(function () {
   const { stderr } = runAsyncThrowing()
-  expect(stderr.includes('Error: <error message>')).toEqual(true)
+  expect(stderr.includes("Error: <error message>")).toEqual(true)
 })
 
 function runAsyncThrowing() {
-  return runSpecification('data/async_throwing.spec.js')
+  return runSpecification("data/async_throwing.spec.js")
 }
 
 specification(function () {
@@ -203,27 +224,23 @@ specification(function () {
 })
 
 function runAsyncTwo() {
-  return runSpecification('data/async_two.spec.js')
+  return runSpecification("data/async_two.spec.js")
 }
 
 specification(function () {
   const { stdout } = runSpecificationWithLabelPass()
-  expect(
-    /^✓ test 1\n✓ test 2\n/.test(stdout)
-  ).toEqual(true)
+  expect(/^✓ test 1\n✓ test 2\n/.test(stdout)).toEqual(true)
 })
 
 function runSpecificationWithLabelPass() {
-  return runSpecification('data/with_label_pass.spec.js')
+  return runSpecification("data/with_label_pass.spec.js")
 }
 
 specification(function () {
   const { stdout } = runSpecificationWithLabelFail()
-  expect(
-    /^✗ test\n/.test(stdout)
-  ).toEqual(true)
+  expect(/^✗ test\n/.test(stdout)).toEqual(true)
 })
 
 function runSpecificationWithLabelFail() {
-  return runSpecification('data/with_label_fail.spec.js')
+  return runSpecification("data/with_label_fail.spec.js")
 }

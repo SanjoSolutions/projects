@@ -1,3 +1,3 @@
-export function format (code: string): string {
+export function format(code: string): string {
   return code
 }

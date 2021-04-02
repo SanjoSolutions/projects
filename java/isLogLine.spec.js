@@ -1,6 +1,6 @@
-import { isLogLine } from './isLogLine.js'
+import { isLogLine } from "./isLogLine.js"
 
-describe('isLogLine', () => {
+describe("isLogLine", () => {
   it('returns true for lines that start with "Log"', () => {
     expect(isLogLine('Log.d("Login Activity")')).toEqual(true)
   })
@@ -10,7 +10,7 @@ describe('isLogLine', () => {
   })
 
   it('returns false if line does not start with "Log"', () => {
-    expect(isLogLine('System')).toEqual(false)
+    expect(isLogLine("System")).toEqual(false)
   })
 
   it('returns false if line does not start with "Log" but includes "Log"', () => {

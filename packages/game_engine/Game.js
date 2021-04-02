@@ -1,10 +1,10 @@
-import { Character } from './Character.js'
-import { House } from './House.js'
-import { Mouse } from './Mouse.js'
-import { Renderer } from './Renderer.js'
+import { Character } from "./Character.js"
+import { House } from "./House.js"
+import { Mouse } from "./Mouse.js"
+import { Renderer } from "./Renderer.js"
 
 export class Game {
-  constructor (root, maps) {
+  constructor(root, maps) {
     this.root = root
     this.maps = maps
     this.map = this.maps[0]
@@ -21,16 +21,16 @@ export class Game {
     this._onFrame = this._onFrame.bind(this)
   }
 
-  start () {
+  start() {
     this._isRunning = true
     window.requestAnimationFrame(this._onFrame)
   }
 
-  stop () {
+  stop() {
     this._isRunning = false
   }
 
-  _onFrame () {
+  _onFrame() {
     if (this._isRunning) {
       this.character.moveForOneFrame()
       this.renderer.render()
@@ -39,11 +39,11 @@ export class Game {
     }
   }
 
-  _onPrimaryClick (event) {
+  _onPrimaryClick(event) {
     this._moveCharacter({ x: event.pageX, y: event.pageY })
   }
 
-  _moveCharacter ({ x, y }) {
+  _moveCharacter({ x, y }) {
     const waypoint = {
       x: x - this.character.origin.x,
       y: y - this.character.origin.y,
@@ -51,7 +51,7 @@ export class Game {
     this.character.waypoints.push(waypoint)
   }
 
-  async initialize () {
+  async initialize() {
     this.renderer.initialize()
     await this.renderer.render()
   }

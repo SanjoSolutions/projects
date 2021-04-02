@@ -1,10 +1,10 @@
-const WebSocket = require('ws')
+const WebSocket = require("ws")
 
 const wss = new WebSocket.Server({ port: 8080 })
 
-wss.on('connection', function connection (ws) {
-  ws.on('message', function incoming (data) {
-    console.log('data', data)
+wss.on("connection", function connection(ws) {
+  ws.on("message", function incoming(data) {
+    console.log("data", data)
   })
 
   const data = new ArrayBuffer(4)

@@ -1,3 +1,3 @@
-export function deserialize (object) {
+export function deserialize(object) {
   return JSON.parse(object)
 }

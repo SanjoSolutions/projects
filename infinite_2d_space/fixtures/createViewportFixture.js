@@ -1,4 +1,4 @@
-export function createViewportFixture () {
+export function createViewportFixture() {
   const minX = -10
   const maxX = 10
   const minY = -5

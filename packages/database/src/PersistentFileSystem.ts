@@ -1,10 +1,10 @@
-import { promises as fs } from 'fs'
-import { IFileSystem } from './IFileSystem.js'
+import { promises as fs } from "fs"
+import { IFileSystem } from "./IFileSystem.js"
 
-const encoding = 'utf-8'
+const encoding = "utf-8"
 
 export class PersistentFileSystem implements IFileSystem {
-  async contains (filePath: string): Promise<boolean> {
+  async contains(filePath: string): Promise<boolean> {
     try {
       await fs.access(filePath)
       return true
@@ -13,11 +13,11 @@ export class PersistentFileSystem implements IFileSystem {
     }
   }
 
-  async getContent (filePath: string): Promise<string | null> {
+  async getContent(filePath: string): Promise<string | null> {
     return await fs.readFile(filePath, { encoding })
   }
 
-  async store (filePath: string, content: string): Promise<void> {
+  async store(filePath: string, content: string): Promise<void> {
     await fs.writeFile(filePath, content, { encoding })
   }
 }

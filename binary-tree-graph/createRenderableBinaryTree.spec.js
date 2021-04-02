@@ -1,10 +1,10 @@
-import { equals } from '../equals.js';
-import { expect, specification } from '../packages/specification/index.js';
-import { BinaryTree } from './BinaryTree.js';
-import { BinaryTreeNode } from './BinaryTreeNode.js';
-import { createRenderableBinaryTree } from './createRenderableBinaryTree.js';
-import { RenderableBinaryTree } from './RenderableBinaryTree.js';
-import { RenderableBinaryTreeNode } from './RenderableBinaryTreeNode.js';
+import { equals } from "../equals.js"
+import { expect, specification } from "../packages/specification/index.js"
+import { BinaryTree } from "./BinaryTree.js"
+import { BinaryTreeNode } from "./BinaryTreeNode.js"
+import { createRenderableBinaryTree } from "./createRenderableBinaryTree.js"
+import { RenderableBinaryTree } from "./RenderableBinaryTree.js"
+import { RenderableBinaryTreeNode } from "./RenderableBinaryTreeNode.js"
 
 specification(function () {
   const binaryTree = new BinaryTree()
@@ -33,7 +33,9 @@ specification(function () {
   renderableChild2.value = 2
   expectedRenderableBinaryTree.root.children[1] = renderableChild2
 
-  expect(renderableTreeEquals(renderableBinaryTree, expectedRenderableBinaryTree)).toEqual(true)
+  expect(
+    renderableTreeEquals(renderableBinaryTree, expectedRenderableBinaryTree)
+  ).toEqual(true)
 })
 
 function renderableTreeEquals(a, b) {
@@ -52,8 +54,8 @@ function renderableTreeEquals(a, b) {
       }
     }
 
-    nodesA = nodesA.map(node => node.children).flat()
-    nodesB = nodesB.map(node => node.children).flat()
+    nodesA = nodesA.map((node) => node.children).flat()
+    nodesB = nodesB.map((node) => node.children).flat()
   } while (nodesA.length >= 1 || nodesB.length >= 1)
 
   return true

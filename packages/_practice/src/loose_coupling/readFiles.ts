@@ -1,12 +1,12 @@
-import { extname, relative } from 'path'
-import { extensionToContentType } from './extensionToContentType'
-import { readFile } from './readFile'
-import { traverseDirectory } from './traverseDirectory'
+import { extname, relative } from "path"
+import { extensionToContentType } from "./extensionToContentType"
+import { readFile } from "./readFile"
+import { traverseDirectory } from "./traverseDirectory"
 
-export async function readFiles (directoryToServeFrom) {
+export async function readFiles(directoryToServeFrom) {
   const files = []
 
-  async function processFile (entryPath) {
+  async function processFile(entryPath) {
     const file = {
       pathname: relative(directoryToServeFrom, entryPath),
       contentType: extensionToContentType(extname(entryPath)),

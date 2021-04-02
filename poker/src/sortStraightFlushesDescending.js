@@ -1,8 +1,8 @@
-import { sortCardsDescending } from './sortCardsDescending.js'
-import { getRank } from './getRank.js'
-import { getRankValue } from './getRankValue.js'
+import { sortCardsDescending } from "./sortCardsDescending.js"
+import { getRank } from "./getRank.js"
+import { getRankValue } from "./getRankValue.js"
 
-export function sortStraightFlushesDescending (straightFlushes) {
+export function sortStraightFlushesDescending(straightFlushes) {
   straightFlushes = [...straightFlushes]
   straightFlushes.sort((a, b) => {
     const aValue = getHighestRankValue(a)
@@ -12,6 +12,6 @@ export function sortStraightFlushesDescending (straightFlushes) {
   return straightFlushes
 }
 
-function getHighestRankValue (cards) {
+function getHighestRankValue(cards) {
   return getRankValue(getRank(sortCardsDescending(cards)[0]))
 }

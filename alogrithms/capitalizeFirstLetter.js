@@ -1,3 +1,3 @@
-export function capitalizeFirstLetter (word) {
+export function capitalizeFirstLetter(word) {
   return word[0].toUpperCase() + word.substring(1)
 }

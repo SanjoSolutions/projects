@@ -1,5 +1,5 @@
-import { HTTPServer } from './HTTPServer'
+import { HTTPServer } from "./HTTPServer"
 
-export function createHttpServer () {
+export function createHttpServer() {
   return new HTTPServer()
 }

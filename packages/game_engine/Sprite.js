@@ -1,5 +1,5 @@
 export class Sprite {
-  constructor (path) {
+  constructor(path) {
     this.path = path
   }
 }

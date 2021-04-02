@@ -1,10 +1,10 @@
 // Use cases:
 // Sending pixels to server
-  // 0: Sending pixels drawn by user (tuple of (x, y) tuples)
+// 0: Sending pixels drawn by user (tuple of (x, y) tuples)
 // 1: Requesting pixels for viewport (also tells the server the active viewport, for sending pixels drawn by other users.)
 // Receiving pixels from server
-  // 1: Receiving pixels for viewport (ArrayBuffer for requested {minX, maxX, minY, maxY})
-  // 2: Receiving pixels drawn by other user (tuple of (x, y) tuples)
+// 1: Receiving pixels for viewport (ArrayBuffer for requested {minX, maxX, minY, maxY})
+// 2: Receiving pixels drawn by other user (tuple of (x, y) tuples)
 
 // x, y ∈ ℤ
 // 32bit Number for x and y
@@ -16,14 +16,14 @@
 
 // Network packet format:
 
-import { littleEndian } from './littleEndian.js'
+import { littleEndian } from "./littleEndian.js"
 
 function sendPixelsToServer(pixels) {
   const data = createSendPixelsToServerPaket(pixels)
   socket.send(data)
 }
 
-export function createSendPixelsToServerPaket (pixels) {
+export function createSendPixelsToServerPaket(pixels) {
   const data = new ArrayBuffer(1 + 4 + pixels.length * 2 * 4)
   const view = new DataView(data)
   view.setUint8(0, 0)
@@ -36,12 +36,17 @@ export function createSendPixelsToServerPaket (pixels) {
   return data
 }
 
-function requestPixelsForViewport({minX, maxX, minY, maxY}) {
-  const data = createRequestPixelsForViewportPaket({minX, maxX, minY, maxY})
+function requestPixelsForViewport({ minX, maxX, minY, maxY }) {
+  const data = createRequestPixelsForViewportPaket({ minX, maxX, minY, maxY })
   socket.send(data)
 }
 
-export function createRequestPixelsForViewportPaket ({minX, maxX, minY, maxY}) {
+export function createRequestPixelsForViewportPaket({
+  minX,
+  maxX,
+  minY,
+  maxY,
+}) {
   const data = new ArrayBuffer(1 + 4 * 4)
   const view = new DataView(data)
   view.setUint8(0, 1)
@@ -52,9 +57,7 @@ export function createRequestPixelsForViewportPaket ({minX, maxX, minY, maxY}) {
   return data
 }
 
-function onReceivePixelsForViewport(data) {
-
-}
+function onReceivePixelsForViewport(data) {}
 
 function onReceivePixelsDrawnByOtherUser(data) {
   const view = new DataView(data)
@@ -63,7 +66,7 @@ function onReceivePixelsDrawnByOtherUser(data) {
   for (let index = 0; index < length; index++) {
     const pixel = {
       x: view.getInt32(1 + 4 + index * 2 * 4, littleEndian),
-      y: view.getInt32(1 + 4 + index * 2 * 4 + 4, littleEndian)
+      y: view.getInt32(1 + 4 + index * 2 * 4 + 4, littleEndian),
     }
     pixels[index] = pixel
   }
@@ -71,10 +74,10 @@ function onReceivePixelsDrawnByOtherUser(data) {
 }
 
 // Create WebSocket connection.
-const socket = new WebSocket('ws://localhost:8080')
+const socket = new WebSocket("ws://localhost:8080")
 
 // Connection opened
-socket.addEventListener('open', function (event) {
+socket.addEventListener("open", function (event) {
   const data = new ArrayBuffer(4)
   const view = new Uint8Array(data)
   view[0] = 1
@@ -85,7 +88,7 @@ socket.addEventListener('open', function (event) {
 })
 
 // Listen for messages
-socket.addEventListener('message', async function (event) {
+socket.addEventListener("message", async function (event) {
   const data = await event.data.arrayBuffer()
   const view = new DataView(data)
   const code = view.getUint8(0)

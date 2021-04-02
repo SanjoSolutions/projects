@@ -1,32 +1,26 @@
 export {}
 
-class EventSourcingEvent {
+class EventSourcingEvent {}
 
-}
+class CreationEvent extends EventSourcingEvent {}
 
-class CreationEvent extends EventSourcingEvent {
-}
+class GrowEvent extends EventSourcingEvent {}
 
-class GrowEvent extends EventSourcingEvent {
-}
-
-function applyEvent (entity: any, event: EventSourcingEvent) {
+function applyEvent(entity: any, event: EventSourcingEvent) {
   if (event instanceof CreationEvent) {
     return {}
   } else if (event instanceof GrowEvent) {
     return {
       ...entity,
-      height: (
-        entity.height || 0
-      ) + 1,
+      height: (entity.height || 0) + 1,
     }
   }
 }
 
-describe.skip('EventSourcing', () => {
+describe.skip("EventSourcing", () => {
   // can store events regarding a model
 
-  it('', () => {
+  it("", () => {
     let entity = null
     const creationEvent = new CreationEvent()
     const growEvent = new GrowEvent()

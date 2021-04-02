@@ -1,9 +1,9 @@
-import { SearchResult } from './SearchResult'
+import { SearchResult } from "./SearchResult"
 
-export function binarySearch<T> (
+export function binarySearch<T>(
   list: T[],
   compareFn: (a: T, b: T) => number,
-  value: T,
+  value: T
 ): SearchResult<T> {
   let subList = list
   let index

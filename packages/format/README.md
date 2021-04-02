@@ -11,5 +11,5 @@ npm install --save '@sanjo/format'
 ## How to use
 
 ```js
-import format from '@sanjo/format'
+import format from "@sanjo/format"
 ```

@@ -3,11 +3,11 @@ export class Space {
     this.data = new Map()
   }
 
-  get({x, y}) {
+  get({ x, y }) {
     return Boolean(this.data.get(y)?.has(x))
   }
 
-  set({x, y}) {
+  set({ x, y }) {
     let lookup = this.data.get(y)
     if (!lookup) {
       lookup = new Set()

@@ -1,5 +1,5 @@
-import { promises as fs } from 'fs'
-import path from 'path'
+import { promises as fs } from "fs"
+import path from "path"
 
 /**
  * Traverses given directory recursively and calls the given processFile function for each file found.
@@ -8,12 +8,14 @@ import path from 'path'
  * @param processFile {function} Function to call for each file found.
  * @returns {Promise<void>}
  */
-export async function traverseDirectory (directoryPath, processFile) {
+export async function traverseDirectory(directoryPath, processFile) {
   let directoryPaths = [directoryPath]
   let nextDirectoryPaths = []
   while (directoryPaths.length >= 1) {
     for (const directoryPath of directoryPaths) {
-      let directoryEntries = await fs.readdir(directoryPath, { withFileTypes: true })
+      let directoryEntries = await fs.readdir(directoryPath, {
+        withFileTypes: true,
+      })
       for (const directoryEntry of directoryEntries) {
         const entryFilename = directoryEntry.name
         const entryPath = path.join(directoryPath, entryFilename)

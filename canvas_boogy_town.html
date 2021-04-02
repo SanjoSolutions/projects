@@ -10,174 +10,133 @@
 </style>
 
 <body>
+  <script type="module">
+    import { animate } from "./animate.js"
+    import { createFullDocumentCanvas } from "./createFullDocumentCanvas.js"
 
-<script type="module">
-  import { animate } from './animate.js'
-  import { createFullDocumentCanvas } from './createFullDocumentCanvas.js'
+    const { canvas, context } = createFullDocumentCanvas()
+    document.body.appendChild(canvas)
 
-  const { canvas, context } = createFullDocumentCanvas()
-  document.body.appendChild(canvas)
+    const sideHeight = 20
+    const shapeWidth = sideHeight
+    const shapeHeight = 2.5 * sideHeight
 
-  const sideHeight = 20
-  const shapeWidth = sideHeight
-  const shapeHeight = 2.5 * sideHeight
+    const initialShapeSequence = [createShape1(), createShape2()]
+    let shapes
 
-  const initialShapeSequence = [
-    createShape1(),
-    createShape2(),
-  ]
-  let shapes
+    function alternateShapes(shapes) {
+      return [shapes[1], shapes[0]]
+    }
 
-  function alternateShapes (shapes) {
-    return [shapes[1], shapes[0]]
-  }
+    let isPaused = false
 
-  let isPaused = false
+    let deltaX = 0
+    animate((elapsedTime) => {
+      context.save()
 
-  let deltaX = 0
-  animate((elapsedTime) => {
-    context.save()
+      context.fillStyle = "aliceblue"
 
-    context.fillStyle = 'aliceblue'
+      shapes = [...initialShapeSequence]
 
-    shapes = [...initialShapeSequence]
+      const documentWidth = window.innerWidth
+      const documentHeight = window.innerHeight
 
-    const documentWidth = window.innerWidth
-    const documentHeight = window.innerHeight
+      const center = { x: 0.5 * documentWidth, y: 0.5 * documentHeight }
 
-    const center = { x: 0.5 * documentWidth, y: 0.5 * documentHeight }
+      const radius = 0.25 * Math.min(documentWidth, documentHeight)
 
-    const radius = 0.25 * Math.min(documentWidth, documentHeight)
+      context.clearRect(
+        center.x - radius,
+        center.y - radius,
+        2 * radius,
+        2 * radius
+      )
 
-    context.clearRect(center.x - radius, center.y - radius, 2 * radius, 2 * radius)
+      context.beginPath()
+      context.arc(center.x, center.y, radius, 0, 2 * Math.PI)
+      context.arc(center.x, center.y, 0.5 * radius, 0, 2 * Math.PI)
 
-    context.beginPath()
-    context.arc(
-      center.x,
-      center.y,
-      radius,
-      0,
-      2 * Math.PI,
-    )
-    context.arc(
-      center.x,
-      center.y,
-      0.5 * radius,
-      0,
-      2 * Math.PI,
-    )
+      context.clip("evenodd")
 
-    context.clip('evenodd')
+      context.beginPath()
+      context.arc(center.x, center.y, radius, 0, 2 * Math.PI)
+      context.stroke()
 
-    context.beginPath()
-    context.arc(
-      center.x,
-      center.y,
-      radius,
-      0,
-      2 * Math.PI,
-    )
-    context.stroke()
+      context.beginPath()
+      context.arc(center.x, center.y, 0.5 * radius, 0, 2 * Math.PI)
+      context.stroke()
 
-    context.beginPath()
-    context.arc(
-      center.x,
-      center.y,
-      0.5 * radius,
-      0,
-      2 * Math.PI,
-    )
-    context.stroke()
+      const initialY = center.y - radius
+      let y = initialY
+      while (y < center.y + radius) {
+        const row = (y - initialY) / shapeHeight // starting from 0
+        const isEvenRow = row % 2 === 0 // 0, 2, 4, …
+        const direction = isEvenRow ? -1 : 1 // -1 === left, 1 === right
+        let x =
+          direction === -1
+            ? center.x - radius - deltaX
+            : center.x + radius + deltaX
 
-    const initialY = center.y - radius
-    let y = initialY
-    while (y < center.y + radius) {
-      const row = (
-        (
-          y - initialY
-        ) / shapeHeight
-      )  // starting from 0
-      const isEvenRow = (
-        row % 2 === 0
-      )  // 0, 2, 4, …
-      const direction = (
-        isEvenRow ? -1 : 1
-      )  // -1 === left, 1 === right
-      let x = direction === -1
-        ? center.x - radius - deltaX
-        : center.x + radius + deltaX
-
-      if (direction === -1) {
-        while (x < center.x + radius) {
-          for (const shape of shapes) {
-            drawShape(shape, x, y)
-            x += shapeWidth
+        if (direction === -1) {
+          while (x < center.x + radius) {
+            for (const shape of shapes) {
+              drawShape(shape, x, y)
+              x += shapeWidth
+            }
+          }
+        } else {
+          while (x + shapeWidth >= center.x - radius) {
+            for (const shape of shapes) {
+              drawShape(shape, x, y)
+              x -= shapeWidth
+            }
           }
         }
-      } else {
-        while (x + shapeWidth >= center.x - radius) {
-          for (const shape of shapes) {
-            drawShape(shape, x, y)
-            x -= shapeWidth
-          }
-        }
+
+        y += shapeHeight
+        shapes = alternateShapes(shapes)
       }
 
-      y += shapeHeight
-      shapes = alternateShapes(shapes)
+      if (!isPaused) {
+        deltaX =
+          (deltaX + 10 * (elapsedTime / 1000)) % (shapes.length * shapeWidth)
+      }
+
+      context.restore()
+    })
+
+    window.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        isPaused = !isPaused
+      }
+    })
+
+    function createShape1() {
+      const shape = new Path2D()
+      shape.moveTo(0, 0)
+      shape.lineTo(0, sideHeight)
+      shape.lineTo(shapeWidth, shapeHeight)
+      shape.lineTo(shapeWidth, shapeHeight - sideHeight)
+      shape.closePath()
+      return shape
     }
 
-    if (!isPaused) {
-      deltaX =
-        (
-          deltaX +
-          (
-            10 *
-            (
-              elapsedTime / 1000
-            )
-          )
-        ) %
-        (
-          shapes.length * shapeWidth
-        )
+    function createShape2() {
+      const shape = new Path2D()
+      shape.moveTo(shapeWidth, 0)
+      shape.lineTo(shapeWidth, sideHeight)
+      shape.lineTo(0, shapeHeight)
+      shape.lineTo(0, shapeHeight - sideHeight)
+      shape.closePath()
+      return shape
     }
 
-    context.restore()
-  })
-
-  window.addEventListener('keydown', (event) => {
-    if (event.code === 'Space') {
-      isPaused = !isPaused
+    function drawShape(shape, x, y) {
+      context.save()
+      context.translate(x, y)
+      context.fill(shape)
+      context.stroke(shape)
+      context.restore()
     }
-  })
-
-  function createShape1 () {
-    const shape = new Path2D()
-    shape.moveTo(0, 0)
-    shape.lineTo(0, sideHeight)
-    shape.lineTo(shapeWidth, shapeHeight)
-    shape.lineTo(shapeWidth, shapeHeight - sideHeight)
-    shape.closePath()
-    return shape
-  }
-
-  function createShape2 () {
-    const shape = new Path2D()
-    shape.moveTo(shapeWidth, 0)
-    shape.lineTo(shapeWidth, sideHeight)
-    shape.lineTo(0, shapeHeight)
-    shape.lineTo(0, shapeHeight - sideHeight)
-    shape.closePath()
-    return shape
-  }
-
-  function drawShape (shape, x, y) {
-    context.save()
-    context.translate(x, y)
-    context.fill(shape)
-    context.stroke(shape)
-    context.restore()
-  }
-</script>
+  </script>
 </body>

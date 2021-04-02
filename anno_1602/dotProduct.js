@@ -5,7 +5,9 @@ export function dotProduct(A, B) {
   const q = B.length
   const C = new Array(q)
   if (m !== p) {
-    throw new Error('The number of columns of A needs to equal the number of rows of B.')
+    throw new Error(
+      "The number of columns of A needs to equal the number of rows of B."
+    )
   }
   for (let column = 0; column < n; column++) {
     C[column] = new Array(q)

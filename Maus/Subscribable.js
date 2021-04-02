@@ -1,17 +1,17 @@
 export class Subscribable {
-  constructor () {
+  constructor() {
     this.subscribers = []
   }
 
-  subscribe (f) {
+  subscribe(f) {
     this.subscribers.push(f)
   }
 
-  unsubscribe (f) {
-    this.subscribers = this.subscribers.filter(g => g !== f)
+  unsubscribe(f) {
+    this.subscribers = this.subscribers.filter((g) => g !== f)
   }
 
-  trigger (data) {
-    this.subscribers.forEach(f => f(data))
+  trigger(data) {
+    this.subscribers.forEach((f) => f(data))
   }
 }

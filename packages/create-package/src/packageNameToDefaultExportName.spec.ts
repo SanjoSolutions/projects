@@ -1,11 +1,15 @@
-import { packageNameToDefaultExportName } from './packageNameToDefaultExportName'
+import { packageNameToDefaultExportName } from "./packageNameToDefaultExportName"
 
-describe('packageNameToDefaultExportName', () => {
+describe("packageNameToDefaultExportName", () => {
   it('"@sanjo/escape-for-reg-exp" to "escapeForRegExp"', () => {
-    expect(packageNameToDefaultExportName('@sanjo/escape-for-reg-exp')).toEqual('escapeForRegExp')
+    expect(packageNameToDefaultExportName("@sanjo/escape-for-reg-exp")).toEqual(
+      "escapeForRegExp"
+    )
   })
 
   it('"escape-for-reg-exp" to "escapeForRegExp"', () => {
-    expect(packageNameToDefaultExportName('escape-for-reg-exp')).toEqual('escapeForRegExp')
+    expect(packageNameToDefaultExportName("escape-for-reg-exp")).toEqual(
+      "escapeForRegExp"
+    )
   })
 })

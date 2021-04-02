@@ -13,13 +13,10 @@ npm install --save '@sanjo/puppeteer-helpers'
 ```js
 import {
   waitForNavigation,
-  withWaitForNavigation
-} from '@sanjo/puppeteer-helpers'
+  withWaitForNavigation,
+} from "@sanjo/puppeteer-helpers"
 
 await waitForNavigation(page)
 
-await withWaitForNavigation(
-  page,
-  page.click('#button')
-)
+await withWaitForNavigation(page, page.click("#button"))
 ```

@@ -3,11 +3,11 @@ export function listenToDevicePixelRatioChange(callback) {
 
   function registerDevicePixelRatioChangeListener(onDevicePixelRatioChange) {
     mediaQueryList = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
-    mediaQueryList.addEventListener('change', onDevicePixelRatioChange)
+    mediaQueryList.addEventListener("change", onDevicePixelRatioChange)
   }
 
   function onDevicePixelRatioChange(event) {
-    mediaQueryList.removeEventListener('change', onDevicePixelRatioChange)
+    mediaQueryList.removeEventListener("change", onDevicePixelRatioChange)
     registerDevicePixelRatioChangeListener(onDevicePixelRatioChange)
     callback(event)
   }

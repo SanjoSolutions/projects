@@ -2,14 +2,20 @@
  * @jest-environment jsdom
  */
 
-import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
+import React from "react"
+import { render, unmountComponentAtNode } from "react-dom"
+import { act } from "react-dom/test-utils"
 
-function Admin ({ onStartWebServer, onStopWebServer }: { onStartWebServer: () => void, onStopWebServer: () => void }) {
+function Admin({
+  onStartWebServer,
+  onStopWebServer,
+}: {
+  onStartWebServer: () => void
+  onStopWebServer: () => void
+}) {
   const [isWebServerRunning, setIsWebServerRunning] = React.useState(false)
 
-  function toggleIsWebServerRunning () {
+  function toggleIsWebServerRunning() {
     const newIsWebServerRunning = !isWebServerRunning
     setIsWebServerRunning(newIsWebServerRunning)
     if (newIsWebServerRunning) {
@@ -21,18 +27,16 @@ function Admin ({ onStartWebServer, onStopWebServer }: { onStartWebServer: () =>
 
   return (
     <button onClick={toggleIsWebServerRunning}>
-      {(
-        isWebServerRunning ? 'Stop' : 'Start'
-      ) + ' web server'}
+      {(isWebServerRunning ? "Stop" : "Start") + " web server"}
     </button>
   )
 }
 
-describe('Admin', () => {
+describe("Admin", () => {
   let container: HTMLDivElement
 
   beforeEach(function () {
-    container = document.createElement('div')
+    container = document.createElement("div")
     document.body.appendChild(container)
   })
 
@@ -41,29 +45,32 @@ describe('Admin', () => {
     container.remove()
   })
 
-  it('displays a toggle button for starting and stopping the web server', () => {
+  it("displays a toggle button for starting and stopping the web server", () => {
     const onStartWebServer = jest.fn()
     const onStopWebServer = jest.fn()
     act(() => {
-      render(<Admin
-        onStartWebServer={onStartWebServer}
-        onStopWebServer={onStopWebServer}
-      />, container)
+      render(
+        <Admin
+          onStartWebServer={onStartWebServer}
+          onStopWebServer={onStopWebServer}
+        />,
+        container
+      )
     })
 
-    const button = container.querySelector('button') as HTMLButtonElement
+    const button = container.querySelector("button") as HTMLButtonElement
     expect(button).not.toBeNull()
-    expect(button.textContent).toEqual('Start web server')
+    expect(button.textContent).toEqual("Start web server")
 
     act(() => {
-      button.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+      button.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
 
-    expect(button.textContent).toEqual('Stop web server')
+    expect(button.textContent).toEqual("Stop web server")
     expect(onStartWebServer).toHaveBeenCalled()
 
     act(() => {
-      button.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+      button.dispatchEvent(new MouseEvent("click", { bubbles: true }))
     })
 
     expect(onStopWebServer).toHaveBeenCalled()

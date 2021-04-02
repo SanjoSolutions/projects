@@ -1,59 +1,81 @@
 <style>
-    #currentlyReviewingSubmissionsXDaysAgo {
-        width: 1.25rem;
-    }
+  #currentlyReviewingSubmissionsXDaysAgo {
+    width: 1.25rem;
+  }
 </style>
 
 <form>
-    <label>
-        Currently reviewed tests completed <input id="currentlyReviewingSubmissionsXDaysAgo" autofocus> days ago 
-        (<a href="https://testersupport.usertesting.com/hc/en-us/articles/360021480191" target="_blank">source</a>)
-        .
-    </label>
+  <label>
+    Currently reviewed tests completed
+    <input id="currentlyReviewingSubmissionsXDaysAgo" autofocus /> days ago (<a
+      href="https://testersupport.usertesting.com/hc/en-us/articles/360021480191"
+      target="_blank"
+      >source</a
+    >) .
+  </label>
 </form>
-<div id="message">
-
-</div>
+<div id="message"></div>
 
 <script>
-    const millisecondsPerDay = 24 * 60 * 60 * 1000
-    const submissionDate = new Date('2020-03-03')
+  const millisecondsPerDay = 24 * 60 * 60 * 1000
+  const submissionDate = new Date("2020-03-03")
 
-    const $currentlyReviewingSubmissionsXDaysAgo = document.querySelector('#currentlyReviewingSubmissionsXDaysAgo')
-    const $message = document.querySelector('#message')
+  const $currentlyReviewingSubmissionsXDaysAgo = document.querySelector(
+    "#currentlyReviewingSubmissionsXDaysAgo"
+  )
+  const $message = document.querySelector("#message")
 
-    $currentlyReviewingSubmissionsXDaysAgo.value = localStorage.getItem('currentlyReviewingSubmissionsXDaysAgo') || ''
-    updateMessage()
+  $currentlyReviewingSubmissionsXDaysAgo.value =
+    localStorage.getItem("currentlyReviewingSubmissionsXDaysAgo") || ""
+  updateMessage()
 
-    $currentlyReviewingSubmissionsXDaysAgo.addEventListener('change', updateMessage)
-    $currentlyReviewingSubmissionsXDaysAgo.addEventListener('keyup', updateMessage)
-    
-    function updateMessage() {
-        if ($currentlyReviewingSubmissionsXDaysAgo.value.length > 0) {
-            const currentlyReviewingSubmissionsXDaysAgo = Number($currentlyReviewingSubmissionsXDaysAgo.value)
-            if (!Number.isNaN(currentlyReviewingSubmissionsXDaysAgo)) {
-                const now = Date.now()
-                const currentlyReviewingSubmissionsFromDate = new Date(
-                    (now - (now % millisecondsPerDay)) - (currentlyReviewingSubmissionsXDaysAgo * millisecondsPerDay)
-                )
-                const daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate =
-                    (submissionDate - currentlyReviewingSubmissionsFromDate) / millisecondsPerDay
+  $currentlyReviewingSubmissionsXDaysAgo.addEventListener(
+    "change",
+    updateMessage
+  )
+  $currentlyReviewingSubmissionsXDaysAgo.addEventListener(
+    "keyup",
+    updateMessage
+  )
 
-                let message = `The submission occured on the <strong>${submissionDate.toLocaleDateString()}</strong>.`
+  function updateMessage() {
+    if ($currentlyReviewingSubmissionsXDaysAgo.value.length > 0) {
+      const currentlyReviewingSubmissionsXDaysAgo = Number(
+        $currentlyReviewingSubmissionsXDaysAgo.value
+      )
+      if (!Number.isNaN(currentlyReviewingSubmissionsXDaysAgo)) {
+        const now = Date.now()
+        const currentlyReviewingSubmissionsFromDate = new Date(
+          now -
+            (now % millisecondsPerDay) -
+            currentlyReviewingSubmissionsXDaysAgo * millisecondsPerDay
+        )
+        const daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate =
+          (submissionDate - currentlyReviewingSubmissionsFromDate) /
+          millisecondsPerDay
 
-                message += `<br>They are currently reviewing submissions from date <strong>${currentlyReviewingSubmissionsFromDate.toLocaleDateString()}</strong>.`
-                if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate > 0) {
-                    message += `<br>That's <strong>${daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate} days</strong> before the submission date.`
-                } else if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate === 0) {
-                    message += `<br><span style="color: green;">That's on the submission date.</span>`
-                } else if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate < 0) {
-                    message += `<br><span style="color: green;">That's after the submission date.</span>`
-                }
+        let message = `The submission occured on the <strong>${submissionDate.toLocaleDateString()}</strong>.`
 
-                $message.innerHTML = message
-
-                localStorage.setItem('currentlyReviewingSubmissionsXDaysAgo', currentlyReviewingSubmissionsXDaysAgo)
-            }
+        message += `<br>They are currently reviewing submissions from date <strong>${currentlyReviewingSubmissionsFromDate.toLocaleDateString()}</strong>.`
+        if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate > 0) {
+          message += `<br>That's <strong>${daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate} days</strong> before the submission date.`
+        } else if (
+          daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate === 0
+        ) {
+          message += `<br><span style="color: green;">That's on the submission date.</span>`
+        } else if (
+          daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate < 0
+        ) {
+          message += `<br><span style="color: green;">That's after the submission date.</span>`
         }
+
+        $message.innerHTML = message
+
+        localStorage.setItem(
+          "currentlyReviewingSubmissionsXDaysAgo",
+          currentlyReviewingSubmissionsXDaysAgo
+        )
+      }
     }
+  }
 </script>

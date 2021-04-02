@@ -1,84 +1,86 @@
 <script>
-    const width = 64
-    const height = 64
-    const tileSize = 32
-    const numberOfPaddingTiles = 2
-    const canvas = document.createElement('canvas')
-    canvas.width = width * tileSize
-    canvas.height = height * tileSize
-    const context = canvas.getContext('2d')
+  const width = 64
+  const height = 64
+  const tileSize = 32
+  const numberOfPaddingTiles = 2
+  const canvas = document.createElement("canvas")
+  canvas.width = width * tileSize
+  canvas.height = height * tileSize
+  const context = canvas.getContext("2d")
 
-    const imageUrl = 'heart.png'
-    const image = new Image()
-    image.src = imageUrl
-    image.onload = () => {
-        const drawingWidth = 0.6875 * (width - 2 * numberOfPaddingTiles) * tileSize
-        const drawingHeight = 0.6875 * (height - 2 * numberOfPaddingTiles) * tileSize
-        let scale
-        if (image.naturalWidth <= image.naturalHeight) {
-            scale = drawingHeight / image.naturalHeight
-            
-        } else {
-            scale = drawingWidth / image.naturalWidth
-        }
-        const scaledWidth = scale * image.naturalWidth
-        const scaledHeight = scale * image.naturalHeight
-        const paddingLeft = 0.5 * (canvas.width - scaledWidth)
-        const paddingTop = 0.5 * (canvas.height - scaledHeight)
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
-        
-        const bitmap = new Array(width * height)
-        for (let row = 0; row < height; row++) {
-            for (let column = 0; column < width; column++) {
-                const x = column * tileSize
-                const y = row * tileSize
-                bitmap[row * width + column] = nonBackgroundTile(
-                    canvas,
-                    context,
-                    {x, y, width: tileSize, height: tileSize}
-                ) ? 1 : 0
-            }
-        }
+  const imageUrl = "heart.png"
+  const image = new Image()
+  image.src = imageUrl
+  image.onload = () => {
+    const drawingWidth = 0.6875 * (width - 2 * numberOfPaddingTiles) * tileSize
+    const drawingHeight =
+      0.6875 * (height - 2 * numberOfPaddingTiles) * tileSize
+    let scale
+    if (image.naturalWidth <= image.naturalHeight) {
+      scale = drawingHeight / image.naturalHeight
+    } else {
+      scale = drawingWidth / image.naturalWidth
+    }
+    const scaledWidth = scale * image.naturalWidth
+    const scaledHeight = scale * image.naturalHeight
+    const paddingLeft = 0.5 * (canvas.width - scaledWidth)
+    const paddingTop = 0.5 * (canvas.height - scaledHeight)
+    context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
 
-        // console.log(JSON.stringify(bitmap, null, 2))
-        const outputRows = new Array(height)
-        for (let row = 0; row < height; row++) {
-            const outputRow = bitmap.slice(
-                row * width,
-                (row + 1) * width
-            )
-            outputRows[row] = outputRow
-        }
-        const output = outputRows.map(outputRow => outputRow.join(', ')).join(', \n')
-        console.log(output)
+    const bitmap = new Array(width * height)
+    for (let row = 0; row < height; row++) {
+      for (let column = 0; column < width; column++) {
+        const x = column * tileSize
+        const y = row * tileSize
+        bitmap[row * width + column] = nonBackgroundTile(canvas, context, {
+          x,
+          y,
+          width: tileSize,
+          height: tileSize,
+        })
+          ? 1
+          : 0
+      }
     }
 
-    const colorArrayLength = 4
-    const backgroundColor = [0x0, 0x0, 0x0, 0x0]
-    function nonBackgroundTile(canvas, context, {x, y, width, height}) {
-        let nonBackgroundCount = 0
-        const imageData = context.getImageData(x, y, width, height)
-        const data = imageData.data
-        for (let row = 0; row < tileSize; row++) {
-            for (let column = 0; column < tileSize; column++) {
-                const index = row * tileSize + column
-                const color = data.slice(index, index + colorArrayLength)
-                if (!colorsMatch(color, backgroundColor)) {
-                    nonBackgroundCount++
-                }
-            }
+    // console.log(JSON.stringify(bitmap, null, 2))
+    const outputRows = new Array(height)
+    for (let row = 0; row < height; row++) {
+      const outputRow = bitmap.slice(row * width, (row + 1) * width)
+      outputRows[row] = outputRow
+    }
+    const output = outputRows
+      .map((outputRow) => outputRow.join(", "))
+      .join(", \n")
+    console.log(output)
+  }
+
+  const colorArrayLength = 4
+  const backgroundColor = [0x0, 0x0, 0x0, 0x0]
+  function nonBackgroundTile(canvas, context, { x, y, width, height }) {
+    let nonBackgroundCount = 0
+    const imageData = context.getImageData(x, y, width, height)
+    const data = imageData.data
+    for (let row = 0; row < tileSize; row++) {
+      for (let column = 0; column < tileSize; column++) {
+        const index = row * tileSize + column
+        const color = data.slice(index, index + colorArrayLength)
+        if (!colorsMatch(color, backgroundColor)) {
+          nonBackgroundCount++
         }
-
-        const halfOfArea = 0.5 * width * height
-        return nonBackgroundCount >= halfOfArea
+      }
     }
 
-    function colorsMatch(colorA, colorB) {
-        return (
-            colorA[0] === backgroundColor[0] &&
-            colorA[1] === backgroundColor[1] &&
-            colorA[2] === backgroundColor[2] &&
-            colorA[3] === backgroundColor[3]
-        )
-    }
+    const halfOfArea = 0.5 * width * height
+    return nonBackgroundCount >= halfOfArea
+  }
+
+  function colorsMatch(colorA, colorB) {
+    return (
+      colorA[0] === backgroundColor[0] &&
+      colorA[1] === backgroundColor[1] &&
+      colorA[2] === backgroundColor[2] &&
+      colorA[3] === backgroundColor[3]
+    )
+  }
 </script>

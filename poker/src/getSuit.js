@@ -1,3 +1,3 @@
-export function getSuit (card) {
+export function getSuit(card) {
   return card[1]
 }

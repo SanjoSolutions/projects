@@ -1,9 +1,9 @@
-import { TILE_HEIGHT, TILE_WIDTH } from './config.js'
-import { GameObject } from './GameObject.js'
-import { Sprite } from './Sprite.js'
+import { TILE_HEIGHT, TILE_WIDTH } from "./config.js"
+import { GameObject } from "./GameObject.js"
+import { Sprite } from "./Sprite.js"
 
 export class House extends GameObject {
-  constructor () {
+  constructor() {
     const width = 3 * TILE_WIDTH
     const height = 3 * TILE_HEIGHT
     super(
@@ -13,7 +13,7 @@ export class House extends GameObject {
         width,
         height,
       },
-      new Sprite('images/sprites/house.png'),
+      new Sprite("images/sprites/house.png")
     )
   }
 }

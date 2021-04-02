@@ -1,11 +1,11 @@
-jest.mock('../../database')
+jest.mock("../../database")
 
-import { database } from '../../database'
-import { serialize } from '../../serialize'
-import { modelSaveApi } from './modelSaveApi'
+import { database } from "../../database"
+import { serialize } from "../../serialize"
+import { modelSaveApi } from "./modelSaveApi"
 
-describe('modelSaveApi', () => {
-  it('saves the data from the request.body to the database', () => {
+describe("modelSaveApi", () => {
+  it("saves the data from the request.body to the database", () => {
     const request = {
       body: serialize({ a: 1 }),
     }
