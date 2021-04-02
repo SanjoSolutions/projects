@@ -1,11 +1,11 @@
-import { createEditor } from './index.js';
+import { createEditor } from "./index.js";
 
 export function main() {
-  const editor = createEditor()
-  document.addEventListener('DOMContentLoaded', () => {
-    document.body.appendChild(editor)
-    editor.focus()
-  })
+  const editor = createEditor();
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.appendChild(editor);
+    editor.focus();
+  });
 }
 
-main()
+main();

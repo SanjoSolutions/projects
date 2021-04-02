@@ -1,3 +1,3 @@
 export function b() {
-  return 'Hello from b.js.';
+  return "Hello from b.js.";
 }

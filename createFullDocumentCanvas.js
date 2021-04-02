@@ -1,5 +1,5 @@
-import {noop} from './noop.js'
-import {listenToDevicePixelRatioChange} from './listenToDevicePixelRatioChange.js'
+import { noop } from "./noop.js";
+import { listenToDevicePixelRatioChange } from "./listenToDevicePixelRatioChange.js";
 
 /**
  * @usage
@@ -13,29 +13,31 @@ import {listenToDevicePixelRatioChange} from './listenToDevicePixelRatioChange.j
  *   height: 100%;
  * }
  */
-export function createFullDocumentCanvas(onDevicePixelRatioOrDocumentSizeChangeFn = noop) {
-    const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
+export function createFullDocumentCanvas(
+  onDevicePixelRatioOrDocumentSizeChangeFn = noop
+) {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
 
-    setCanvasSizeAndScale()
+  setCanvasSizeAndScale();
 
-    listenToDevicePixelRatioChange(onDevicePixelRatioOrDocumentSizeChange)
-    window.addEventListener('resize', onDevicePixelRatioOrDocumentSizeChange)
+  listenToDevicePixelRatioChange(onDevicePixelRatioOrDocumentSizeChange);
+  window.addEventListener("resize", onDevicePixelRatioOrDocumentSizeChange);
 
-    function setCanvasSizeAndScale() {
-        const documentWidth = window.innerWidth
-        const documentHeight = window.innerHeight
-        const devicePixelRatio = window.devicePixelRatio
-        canvas.width = devicePixelRatio * documentWidth
-        canvas.height = devicePixelRatio * documentHeight
-        context.resetTransform()
-        context.scale(devicePixelRatio, devicePixelRatio)
-    }
+  function setCanvasSizeAndScale() {
+    const documentWidth = window.innerWidth;
+    const documentHeight = window.innerHeight;
+    const devicePixelRatio = window.devicePixelRatio;
+    canvas.width = devicePixelRatio * documentWidth;
+    canvas.height = devicePixelRatio * documentHeight;
+    context.resetTransform();
+    context.scale(devicePixelRatio, devicePixelRatio);
+  }
 
-    function onDevicePixelRatioOrDocumentSizeChange(event) {
-        setCanvasSizeAndScale()
-        onDevicePixelRatioOrDocumentSizeChangeFn(event)
-    }
+  function onDevicePixelRatioOrDocumentSizeChange(event) {
+    setCanvasSizeAndScale();
+    onDevicePixelRatioOrDocumentSizeChangeFn(event);
+  }
 
-    return {canvas, context}
+  return { canvas, context };
 }

@@ -1,130 +1,141 @@
 <style>
-    body {
-        margin: 0;
-        overflow: hidden;
-    }
+  body {
+    margin: 0;
+    overflow: hidden;
+  }
 
-    .pencil {
-        pointer-events: none;
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        box-sizing: border-box;
-        border: 1px solid black;
-        border-radius: 50%;
-        z-index: 3;
-    }
+  .pencil {
+    pointer-events: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    box-sizing: border-box;
+    border: 1px solid black;
+    border-radius: 50%;
+    z-index: 3;
+  }
 </style>
 
 <div class="pencil"></div>
 <canvas></canvas>
 
 <script>
-    const pencil = document.querySelector('.pencil')
-    const canvas = document.querySelector('canvas')
-    canvas.style.width = window.innerWidth
-    canvas.style.height = window.innerHeight
-    canvas.width = window.devicePixelRatio * window.innerWidth
-    canvas.height = window.devicePixelRatio * window.innerHeight
-    const context = canvas.getContext('2d')
-    context.lineWidth = 1
-    context.lineCap = 'round'
-    context.scale(window.devicePixelRatio, window.devicePixelRatio)
+  const pencil = document.querySelector(".pencil");
+  const canvas = document.querySelector("canvas");
+  canvas.style.width = window.innerWidth;
+  canvas.style.height = window.innerHeight;
+  canvas.width = window.devicePixelRatio * window.innerWidth;
+  canvas.height = window.devicePixelRatio * window.innerHeight;
+  const context = canvas.getContext("2d");
+  context.lineWidth = 1;
+  context.lineCap = "round";
+  context.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-    let isDrawing = false
-    let lastPoint
-    window.addEventListener('mousedown', (event) => {
-        if (isLeftMouseButton(event)) {
-            isDrawing = true
-            const point = eventToPoint(event)
-            line(point, point)
-            lastPoint = point
-        }
-    })
-
-    window.addEventListener('mousemove', (event) => {
-        const point = eventToPoint(event)
-        pencil.style.left = point.x
-        pencil.style.top = point.y
-        if (isDrawing) {
-            line(lastPoint, point)
-            lastPoint = point
-        }
-    })
-
-    window.addEventListener('mouseup', (event) => {
-        isDrawing = false
-    })
-
-    window.addEventListener('wheel', (event) => {
-        const deltaY = event.deltaY
-        if (deltaY !== 0) {
-            if (deltaY < 0) {
-                context.lineWidth *= 2
-            } else if (deltaY > 0) {
-                context.lineWidth = Math.max(1, context.lineWidth / 2)
-            }
-            const pencilRadius = 0.5 * context.lineWidth
-            pencil.style.width = 2 * pencilRadius
-            pencil.style.height = 2 * pencilRadius
-            pencil.style.marginLeft = -pencilRadius
-            pencil.style.marginTop = -pencilRadius
-        }
-    })
-
-    window.addEventListener('resize', throttle(() => {
-        const oldWidth = parseInt(canvas.style.width, 10)
-        const newWidth = window.innerWidth
-        const oldHeight = parseInt(canvas.style.height, 10)
-        const newHeight = window.innerHeight
-
-        if (newWidth > oldWidth || newHeight > oldHeight) {
-            const copyCanvas = document.createElement('canvas')
-            copyCanvas.width = canvas.width
-            copyCanvas.height = canvas.height
-            const copyContext = copyCanvas.getContext('2d')
-            copyContext.putImageData(context.getImageData(0, 0, canvas.width, canvas.height), 0, 0)
-         
-            if (newWidth > oldWidth) {
-                canvas.style.width = newWidth
-                canvas.width = window.devicePixelRatio * newWidth
-            }
-
-            if (newHeight > oldHeight) {
-                canvas.style.height = newHeight
-                canvas.height = window.devicePixelRatio * newHeight
-            }
-
-            context.resetTransform()
-            context.scale(window.devicePixelRatio, window.devicePixelRatio)
-            context.putImageData(copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height), 0, 0)
-            copyCanvas.remove()
-        }
-    }, 200))
-
-    function throttle(fn, delay) {
-        let handle
-        return (...args) => {
-            if (handle) clearTimeout(handle)
-            handle = setTimeout(() => {
-                fn(...args)
-                handle = null
-            }, delay)
-        }
+  let isDrawing = false;
+  let lastPoint;
+  window.addEventListener("mousedown", (event) => {
+    if (isLeftMouseButton(event)) {
+      isDrawing = true;
+      const point = eventToPoint(event);
+      line(point, point);
+      lastPoint = point;
     }
+  });
 
-    function isLeftMouseButton(event) {
-        return event.button === 0
+  window.addEventListener("mousemove", (event) => {
+    const point = eventToPoint(event);
+    pencil.style.left = point.x;
+    pencil.style.top = point.y;
+    if (isDrawing) {
+      line(lastPoint, point);
+      lastPoint = point;
     }
+  });
 
-    function eventToPoint(event) {
-        return {x: event.pageX, y: event.pageY}
-    }
+  window.addEventListener("mouseup", (event) => {
+    isDrawing = false;
+  });
 
-    function line(a, b) {
-        context.beginPath()
-        context.moveTo(a.x, a.y)
-        context.lineTo(b.x, b.y)
-        context.stroke()
+  window.addEventListener("wheel", (event) => {
+    const deltaY = event.deltaY;
+    if (deltaY !== 0) {
+      if (deltaY < 0) {
+        context.lineWidth *= 2;
+      } else if (deltaY > 0) {
+        context.lineWidth = Math.max(1, context.lineWidth / 2);
+      }
+      const pencilRadius = 0.5 * context.lineWidth;
+      pencil.style.width = 2 * pencilRadius;
+      pencil.style.height = 2 * pencilRadius;
+      pencil.style.marginLeft = -pencilRadius;
+      pencil.style.marginTop = -pencilRadius;
     }
+  });
+
+  window.addEventListener(
+    "resize",
+    throttle(() => {
+      const oldWidth = parseInt(canvas.style.width, 10);
+      const newWidth = window.innerWidth;
+      const oldHeight = parseInt(canvas.style.height, 10);
+      const newHeight = window.innerHeight;
+
+      if (newWidth > oldWidth || newHeight > oldHeight) {
+        const copyCanvas = document.createElement("canvas");
+        copyCanvas.width = canvas.width;
+        copyCanvas.height = canvas.height;
+        const copyContext = copyCanvas.getContext("2d");
+        copyContext.putImageData(
+          context.getImageData(0, 0, canvas.width, canvas.height),
+          0,
+          0
+        );
+
+        if (newWidth > oldWidth) {
+          canvas.style.width = newWidth;
+          canvas.width = window.devicePixelRatio * newWidth;
+        }
+
+        if (newHeight > oldHeight) {
+          canvas.style.height = newHeight;
+          canvas.height = window.devicePixelRatio * newHeight;
+        }
+
+        context.resetTransform();
+        context.scale(window.devicePixelRatio, window.devicePixelRatio);
+        context.putImageData(
+          copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height),
+          0,
+          0
+        );
+        copyCanvas.remove();
+      }
+    }, 200)
+  );
+
+  function throttle(fn, delay) {
+    let handle;
+    return (...args) => {
+      if (handle) clearTimeout(handle);
+      handle = setTimeout(() => {
+        fn(...args);
+        handle = null;
+      }, delay);
+    };
+  }
+
+  function isLeftMouseButton(event) {
+    return event.button === 0;
+  }
+
+  function eventToPoint(event) {
+    return { x: event.pageX, y: event.pageY };
+  }
+
+  function line(a, b) {
+    context.beginPath();
+    context.moveTo(a.x, a.y);
+    context.lineTo(b.x, b.y);
+    context.stroke();
+  }
 </script>

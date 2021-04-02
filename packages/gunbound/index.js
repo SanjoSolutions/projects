@@ -1,1 +1,1 @@
-import './gunbound.js'
+import "./gunbound.js";

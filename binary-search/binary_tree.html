@@ -1,120 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Binary Tree</title>
-</head>
-<body>
-<button id="undo">Undo</button>
-<button id="l">L</button>
-<button id="r">R</button>
-<span id="level">1</span>
-<div id="output"></div>
-<script>
-  const numberOfLeafNodes = 1000000
+  <head>
+    <meta charset="UTF-8" />
+    <title>Binary Tree</title>
+  </head>
+  <body>
+    <button id="undo">Undo</button>
+    <button id="l">L</button>
+    <button id="r">R</button>
+    <span id="level">1</span>
+    <div id="output"></div>
+    <script>
+      const numberOfLeafNodes = 1000000;
 
-  class BinaryTree {
-    constructor() {
-      this.root = new BinaryTreeNode()
-    }
-  }
-
-  class BinaryTreeNode {
-    constructor() {
-      this.value = undefined
-      this.parent = undefined
-      this.children = new Array(2)
-    }
-  }
-
-  function createBinaryTree(numberOfLeafNodes) {
-    const binaryTree = new BinaryTree()
-
-    const numberOfLevels = calculateNumberOfLevels(numberOfLeafNodes)
-    let nextLevelNodes = [binaryTree.root]
-    let nodes
-    for (let levelIndex = 0; levelIndex < numberOfLevels - 1; levelIndex++) {
-      nodes = nextLevelNodes
-      nextLevelNodes = new Array(2 ** (levelIndex + 1))
-      let nextLevelNodesIndex = 0
-      for (const node of nodes) {
-        const childNode0 = new BinaryTreeNode()
-        childNode0.parent = node
-        const childNode1 = new BinaryTreeNode()
-        childNode1.parent = node
-        node.children[0] = childNode0
-        node.children[1] = childNode1
-        nextLevelNodes[nextLevelNodesIndex] = childNode0
-        nextLevelNodesIndex++
-        nextLevelNodes[nextLevelNodesIndex] = childNode1
-        nextLevelNodesIndex++
+      class BinaryTree {
+        constructor() {
+          this.root = new BinaryTreeNode();
+        }
       }
-    }
 
-    for (let index = 0; index < numberOfLeafNodes; index++) {
-      nextLevelNodes[index].value = index + 1
-    }
+      class BinaryTreeNode {
+        constructor() {
+          this.value = undefined;
+          this.parent = undefined;
+          this.children = new Array(2);
+        }
+      }
 
-    return binaryTree
-  }
+      function createBinaryTree(numberOfLeafNodes) {
+        const binaryTree = new BinaryTree();
 
-  function calculateNumberOfNodes(numberOfLeafNodes) {
-    let totalNumberOfNodes = 0
-    for (let numberOfNodes = 1; numberOfNodes <= numberOfLeafNodes; numberOfNodes *= 2) {
-      totalNumberOfNodes += numberOfNodes
-    }
-    return totalNumberOfNodes
-  }
+        const numberOfLevels = calculateNumberOfLevels(numberOfLeafNodes);
+        let nextLevelNodes = [binaryTree.root];
+        let nodes;
+        for (
+          let levelIndex = 0;
+          levelIndex < numberOfLevels - 1;
+          levelIndex++
+        ) {
+          nodes = nextLevelNodes;
+          nextLevelNodes = new Array(2 ** (levelIndex + 1));
+          let nextLevelNodesIndex = 0;
+          for (const node of nodes) {
+            const childNode0 = new BinaryTreeNode();
+            childNode0.parent = node;
+            const childNode1 = new BinaryTreeNode();
+            childNode1.parent = node;
+            node.children[0] = childNode0;
+            node.children[1] = childNode1;
+            nextLevelNodes[nextLevelNodesIndex] = childNode0;
+            nextLevelNodesIndex++;
+            nextLevelNodes[nextLevelNodesIndex] = childNode1;
+            nextLevelNodesIndex++;
+          }
+        }
 
-  function calculateNumberOfLevels(numberOfLeafNodes) {
-    // 2 ** (x-1) = numberOfLeafNodes
-    return Math.ceil(Math.log2(numberOfLeafNodes) + 1)
-  }
+        for (let index = 0; index < numberOfLeafNodes; index++) {
+          nextLevelNodes[index].value = index + 1;
+        }
 
-  const totalNumberOfNodes = calculateNumberOfNodes(numberOfLeafNodes)
-  const numberOfLevels = calculateNumberOfLevels(numberOfLeafNodes)
-  console.log('numberOfLevels', numberOfLevels)
-  const binaryTree = createBinaryTree(numberOfLeafNodes)
-  let topNode = binaryTree.root
-  let level = 1
+        return binaryTree;
+      }
 
-  const $undo = document.getElementById('undo')
-  const $l = document.getElementById('l')
-  const $r = document.getElementById('r')
-  const $level = document.getElementById('level')
-  const $output = document.getElementById('output')
+      function calculateNumberOfNodes(numberOfLeafNodes) {
+        let totalNumberOfNodes = 0;
+        for (
+          let numberOfNodes = 1;
+          numberOfNodes <= numberOfLeafNodes;
+          numberOfNodes *= 2
+        ) {
+          totalNumberOfNodes += numberOfNodes;
+        }
+        return totalNumberOfNodes;
+      }
 
-  $undo.addEventListener('click', () => {
-    topNode = topNode.parent
-    level--
-    $level.textContent = String(level)
-  })
+      function calculateNumberOfLevels(numberOfLeafNodes) {
+        // 2 ** (x-1) = numberOfLeafNodes
+        return Math.ceil(Math.log2(numberOfLeafNodes) + 1);
+      }
 
-  $l.addEventListener('click', () => {
-    topNode = topNode.children[0]
-    nextLevel()
-    output()
-  })
+      const totalNumberOfNodes = calculateNumberOfNodes(numberOfLeafNodes);
+      const numberOfLevels = calculateNumberOfLevels(numberOfLeafNodes);
+      console.log("numberOfLevels", numberOfLevels);
+      const binaryTree = createBinaryTree(numberOfLeafNodes);
+      let topNode = binaryTree.root;
+      let level = 1;
 
-  $r.addEventListener('click', () => {
-    topNode = topNode.children[1]
-    nextLevel()
-    output()
-  })
+      const $undo = document.getElementById("undo");
+      const $l = document.getElementById("l");
+      const $r = document.getElementById("r");
+      const $level = document.getElementById("level");
+      const $output = document.getElementById("output");
 
-  function nextLevel() {
-    level++
-    $level.textContent = String(level)
-  }
+      $undo.addEventListener("click", () => {
+        topNode = topNode.parent;
+        level--;
+        $level.textContent = String(level);
+      });
 
-  function output() {
-    if (level === numberOfLevels) {
-      $output.textContent = String(topNode.value)
-      $undo.setAttribute('disabled', String(true))
-      $l.setAttribute('disabled', String(true))
-      $r.setAttribute('disabled', String(true))
-    }
-  }
-</script>
-</body>
+      $l.addEventListener("click", () => {
+        topNode = topNode.children[0];
+        nextLevel();
+        output();
+      });
+
+      $r.addEventListener("click", () => {
+        topNode = topNode.children[1];
+        nextLevel();
+        output();
+      });
+
+      function nextLevel() {
+        level++;
+        $level.textContent = String(level);
+      }
+
+      function output() {
+        if (level === numberOfLevels) {
+          $output.textContent = String(topNode.value);
+          $undo.setAttribute("disabled", String(true));
+          $l.setAttribute("disabled", String(true));
+          $r.setAttribute("disabled", String(true));
+        }
+      }
+    </script>
+  </body>
 </html>

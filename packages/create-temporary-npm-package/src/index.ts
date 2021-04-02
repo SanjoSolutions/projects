@@ -1,1 +1,1 @@
-export { createTemporaryNPMPackage as default } from './createTemporaryNPMDirectory'
+export { createTemporaryNPMPackage as default } from "./createTemporaryNPMDirectory";

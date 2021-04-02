@@ -1,1 +1,1 @@
-export { Maus as Mouse } from '../../Maus/Maus.js'
+export { Maus as Mouse } from "../../Maus/Maus.js";

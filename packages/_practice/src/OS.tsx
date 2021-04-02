@@ -1,6 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export function OS () {
-  return 'Welcome'
+export function OS() {
+  return "Welcome";
 }
-

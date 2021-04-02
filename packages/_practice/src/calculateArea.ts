@@ -1,3 +1,3 @@
-export function calculateArea (width: number, length: number): number {
-  return width * length
+export function calculateArea(width: number, length: number): number {
+  return width * length;
 }

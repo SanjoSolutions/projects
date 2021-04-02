@@ -4,9 +4,7 @@
     "rootDir": "./src/",
     "outDir": "./built/",
     "module": "CommonJS",
-    "lib": [
-      "ES2020"
-    ]
+    "lib": ["ES2020"]
   },
   "references": []
 }

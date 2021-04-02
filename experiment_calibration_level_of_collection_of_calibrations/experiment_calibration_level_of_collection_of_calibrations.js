@@ -70,30 +70,31 @@ const calibrations = [
   420,
   420,
   445,
-]
+];
 
-const calibrationsValues = calibrations.map(calibration => BigInt(10) **
-  BigInt(calibration))
-const averageCalibrationValue = log10BigInt(average(calibrationsValues))
-console.log('average:', averageCalibrationValue)
-console.log('median:', log10BigInt(median(calibrationsValues)))
+const calibrationsValues = calibrations.map(
+  (calibration) => BigInt(10) ** BigInt(calibration)
+);
+const averageCalibrationValue = log10BigInt(average(calibrationsValues));
+console.log("average:", averageCalibrationValue);
+console.log("median:", log10BigInt(median(calibrationsValues)));
 
-function average (values) {
-  return values.reduce((sum, value) => sum + value) / BigInt(values.length)
+function average(values) {
+  return values.reduce((sum, value) => sum + value) / BigInt(values.length);
 }
 
-function median (values) {
-  values.sort()
+function median(values) {
+  values.sort();
   if (values.length % 2 == 0) {
-    return (values[values.length / 2 - 1] + values[values.length / 2]) / 2n
+    return (values[values.length / 2 - 1] + values[values.length / 2]) / 2n;
   } else {
-    return values[Math.floor(values.length / 2)]
+    return values[Math.floor(values.length / 2)];
   }
 }
 
-function wholeNumberLog10 (value) {
-  const valueString = value.toString()
-  return valueString.length
+function wholeNumberLog10(value) {
+  const valueString = value.toString();
+  return valueString.length;
 }
 
 /**
@@ -108,8 +109,8 @@ function wholeNumberLog10 (value) {
  *   log10(x) = log10(10 ** numberOfDigits(x)) + log10(x / 10 ** numberOfDigits(x))
  *   log10(x) = numberOfDigits(x) + log10(x / 10 ** numberOfDigits(x))
  */
-export function log10BigInt (x) {
-  return logBigInt(10, x)
+export function log10BigInt(x) {
+  return logBigInt(10, x);
 }
 
 /**
@@ -123,15 +124,18 @@ export function log10BigInt (x) {
  *   log10(x) = log10(10 ** numberOfDigits(x)) + log10(x / 10 ** numberOfDigits(x))
  *   log10(x) = numberOfDigits(x) + log10(x / 10 ** numberOfDigits(x))
  */
-export function logBigInt (base, x) {
-  const xAsString = x.toString()
-  const numberOfDigitsOfX = xAsString.length
-  return numberOfDigitsOfX * log(base, 10) + Math.log10(sign * Number(`0.${xAsString}`))
+export function logBigInt(base, x) {
+  const xAsString = x.toString();
+  const numberOfDigitsOfX = xAsString.length;
+  return (
+    numberOfDigitsOfX * log(base, 10) +
+    Math.log10(sign * Number(`0.${xAsString}`))
+  );
 }
 
 /**
  * @see https://en.wikipedia.org/wiki/Logarithm#Change_of_base
  */
-export function log (base, x) {
-  return Math.log10(x) / Math.log10(base)
+export function log(base, x) {
+  return Math.log10(x) / Math.log10(base);
 }

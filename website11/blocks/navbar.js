@@ -1,9 +1,9 @@
 export function render(renderer) {
-    function navbarActive(navbarItemPagePath) {
-        return navbarItemPagePath === renderer.getPagePath() ? 'active' : ''
-    }
+  function navbarActive(navbarItemPagePath) {
+    return navbarItemPagePath === renderer.getPagePath() ? "active" : "";
+  }
 
-    return `
+  return `
         <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -13,13 +13,13 @@ export function render(renderer) {
         
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ${navbarActive('index.js')}">
+                    <li class="nav-item ${navbarActive("index.js")}">
                         <a class="nav-link" href="/index.html">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item ${navbarActive('about.js')}">
+                    <li class="nav-item ${navbarActive("about.js")}">
                         <a class="nav-link" href="/about.html">About</a>
                     </li>
-                    <li class="nav-item ${navbarActive('products/index.js')}">
+                    <li class="nav-item ${navbarActive("products/index.js")}">
                         <a class="nav-link" href="/products/index.html">Products</a>
                     </li>
                 </ul>
@@ -29,5 +29,5 @@ export function render(renderer) {
                 </form>
             </div>
         </nav>
-    `
+    `;
 }

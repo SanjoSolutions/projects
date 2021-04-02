@@ -1,5 +1,5 @@
 export interface Response {
   status?: number;
-  contentType?: string,
+  contentType?: string;
   body: string;
 }

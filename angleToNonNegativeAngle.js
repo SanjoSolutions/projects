@@ -1,9 +1,9 @@
 export function angleToNonNegativeAngle(angle) {
-  let nonNegativeAngle
+  let nonNegativeAngle;
   if (angle >= 0) {
-    nonNegativeAngle = angle
+    nonNegativeAngle = angle;
   } else {
-    nonNegativeAngle = angle + 2 * Math.PI
+    nonNegativeAngle = angle + 2 * Math.PI;
   }
-  return nonNegativeAngle
+  return nonNegativeAngle;
 }

@@ -1,7 +1,7 @@
-import {render as renderNavbar} from '../blocks/navbar.js'
+import { render as renderNavbar } from "../blocks/navbar.js";
 
-export function render(renderer, {title, content}) {
-    return `
+export function render(renderer, { title, content }) {
+  return `
         <!doctype html>
         <html lang="en">
         <head>
@@ -9,7 +9,7 @@ export function render(renderer, {title, content}) {
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta name="description" content="">
             <meta name="author" content="">
-            <title>${title ? title + ' | ' : ''}Website 1</title>
+            <title>${title ? title + " | " : ""}Website 1</title>
         
             <link rel="canonical" href="http://localhost:8081/">
         
@@ -64,5 +64,5 @@ export function render(renderer, {title, content}) {
         <script src="/js/bootstrap.bundle.js"></script>
         </body>
         </html>
-        `
+        `;
 }

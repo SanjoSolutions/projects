@@ -1,3 +1,3 @@
-export function byteArrayToString (byteArray) {
-  return String.fromCharCode(...byteArray)
+export function byteArrayToString(byteArray) {
+  return String.fromCharCode(...byteArray);
 }

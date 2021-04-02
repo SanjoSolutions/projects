@@ -1,1 +1,1 @@
-export { makeTemporaryDirectory as default } from './makeTemporaryDirectory'
+export { makeTemporaryDirectory as default } from "./makeTemporaryDirectory";

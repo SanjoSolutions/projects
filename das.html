@@ -1,114 +1,131 @@
 <style>
-    body {
-        margin: 0;
-    }
+  body {
+    margin: 0;
+  }
 
-    canvas {
-        width: 100vw;
-        height: 100vh;
-    }
+  canvas {
+    width: 100vw;
+    height: 100vh;
+  }
 </style>
 <body>
-<script>
-    const width = 64
-    const height = 64
-    const tileSize = (2 ** 3) * 32
-    const numberOfPaddingTiles = 2
-    const canvas = document.createElement('canvas')
-    document.body.appendChild(canvas)
-    canvas.width = /*window.devicePixelRatio * */window.innerWidth
-    canvas.height = /*window.devicePixelRatio * */window.innerHeight
-    const context = canvas.getContext('2d')
+  <script>
+    const width = 64;
+    const height = 64;
+    const tileSize = 2 ** 3 * 32;
+    const numberOfPaddingTiles = 2;
+    const canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
+    canvas.width = /*window.devicePixelRatio * */ window.innerWidth;
+    canvas.height = /*window.devicePixelRatio * */ window.innerHeight;
+    const context = canvas.getContext("2d");
     // context.scale(window.devicePixelRatio, window.devicePixelRatio)
 
-    const imageUrl = 'heart.png'
-    const image = new Image()
-    image.src = imageUrl
+    const imageUrl = "heart.png";
+    const image = new Image();
+    image.src = imageUrl;
     image.onload = () => {
-        const drawingWidth = window.innerWidth - 2 * numberOfPaddingTiles * 32
-        const drawingHeight = window.innerHeight - 2 * numberOfPaddingTiles * 32
-        if (drawingHeight / image.naturalHeight <= drawingWidth / image.naturalWidth) {
-            const scale = drawingHeight / image.naturalHeight
-            const scaledWidth = scale * image.naturalWidth
-            const scaledHeight = drawingHeight
-            const padding = numberOfPaddingTiles * 32
-            const paddingLeft = padding + 0.5 * (drawingWidth - scaledWidth)
-            const paddingTop = padding
-            context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
-        } else {
-            const scale = drawingWidth / image.naturalWidth
-            const scaledWidth = drawingWidth
-            const scaledHeight = scale * image.naturalHeight
-            const padding = numberOfPaddingTiles * 32
-            const paddingLeft = padding
-            const paddingTop = padding + 0.5 * (drawingHeight - scaledHeight)
-            context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
-        }
-        
-        context.scale(1, 1)
-        
-        const bitmap = new Array(width * height)
-        for (let row = 0; row < height; row++) {
-            for (let column = 0; column < width; column++) {
-                const x = column * tileSize
-                const y = row * tileSize
-                const rect = {x, y, width: tileSize, height: tileSize}
-                bitmap[row * width + column] = nonBackgroundTile(
-                    canvas,
-                    context,
-                    {x, y, width: tileSize, height: tileSize}
-                ) ? 1 : 0
-                context.strokeStyle = 'black'
-                context.beginPath()
-                context.rect(rect.x, rect.y, rect.width, rect.height)
-                context.stroke()
-                if (bitmap[row * width + column]) {
-                    context.fillStyle = 'red'
-                    context.fillRect(rect.x, rect.y, rect.width, rect.height)
-                }
-            }
-        }
+      const drawingWidth = window.innerWidth - 2 * numberOfPaddingTiles * 32;
+      const drawingHeight = window.innerHeight - 2 * numberOfPaddingTiles * 32;
+      if (
+        drawingHeight / image.naturalHeight <=
+        drawingWidth / image.naturalWidth
+      ) {
+        const scale = drawingHeight / image.naturalHeight;
+        const scaledWidth = scale * image.naturalWidth;
+        const scaledHeight = drawingHeight;
+        const padding = numberOfPaddingTiles * 32;
+        const paddingLeft = padding + 0.5 * (drawingWidth - scaledWidth);
+        const paddingTop = padding;
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight
+        );
+      } else {
+        const scale = drawingWidth / image.naturalWidth;
+        const scaledWidth = drawingWidth;
+        const scaledHeight = scale * image.naturalHeight;
+        const padding = numberOfPaddingTiles * 32;
+        const paddingLeft = padding;
+        const paddingTop = padding + 0.5 * (drawingHeight - scaledHeight);
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight
+        );
+      }
 
-        // console.log(JSON.stringify(bitmap, null, 2))
-        const outputRows = new Array(height)
-        for (let row = 0; row < height; row++) {
-            const outputRow = bitmap.slice(
-                row * width,
-                (row + 1) * width
-            )
-            outputRows[row] = outputRow
-        }
-        const output = outputRows.map(outputRow => outputRow.join(', ')).join(', \n')
-        console.log(output)
-    }
+      context.scale(1, 1);
 
-    const colorArrayLength = 4
-    const backgroundColor = [0x0, 0x0, 0x0, 0x0]
-    function nonBackgroundTile(canvas, context, {x, y, width, height}) {
-        let nonBackgroundCount = 0
-        const imageData = context.getImageData(x, y, width, height)
-        const data = imageData.data
-        for (let row = 0; row < tileSize; row++) {
-            for (let column = 0; column < tileSize; column++) {
-                const index = row * tileSize + column
-                const color = data.slice(index, index + colorArrayLength)
-                if (!colorsMatch(color, backgroundColor)) {
-                    nonBackgroundCount++
-                }
-            }
+      const bitmap = new Array(width * height);
+      for (let row = 0; row < height; row++) {
+        for (let column = 0; column < width; column++) {
+          const x = column * tileSize;
+          const y = row * tileSize;
+          const rect = { x, y, width: tileSize, height: tileSize };
+          bitmap[row * width + column] = nonBackgroundTile(canvas, context, {
+            x,
+            y,
+            width: tileSize,
+            height: tileSize,
+          })
+            ? 1
+            : 0;
+          context.strokeStyle = "black";
+          context.beginPath();
+          context.rect(rect.x, rect.y, rect.width, rect.height);
+          context.stroke();
+          if (bitmap[row * width + column]) {
+            context.fillStyle = "red";
+            context.fillRect(rect.x, rect.y, rect.width, rect.height);
+          }
         }
+      }
 
-        const halfOfArea = 0.5 * width * height
-        return nonBackgroundCount >= halfOfArea
+      // console.log(JSON.stringify(bitmap, null, 2))
+      const outputRows = new Array(height);
+      for (let row = 0; row < height; row++) {
+        const outputRow = bitmap.slice(row * width, (row + 1) * width);
+        outputRows[row] = outputRow;
+      }
+      const output = outputRows
+        .map((outputRow) => outputRow.join(", "))
+        .join(", \n");
+      console.log(output);
+    };
+
+    const colorArrayLength = 4;
+    const backgroundColor = [0x0, 0x0, 0x0, 0x0];
+    function nonBackgroundTile(canvas, context, { x, y, width, height }) {
+      let nonBackgroundCount = 0;
+      const imageData = context.getImageData(x, y, width, height);
+      const data = imageData.data;
+      for (let row = 0; row < tileSize; row++) {
+        for (let column = 0; column < tileSize; column++) {
+          const index = row * tileSize + column;
+          const color = data.slice(index, index + colorArrayLength);
+          if (!colorsMatch(color, backgroundColor)) {
+            nonBackgroundCount++;
+          }
+        }
+      }
+
+      const halfOfArea = 0.5 * width * height;
+      return nonBackgroundCount >= halfOfArea;
     }
 
     function colorsMatch(colorA, colorB) {
-        return (
-            colorA[0] === backgroundColor[0] &&
-            colorA[1] === backgroundColor[1] &&
-            colorA[2] === backgroundColor[2] &&
-            colorA[3] === backgroundColor[3]
-        )
+      return (
+        colorA[0] === backgroundColor[0] &&
+        colorA[1] === backgroundColor[1] &&
+        colorA[2] === backgroundColor[2] &&
+        colorA[3] === backgroundColor[3]
+      );
     }
-</script>
+  </script>
 </body>

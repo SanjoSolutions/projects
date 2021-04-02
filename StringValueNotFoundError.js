@@ -4,7 +4,7 @@
  * @extends Error
  */
 export class StringValueNotFoundError extends Error {
-  constructor (message, ...args) {
-    super(message, ...args)
+  constructor(message, ...args) {
+    super(message, ...args);
   }
 }

@@ -1,5 +1,5 @@
-import type { Page, Response } from 'puppeteer'
+import type { Page, Response } from "puppeteer";
 
-export async function waitForNavigation (page: Page): Promise<Response> {
-  return await page.waitForNavigation({ waitUntil: 'networkidle0' })
+export async function waitForNavigation(page: Page): Promise<Response> {
+  return await page.waitForNavigation({ waitUntil: "networkidle0" });
 }

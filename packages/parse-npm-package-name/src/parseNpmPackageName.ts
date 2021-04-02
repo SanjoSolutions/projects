@@ -1,3 +1,1 @@
-export function parseNpmPackageName (packageName: string) {
-
-}
+export function parseNpmPackageName(packageName: string) {}

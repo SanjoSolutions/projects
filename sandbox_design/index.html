@@ -1,63 +1,65 @@
 <style>
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .grid {
-        display: grid;
-        grid-template-columns: 16rem 16rem 16rem;
-        grid-auto-rows: 16rem;
-        grid-gap: 2rem;
-    }
+  .grid {
+    display: grid;
+    grid-template-columns: 16rem 16rem 16rem;
+    grid-auto-rows: 16rem;
+    grid-gap: 2rem;
+  }
 
-    .card {
-        box-sizing: border-box;
-        border: 1px solid black;
-    }
+  .card {
+    box-sizing: border-box;
+    border: 1px solid black;
+  }
 
-    .card img {
-        width: calc(16rem - 2 * 1px);
-        height: calc(16rem - 2 * 1px);
-    }
+  .card img {
+    width: calc(16rem - 2 * 1px);
+    height: calc(16rem - 2 * 1px);
+  }
 </style>
 
 <div class="grid">
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
+  <div class="card"></div>
 </div>
 
 <script>
-    const $grid = document.querySelector('.grid')
+  const $grid = document.querySelector(".grid");
 
-    $grid.addEventListener('drop', (event) => {
-      event.preventDefault()
+  $grid.addEventListener("drop", (event) => {
+    event.preventDefault();
 
-      if (event.target.classList.contains('card')) {
-          if (event.dataTransfer.items) {
-            const files = [...event.dataTransfer.items].map(dataTransferItem => dataTransferItem.getAsFile())
-            const file = files[0]
-            const fileReader = new FileReader()
-            const image = new Image()
-            fileReader.addEventListener('load', () => {
-              image.src = fileReader.result
-              event.target.innerHTML = ''
-              event.target.appendChild(image)
-            })
-            fileReader.readAsDataURL(file)
-          }
+    if (event.target.classList.contains("card")) {
+      if (event.dataTransfer.items) {
+        const files = [...event.dataTransfer.items].map((dataTransferItem) =>
+          dataTransferItem.getAsFile()
+        );
+        const file = files[0];
+        const fileReader = new FileReader();
+        const image = new Image();
+        fileReader.addEventListener("load", () => {
+          image.src = fileReader.result;
+          event.target.innerHTML = "";
+          event.target.appendChild(image);
+        });
+        fileReader.readAsDataURL(file);
       }
-    })
+    }
+  });
 
-    $grid.addEventListener('dragover', (event) => {
-      event.preventDefault()
-    })
+  $grid.addEventListener("dragover", (event) => {
+    event.preventDefault();
+  });
 </script>

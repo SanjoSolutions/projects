@@ -1,6 +1,6 @@
-import { replaceStringValue } from './replaceStringValue.js'
-import { StringValueNotFoundError } from '../StringValueNotFoundError.js'
-import { getLineNumber } from '../getLineNumber.js'
+import { replaceStringValue } from "./replaceStringValue.js";
+import { StringValueNotFoundError } from "../StringValueNotFoundError.js";
+import { getLineNumber } from "../getLineNumber.js";
 
 /**
  * Replaces all string values with its reference string.
@@ -10,36 +10,50 @@ import { getLineNumber } from '../getLineNumber.js'
  * @param xmlText {string} XML
  * @returns {{text: string, errors: Array}} Object with substituted text and errors.
  */
-export function replaceStringValues (lookUp, xmlText) {
+export function replaceStringValues(lookUp, xmlText) {
   const xmlKeys = [
-    'android:text',
-    'android:label',
-    'android:key',
-    'android:title',
-    'android:summary',
-    'android:hint',
-    'android:contentDescription'
-  ]
-  const regExp = new RegExp(`((?:${xmlKeys.join('|')})\\s*=\\s*)"(.+?)"`, 'gm')
-  const errors = []
-  const text = xmlText.replace(regExp, replaceOccurrence.bind(null, lookUp, xmlText, errors))
+    "android:text",
+    "android:label",
+    "android:key",
+    "android:title",
+    "android:summary",
+    "android:hint",
+    "android:contentDescription",
+  ];
+  const regExp = new RegExp(`((?:${xmlKeys.join("|")})\\s*=\\s*)"(.+?)"`, "gm");
+  const errors = [];
+  const text = xmlText.replace(
+    regExp,
+    replaceOccurrence.bind(null, lookUp, xmlText, errors)
+  );
 
-  return {text, errors}
+  return { text, errors };
 }
 
-function replaceOccurrence (lookUp, xmlText, errors, match, labelPlusEqualsAndWhitespace, stringValue, offset) {
+function replaceOccurrence(
+  lookUp,
+  xmlText,
+  errors,
+  match,
+  labelPlusEqualsAndWhitespace,
+  stringValue,
+  offset
+) {
   try {
-    return `${labelPlusEqualsAndWhitespace}"${replaceStringValue(lookUp, stringValue)}"`
+    return `${labelPlusEqualsAndWhitespace}"${replaceStringValue(
+      lookUp,
+      stringValue
+    )}"`;
   } catch (error) {
     if (error instanceof StringValueNotFoundError) {
       const stringValueNotFoundError = {
         stringValue: stringValue,
-        lineNumber: getLineNumber(xmlText, offset)
-      }
-      errors.push(stringValueNotFoundError)
-      return match
+        lineNumber: getLineNumber(xmlText, offset),
+      };
+      errors.push(stringValueNotFoundError);
+      return match;
     } else {
-      throw error
+      throw error;
     }
   }
 }

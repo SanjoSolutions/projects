@@ -2,22 +2,22 @@
  * @jest-environment jsdom
  */
 
-import { act } from 'react-dom/test-utils'
-import { createContainer } from './createContainer'
-import { renderOS } from './renderOS'
+import { act } from "react-dom/test-utils";
+import { createContainer } from "./createContainer";
+import { renderOS } from "./renderOS";
 
-describe('operation system', () => {
-  let container
+describe("operation system", () => {
+  let container;
 
   beforeEach(function () {
-    container = createContainer()
-  })
+    container = createContainer();
+  });
 
-  it('starts', () => {
+  it("starts", () => {
     act(() => {
-      renderOS(container)
-    })
+      renderOS(container);
+    });
 
-    expect(container.textContent).toEqual('Welcome')
-  })
-})
+    expect(container.textContent).toEqual("Welcome");
+  });
+});

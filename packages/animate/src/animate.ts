@@ -1,29 +1,27 @@
-export function animate (fn: Function): { stop: () => void } {
-  let lastFrameTime: number
-  let shouldStop = false
+export function animate(fn: Function): { stop: () => void } {
+  let lastFrameTime: number;
+  let shouldStop = false;
 
-  function stop () {
-    shouldStop = true
+  function stop() {
+    shouldStop = true;
   }
 
-  function onFrame () {
+  function onFrame() {
     if (!shouldStop) {
-      const currentFrameTime = Date.now()
-      const elapsedTime = currentFrameTime -
-        (
-          lastFrameTime || currentFrameTime
-        )
-      fn(elapsedTime)
-      lastFrameTime = currentFrameTime
-      requestNextAnimationFrame()
+      const currentFrameTime = Date.now();
+      const elapsedTime =
+        currentFrameTime - (lastFrameTime || currentFrameTime);
+      fn(elapsedTime);
+      lastFrameTime = currentFrameTime;
+      requestNextAnimationFrame();
     }
   }
 
-  function requestNextAnimationFrame () {
-    requestAnimationFrame(onFrame)
+  function requestNextAnimationFrame() {
+    requestAnimationFrame(onFrame);
   }
 
-  requestNextAnimationFrame()
+  requestNextAnimationFrame();
 
-  return { stop }
+  return { stop };
 }

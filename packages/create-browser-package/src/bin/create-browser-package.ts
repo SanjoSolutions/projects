@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import { createBrowserPackage } from '../createBrowserPackage'
+import { createBrowserPackage } from "../createBrowserPackage";
 
-createBrowserPackage().catch(console.error)
+createBrowserPackage().catch(console.error);

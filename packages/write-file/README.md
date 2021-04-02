@@ -5,8 +5,8 @@ Write file.
 ## How to use
 
 ```js
-import writeFile from '@sanjo/write-file'
+import writeFile from "@sanjo/write-file";
 
-const content = ''
-await writeFile('./path_to_file.txt', content)
+const content = "";
+await writeFile("./path_to_file.txt", content);
 ```

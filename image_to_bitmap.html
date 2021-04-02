@@ -17,187 +17,163 @@
 </style>
 
 <form>
-  <input id="file" type="file">
+  <input id="file" type="file" />
   <label>
-    <input checked id="tile-toggle" type="checkbox"> Tile toggle
+    <input checked id="tile-toggle" type="checkbox" /> Tile toggle
   </label>
 </form>
 <canvas id="canvas"></canvas>
 
 <script type="module">
-  import { max } from './packages/array/src/array.js'
+  import { max } from "./packages/array/src/array.js";
 
   class ColorMap extends Map {
     has(color) {
-      return super.has(this.colorToKey(color))
+      return super.has(this.colorToKey(color));
     }
 
     get(color) {
-      return this.has(color) ?
-        super.get(this.colorToKey(color)) :
-        0
+      return this.has(color) ? super.get(this.colorToKey(color)) : 0;
     }
 
     set(color, count) {
-      super.set(this.colorToKey(color), count)
+      super.set(this.colorToKey(color), count);
     }
 
     colorToKey(color) {
       // return color.join(' ')
       return (
-        (
-          color[0] <<
-          (
-            8 * 3
-          )
-        ) +
-        (
-          color[1] <<
-          (
-            8 * 2
-          )
-        ) +
-        (
-          color[2] <<
-          (
-            8 * 1
-          )
-        ) +
+        (color[0] << (8 * 3)) +
+        (color[1] << (8 * 2)) +
+        (color[2] << (8 * 1)) +
         color[3]
-      )
+      );
     }
 
     keyToColor(key) {
       // return key.split(' ').map(Number)
       return [
-        key >>
-        (
-          8 * 3
-        ) &
-        0xFF,
-        key >>
-        (
-          8 * 2
-        ) &
-        0xFF,
-        key >>
-        (
-          8 * 1
-        ) &
-        0xFF,
-        key >>
-        (
-          8 * 0
-        ) &
-        0xFF,
-      ]
+        (key >> (8 * 3)) & 0xff,
+        (key >> (8 * 2)) & 0xff,
+        (key >> (8 * 1)) & 0xff,
+        (key >> (8 * 0)) & 0xff,
+      ];
     }
   }
 
-  const width = 64
-  const height = 64
-  const tileSize = 32
-  const canvas = document.querySelector('#canvas')
-  const canvasClientRect = canvas.getBoundingClientRect()
-  const bodyClientRect = document.body.getBoundingClientRect()
+  const width = 64;
+  const height = 64;
+  const tileSize = 32;
+  const canvas = document.querySelector("#canvas");
+  const canvasClientRect = canvas.getBoundingClientRect();
+  const bodyClientRect = document.body.getBoundingClientRect();
   const canvasLength = Math.min(
-    bodyClientRect.height -
-    (
-      canvasClientRect.top - bodyClientRect.top
-    ),
-    bodyClientRect.width - canvasClientRect.left,
-  )
-  canvas.width = width * tileSize
-  canvas.height = height * tileSize
-  canvas.style.width = canvasLength
-  canvas.style.height = canvasLength
-  const context = canvas.getContext('2d')
+    bodyClientRect.height - (canvasClientRect.top - bodyClientRect.top),
+    bodyClientRect.width - canvasClientRect.left
+  );
+  canvas.width = width * tileSize;
+  canvas.height = height * tileSize;
+  canvas.style.width = canvasLength;
+  canvas.style.height = canvasLength;
+  const context = canvas.getContext("2d");
 
-  const fileReader = new FileReader()
+  const fileReader = new FileReader();
 
-  const $file = document.querySelector('#file')
-  const $tileToggle = document.querySelector('#tile-toggle')
+  const $file = document.querySelector("#file");
+  const $tileToggle = document.querySelector("#tile-toggle");
 
-  $file.addEventListener('change', (event) => {
-    const file = $file.files[0]
+  $file.addEventListener("change", (event) => {
+    const file = $file.files[0];
     if (file) {
-      fileReader.readAsDataURL(file)
+      fileReader.readAsDataURL(file);
     }
-  })
+  });
 
-  $tileToggle.addEventListener('change', (event) => {
+  $tileToggle.addEventListener("change", (event) => {});
 
-  })
-
-  fileReader.addEventListener('load', (event) => {
+  fileReader.addEventListener("load", (event) => {
     // const imageUrl = 'heart.png'
-    const imageUrl = fileReader.result
-    const image = new Image()
-    image.src = imageUrl
+    const imageUrl = fileReader.result;
+    const image = new Image();
+    image.src = imageUrl;
     image.onload = () => {
-      context.clearRect(0, 0, canvas.width, canvas.height)
-      const drawingWidth = width * tileSize
-      const drawingHeight = height * tileSize
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      const drawingWidth = width * tileSize;
+      const drawingHeight = height * tileSize;
       if (image.naturalWidth <= image.naturalHeight) {
-        const scale = drawingHeight / image.naturalHeight
-        const scaledWidth = scale * image.naturalWidth
-        const scaledHeight = drawingHeight
-        const paddingLeft = 0.5 *
-          (
-            drawingWidth - scaledWidth
-          )
-        const paddingTop = 0
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
+        const scale = drawingHeight / image.naturalHeight;
+        const scaledWidth = scale * image.naturalWidth;
+        const scaledHeight = drawingHeight;
+        const paddingLeft = 0.5 * (drawingWidth - scaledWidth);
+        const paddingTop = 0;
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight
+        );
       } else {
-        const scale = drawingWidth / image.naturalWidth
-        const scaledWidth = drawingWidth
-        const scaledHeight = scale * image.naturalHeight
-        const paddingLeft = 0
-        const paddingTop = 0.5 *
-          (
-            drawingHeight - scaledHeight
-          )
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
+        const scale = drawingWidth / image.naturalWidth;
+        const scaledWidth = drawingWidth;
+        const scaledHeight = scale * image.naturalHeight;
+        const paddingLeft = 0;
+        const paddingTop = 0.5 * (drawingHeight - scaledHeight);
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight
+        );
       }
 
-      const primaryColor = getPrimaryNonBackgroundColor(
-        canvas, context, { x: 0, y: 0, width: drawingWidth, height: drawingHeight },
-      )
+      const primaryColor = getPrimaryNonBackgroundColor(canvas, context, {
+        x: 0,
+        y: 0,
+        width: drawingWidth,
+        height: drawingHeight,
+      });
 
       // const backgroundColor = [0x0, 0x0, 0x0, 0x0]
-      const backgroundColor = getBackgroundColor(canvas, context)
+      const backgroundColor = getBackgroundColor(canvas, context);
 
-      const bitmap = new Array(width * height)
+      const bitmap = new Array(width * height);
       for (let row = 0; row < height; row++) {
         for (let column = 0; column < width; column++) {
-          const x = column * tileSize
-          const y = row * tileSize
+          const x = column * tileSize;
+          const y = row * tileSize;
           bitmap[row * width + column] = nonBackgroundTile(
             canvas,
             context,
             { x, y, width: tileSize, height: tileSize },
-            backgroundColor,
-          ) ? 1 : 0
+            backgroundColor
+          )
+            ? 1
+            : 0;
         }
       }
 
       for (let row = 0; row < height; row++) {
         for (let column = 0; column < width; column++) {
-          const x = column * tileSize
-          const y = row * tileSize
-          let color
+          const x = column * tileSize;
+          const y = row * tileSize;
+          let color;
           if (bitmap[row * width + column]) {
-            color = getPrimaryNonBackgroundColor(
-              canvas, context, { x, y, width: tileSize, height: tileSize },
-            )
+            color = getPrimaryNonBackgroundColor(canvas, context, {
+              x,
+              y,
+              width: tileSize,
+              height: tileSize,
+            });
           }
-          context.clearRect(x, y, tileSize, tileSize)
+          context.clearRect(x, y, tileSize, tileSize);
           if (bitmap[row * width + column]) {
             if (color) {
-              context.beginPath()
-              context.rect(x, y, tileSize, tileSize)
-              context.fillStyle = colorToString(color)
-              context.fill()
+              context.beginPath();
+              context.rect(x, y, tileSize, tileSize);
+              context.fillStyle = colorToString(color);
+              context.fill();
             }
           }
         }
@@ -218,93 +194,90 @@
       */
 
       // console.log(JSON.stringify(bitmap, null, 2))
-      const outputRows = new Array(height)
+      const outputRows = new Array(height);
       for (let row = 0; row < height; row++) {
-        const outputRow = bitmap.slice(
-          row * width,
-          (
-            row + 1
-          ) * width,
-        )
-        outputRows[row] = outputRow
+        const outputRow = bitmap.slice(row * width, (row + 1) * width);
+        outputRows[row] = outputRow;
       }
-      const output = outputRows.map(outputRow => outputRow.join(', ')).join(', \n')
-      console.log(output)
-    }
+      const output = outputRows
+        .map((outputRow) => outputRow.join(", "))
+        .join(", \n");
+      console.log(output);
+    };
 
-    const colorArrayLength = 4
+    const colorArrayLength = 4;
 
     function getBackgroundColor(canvas, context) {
-      const imageData = context.getImageData(0, 0, 1, 1)
-      const data = imageData.data
-      return data
+      const imageData = context.getImageData(0, 0, 1, 1);
+      const data = imageData.data;
+      return data;
     }
 
     function colorToString(color) {
-      const [r, g, b, a] = color
-      return `rgba(${r}, ${g}, ${b}, ${a})`
+      const [r, g, b, a] = color;
+      return `rgba(${r}, ${g}, ${b}, ${a})`;
     }
 
-    function countColors(
-      canvas, context, { x, y, width, height },
-    ) {
-      const colorCounts = new ColorMap()
+    function countColors(canvas, context, { x, y, width, height }) {
+      const colorCounts = new ColorMap();
 
-      const backgroundColor = getBackgroundColor(canvas, context)
-      const imageData = context.getImageData(x, y, width, height)
-      const data = imageData.data
+      const backgroundColor = getBackgroundColor(canvas, context);
+      const imageData = context.getImageData(x, y, width, height);
+      const data = imageData.data;
       for (let index = 0; index < data.length; index += 4) {
-        const color = data.slice(index, index + colorArrayLength)
+        const color = data.slice(index, index + colorArrayLength);
         if (!colorsMatch(color, backgroundColor)) {
-          colorCounts.set(color, colorCounts.get(color) + 1)
+          colorCounts.set(color, colorCounts.get(color) + 1);
         }
       }
 
-      return colorCounts
+      return colorCounts;
     }
 
     function getPrimaryNonBackgroundColor(
-      canvas, context, { x, y, width, height },
+      canvas,
+      context,
+      { x, y, width, height }
     ) {
-      const colorCounts = countColors(canvas, context, { x, y, width, height })
+      const colorCounts = countColors(canvas, context, { x, y, width, height });
 
       function getColorWithHighestCount() {
-        const keyColor = max([...colorCounts], ([key, count]) => count)
-        return keyColor ? colorCounts.keyToColor(keyColor[0]) : null
+        const keyColor = max([...colorCounts], ([key, count]) => count);
+        return keyColor ? colorCounts.keyToColor(keyColor[0]) : null;
       }
 
-      return getColorWithHighestCount()
+      return getColorWithHighestCount();
     }
 
     function nonBackgroundTile(
       canvas,
       context,
       { x, y, width, height },
-      backgroundColor,
+      backgroundColor
     ) {
-      let nonBackgroundCount = 0
-      const imageData = context.getImageData(x, y, width, height)
-      const data = imageData.data
+      let nonBackgroundCount = 0;
+      const imageData = context.getImageData(x, y, width, height);
+      const data = imageData.data;
       for (let row = 0; row < tileSize; row++) {
         for (let column = 0; column < tileSize; column++) {
-          const index = row * tileSize + column
-          const color = data.slice(index, index + colorArrayLength)
+          const index = row * tileSize + column;
+          const color = data.slice(index, index + colorArrayLength);
           if (!colorsMatch(color, backgroundColor)) {
-            nonBackgroundCount++
+            nonBackgroundCount++;
           }
         }
       }
 
-      const halfOfArea = 0.5 * width * height
-      return nonBackgroundCount >= halfOfArea
+      const halfOfArea = 0.5 * width * height;
+      return nonBackgroundCount >= halfOfArea;
     }
 
     function colorTile(canvas, context, { x, y, width, height }, color) {
-      const colorCounts = countColors(canvas, context, { x, y, width, height })
-      const colorCount = colorCounts.get(color)
-      const halfOfArea = 0.5 * width * height
+      const colorCounts = countColors(canvas, context, { x, y, width, height });
+      const colorCount = colorCounts.get(color);
+      const halfOfArea = 0.5 * width * height;
 
-      return colorCount >= halfOfArea
+      return colorCount >= halfOfArea;
     }
 
     function colorsMatch(colorA, colorB) {
@@ -313,7 +286,7 @@
         colorA[1] === colorB[1] &&
         colorA[2] === colorB[2] &&
         colorA[3] === colorB[3]
-      )
+      );
     }
-  })
+  });
 </script>

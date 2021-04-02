@@ -1,129 +1,129 @@
 @media print {
-    * {
-        color: black !important;
-        border-color: black !important;
-        background: white !important;
-    }
+  * {
+    color: black !important;
+    border-color: black !important;
+    background: white !important;
+  }
 }
 
 .mt-2 {
-    margin-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .mt-3 {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
 
-.table td, .table th {
-    padding: 0.25rem;
-    text-align: center;
+.table td,
+.table th {
+  padding: 0.25rem;
+  text-align: center;
 }
 
 .table--border {
-    border-radius: 3px;
-    border-collapse: collapse;
-    box-shadow: 0 0 0 1px black;
-    border-style: hidden;
+  border-radius: 3px;
+  border-collapse: collapse;
+  box-shadow: 0 0 0 1px black;
+  border-style: hidden;
 }
 
-.table--border td, .table--border th {
-    border: 1px solid black;
+.table--border td,
+.table--border th {
+  border: 1px solid black;
 }
-
 
 .pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .pagination-button {
-    box-sizing: border-box;
-    border: 1px solid black;
-    border-radius: 50%;
-    height: 1.5rem;
-    width: 1.5rem;
-    margin-left: 0.25rem;
+  box-sizing: border-box;
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-left: 0.25rem;
 }
 
 .pagination-button:first-child {
-    margin-left: 0;
+  margin-left: 0;
 }
 
-
 body {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
 }
 
 .container {
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: column;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 3rem;
-    background: #303F9F;
-    padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 3rem;
+  background: #303f9f;
+  padding: 0.5rem 1rem;
 }
 
 .logo {
-    color: white;
-    font-size: 1.5rem;
-    user-select: none;
+  color: white;
+  font-size: 1.5rem;
+  user-select: none;
 }
 
 .navbar {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    background: #2196F3;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background: #2196f3;
 }
 
 .nav-items {
-    flex: 1 0 auto;
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    margin: 0;
-    list-style-type: none;
-    padding: 0 0.75rem;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: 0;
+  list-style-type: none;
+  padding: 0 0.75rem;
 }
 
 .nav-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    padding: 0.5rem 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 0.25rem;
 }
 
 .nav-item-button {
-    box-sizing: border-box;
-    border-radius: 3px;
-    border: 1px solid white;
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  border-radius: 3px;
+  border: 1px solid white;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
 }
 
 .nav-item--active .nav-item-button {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .nav-item-button:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .main {
-    flex: 1 0 auto;
-    color: black;
-    padding: 0.5rem 1rem;
+  flex: 1 0 auto;
+  color: black;
+  padding: 0.5rem 1rem;
 }

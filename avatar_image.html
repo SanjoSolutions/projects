@@ -20,127 +20,136 @@
 <div class="avatar-images"></div>
 
 <script type="module">
-  import { colorToString } from './colorToString.js'
-  import { randomColor } from './randomColor.js'
-  import { randomInteger } from './randomInteger.js'
+  import { colorToString } from "./colorToString.js";
+  import { randomColor } from "./randomColor.js";
+  import { randomInteger } from "./randomInteger.js";
 
-  function rem (value) {
-    return value * 16
+  function rem(value) {
+    return value * 16;
   }
 
-  const paddingTop = rem(1)
-  const paddingLeft = rem(1)
-  const avatarWidth = rem(3)
-  const avatarHeight = rem(3)
+  const paddingTop = rem(1);
+  const paddingLeft = rem(1);
+  const avatarWidth = rem(3);
+  const avatarHeight = rem(3);
 
-  document.addEventListener('DOMContentLoaded', () => {
-    createInitialAvatarImages()
+  document.addEventListener("DOMContentLoaded", () => {
+    createInitialAvatarImages();
 
-    const $avatarImages = document.querySelector('.avatar-images')
-    const $$avatarImages = Array.from(document.querySelectorAll('.avatar-image'))
-    let $toggledAvatar
+    const $avatarImages = document.querySelector(".avatar-images");
+    const $$avatarImages = Array.from(
+      document.querySelectorAll(".avatar-image")
+    );
+    let $toggledAvatar;
     setInterval(() => {
-      const colorAttribute = 'data-color'
+      const colorAttribute = "data-color";
       if ($toggledAvatar) {
         if ($$avatarImages.includes($toggledAvatar)) {
-          $toggledAvatar.style.backgroundColor = $toggledAvatar.getAttribute(colorAttribute)
-          $toggledAvatar.removeAttribute(colorAttribute)
+          $toggledAvatar.style.backgroundColor = $toggledAvatar.getAttribute(
+            colorAttribute
+          );
+          $toggledAvatar.removeAttribute(colorAttribute);
         }
-        $toggledAvatar = null
+        $toggledAvatar = null;
       } else {
-        $toggledAvatar = $$avatarImages[randomInteger(0, $$avatarImages.length - 1)]
-        $toggledAvatar.setAttribute(colorAttribute, $toggledAvatar.style.backgroundColor)
-        $toggledAvatar.style.backgroundColor = null
+        $toggledAvatar =
+          $$avatarImages[randomInteger(0, $$avatarImages.length - 1)];
+        $toggledAvatar.setAttribute(
+          colorAttribute,
+          $toggledAvatar.style.backgroundColor
+        );
+        $toggledAvatar.style.backgroundColor = null;
       }
-    }, 1600)
+    }, 1600);
 
-    window.addEventListener('resize', () => {
-      const oldNumberOfAvatarImages = $$avatarImages.length
+    window.addEventListener("resize", () => {
+      const oldNumberOfAvatarImages = $$avatarImages.length;
 
-      const numberOfAvatarImages = calculateNumberOfAvatarImagesToCoverDocument()
+      const numberOfAvatarImages = calculateNumberOfAvatarImagesToCoverDocument();
 
       if (numberOfAvatarImages > oldNumberOfAvatarImages) {
-        const numberOfNewAvatarImages = numberOfAvatarImages - $$avatarImages.length
-        const $$newAvatarImages = createAvatarImages(numberOfNewAvatarImages)
-        $$avatarImages.push(...$$newAvatarImages)
-        $avatarImages.append(...$$newAvatarImages)
+        const numberOfNewAvatarImages =
+          numberOfAvatarImages - $$avatarImages.length;
+        const $$newAvatarImages = createAvatarImages(numberOfNewAvatarImages);
+        $$avatarImages.push(...$$newAvatarImages);
+        $avatarImages.append(...$$newAvatarImages);
       } else if (numberOfAvatarImages < oldNumberOfAvatarImages) {
         while ($$avatarImages.length > numberOfAvatarImages) {
-          const $avatarImage = $$avatarImages.pop()
-          $avatarImage.remove()
+          const $avatarImage = $$avatarImages.pop();
+          $avatarImage.remove();
         }
       }
-    })
+    });
 
-    window.addEventListener('mousemove', (event) => {
-      const mouseX = event.pageX
-      const mouseY = event.pageY
-      $$avatarImages.forEach($avatarImage => {
-        const { x, y, width, height } = $avatarImage.getBoundingClientRect()
-        const cx = x + 0.5 * width
-        const cy = y + 0.5 * height
-        const distanceX = Math.abs(mouseX - cx)
-        const distanceY = Math.abs(mouseY - cy)
-        const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2)
-        const maxInfluenceDistance = rem(8)
-        let translateX, translateY
+    window.addEventListener("mousemove", (event) => {
+      const mouseX = event.pageX;
+      const mouseY = event.pageY;
+      $$avatarImages.forEach(($avatarImage) => {
+        const { x, y, width, height } = $avatarImage.getBoundingClientRect();
+        const cx = x + 0.5 * width;
+        const cy = y + 0.5 * height;
+        const distanceX = Math.abs(mouseX - cx);
+        const distanceY = Math.abs(mouseY - cy);
+        const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+        const maxInfluenceDistance = rem(8);
+        let translateX, translateY;
         if (distance <= maxInfluenceDistance) {
-          const translate = Math.log(maxInfluenceDistance + 1 - distance)
+          const translate = Math.log(maxInfluenceDistance + 1 - distance);
           // const translate = 0.12 * Math.sqrt(distance)
-          const angle = Math.atan2(mouseY - cy, mouseX - cx)
-          translateX = translate * Math.cos(angle)
-          translateY = translate * Math.sin(angle)
+          const angle = Math.atan2(mouseY - cy, mouseX - cx);
+          translateX = translate * Math.cos(angle);
+          translateY = translate * Math.sin(angle);
           // translateX = (mouseX < cx ? -1 : 1) * 0.12 * Math.sqrt(distanceX)
           // translateY = (mouseY < cy ? -1 : 1) * 0.12 * Math.sqrt(distanceY)
         } else {
-          translateX = 0
-          translateY = 0
+          translateX = 0;
+          translateY = 0;
         }
-        $avatarImage.style.transform = `translate(${translateX}px, ${translateY}px)`
-      })
-    })
-  })
+        $avatarImage.style.transform = `translate(${translateX}px, ${translateY}px)`;
+      });
+    });
+  });
 
-  function calculateNumberOfAvatarImagesToCoverDocument () {
-    const numberOfRows = Math.floor((
-      window.innerHeight - paddingTop
-    ) / avatarWidth)
-    const numberOfColumns = Math.floor((
-      window.innerWidth - paddingLeft
-    ) / avatarHeight)
-    const numberOfAvatarImages = numberOfRows * numberOfColumns
-    return numberOfAvatarImages
+  function calculateNumberOfAvatarImagesToCoverDocument() {
+    const numberOfRows = Math.floor(
+      (window.innerHeight - paddingTop) / avatarWidth
+    );
+    const numberOfColumns = Math.floor(
+      (window.innerWidth - paddingLeft) / avatarHeight
+    );
+    const numberOfAvatarImages = numberOfRows * numberOfColumns;
+    return numberOfAvatarImages;
   }
 
-  function createInitialAvatarImages () {
-    const numberOfAvatarImages = calculateNumberOfAvatarImagesToCoverDocument()
+  function createInitialAvatarImages() {
+    const numberOfAvatarImages = calculateNumberOfAvatarImagesToCoverDocument();
 
-    const $avatarImages = document.querySelector('.avatar-images')
+    const $avatarImages = document.querySelector(".avatar-images");
 
     const $$avatarImages = [
-      createAvatarImage('#b71c1c'),
+      createAvatarImage("#b71c1c"),
       ...createAvatarImages(numberOfAvatarImages - 1),
-    ]
+    ];
 
-    $avatarImages.append(...$$avatarImages)
+    $avatarImages.append(...$$avatarImages);
   }
 
-  function createAvatarImages (numberOfAvatarImagesToCreate) {
-    const $$avatarImages = []
-    let avatarCounter = 0
+  function createAvatarImages(numberOfAvatarImagesToCreate) {
+    const $$avatarImages = [];
+    let avatarCounter = 0;
     while (avatarCounter < numberOfAvatarImagesToCreate) {
-      const color = colorToString(randomColor())
-      const $avatar = createAvatarImage(color)
-      $$avatarImages.push($avatar)
-      avatarCounter++
+      const color = colorToString(randomColor());
+      const $avatar = createAvatarImage(color);
+      $$avatarImages.push($avatar);
+      avatarCounter++;
     }
-    return $$avatarImages
+    return $$avatarImages;
   }
 
-  function createAvatarImage (color) {
-    const avatarImage = document.createElement('div')
-    avatarImage.classList.add('avatar-image')
-    avatarImage.style.backgroundColor = color
-    return avatarImage
+  function createAvatarImage(color) {
+    const avatarImage = document.createElement("div");
+    avatarImage.classList.add("avatar-image");
+    avatarImage.style.backgroundColor = color;
+    return avatarImage;
   }
 </script>

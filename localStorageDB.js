@@ -24,50 +24,52 @@
 
 var db,
   keyValue = {
-    k: '',
-    v: ''
+    k: "",
+    v: "",
   },
-  request = indexedDB.open('d2', 1);
-request.onsuccess = function(evt) {
+  request = indexedDB.open("d2", 1);
+request.onsuccess = function (evt) {
   db = this.result;
 };
-request.onerror = function(event) {
-  console.error('indexedDB request error');
+request.onerror = function (event) {
+  console.error("indexedDB request error");
   console.log(event);
 };
 
-request.onupgradeneeded = function(event) {
+request.onupgradeneeded = function (event) {
   db = null;
-  var store = event.target.result.createObjectStore('str', {
-    keyPath: 'k'
+  var store = event.target.result.createObjectStore("str", {
+    keyPath: "k",
   });
 
-  store.transaction.oncomplete = function (e){
+  store.transaction.oncomplete = function (e) {
     db = e.target.db;
   };
 };
 
 export function getValue(key, callback) {
   return new Promise(async (resolve) => {
-    if(!db) {
-      await wait(100)
+    if (!db) {
+      await wait(100);
     }
-    db.transaction('str').objectStore('str').get(key).onsuccess = function(event) {
+    db.transaction("str").objectStore("str").get(key).onsuccess = function (
+      event
+    ) {
       var result = (event.target.result && event.target.result.v) || null;
       resolve(result);
     };
-  })
+  });
 }
 
 function wait(ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms)
-  })
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 export function setValue(key, value) {
   // no callback for set needed because every next transaction will be anyway executed after this one
   keyValue.k = key;
   keyValue.v = value;
-  db.transaction('str', 'readwrite').objectStore('str').put(keyValue);
+  db.transaction("str", "readwrite").objectStore("str").put(keyValue);
 }

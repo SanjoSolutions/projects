@@ -1,54 +1,53 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-    name="viewport">
-  <meta content="ie=edge" http-equiv="X-UA-Compatible">
-  <title>UI</title>
-  <script>
-    // user event --> user interface
-    const events = [
-      { type: 'MouseDownEvent' },
-      // {type: 'MouseUpEvent'},
-    ]
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+      name="viewport"
+    />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <title>UI</title>
+    <script>
+      // user event --> user interface
+      const events = [
+        { type: "MouseDownEvent" },
+        // {type: 'MouseUpEvent'},
+      ];
 
-    function pushEvent (event) {
-      events.push(event)
-      document.body.innerHTML = processEvents(events)
-    }
+      function pushEvent(event) {
+        events.push(event);
+        document.body.innerHTML = processEvents(events);
+      }
 
-    const sideEffect = () => {
-      pushEvent({ type: 'DataFetchEvent', data: { text: 'hi' } })
-    }
+      const sideEffect = () => {
+        pushEvent({ type: "DataFetchEvent", data: { text: "hi" } });
+      };
 
-    function processEvents (events) {
-      events.reduce((_, event) => {
-        if (event.type === 'MouseUpEvent') {
-          sideEffect()
-        }
-      }, {})
+      function processEvents(events) {
+        events.reduce((_, event) => {
+          if (event.type === "MouseUpEvent") {
+            sideEffect();
+          }
+        }, {});
 
-      return renderUserInterface(events)
-    }
+        return renderUserInterface(events);
+      }
 
-    function renderUserInterface (events) {
-      return events.reduce((_, event) => {
-        if (event.type === 'MouseDownEvent') {
-          return '<button class="button button--pressed"></button>'
-        } else {
-          return '<button class="button"></button>'
-        }
-      }, {})
-    }
+      function renderUserInterface(events) {
+        return events.reduce((_, event) => {
+          if (event.type === "MouseDownEvent") {
+            return '<button class="button button--pressed"></button>';
+          } else {
+            return '<button class="button"></button>';
+          }
+        }, {});
+      }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.innerHTML = processEvents(events)
-    })
-  </script>
-</head>
-<body>
-
-</body>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.innerHTML = processEvents(events);
+      });
+    </script>
+  </head>
+  <body></body>
 </html>

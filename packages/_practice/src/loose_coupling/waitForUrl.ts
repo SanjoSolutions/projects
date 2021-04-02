@@ -1,14 +1,14 @@
-import request from '@sanjo/request'
-import { waitFor } from './waitFor'
+import request from "@sanjo/request";
+import { waitFor } from "./waitFor";
 
-export async function waitForUrl (url) {
+export async function waitForUrl(url) {
   const condition = async () => {
     try {
-      await request(url)
-      return true
+      await request(url);
+      return true;
     } catch (error) {
-      return false
+      return false;
     }
-  }
-  await waitFor(condition)
+  };
+  await waitFor(condition);
 }

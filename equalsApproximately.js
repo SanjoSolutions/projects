@@ -1,3 +1,3 @@
-export function equalsApproximately (a, b, epsilon) {
-  return Math.abs(a - b) < epsilon
+export function equalsApproximately(a, b, epsilon) {
+  return Math.abs(a - b) < epsilon;
 }

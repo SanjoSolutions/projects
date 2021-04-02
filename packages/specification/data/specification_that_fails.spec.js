@@ -1,5 +1,5 @@
-import { specification, expect } from '../index.js'
+import { specification, expect } from "../index.js";
 
 specification(function () {
-  expect(true).toEqual(false)
-})
+  expect(true).toEqual(false);
+});

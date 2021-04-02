@@ -5,10 +5,8 @@
   "version": "0.0.0",
   "main": "./built/index.js",
   "types": "./built/index.d.js",
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   }
