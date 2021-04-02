@@ -7862,6 +7862,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"prettier@npm:2.2.1":
+  version: 2.2.1
+  resolution: "prettier@npm:2.2.1"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 92c6c9f4b87eba1f28466edee57dd18c80d00b858edda77d46d1950d20e6e302b68ee255fc91133ba931e63c4577b5ae30da194d9626a8f3c0177778b91bf056
+  languageName: node
+  linkType: hard
+
 "pretty-format@npm:^26.0.0, pretty-format@npm:^26.6.2":
   version: 26.6.2
   resolution: "pretty-format@npm:26.6.2"
@@ -9769,6 +9778,7 @@ typescript@^4.2.3:
     babel-loader: ^8.1.0
     css-loader: ^3.6.0
     jest: ^26.0.1
+    prettier: 2.2.1
     style-loader: ^1.2.1
     ts-loader: ^8.0.0
     typescript: ^4.2.3
