@@ -49,9 +49,9 @@
     renderPossibleNumbersToHTML,
     solve,
     fillSolutions,
-  } from "./sudoku_solver.js"
+  } from "./sudoku_solver.js";
 
-  let sudoku = [...initialSudoku]
+  let sudoku = [...initialSudoku];
   let possibleNumbers = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -62,7 +62,7 @@
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
-  ]
+  ];
   let solutions = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -73,47 +73,47 @@
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
-  ]
+  ];
 
   document.addEventListener("DOMContentLoaded", () => {
-    render()
-  })
+    render();
+  });
 
   function render() {
-    document.body.innerHTML = ""
+    document.body.innerHTML = "";
 
-    const row = document.createElement("div")
-    row.classList.add("row")
+    const row = document.createElement("div");
+    row.classList.add("row");
 
-    const column1 = document.createElement("div")
-    column1.classList.add("column")
+    const column1 = document.createElement("div");
+    column1.classList.add("column");
 
-    const column2 = document.createElement("div")
-    column2.classList.add("column")
+    const column2 = document.createElement("div");
+    column2.classList.add("column");
 
-    const column3 = document.createElement("div")
-    column3.classList.add("column")
+    const column3 = document.createElement("div");
+    column3.classList.add("column");
 
-    row.append(column1, column2, column3)
+    row.append(column1, column2, column3);
 
-    document.body.appendChild(row)
+    document.body.appendChild(row);
 
-    column1.appendChild(renderSudokuToHTML(sudoku))
+    column1.appendChild(renderSudokuToHTML(sudoku));
 
-    column1.appendChild(document.createElement("br"))
+    column1.appendChild(document.createElement("br"));
 
-    const button = document.createElement("button")
-    button.innerText = "Next"
+    const button = document.createElement("button");
+    button.innerText = "Next";
     button.addEventListener("click", () => {
-      possibleNumbers = getPossibleNumbers(sudoku)
-      solutions = solve(possibleNumbers)
-      sudoku = fillSolutions(sudoku, solutions)
-      render()
-    })
-    column1.appendChild(button)
+      possibleNumbers = getPossibleNumbers(sudoku);
+      solutions = solve(possibleNumbers);
+      sudoku = fillSolutions(sudoku, solutions);
+      render();
+    });
+    column1.appendChild(button);
 
-    column2.appendChild(renderSudokuToHTML(solutions))
+    column2.appendChild(renderSudokuToHTML(solutions));
 
-    column3.appendChild(renderPossibleNumbersToHTML(possibleNumbers))
+    column3.appendChild(renderPossibleNumbersToHTML(possibleNumbers));
   }
 </script>

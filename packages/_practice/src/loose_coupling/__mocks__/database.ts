@@ -1,3 +1,3 @@
-import { InMemory as Database } from "../databases/InMemory"
+import { InMemory as Database } from "../databases/InMemory";
 
-export const database = new Database()
+export const database = new Database();

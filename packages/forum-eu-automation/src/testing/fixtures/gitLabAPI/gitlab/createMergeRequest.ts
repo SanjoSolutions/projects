@@ -5,5 +5,5 @@ export function createMergeRequest(): any {
     title: "1-feature",
     web_url:
       "https://www.example.com/groupName/repositoryName/-/merge_requests/1",
-  }
+  };
 }

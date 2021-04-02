@@ -9,17 +9,17 @@
  */
 export function lastMatch(text, regExp, fromIndex = null) {
   if (fromIndex === null) {
-    fromIndex = text.length - 1
+    fromIndex = text.length - 1;
   }
-  let toIndex = fromIndex
+  let toIndex = fromIndex;
   while (toIndex >= 0) {
-    const match = regExp.exec(text.substring(toIndex, fromIndex + 1))
+    const match = regExp.exec(text.substring(toIndex, fromIndex + 1));
     if (match) {
-      match.index = toIndex
-      match.input = text
-      return match
+      match.index = toIndex;
+      match.input = text;
+      return match;
     }
-    toIndex -= 1
+    toIndex -= 1;
   }
-  return null
+  return null;
 }

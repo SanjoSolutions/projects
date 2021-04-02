@@ -1,4 +1,4 @@
-import { render as renderLayout } from "../layouts/default.js"
+import { render as renderLayout } from "../layouts/default.js";
 
 export function render(renderer) {
   return renderLayout(renderer, {
@@ -38,5 +38,5 @@ export function render(renderer) {
                     </div>
                 </div>
             `,
-  })
+  });
 }

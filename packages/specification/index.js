@@ -1,82 +1,82 @@
-import { equals } from "../../equals.js"
+import { equals } from "../../equals.js";
 
-let expectCount
-resetExpectCount()
+let expectCount;
+resetExpectCount();
 
-let specificationRunning = false
-let specificationLabel = undefined
-const specificationFunctionQueue = []
+let specificationRunning = false;
+let specificationLabel = undefined;
+const specificationFunctionQueue = [];
 
 export async function specification(
   specificationLabelOrFunction,
   specificationFunction
 ) {
-  let specificationLabel
+  let specificationLabel;
   if (typeof specificationLabelOrFunction === "function") {
-    specificationLabel = undefined
-    specificationFunction = specificationLabelOrFunction
+    specificationLabel = undefined;
+    specificationFunction = specificationLabelOrFunction;
   } else {
-    specificationLabel = specificationLabelOrFunction
+    specificationLabel = specificationLabelOrFunction;
   }
 
   specificationFunctionQueue.push({
     label: specificationLabel,
     function: specificationFunction,
-  })
+  });
   if (!specificationRunning) {
-    await runSpecifications()
+    await runSpecifications();
   }
 }
 
 async function runSpecifications() {
-  specificationRunning = true
-  let specification = specificationFunctionQueue.shift()
+  specificationRunning = true;
+  let specification = specificationFunctionQueue.shift();
   while (specification) {
-    await runSpecification(specification)
-    specification = specificationFunctionQueue.shift()
+    await runSpecification(specification);
+    specification = specificationFunctionQueue.shift();
   }
-  specificationRunning = false
+  specificationRunning = false;
 }
 
 async function runSpecification(specification) {
-  specificationLabel = specification.label
+  specificationLabel = specification.label;
 
-  resetExpectCount()
+  resetExpectCount();
 
-  await specification.function()
+  await specification.function();
 
-  const expectCount = getExpectCount()
+  const expectCount = getExpectCount();
   if (expectCount === 0) {
-    throw Error("specification has no expectation")
+    throw Error("specification has no expectation");
   } else if (expectCount > 1) {
-    throw Error("specification has more than one expectation")
+    throw Error("specification has more than one expectation");
   } else if (specification.label) {
-    console.log(`✓ ${specification.label}`)
+    console.log(`✓ ${specification.label}`);
   }
 }
 
 function getExpectCount() {
-  return expectCount
+  return expectCount;
 }
 
 function resetExpectCount() {
-  expectCount = 0
+  expectCount = 0;
 }
 
 function incrementExpectCount() {
-  expectCount++
+  expectCount++;
 }
 
 export function expect(what) {
   return {
     toEqual(whatElse) {
-      incrementExpectCount()
+      incrementExpectCount();
       if (!equals(what, whatElse)) {
-        throw Error("what !== whatElse", what, whatElse)
+        throw Error("what !== whatElse", what, whatElse);
       }
     },
     toHaveType(expectedType) {
-      incrementExpectCount()
+      incrementExpectCount();
       if (
         !(
           what &&
@@ -84,51 +84,51 @@ export function expect(what) {
           what.constructor.name === expectedType.name
         )
       ) {
-        throw Error('has not the type "' + expectedType.name + '"')
+        throw Error('has not the type "' + expectedType.name + '"');
       }
     },
     toThrowError(expectedErrorMessage) {
-      incrementExpectCount()
+      incrementExpectCount();
       if (!throwsError(what, expectedErrorMessage)) {
-        throw Error('Expected to throw error "' + expectedErrorMessage + '"')
+        throw Error('Expected to throw error "' + expectedErrorMessage + '"');
       }
     },
     toExist() {
-      incrementExpectCount()
+      incrementExpectCount();
       if (typeof what === "undefined") {
-        throw Error("No existence")
+        throw Error("No existence");
       }
     },
-  }
+  };
 }
 
 export function throwsError(what, expectedErrorMessage) {
   try {
-    what()
-    return false
+    what();
+    return false;
   } catch (error) {
     if (expectedErrorMessage) {
       if (error.message === expectedErrorMessage) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     } else {
-      return true
+      return true;
     }
   }
 }
 
 process.on("unhandledRejection", function (reason) {
   if (specificationLabel) {
-    console.log(`✗ ${specificationLabel}`)
+    console.log(`✗ ${specificationLabel}`);
   }
-  console.error(reason)
-  process.exit(1)
-})
+  console.error(reason);
+  process.exit(1);
+});
 
 process.on("exit", function (exitCode) {
   if (exitCode === 0) {
-    console.log("\x1b[32mSpecification passed.\x1b[0m")
+    console.log("\x1b[32mSpecification passed.\x1b[0m");
   }
-})
+});

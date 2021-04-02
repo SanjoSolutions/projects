@@ -15,33 +15,33 @@
  * @return  {Array}           The HSL representation
  */
 export function rgbToHsl(red, green, blue) {
-  red /= 255
-  green /= 255
-  blue /= 255
-  const max = Math.max(red, green, blue)
-  const min = Math.min(red, green, blue)
-  let hue
-  let saturation
-  const lightness = (max + min) / 2
+  red /= 255;
+  green /= 255;
+  blue /= 255;
+  const max = Math.max(red, green, blue);
+  const min = Math.min(red, green, blue);
+  let hue;
+  let saturation;
+  const lightness = (max + min) / 2;
 
   if (max == min) {
-    hue = saturation = 0 // achromatic
+    hue = saturation = 0; // achromatic
   } else {
-    var d = max - min
-    saturation = lightness > 0.5 ? d / (2 - max - min) : d / (max + min)
+    var d = max - min;
+    saturation = lightness > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
       case red:
-        hue = (green - blue) / d + (green < blue ? 6 : 0)
-        break
+        hue = (green - blue) / d + (green < blue ? 6 : 0);
+        break;
       case green:
-        hue = (blue - red) / d + 2
-        break
+        hue = (blue - red) / d + 2;
+        break;
       case blue:
-        hue = (red - green) / d + 4
-        break
+        hue = (red - green) / d + 4;
+        break;
     }
-    hue /= 6
+    hue /= 6;
   }
 
-  return [hue, saturation, lightness]
+  return [hue, saturation, lightness];
 }

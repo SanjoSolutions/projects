@@ -1,4 +1,4 @@
-import { promises as fs } from "fs"
+import { promises as fs } from "fs";
 
 /**
  * Reads file with utf-8 encoding.
@@ -6,5 +6,5 @@ import { promises as fs } from "fs"
  * @returns {Promise<string>} Contents of file
  */
 export async function readFile(filePath: string): Promise<string> {
-  return await fs.readFile(filePath, { encoding: "utf-8" })
+  return await fs.readFile(filePath, { encoding: "utf-8" });
 }

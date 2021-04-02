@@ -1,15 +1,15 @@
 // ***MASONRY*** for Lazy Grids - 24kb - https://masonry.desandro.com/
-import Masonry from "masonry-layout"
+import Masonry from "masonry-layout";
 // ***IMAGES LOADED*** for Lazy Grids - 10kb - https://imagesloaded.desandro.com/
-import imagesLoaded from "imagesloaded"
+import imagesLoaded from "imagesloaded";
 // ***INFINITE SCROLL*** for Lazy Grids - 26kb - https://infinite-scroll.com/
-import InfiniteScroll from "infinite-scroll"
+import InfiniteScroll from "infinite-scroll";
 
 // make imagesLoaded available for InfiniteScroll!!!
-InfiniteScroll.imagesLoaded = imagesLoaded
+InfiniteScroll.imagesLoaded = imagesLoaded;
 
 // Grid query selector
-var grid = document.querySelector(".grid")
+var grid = document.querySelector(".grid");
 
 if (grid) {
   var msnry = new Masonry(grid, {
@@ -20,15 +20,15 @@ if (grid) {
     // nicer reveal transition
     visibleStyle: { transform: "translateY(0)", opacity: 1 },
     hiddenStyle: { transform: "translateY(100px)", opacity: 0 },
-  })
+  });
 
   // make imagesLoaded assign msnry item selector
   imagesLoaded(grid, function () {
-    grid.classList.remove("are-images-unloaded")
-    msnry.options.itemSelector = ".grid-item"
-    var items = grid.querySelectorAll(".grid-item")
-    msnry.appended(items)
-  })
+    grid.classList.remove("are-images-unloaded");
+    msnry.options.itemSelector = ".grid-item";
+    var items = grid.querySelectorAll(".grid-item");
+    msnry.appended(items);
+  });
 
   // init Infinte Scroll
   var infScroll = new InfiniteScroll(grid, {
@@ -40,5 +40,5 @@ if (grid) {
     hideNav: ".pagination",
     scrollThreshold: 800,
     history: false,
-  })
+  });
 }

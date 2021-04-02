@@ -5,5 +5,5 @@
  * @returns {number} The line number.
  */
 export function getLineNumber(text, index) {
-  return 1 + [...text.substring(0, index).matchAll(/\r\n|\n|\r/g)].length
+  return 1 + [...text.substring(0, index).matchAll(/\r\n|\n|\r/g)].length;
 }

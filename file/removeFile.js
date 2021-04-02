@@ -1,4 +1,4 @@
-import { promises as fs } from "fs"
+import { promises as fs } from "fs";
 
 /**
  * Removes file.
@@ -7,10 +7,10 @@ import { promises as fs } from "fs"
  */
 export async function removeFile(filePath) {
   try {
-    await fs.unlink(filePath)
+    await fs.unlink(filePath);
   } catch (error) {
     if (error.code !== "ENOENT") {
-      throw error
+      throw error;
     }
   }
 }

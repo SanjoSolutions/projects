@@ -11,5 +11,5 @@ npm install --save '@sanjo/create-npm-package'
 ## How to use
 
 ```js
-import createNpmPackage from "@sanjo/create-npm-package"
+import createNpmPackage from "@sanjo/create-npm-package";
 ```

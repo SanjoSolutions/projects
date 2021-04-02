@@ -1,6 +1,6 @@
 export function render(renderer) {
   function navbarActive(navbarItemPagePath) {
-    return navbarItemPagePath === renderer.getPagePath() ? "active" : ""
+    return navbarItemPagePath === renderer.getPagePath() ? "active" : "";
   }
 
   return `
@@ -29,5 +29,5 @@ export function render(renderer) {
                 </form>
             </div>
         </nav>
-    `
+    `;
 }

@@ -10,5 +10,5 @@ export function createLookUpFromCsv(csv) {
       .map((row) => ({ stringValue: row[2], keyConstant: row[1] }))
       .filter(({ stringValue }) => stringValue)
       .map(({ stringValue, keyConstant }) => [stringValue, keyConstant])
-  )
+  );
 }

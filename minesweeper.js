@@ -37,51 +37,51 @@ import { randomInteger } from './randomInteger.js';
 // => 1px solid border for each cell (not just a line that separates cells)
 
 export class Minesweeper {
-  static MINE = -1
+  static MINE = -1;
 
   constructor(width, height) {
-    this.numberOfMines = Math.floor(0.2 * (width * height))
-    this.grid = new Grid(width, height)
-    this.initializeGrid()
+    this.numberOfMines = Math.floor(0.2 * (width * height));
+    this.grid = new Grid(width, height);
+    this.initializeGrid();
   }
 
   initializeGrid() {
-    this.placeMines()
-    this.calculateNumbers()
+    this.placeMines();
+    this.calculateNumbers();
   }
 
   placeMines() {
-    const freePositions = this.grid.entries().map(([position]) => position)
+    const freePositions = this.grid.entries().map(([position]) => position);
     for (
       let mineIndex = 0;
       mineIndex < this.numberOfMines && freePositions.length >= 1;
       mineIndex++
     ) {
-      const positionIndex = randomInteger(0, freePositions.length - 1)
-      const position = freePositions.splice(positionIndex, 1)[0]
-      this.grid.set(position, Minesweeper.MINE)
+      const positionIndex = randomInteger(0, freePositions.length - 1);
+      const position = freePositions.splice(positionIndex, 1)[0];
+      this.grid.set(position, Minesweeper.MINE);
     }
   }
 
   calculateNumbers() {
     for (const [position, value] of this.grid.entries()) {
-      this.grid.set(position, this.calculateNumber(position))
+      this.grid.set(position, this.calculateNumber(position));
     }
   }
 
   calculateNumber(position) {
-    const neighbours = this.getNeighbours(position)
-    let number = 0
+    const neighbours = this.getNeighbours(position);
+    let number = 0;
     for (const [position, value] of neighbours) {
       if (value === Minesweeper.MINE) {
-        number += 1
+        number += 1;
       }
     }
-    return number
+    return number;
   }
 
   getNeighbours(position) {
-    const neighbours = []
+    const neighbours = [];
     for (
       let row = Math.max(1, position.row - 1);
       row <= Math.min(position.row + 1, this.grid.width);
@@ -93,19 +93,19 @@ export class Minesweeper {
         column++
       ) {
         if (!(row === position.row && column === position.column)) {
-          const position = { row, column }
-          neighbours.push([position, this.grid.get(position)])
+          const position = { row, column };
+          neighbours.push([position, this.grid.get(position)]);
         }
       }
     }
-    return neighbours
+    return neighbours;
   }
 }
 
 class Cell {
   constructor(value, revealed = false) {
-    this.value = value
-    this.revealed = revealed
+    this.value = value;
+    this.revealed = revealed;
   }
 }
 

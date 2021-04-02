@@ -1,8 +1,8 @@
-jest.mock("@sanjo/request-json")
+jest.mock("@sanjo/request-json");
 
-import requestJSON from "@sanjo/request-json"
-import { GitLabAPI } from "./GitLabAPI"
-import { createMergeRequest } from "./testing/fixtures/gitLabAPI/gitlab/createMergeRequest"
+import requestJSON from "@sanjo/request-json";
+import { GitLabAPI } from "./GitLabAPI";
+import { createMergeRequest } from "./testing/fixtures/gitLabAPI/gitlab/createMergeRequest";
 
 // TODO: Way to get merge request id for ticketId
 //   Maybe just stored it when getting it from createMergeRequest response
@@ -11,14 +11,14 @@ import { createMergeRequest } from "./testing/fixtures/gitLabAPI/gitlab/createMe
 //       for mark merge request as ready
 
 describe("GitLabAPI", () => {
-  const projectId = "1"
-  const baseURL = "http://example.com/api/v4"
-  const token = ""
-  let gitLabAPI: GitLabAPI
+  const projectId = "1";
+  const baseURL = "http://example.com/api/v4";
+  const token = "";
+  let gitLabAPI: GitLabAPI;
 
   beforeEach(function () {
-    gitLabAPI = new GitLabAPI(baseURL, token)
-  })
+    gitLabAPI = new GitLabAPI(baseURL, token);
+  });
 
   describe("listRepositoryBranches", () => {
     it("lists repository branches", async () => {
@@ -32,20 +32,20 @@ describe("GitLabAPI", () => {
         {
           name: "1-feature",
         },
-      ]
-      ;(requestJSON as jest.Mock<any, any>).mockResolvedValue(branches)
-      const response = await gitLabAPI.listRepositoryBranches(projectId)
-      expect(response).toEqual(branches)
-    })
-  })
+      ];
+      (requestJSON as jest.Mock<any, any>).mockResolvedValue(branches);
+      const response = await gitLabAPI.listRepositoryBranches(projectId);
+      expect(response).toEqual(branches);
+    });
+  });
 
   describe("listProjectMergeRequests", () => {
     it("lists merge requests", async () => {
-      const gitLabMergeRequests = [createMergeRequest()]
-      ;(requestJSON as jest.Mock<any, any>).mockResolvedValue(
+      const gitLabMergeRequests = [createMergeRequest()];
+      (requestJSON as jest.Mock<any, any>).mockResolvedValue(
         gitLabMergeRequests
-      )
-      const mergeRequests = await gitLabAPI.listProjectMergeRequests(projectId)
+      );
+      const mergeRequests = await gitLabAPI.listProjectMergeRequests(projectId);
       expect(mergeRequests).toEqual([
         {
           id: 1, // ?
@@ -54,9 +54,9 @@ describe("GitLabAPI", () => {
           url:
             "https://www.example.com/groupName/repositoryName/-/merge_requests/1",
         },
-      ])
-    })
-  })
+      ]);
+    });
+  });
 
   describe("createMergeRequest", () => {
     it("creates a merge request", async () => {
@@ -64,8 +64,8 @@ describe("GitLabAPI", () => {
         sourceBranch: "1-feature",
         targetBranch: "dev",
         title: "1-feature",
-      }
-      const response = await gitLabAPI.createMergeRequest(projectId, options)
+      };
+      const response = await gitLabAPI.createMergeRequest(projectId, options);
       expect(requestJSON).toHaveBeenCalledWith(
         `${baseURL}/projects/${projectId}/merge_requests`,
         {
@@ -76,21 +76,21 @@ describe("GitLabAPI", () => {
           target_branch: "dev",
           title: "1-feature",
         }
-      )
-    })
-  })
+      );
+    });
+  });
 
   describe("updateMergeRequest", () => {
     it("updates a merge request", async () => {
       const options = {
         title: "1-feature",
-      }
-      const mergeRequestId = "2"
+      };
+      const mergeRequestId = "2";
       const response = await gitLabAPI.updateMergeRequest(
         projectId,
         mergeRequestId,
         options
-      )
+      );
       expect(requestJSON).toHaveBeenCalledWith(
         `${baseURL}/projects/${projectId}/merge_requests/${mergeRequestId}`,
         {
@@ -99,7 +99,7 @@ describe("GitLabAPI", () => {
         {
           title: "1-feature",
         }
-      )
-    })
-  })
-})
+      );
+    });
+  });
+});

@@ -1,4 +1,4 @@
-import { sortCardsDescending } from "./sortCardsDescending.js"
+import { sortCardsDescending } from "./sortCardsDescending.js";
 
 describe("sortCardsDescending", () => {
   it("sorts the given cards in descending order", () => {
@@ -19,7 +19,7 @@ describe("sortCardsDescending", () => {
       "Ac",
       "As",
       "Ad",
-    ])
+    ]);
     expect(sortCardsDescending(cards)).toEqual([
       "Ad",
       "As",
@@ -37,6 +37,6 @@ describe("sortCardsDescending", () => {
       "4h",
       "3h",
       "2h",
-    ])
-  })
-})
+    ]);
+  });
+});

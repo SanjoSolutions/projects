@@ -1,58 +1,58 @@
 <script>
   class Stream {
     constructor() {
-      this.subscribers = []
+      this.subscribers = [];
     }
 
     push(event) {
-      this.subscribers.forEach((subscriber) => subscriber(event))
+      this.subscribers.forEach((subscriber) => subscriber(event));
     }
 
     filter(condition) {
-      const stream = new Stream()
+      const stream = new Stream();
       this.subscribers.push((event) => {
         if (condition(event)) {
-          stream.push(event)
+          stream.push(event);
         }
-      })
-      return stream
+      });
+      return stream;
     }
 
     map(mapper) {
-      const stream = new Stream()
+      const stream = new Stream();
       this.subscribers.push((event) => {
-        stream.push(mapper(event))
-      })
-      return stream
+        stream.push(mapper(event));
+      });
+      return stream;
     }
 
     forEach(iterator) {
-      this.subscribers.push(iterator)
+      this.subscribers.push(iterator);
     }
   }
 
   class MouseEventStream extends Stream {
     constructor() {
-      super()
-      window.addEventListener("mousedown", this.push.bind(this))
-      window.addEventListener("mousemove", this.push.bind(this))
-      window.addEventListener("mouseup", this.push.bind(this))
+      super();
+      window.addEventListener("mousedown", this.push.bind(this));
+      window.addEventListener("mousemove", this.push.bind(this));
+      window.addEventListener("mouseup", this.push.bind(this));
     }
   }
 
   function createMouseEventStream() {
-    return new MouseEventStream()
+    return new MouseEventStream();
   }
 
   const mouseDownAndMoveEventStream = createMouseEventStream()
     .filter((event) => {
-      return ["mousedown", "mousemove"].includes(event.type)
+      return ["mousedown", "mousemove"].includes(event.type);
     })
     .map((event) => ({
       x: document.body.scrollLeft + event.pageX,
       y: document.body.scrollTop + event.pageY,
     }))
     .forEach(function drawPoint({ x, y }) {
-      console.log("drawPoint", { x, y })
-    })
+      console.log("drawPoint", { x, y });
+    });
 </script>

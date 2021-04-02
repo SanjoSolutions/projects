@@ -13,40 +13,40 @@
       const events = [
         { type: "MouseDownEvent" },
         // {type: 'MouseUpEvent'},
-      ]
+      ];
 
       function pushEvent(event) {
-        events.push(event)
-        document.body.innerHTML = processEvents(events)
+        events.push(event);
+        document.body.innerHTML = processEvents(events);
       }
 
       const sideEffect = () => {
-        pushEvent({ type: "DataFetchEvent", data: { text: "hi" } })
-      }
+        pushEvent({ type: "DataFetchEvent", data: { text: "hi" } });
+      };
 
       function processEvents(events) {
         events.reduce((_, event) => {
           if (event.type === "MouseUpEvent") {
-            sideEffect()
+            sideEffect();
           }
-        }, {})
+        }, {});
 
-        return renderUserInterface(events)
+        return renderUserInterface(events);
       }
 
       function renderUserInterface(events) {
         return events.reduce((_, event) => {
           if (event.type === "MouseDownEvent") {
-            return '<button class="button button--pressed"></button>'
+            return '<button class="button button--pressed"></button>';
           } else {
-            return '<button class="button"></button>'
+            return '<button class="button"></button>';
           }
-        }, {})
+        }, {});
       }
 
       document.addEventListener("DOMContentLoaded", () => {
-        document.body.innerHTML = processEvents(events)
-      })
+        document.body.innerHTML = processEvents(events);
+      });
     </script>
   </head>
   <body></body>

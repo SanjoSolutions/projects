@@ -1,5 +1,5 @@
 module.exports = function (babel) {
-  const { types: t } = babel
+  const { types: t } = babel;
 
   return {
     name: "ast-transform",
@@ -13,9 +13,9 @@ module.exports = function (babel) {
                 t.arrowFunctionExpression([], t.nullLiteral())
               ),
             ])
-          )
+          );
         }
       },
     },
-  }
-}
+  };
+};

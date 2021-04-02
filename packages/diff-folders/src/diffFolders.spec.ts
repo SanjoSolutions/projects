@@ -1,5 +1,5 @@
-import path from "path"
-import { diffFolders } from "./diffFolders"
+import path from "path";
+import { diffFolders } from "./diffFolders";
 
 describe("diffFolder", () => {
   const testCases = [
@@ -42,16 +42,16 @@ describe("diffFolder", () => {
         },
       ],
     },
-  ]
+  ];
 
   for (const { name, expectedResult } of testCases) {
     it(name, async () => {
-      const fixturesPath = path.resolve(__dirname, "__tests__/fixtures/")
-      const fixturesExamplePath = path.join(fixturesPath, name)
-      const folderPathA = path.join(fixturesExamplePath, "folderA")
-      const folderPathB = path.join(fixturesExamplePath, "folderB")
-      const differences = await diffFolders(folderPathA, folderPathB)
-      expect(differences).toEqual(expectedResult)
-    })
+      const fixturesPath = path.resolve(__dirname, "__tests__/fixtures/");
+      const fixturesExamplePath = path.join(fixturesPath, name);
+      const folderPathA = path.join(fixturesExamplePath, "folderA");
+      const folderPathB = path.join(fixturesExamplePath, "folderB");
+      const differences = await diffFolders(folderPathA, folderPathB);
+      expect(differences).toEqual(expectedResult);
+    });
   }
-})
+});

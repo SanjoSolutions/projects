@@ -1,4 +1,4 @@
-import { getRankValue } from "./getRankValue.js"
+import { getRankValue } from "./getRankValue.js";
 
 describe("getRankValue", () => {
   const rankToRankValue = new Map([
@@ -15,11 +15,11 @@ describe("getRankValue", () => {
     ["Q", 10],
     ["K", 11],
     ["A", 12],
-  ])
+  ]);
 
   for (const [rank, rankValue] of rankToRankValue) {
     it(`rank "${rank}" maps to rank value ${rankValue}`, () => {
-      expect(getRankValue(rank)).toEqual(rankValue)
-    })
+      expect(getRankValue(rank)).toEqual(rankValue);
+    });
   }
-})
+});

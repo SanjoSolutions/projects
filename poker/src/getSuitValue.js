@@ -3,8 +3,8 @@ const suitToSuitValue = new Map([
   ["c", 1],
   ["s", 2],
   ["d", 3],
-])
+]);
 
 export function getSuitValue(suit) {
-  return suitToSuitValue.get(suit)
+  return suitToSuitValue.get(suit);
 }

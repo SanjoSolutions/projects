@@ -1,2 +1,2 @@
-export { isBigger } from "./isBigger"
-export { isSmaller } from "./isSmaller"
+export { isBigger } from "./isBigger";
+export { isSmaller } from "./isSmaller";

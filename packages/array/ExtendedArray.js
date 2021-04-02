@@ -1,17 +1,17 @@
-import { max } from "./max.js"
-import { min } from "./min.js"
-import { sum } from "./sum.js"
+import { max } from "./max.js";
+import { min } from "./min.js";
+import { sum } from "./sum.js";
 
 export class ExtendedArray extends Array {
   sum() {
-    return sum(this)
+    return sum(this);
   }
 
   max() {
-    return max(this)
+    return max(this);
   }
 
   min() {
-    return min(this)
+    return min(this);
   }
 }

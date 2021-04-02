@@ -11,5 +11,5 @@ npm install --save '@sanjo/diff-folders'
 ## How to use
 
 ```js
-import diffFolders from "@sanjo/diff-folders"
+import diffFolders from "@sanjo/diff-folders";
 ```

@@ -18,57 +18,57 @@
   <body>
     <canvas id="canvas"></canvas>
     <script type="module">
-      import { zoomable, calculateViewport } from "./zoomable.js"
+      import { zoomable, calculateViewport } from "./zoomable.js";
 
-      const devicePixelRatio = window.devicePixelRatio
-      const canvas = document.getElementById("canvas")
-      const documentWidth = window.innerWidth
-      const documentHeight = window.innerHeight
-      canvas.width = devicePixelRatio * documentWidth
-      canvas.height = devicePixelRatio * documentHeight
+      const devicePixelRatio = window.devicePixelRatio;
+      const canvas = document.getElementById("canvas");
+      const documentWidth = window.innerWidth;
+      const documentHeight = window.innerHeight;
+      canvas.width = devicePixelRatio * documentWidth;
+      canvas.height = devicePixelRatio * documentHeight;
 
       let viewport = {
         x: 0,
         y: 0,
         width: documentWidth,
         height: documentHeight,
-      }
+      };
 
-      let zoom = 1
-      const context = canvas.getContext("2d")
+      let zoom = 1;
+      const context = canvas.getContext("2d");
 
       function render() {
-        context.clearRect(0, 0, canvas.width, canvas.height)
+        context.clearRect(0, 0, canvas.width, canvas.height);
 
-        context.save()
-        const scale = devicePixelRatio * zoom
-        context.scale(scale, scale)
-        context.translate(-viewport.x, -viewport.y)
+        context.save();
+        const scale = devicePixelRatio * zoom;
+        context.scale(scale, scale);
+        context.translate(-viewport.x, -viewport.y);
 
-        context.clearRect(0, 0, documentWidth, documentHeight)
+        context.clearRect(0, 0, documentWidth, documentHeight);
 
-        context.beginPath()
-        const width = 100
-        const height = 100
-        const x = 0.5 * (documentWidth - width)
-        const y = 0.5 * (documentHeight - height)
-        context.rect(x, y, width, height)
-        context.stroke()
+        context.beginPath();
+        const width = 100;
+        const height = 100;
+        const x = 0.5 * (documentWidth - width);
+        const y = 0.5 * (documentHeight - height);
+        context.rect(x, y, width, height);
+        context.stroke();
 
-        context.restore()
+        context.restore();
       }
 
-      render()
+      render();
 
       function onZoom(_zoom) {
-        console.log("zoom", _zoom)
-        const previousZoom = zoom
-        zoom = _zoom
-        viewport = calculateViewport(viewport, previousZoom, zoom)
-        render()
+        console.log("zoom", _zoom);
+        const previousZoom = zoom;
+        zoom = _zoom;
+        viewport = calculateViewport(viewport, previousZoom, zoom);
+        render();
       }
 
-      zoomable(onZoom)
+      zoomable(onZoom);
 
       /*
   function zoomable(onZoom) {

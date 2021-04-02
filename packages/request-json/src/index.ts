@@ -1,1 +1,1 @@
-export { requestJSON as default } from "./requestJSON"
+export { requestJSON as default } from "./requestJSON";

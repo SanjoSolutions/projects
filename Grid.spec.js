@@ -1,10 +1,10 @@
-import { Grid } from "./Grid.js"
-import { expect, specification } from "./packages/specification/index.js"
+import { Grid } from "./Grid.js";
+import { expect, specification } from "./packages/specification/index.js";
 
 specification(() => {
-  const grid = new Grid([3, 3, 3])
-  const entries = grid.entries()
-  console.log(entries)
+  const grid = new Grid([3, 3, 3]);
+  const entries = grid.entries();
+  console.log(entries);
   expect(entries).toEqual([
     [[0, 0, 0], undefined],
     [[1, 0, 0], undefined],
@@ -33,5 +33,5 @@ specification(() => {
     [[0, 2, 2], undefined],
     [[1, 2, 2], undefined],
     [[2, 2, 2], undefined],
-  ])
-})
+  ]);
+});

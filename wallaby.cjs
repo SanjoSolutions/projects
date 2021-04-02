@@ -8,4 +8,4 @@ module.exports = () => ({
   ],
 
   tests: ["packages/database/src/**/*.spec.ts", "rgbToHsl.spec.js"],
-})
+});

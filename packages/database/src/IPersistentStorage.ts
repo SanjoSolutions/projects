@@ -1,3 +1,3 @@
-import { IStorage } from "./IStorage"
+import { IStorage } from "./IStorage";
 
 export interface IPersistentStorage extends IStorage {}

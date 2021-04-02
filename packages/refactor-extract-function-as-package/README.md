@@ -11,5 +11,5 @@ npm install --save '@sanjo/refactor-extract-function-as-package'
 ## How to use
 
 ```js
-import refactorExtractFunctionAsPackage from "@sanjo/refactor-extract-function-as-package"
+import refactorExtractFunctionAsPackage from "@sanjo/refactor-extract-function-as-package";
 ```

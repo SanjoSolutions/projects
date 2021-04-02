@@ -1,3 +1,3 @@
 export function randomFloat(minInclusive, maxInclusive) {
-  return minInclusive + Math.random() * (maxInclusive - minInclusive)
+  return minInclusive + Math.random() * (maxInclusive - minInclusive);
 }

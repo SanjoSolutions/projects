@@ -1,3 +1,3 @@
-import { specification } from "../index.js"
+import { specification } from "../index.js";
 
-specification(function () {})
+specification(function () {});

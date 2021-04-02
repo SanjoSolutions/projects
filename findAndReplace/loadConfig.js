@@ -1,5 +1,5 @@
-import path from "path"
-import { readFile } from "../packages/readFile/readFile.js"
+import path from "path";
+import { readFile } from "../packages/readFile/readFile.js";
 
 /**
  * Loads the config.json.
@@ -7,11 +7,11 @@ import { readFile } from "../packages/readFile/readFile.js"
  * @returns {Promise<{CSV_file, source_code_path}>} Parsed config.
  */
 export async function loadConfig(configFilePath) {
-  const config = JSON.parse(await readFile(configFilePath))
-  config.CSV_file = path.resolve(configFilePath, config.CSV_file)
+  const config = JSON.parse(await readFile(configFilePath));
+  config.CSV_file = path.resolve(configFilePath, config.CSV_file);
   config.source_code_path = path.resolve(
     configFilePath,
     config.source_code_path
-  )
-  return config
+  );
+  return config;
 }

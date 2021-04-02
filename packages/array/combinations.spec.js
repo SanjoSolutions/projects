@@ -1,4 +1,4 @@
-import { combinations } from "./combinations.js"
+import { combinations } from "./combinations.js";
 
 describe("combinations", () => {
   it("returns all combinations", () => {
@@ -9,6 +9,6 @@ describe("combinations", () => {
       [2, 3, 1],
       [3, 1, 2],
       [3, 2, 1],
-    ])
-  })
-})
+    ]);
+  });
+});

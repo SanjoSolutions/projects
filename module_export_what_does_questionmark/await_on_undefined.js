@@ -1,6 +1,6 @@
-;(async function () {
+(async function () {
   while (true) {
-    await undefined
-    console.log("A")
+    await undefined;
+    console.log("A");
   }
-})()
+})();

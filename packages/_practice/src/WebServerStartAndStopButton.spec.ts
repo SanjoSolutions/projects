@@ -2,88 +2,88 @@
  * @jest-environment jsdom
  */
 
-export {}
+export {};
 
 function createButton({
   onStartWebServer,
   onStopWebServer,
 }: {
-  onStartWebServer: () => void
-  onStopWebServer: () => void
+  onStartWebServer: () => void;
+  onStopWebServer: () => void;
 }) {
-  let isWebServerRunning = false
+  let isWebServerRunning = false;
 
-  const button = document.createElement("button")
-  setTextToStartWebServer()
+  const button = document.createElement("button");
+  setTextToStartWebServer();
 
   function setTextToStartWebServer(): void {
-    setText("Start web server")
+    setText("Start web server");
   }
 
   function setTextToStopWebServer(): void {
-    setText("Stop web server")
+    setText("Stop web server");
   }
 
   function setText(text: string): void {
-    button.textContent = text
+    button.textContent = text;
   }
 
   button.addEventListener("click", function onClick() {
-    toggleIsWebServerRunning()
-    updateText()
-    callCallback()
-  })
+    toggleIsWebServerRunning();
+    updateText();
+    callCallback();
+  });
 
   function toggleIsWebServerRunning() {
-    isWebServerRunning = !isWebServerRunning
+    isWebServerRunning = !isWebServerRunning;
   }
 
   function updateText() {
     if (isWebServerRunning) {
-      setTextToStopWebServer()
+      setTextToStopWebServer();
     } else {
-      setTextToStartWebServer()
+      setTextToStartWebServer();
     }
   }
 
   function callCallback() {
     if (isWebServerRunning) {
-      onStartWebServer()
+      onStartWebServer();
     } else {
-      onStopWebServer()
+      onStopWebServer();
     }
   }
 
-  return button
+  return button;
 }
 
 describe("Web server start and stop button", () => {
-  let container: HTMLDivElement
+  let container: HTMLDivElement;
 
   beforeEach(function () {
-    container = document.createElement("div")
-    document.body.appendChild(container)
-  })
+    container = document.createElement("div");
+    document.body.appendChild(container);
+  });
 
   afterEach(function () {
-    container.remove()
-  })
+    container.remove();
+  });
 
   it("renders a button for starting and stopping a web server", () => {
-    const onStartWebServer = jest.fn()
-    const onStopWebServer = jest.fn()
-    const button = createButton({ onStartWebServer, onStopWebServer })
-    container.appendChild(button)
-    expect(button.textContent).toEqual("Start web server")
+    const onStartWebServer = jest.fn();
+    const onStopWebServer = jest.fn();
+    const button = createButton({ onStartWebServer, onStopWebServer });
+    container.appendChild(button);
+    expect(button.textContent).toEqual("Start web server");
 
-    button.dispatchEvent(new MouseEvent("click", { bubbles: true }))
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-    expect(button.textContent).toEqual("Stop web server")
-    expect(onStartWebServer).toHaveBeenCalled()
+    expect(button.textContent).toEqual("Stop web server");
+    expect(onStartWebServer).toHaveBeenCalled();
 
-    button.dispatchEvent(new MouseEvent("click", { bubbles: true }))
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-    expect(button.textContent).toEqual("Start web server")
-    expect(onStopWebServer).toHaveBeenCalled()
-  })
-})
+    expect(button.textContent).toEqual("Start web server");
+    expect(onStopWebServer).toHaveBeenCalled();
+  });
+});

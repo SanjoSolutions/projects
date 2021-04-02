@@ -1,3 +1,3 @@
 export function getRank(card) {
-  return card[0]
+  return card[0];
 }

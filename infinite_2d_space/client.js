@@ -16,29 +16,29 @@
 
 // Network packet format:
 
-import { littleEndian } from "./littleEndian.js"
+import { littleEndian } from "./littleEndian.js";
 
 function sendPixelsToServer(pixels) {
-  const data = createSendPixelsToServerPaket(pixels)
-  socket.send(data)
+  const data = createSendPixelsToServerPaket(pixels);
+  socket.send(data);
 }
 
 export function createSendPixelsToServerPaket(pixels) {
-  const data = new ArrayBuffer(1 + 4 + pixels.length * 2 * 4)
-  const view = new DataView(data)
-  view.setUint8(0, 0)
-  view.setUint32(1, pixels.length, littleEndian)
+  const data = new ArrayBuffer(1 + 4 + pixels.length * 2 * 4);
+  const view = new DataView(data);
+  view.setUint8(0, 0);
+  view.setUint32(1, pixels.length, littleEndian);
   for (let index = 0; index < pixels.length; index++) {
-    const { x, y } = pixels[index]
-    view.setInt32(1 + 4 + index * 2 * 4, x, littleEndian)
-    view.setInt32(1 + 4 + index * 2 * 4 + 4, y, littleEndian)
+    const { x, y } = pixels[index];
+    view.setInt32(1 + 4 + index * 2 * 4, x, littleEndian);
+    view.setInt32(1 + 4 + index * 2 * 4 + 4, y, littleEndian);
   }
-  return data
+  return data;
 }
 
 function requestPixelsForViewport({ minX, maxX, minY, maxY }) {
-  const data = createRequestPixelsForViewportPaket({ minX, maxX, minY, maxY })
-  socket.send(data)
+  const data = createRequestPixelsForViewportPaket({ minX, maxX, minY, maxY });
+  socket.send(data);
 }
 
 export function createRequestPixelsForViewportPaket({
@@ -47,59 +47,59 @@ export function createRequestPixelsForViewportPaket({
   minY,
   maxY,
 }) {
-  const data = new ArrayBuffer(1 + 4 * 4)
-  const view = new DataView(data)
-  view.setUint8(0, 1)
-  view.setInt32(1 + 0 * 4, minX, littleEndian)
-  view.setInt32(1 + 1 * 4, maxX, littleEndian)
-  view.setInt32(1 + 2 * 4, minY, littleEndian)
-  view.setInt32(1 + 3 * 4, maxY, littleEndian)
-  return data
+  const data = new ArrayBuffer(1 + 4 * 4);
+  const view = new DataView(data);
+  view.setUint8(0, 1);
+  view.setInt32(1 + 0 * 4, minX, littleEndian);
+  view.setInt32(1 + 1 * 4, maxX, littleEndian);
+  view.setInt32(1 + 2 * 4, minY, littleEndian);
+  view.setInt32(1 + 3 * 4, maxY, littleEndian);
+  return data;
 }
 
 function onReceivePixelsForViewport(data) {}
 
 function onReceivePixelsDrawnByOtherUser(data) {
-  const view = new DataView(data)
-  const length = view.getUint32(1, littleEndian)
-  const pixels = new Array(length)
+  const view = new DataView(data);
+  const length = view.getUint32(1, littleEndian);
+  const pixels = new Array(length);
   for (let index = 0; index < length; index++) {
     const pixel = {
       x: view.getInt32(1 + 4 + index * 2 * 4, littleEndian),
       y: view.getInt32(1 + 4 + index * 2 * 4 + 4, littleEndian),
-    }
-    pixels[index] = pixel
+    };
+    pixels[index] = pixel;
   }
   // TODO: Put pixels on canvas
 }
 
 // Create WebSocket connection.
-const socket = new WebSocket("ws://localhost:8080")
+const socket = new WebSocket("ws://localhost:8080");
 
 // Connection opened
 socket.addEventListener("open", function (event) {
-  const data = new ArrayBuffer(4)
-  const view = new Uint8Array(data)
-  view[0] = 1
-  view[1] = 2
-  view[2] = 3
-  view[3] = 4
-  socket.send(data)
-})
+  const data = new ArrayBuffer(4);
+  const view = new Uint8Array(data);
+  view[0] = 1;
+  view[1] = 2;
+  view[2] = 3;
+  view[3] = 4;
+  socket.send(data);
+});
 
 // Listen for messages
 socket.addEventListener("message", async function (event) {
-  const data = await event.data.arrayBuffer()
-  const view = new DataView(data)
-  const code = view.getUint8(0)
+  const data = await event.data.arrayBuffer();
+  const view = new DataView(data);
+  const code = view.getUint8(0);
   switch (code) {
     case 1:
-      onReceivePixelsForViewport(data)
-      return
+      onReceivePixelsForViewport(data);
+      return;
     case 2:
-      onReceivePixelsDrawnByOtherUser(data)
-      return
+      onReceivePixelsDrawnByOtherUser(data);
+      return;
     default:
-      console.error(`Handler for code ${code} not implemented.`)
+      console.error(`Handler for code ${code} not implemented.`);
   }
-})
+});

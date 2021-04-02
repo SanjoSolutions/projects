@@ -1,4 +1,4 @@
-import { camelCaseToUnderscore } from "./camelCaseToUnderscore"
+import { camelCaseToUnderscore } from "./camelCaseToUnderscore";
 
 export function convertObjectPropertyNamesFromCamelCaseToUnderscore(
   data: any
@@ -8,5 +8,5 @@ export function convertObjectPropertyNamesFromCamelCaseToUnderscore(
       camelCaseToUnderscore(propertyName),
       propertyValue,
     ])
-  )
+  );
 }

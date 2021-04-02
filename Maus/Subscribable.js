@@ -1,17 +1,17 @@
 export class Subscribable {
   constructor() {
-    this.subscribers = []
+    this.subscribers = [];
   }
 
   subscribe(f) {
-    this.subscribers.push(f)
+    this.subscribers.push(f);
   }
 
   unsubscribe(f) {
-    this.subscribers = this.subscribers.filter((g) => g !== f)
+    this.subscribers = this.subscribers.filter((g) => g !== f);
   }
 
   trigger(data) {
-    this.subscribers.forEach((f) => f(data))
+    this.subscribers.forEach((f) => f(data));
   }
 }

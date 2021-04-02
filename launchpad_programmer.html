@@ -4,280 +4,280 @@
   async function main() {
     class Grid {
       constructor(width, height) {
-        this.width = width
-        this.height = height
-        this.values = new Array(width * height)
+        this.width = width;
+        this.height = height;
+        this.values = new Array(width * height);
       }
 
       get({ row, column }) {
-        return this.values[this.calculateIndex({ row, column })]
+        return this.values[this.calculateIndex({ row, column })];
       }
 
       set({ row, column }, value) {
-        this.values[this.calculateIndex({ row, column })] = value
+        this.values[this.calculateIndex({ row, column })] = value;
       }
 
       calculateIndex({ row, column }) {
-        return (row - 1) * this.width + (column - 1)
+        return (row - 1) * this.width + (column - 1);
       }
 
       fill(value) {
-        this.values.fill(value)
+        this.values.fill(value);
       }
 
       clone() {
-        const grid = new Grid(this.width, this.height)
-        grid.values = Array.from(this.values)
-        return grid
+        const grid = new Grid(this.width, this.height);
+        grid.values = Array.from(this.values);
+        return grid;
       }
     }
 
-    const colors = [null, new Color(3, 0), new Color(3, 3), new Color(0, 3)]
-    const midiAccess = await navigator.requestMIDIAccess()
-    const launchpad = autoDetectLaunchpad(midiAccess)
+    const colors = [null, new Color(3, 0), new Color(3, 3), new Color(0, 3)];
+    const midiAccess = await navigator.requestMIDIAccess();
+    const launchpad = autoDetectLaunchpad(midiAccess);
 
-    const sequences = load()
-    let currentSequenceIndex = 0
-    let frames = sequences[currentSequenceIndex]
-    let currentFrameIndex = 0
-    let lastDisplayedFrame = new Grid(8, 8)
+    const sequences = load();
+    let currentSequenceIndex = 0;
+    let frames = sequences[currentSequenceIndex];
+    let currentFrameIndex = 0;
+    let lastDisplayedFrame = new Grid(8, 8);
 
-    launchpad.clear()
-    displayCurrentFrame()
+    launchpad.clear();
+    displayCurrentFrame();
 
-    launchpad.onPadPress(onTap)
+    launchpad.onPadPress(onTap);
     launchpad.onControlPadPress((column) => {
       if (column === 1) {
-        previousSequence()
+        previousSequence();
       } else if (column === 2) {
-        nextSequence()
+        nextSequence();
       } else if (column === 5) {
-        togglePlayStop()
+        togglePlayStop();
       } else if (!isPlaying) {
         if (column === 3) {
-          previousFrame()
+          previousFrame();
         } else if (column === 4) {
-          nextFrame()
+          nextFrame();
         } else if (column === 6) {
-          deleteCurrentFrame()
+          deleteCurrentFrame();
         } else if (column === 7) {
-          insertFrame()
+          insertFrame();
         }
-        save()
+        save();
       }
-    })
+    });
 
     function createInitialSequences() {
-      return [createSequence()]
+      return [createSequence()];
     }
 
     function createSequence() {
-      return [createFrame()]
+      return [createFrame()];
     }
 
     function createFrame() {
-      const frame = new Grid(8, 8)
-      frame.fill(colors[0])
-      return frame
+      const frame = new Grid(8, 8);
+      frame.fill(colors[0]);
+      return frame;
     }
 
     function save() {
-      localStorage.setItem("sequences", JSON.stringify(sequences))
+      localStorage.setItem("sequences", JSON.stringify(sequences));
     }
 
     function load() {
-      const sequencesJSON = localStorage.getItem("sequences")
+      const sequencesJSON = localStorage.getItem("sequences");
 
       if (sequencesJSON) {
         try {
-          return parseSequences(sequencesJSON)
+          return parseSequences(sequencesJSON);
         } catch (error) {
-          return createInitialSequences()
+          return createInitialSequences();
         }
       } else {
-        return createInitialSequences()
+        return createInitialSequences();
       }
     }
 
     function parseSequences(sequencesJSON) {
-      return JSON.parse(sequencesJSON).map(parseSequence)
+      return JSON.parse(sequencesJSON).map(parseSequence);
     }
 
     function parseSequence(sequenceJSON) {
-      return sequenceJSON.map(parseFrame)
+      return sequenceJSON.map(parseFrame);
     }
 
     function parseFrame(frameJSON) {
-      const frame = createFrame()
+      const frame = createFrame();
       frame.values = frameJSON.values.map((value) =>
         value ? new Color(value.green, value.red) : null
-      )
-      return frame
+      );
+      return frame;
     }
 
-    let shouldStop = true
-    let isPlaying = false
+    let shouldStop = true;
+    let isPlaying = false;
 
     async function play() {
-      shouldStop = false
-      isPlaying = true
+      shouldStop = false;
+      isPlaying = true;
 
-      currentFrameIndex = 0
-      displayCurrentFrame()
+      currentFrameIndex = 0;
+      displayCurrentFrame();
       while (!shouldStop) {
-        const bmp = calculateBPM()
-        await wait(60000 / bmp)
+        const bmp = calculateBPM();
+        await wait(60000 / bmp);
         if (!shouldStop) {
-          currentFrameIndex = (currentFrameIndex + 1) % frames.length
-          displayCurrentFrame()
+          currentFrameIndex = (currentFrameIndex + 1) % frames.length;
+          displayCurrentFrame();
         }
       }
-      isPlaying = false
+      isPlaying = false;
     }
 
     function stop() {
-      shouldStop = true
+      shouldStop = true;
     }
 
     function togglePlayStop() {
       if (!shouldStop) {
-        stop()
+        stop();
       } else {
-        play()
+        play();
       }
     }
 
-    let bpmTaps = []
+    let bpmTaps = [];
 
     function calculateBPM() {
       if (bpmTaps.length >= 2) {
-        const firstBpmTap = bpmTaps[0]
-        const lastBpmTap = bpmTaps[bpmTaps.length - 1]
-        const duration = lastBpmTap - firstBpmTap
-        return (bpmTaps.length * 60000) / duration
+        const firstBpmTap = bpmTaps[0];
+        const lastBpmTap = bpmTaps[bpmTaps.length - 1];
+        const duration = lastBpmTap - firstBpmTap;
+        return (bpmTaps.length * 60000) / duration;
       } else {
-        return 128
+        return 128;
       }
     }
 
     function onTap({ row, column }) {
       if (column === 9 && row === 1) {
         const lastBpmTap =
-          bpmTaps.length > 0 ? bpmTaps[bpmTaps.length - 1] : null
+          bpmTaps.length > 0 ? bpmTaps[bpmTaps.length - 1] : null;
         if (lastBpmTap && lastBpmTap <= Date.now() - 10000) {
-          bmpTaps = []
+          bmpTaps = [];
         }
-        bpmTaps.push(Date.now())
+        bpmTaps.push(Date.now());
       }
 
       if (!isPlaying) {
         if (column !== 9) {
-          const frame = getCurrentFrame()
-          const color = frame.get({ row, column })
-          const nextColor = getNextColor(color)
-          frame.set({ row, column }, nextColor)
-          led({ row, column }, nextColor)
-          save()
+          const frame = getCurrentFrame();
+          const color = frame.get({ row, column });
+          const nextColor = getNextColor(color);
+          frame.set({ row, column }, nextColor);
+          led({ row, column }, nextColor);
+          save();
         }
       }
     }
 
     function previousSequence() {
-      currentSequenceIndex = Math.max(0, currentSequenceIndex - 1)
-      updateFrame()
-      displayCurrentFrame()
+      currentSequenceIndex = Math.max(0, currentSequenceIndex - 1);
+      updateFrame();
+      displayCurrentFrame();
     }
 
     function nextSequence() {
-      currentSequenceIndex++
+      currentSequenceIndex++;
       if (currentSequenceIndex >= sequences.length) {
-        sequences.push(createSequence())
+        sequences.push(createSequence());
       }
-      updateFrame()
-      displayCurrentFrame()
+      updateFrame();
+      displayCurrentFrame();
     }
 
     function updateFrame() {
-      frames = sequences[currentSequenceIndex]
-      currentFrameIndex = 0
+      frames = sequences[currentSequenceIndex];
+      currentFrameIndex = 0;
     }
 
     function previousFrame() {
-      currentFrameIndex = Math.max(0, currentFrameIndex - 1)
-      displayCurrentFrame()
+      currentFrameIndex = Math.max(0, currentFrameIndex - 1);
+      displayCurrentFrame();
     }
 
     function nextFrame() {
-      currentFrameIndex++
+      currentFrameIndex++;
       if (currentFrameIndex >= frames.length) {
-        frames.push(createFrame())
+        frames.push(createFrame());
       }
-      displayCurrentFrame()
+      displayCurrentFrame();
     }
 
     function deleteCurrentFrame() {
-      frames.splice(currentFrameIndex, 1)
+      frames.splice(currentFrameIndex, 1);
       if (frames.length === 0) {
-        frames.push(createFrame())
+        frames.push(createFrame());
       }
-      previousFrame()
+      previousFrame();
     }
 
     function insertFrame() {
-      currentFrameIndex += 1
-      frames.splice(currentFrameIndex, 0, createFrame())
-      displayCurrentFrame()
+      currentFrameIndex += 1;
+      frames.splice(currentFrameIndex, 0, createFrame());
+      displayCurrentFrame();
     }
 
     function displayCurrentFrame() {
-      displayFrame(getCurrentFrame())
+      displayFrame(getCurrentFrame());
     }
 
     function displayFrame(frame) {
       for (let row = 1; row <= frame.height; row++) {
         for (let column = 1; column <= frame.width; column++) {
-          const previousCell = lastDisplayedFrame.get({ row, column })
-          const cell = frame.get({ row, column })
+          const previousCell = lastDisplayedFrame.get({ row, column });
+          const cell = frame.get({ row, column });
           if (
             cell !== previousCell ||
             (previousCell && cell && !cell.equals(previousCell))
           ) {
-            led({ row, column }, frame.get({ row, column }))
+            led({ row, column }, frame.get({ row, column }));
           }
         }
       }
-      lastDisplayedFrame = frame
+      lastDisplayedFrame = frame;
     }
 
     function led({ row, column }, color) {
       if (color === null) {
-        launchpad.ledOff({ row, column })
+        launchpad.ledOff({ row, column });
       } else {
-        launchpad.ledOn({ row, column }, color)
+        launchpad.ledOn({ row, column }, color);
       }
     }
 
     function getCurrentFrame() {
-      return frames[currentFrameIndex]
+      return frames[currentFrameIndex];
     }
 
     function getNextColor(color) {
-      const currentColorIndex = colors.indexOf(color)
-      const nextColorIndex = (currentColorIndex + 1) % colors.length
-      return colors[nextColorIndex]
+      const currentColorIndex = colors.indexOf(color);
+      const nextColorIndex = (currentColorIndex + 1) % colors.length;
+      return colors[nextColorIndex];
     }
   }
 
   function wait(interval) {
-    return new Promise((resolve) => setTimeout(resolve, interval))
+    return new Promise((resolve) => setTimeout(resolve, interval));
   }
 
   function run(fn) {
     fn().then(
       (result) => console.log(result),
       (error) => console.error(error)
-    )
+    );
   }
 
-  run(main)
+  run(main);
 </script>

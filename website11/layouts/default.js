@@ -1,4 +1,4 @@
-import { render as renderNavbar } from "../blocks/navbar.js"
+import { render as renderNavbar } from "../blocks/navbar.js";
 
 export function render(renderer, { title, content }) {
   return `
@@ -64,5 +64,5 @@ export function render(renderer, { title, content }) {
         <script src="/js/bootstrap.bundle.js"></script>
         </body>
         </html>
-        `
+        `;
 }

@@ -3,12 +3,12 @@ import type {
   RequestListener,
   Server,
   ServerResponse,
-} from "http"
-import http from "http"
-import { URL } from "url"
-import { promisify } from "util"
+} from "http";
+import http from "http";
+import { URL } from "url";
+import { promisify } from "util";
 
-const protocol = "http"
+const protocol = "http";
 
 function createDefaultRequestHandler(
   responseText: string,
@@ -19,34 +19,34 @@ function createDefaultRequestHandler(
     response: ServerResponse
   ) {
     if (contentType) {
-      response.setHeader("content-type", contentType)
+      response.setHeader("content-type", contentType);
     }
-    response.writeHead(200)
-    response.end(responseText)
-  }
+    response.writeHead(200);
+    response.end(responseText);
+  };
 }
 
 function notFoundRequestHandler(
   request: IncomingMessage,
   response: ServerResponse
 ): void {
-  response.end()
+  response.end();
 }
 
 export class HTTPServer {
-  private _port: number
-  private _server: Server
-  private _requestHandlers: Map<string, RequestListener>
-  private _notFoundRequestHandler: RequestListener
+  private _port: number;
+  private _server: Server;
+  private _requestHandlers: Map<string, RequestListener>;
+  private _notFoundRequestHandler: RequestListener;
 
   constructor(port: number = 80) {
-    this._port = port
-    this._requestListener = this._requestListener.bind(this)
-    this._onError = this._onError.bind(this)
-    this._server = http.createServer(this._requestListener)
-    this._server.on("error", this._onError)
-    this._requestHandlers = new Map()
-    this._notFoundRequestHandler = notFoundRequestHandler
+    this._port = port;
+    this._requestListener = this._requestListener.bind(this);
+    this._onError = this._onError.bind(this);
+    this._server = http.createServer(this._requestListener);
+    this._server.on("error", this._onError);
+    this._requestHandlers = new Map();
+    this._notFoundRequestHandler = notFoundRequestHandler;
   }
 
   route(
@@ -57,37 +57,37 @@ export class HTTPServer {
     this._requestHandlers.set(
       pathname,
       createDefaultRequestHandler(responseText, contentType)
-    )
+    );
   }
 
   async listen() {
-    await promisify(this._server.listen.bind(this._server))(this._port)
+    await promisify(this._server.listen.bind(this._server))(this._port);
   }
 
   async close() {
-    await promisify(this._server.close.bind(this._server))()
+    await promisify(this._server.close.bind(this._server))();
   }
 
   setNotFoundRequestHandler(requestHandler: RequestListener) {
-    this._notFoundRequestHandler = requestHandler
+    this._notFoundRequestHandler = requestHandler;
   }
 
   _requestListener(request: IncomingMessage, response: ServerResponse): void {
-    const url = new URL(request.url!, `${protocol}://${request.headers.host}`)
-    const pathname = url.pathname
+    const url = new URL(request.url!, `${protocol}://${request.headers.host}`);
+    const pathname = url.pathname;
     if (this._requestHandlers.has(pathname)) {
-      this._requestHandlers.get(url.pathname)!(request, response)
+      this._requestHandlers.get(url.pathname)!(request, response);
     } else {
-      this._handleNotFound(request, response)
+      this._handleNotFound(request, response);
     }
   }
 
   _handleNotFound(request: IncomingMessage, response: ServerResponse) {
-    response.writeHead(404)
-    this._notFoundRequestHandler(request, response)
+    response.writeHead(404);
+    this._notFoundRequestHandler(request, response);
   }
 
   _onError(error: Error) {
-    console.error("HTTPServer error", error)
+    console.error("HTTPServer error", error);
   }
 }

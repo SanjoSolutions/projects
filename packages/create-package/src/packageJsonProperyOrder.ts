@@ -10,4 +10,4 @@ export const packageJsonPropertyOrder = [
   "dependencies",
   "devDependencies",
   "publishConfig",
-]
+];

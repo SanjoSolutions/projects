@@ -1,1 +1,1 @@
-export { diffFolders as default } from "./diffFolders"
+export { diffFolders as default } from "./diffFolders";

@@ -34,52 +34,52 @@
 <canvas class="background"></canvas>
 
 <script>
-  const color1 = "hsl(54, 100%, 62%)"
-  const color2 = "white"
-  const canvas = document.querySelector(".background")
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
-  const context = canvas.getContext("2d")
+  const color1 = "hsl(54, 100%, 62%)";
+  const color2 = "white";
+  const canvas = document.querySelector(".background");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const context = canvas.getContext("2d");
 
-  paintBackground(canvas, context, canvas.width / 2, canvas.height / 2)
+  paintBackground(canvas, context, canvas.width / 2, canvas.height / 2);
 
   window.addEventListener("mousemove", (event) => {
-    const x = event.pageX
-    const y = event.pageY
-    paintBackground(canvas, context, x, y)
-  })
+    const x = event.pageX;
+    const y = event.pageY;
+    paintBackground(canvas, context, x, y);
+  });
 
   function paintBackground(canvas, context, x, y) {
-    context.clearRect(0, 0, canvas.width, canvas.height)
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
     // m = -canvas.height / canvas.width
     // f(x) = y = m * x + b
     // formula for b:
     // y = m * x + b  | - (m * x)
     // b = y - (m * x)
-    const m = -canvas.height / canvas.width
-    const b = y - m * x
+    const m = -canvas.height / canvas.width;
+    const b = y - m * x;
 
     function f(x) {
-      return m * x + b
+      return m * x + b;
     }
 
-    context.fillStyle = color1
-    context.beginPath()
-    context.moveTo(canvas.width, canvas.height)
-    context.lineTo(canvas.width, f(canvas.width))
-    context.lineTo(0, f(0))
-    context.lineTo(0, canvas.height)
-    context.closePath()
-    context.fill()
+    context.fillStyle = color1;
+    context.beginPath();
+    context.moveTo(canvas.width, canvas.height);
+    context.lineTo(canvas.width, f(canvas.width));
+    context.lineTo(0, f(0));
+    context.lineTo(0, canvas.height);
+    context.closePath();
+    context.fill();
 
-    context.fillStyle = color2
-    context.beginPath()
-    context.moveTo(0, 0)
-    context.lineTo(0, f(0))
-    context.lineTo(canvas.width, f(canvas.width))
-    context.lineTo(canvas.width, 0)
-    context.closePath()
-    context.fill()
+    context.fillStyle = color2;
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(0, f(0));
+    context.lineTo(canvas.width, f(canvas.width));
+    context.lineTo(canvas.width, 0);
+    context.closePath();
+    context.fill();
   }
 </script>

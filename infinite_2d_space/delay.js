@@ -1,11 +1,11 @@
 export function delay(f, delay) {
-  let handler = undefined
+  let handler = undefined;
   return (...args) => {
     if (!handler) {
       handler = setTimeout(() => {
-        handler = undefined
-        f(...args)
-      }, delay)
+        handler = undefined;
+        f(...args);
+      }, delay);
     }
-  }
+  };
 }

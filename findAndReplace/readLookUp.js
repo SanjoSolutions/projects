@@ -1,5 +1,5 @@
-import { createLookUpFromCsv } from "../createLookUpFromCsv.js"
-import { readCsv } from "../csv/readCsv.js"
+import { createLookUpFromCsv } from "../createLookUpFromCsv.js";
+import { readCsv } from "../csv/readCsv.js";
 
 /**
  * Reads the look-up from a CSV file.
@@ -7,6 +7,6 @@ import { readCsv } from "../csv/readCsv.js"
  * @returns {Promise<Map<string, string>>} Parsed look-up.
  */
 export async function readLookUp(csvFilePath) {
-  const csv = await readCsv(csvFilePath)
-  return createLookUpFromCsv(csv)
+  const csv = await readCsv(csvFilePath);
+  return createLookUpFromCsv(csv);
 }

@@ -1,8 +1,8 @@
 function a() {
-  c()
-  d()
+  c();
+  d();
 }
 
 function b() {
-  c()
+  c();
 }

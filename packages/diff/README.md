@@ -11,5 +11,5 @@ npm install --save '@sanjo/diff'
 ## How to use
 
 ```js
-import diff from "@sanjo/diff"
+import diff from "@sanjo/diff";
 ```

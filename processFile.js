@@ -1,8 +1,8 @@
-import path from "path"
-import { promises as fs } from "fs"
-import { replaceStringValues as processXml } from "./xml/replaceStringValues.js"
-import { replaceStringValues as processJava } from "./java/replaceStringValues.js"
-import { logErrors } from "./errors/logErrors.js"
+import path from "path";
+import { promises as fs } from "fs";
+import { replaceStringValues as processXml } from "./xml/replaceStringValues.js";
+import { replaceStringValues as processJava } from "./java/replaceStringValues.js";
+import { logErrors } from "./errors/logErrors.js";
 
 /**
  * Processes a file.
@@ -17,32 +17,32 @@ import { logErrors } from "./errors/logErrors.js"
  * @returns {Promise<void>}
  */
 export async function processFile(lookUp, errorFilePath, filePath) {
-  const extensionName = path.extname(filePath)
+  const extensionName = path.extname(filePath);
 
   if (
     [".xml", ".java"].includes(extensionName) &&
     path.basename(filePath) !== "string.xml"
   ) {
-    const text = await fs.readFile(filePath, { encoding: "utf-8" })
+    const text = await fs.readFile(filePath, { encoding: "utf-8" });
 
-    let result
+    let result;
     switch (extensionName) {
       case ".xml":
-        result = processXml(lookUp, text)
-        break
+        result = processXml(lookUp, text);
+        break;
       case ".java":
-        result = processJava(lookUp, text)
-        break
+        result = processJava(lookUp, text);
+        break;
     }
-    const { text: processedText, errors } = result
+    const { text: processedText, errors } = result;
 
-    const fullErrors = errors.map((error) => ({ ...error, file: filePath }))
-    await logErrors(errorFilePath, fullErrors)
+    const fullErrors = errors.map((error) => ({ ...error, file: filePath }));
+    await logErrors(errorFilePath, fullErrors);
 
     try {
-      await fs.writeFile(filePath, processedText, { encoding: "utf-8" })
+      await fs.writeFile(filePath, processedText, { encoding: "utf-8" });
     } catch (error) {
-      console.error("Error")
+      console.error("Error");
     }
   }
 }

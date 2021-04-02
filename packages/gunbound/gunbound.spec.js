@@ -1,3 +1,3 @@
-export {}
+export {};
 
-describe("gunbound", () => {})
+describe("gunbound", () => {});

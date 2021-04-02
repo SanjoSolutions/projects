@@ -11,7 +11,7 @@ npm install --save '@sanjo/make-temporary-directory'
 ## How to use
 
 ```js
-import makeTemporaryDirectory from "@sanjo/make-temporary-directory"
+import makeTemporaryDirectory from "@sanjo/make-temporary-directory";
 
-const temporaryDirectoryPath = await makeTemporaryDirectory()
+const temporaryDirectoryPath = await makeTemporaryDirectory();
 ```

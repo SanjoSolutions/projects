@@ -1,13 +1,13 @@
-import { InMemory } from "./InMemory"
+import { InMemory } from "./InMemory";
 
 describe("InMemory", () => {
-  let database
+  let database;
   beforeEach(() => {
-    database = new InMemory()
-  })
+    database = new InMemory();
+  });
 
   it("returns data as JavaScript objects", () => {
-    database.save({ a: 1 })
-    expect(database.find()).toEqual([{ a: 1 }])
-  })
-})
+    database.save({ a: 1 });
+    expect(database.find()).toEqual([{ a: 1 }]);
+  });
+});

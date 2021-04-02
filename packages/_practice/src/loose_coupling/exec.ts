@@ -1,5 +1,5 @@
-import type { ChildProcess } from "child_process"
-import child_process, { ExecOptions } from "child_process"
+import type { ChildProcess } from "child_process";
+import child_process, { ExecOptions } from "child_process";
 
 export async function exec(
   command: string,
@@ -11,12 +11,12 @@ export async function exec(
       options,
       (error, stdout, stderr) => {
         if (error) {
-          reject(error)
+          reject(error);
         } else if (stderr) {
-          reject(new Error(stderr))
+          reject(new Error(stderr));
         }
       }
-    )
-    resolve(server)
-  })
+    );
+    resolve(server);
+  });
 }

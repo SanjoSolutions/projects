@@ -1,4 +1,4 @@
-import { applyDiff } from "./applyDiff.js"
+import { applyDiff } from "./applyDiff.js";
 
 describe("applyDiff", () => {
   applyDiffTest(
@@ -8,14 +8,14 @@ describe("applyDiff", () => {
       { type: "add", key: ["b"], value: 2 },
     ],
     { b: 2 }
-  )
+  );
 
   function applyDiffTest(from, diffToApply, expectedResult) {
     test(`applyDiff from "${JSON.stringify(
       from
     )}" with diffToApply "${JSON.stringify(diffToApply)}`, () => {
-      const result = applyDiff(from, diffToApply)
-      expect(result).toEqual(expectedResult)
-    })
+      const result = applyDiff(from, diffToApply);
+      expect(result).toEqual(expectedResult);
+    });
   }
-})
+});

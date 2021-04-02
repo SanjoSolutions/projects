@@ -12,8 +12,8 @@ const rankToRankValue = new Map([
   ["Q", 10],
   ["K", 11],
   ["A", 12],
-])
+]);
 
 export function getRankValue(rank) {
-  return rankToRankValue.get(rank)
+  return rankToRankValue.get(rank);
 }

@@ -1,6 +1,6 @@
-import { specification, expect } from "../index.js"
+import { specification, expect } from "../index.js";
 
 specification(function () {
-  const A = undefined
-  expect(A).toExist()
-})
+  const A = undefined;
+  expect(A).toExist();
+});

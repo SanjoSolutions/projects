@@ -11,5 +11,5 @@ npm install --save '@sanjo/parse-npm-package-name'
 ## How to use
 
 ```js
-import parseNpmPackageName from "@sanjo/parse-npm-package-name"
+import parseNpmPackageName from "@sanjo/parse-npm-package-name";
 ```
