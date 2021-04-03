@@ -26,7 +26,12 @@ export function renderSudokuToHTML(sudoku) {
       columnIndex++
     ) {
       const td = document.createElement("td");
-      td.innerText = sudoku[rowIndex][columnIndex];
+      const value = sudoku[rowIndex][columnIndex]
+      if (value === 0) {
+        td.innerHTML = "&nbsp;";
+      } else {
+        td.innerText = value;
+      }
       tr.appendChild(td);
     }
     tbody.appendChild(tr);
