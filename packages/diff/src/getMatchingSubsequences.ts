@@ -1,7 +1,10 @@
 import { findNextToArrayIndex } from "./findNextToArrayIndex";
 import type { Subsequence } from "./Subsequence";
 
-export function getMatchingSubsequences(fromArray: any[], toArray: any[]): any[] {
+export function getMatchingSubsequences(
+  fromArray: any[],
+  toArray: any[]
+): any[] {
   const matchingSubsequences: Subsequence[] = [];
   let fromArrayIndex = 0;
   while (fromArrayIndex < fromArray.length) {

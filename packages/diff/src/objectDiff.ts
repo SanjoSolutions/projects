@@ -4,7 +4,7 @@ import { isObject } from "./isObject";
 import { KeyPath } from "./KeyPath";
 import { ObjectOperation } from "./ObjectOperation";
 
-export type ObjectDiff = ObjectOperation[]
+export type ObjectDiff = ObjectOperation[];
 
 export function objectDiff(
   fromObject: { [key: string]: any },
@@ -22,7 +22,7 @@ export function objectDiff(
   const operationTypes = new Map([
     [_isAddOperation, { type: "add", create: createOperationAdd }],
     [_isUpdateOperation, { type: "update", create: createOperationUpdate }],
-    [_isRemoveOperation, { type: "remove", create: createOperationRemove }]
+    [_isRemoveOperation, { type: "remove", create: createOperationRemove }],
   ]);
   for (const key of keys) {
     const fromValue = fromObject[key];
@@ -43,7 +43,7 @@ export function objectDiff(
                 operations.push(
                   ...arrayDiff(fromValue, toValue).map((operation) => ({
                     ...operation,
-                    key: [...keyPath, key]
+                    key: [...keyPath, key],
                   }))
                 );
               }
@@ -51,7 +51,7 @@ export function objectDiff(
               operations.push(
                 create({
                   key: [...keyPath, key],
-                  value: toValue
+                  value: toValue,
                 })
               );
             }
@@ -60,7 +60,7 @@ export function objectDiff(
           operations.push(
             create({
               key: [...keyPath, key],
-              value: toValue
+              value: toValue,
             })
           );
         }
@@ -98,15 +98,21 @@ function isRemoveOperation(
 
 function createOperationAdd({
   key,
-  value
-}: { key: KeyPath, value: any }): ObjectOperation {
+  value,
+}: {
+  key: KeyPath;
+  value: any;
+}): ObjectOperation {
   return { type: "add", key: key, value };
 }
 
 function createOperationUpdate({
   key,
-  value
-}: { key: KeyPath, value: any }): ObjectOperation {
+  value,
+}: {
+  key: KeyPath;
+  value: any;
+}): ObjectOperation {
   return { type: "update", key: key, value };
 }
 

@@ -26,7 +26,7 @@ export function renderSudokuToHTML(sudoku) {
       columnIndex++
     ) {
       const td = document.createElement("td");
-      const value = sudoku[rowIndex][columnIndex]
+      const value = sudoku[rowIndex][columnIndex];
       if (value === 0) {
         td.innerHTML = "&nbsp;";
       } else {

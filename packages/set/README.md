@@ -20,6 +20,6 @@ import {
   difference,
   symmetricDifference,
   cartesianProduct,
-  powerSet
-} from '@sanjo/set'
+  powerSet,
+} from "@sanjo/set";
 ```
