@@ -9,7 +9,7 @@ const npm_init_1 = __importDefault(require("@sanjo/npm-init"));
 const path_1 = __importDefault(require("path"));
 async function testNpmInit(rootPath, createPackageName, args, expectedPath) {
     await npm_init_1.default(rootPath, createPackageName, args);
-    const createdPackagePath = path_1.default.join(rootPath, 'packages', 'test-package');
+    const createdPackagePath = path_1.default.join(rootPath, "packages", "test-package");
     const differences = await diff_folders_1.default(createdPackagePath, expectedPath);
     expect(differences).toEqual([]);
 }

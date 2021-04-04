@@ -1,2 +1,2 @@
-export { makeTemporaryDirectory as default } from './makeTemporaryDirectory';
+export { makeTemporaryDirectory as default } from "./makeTemporaryDirectory";
 //# sourceMappingURL=index.d.ts.map

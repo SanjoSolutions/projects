@@ -1,4 +1,4 @@
-import { intersection } from "./set.js";
+import { intersection } from "./set";
 
 describe("intersection", () => {
   it("returns the intersection of two sets", () => {

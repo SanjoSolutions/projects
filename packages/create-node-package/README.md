@@ -1,5 +1,7 @@
 # @sanjo/create-node-package
 
+This work is devoted to God.
+
 Create Node.js package.
 
 ## How to install

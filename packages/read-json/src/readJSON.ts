@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+import readFile from "@sanjo/read-file";
 
 /**
  * Reads file with utf-8 encoding and parses it as JSON.
@@ -6,6 +6,6 @@ import { promises as fs } from "fs";
  * @returns {Promise<any>} Contents of file parsed as JSON
  */
 export async function readJSON(filePath: string): Promise<any> {
-  const content = await fs.readFile(filePath, { encoding: "utf-8" });
+  const content = await readFile(filePath);
   return JSON.parse(content);
 }

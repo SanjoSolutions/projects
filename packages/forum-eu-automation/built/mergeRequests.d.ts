@@ -1,6 +1,6 @@
-import { GitLabAPI } from './GitLabAPI';
-import type { MergeRequest } from './MergeRequest';
-export declare type Status = 'wip' | 'ready';
+import { GitLabAPI } from "./GitLabAPI";
+import type { MergeRequest } from "./MergeRequest";
+export declare type Status = "wip" | "ready";
 export interface Config {
     baseUrl: string;
     gitLabToken: string;

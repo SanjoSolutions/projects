@@ -1,5 +1,7 @@
 # @sanjo/request-json
 
+This work is devoted to God.
+
 Request JSON.
 
 ## How to install

@@ -1,5 +1,7 @@
 # @sanjo/parse-npm-package-name
 
+This work is devoted to God.
+
 Parses NPM package name.
 
 ## How to install

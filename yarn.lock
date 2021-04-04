@@ -1624,7 +1624,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/array@workspace:packages/array":
+"@sanjo/array@^0.0.0, @sanjo/array@workspace:packages/array":
   version: 0.0.0-use.local
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
@@ -1738,6 +1738,9 @@ __metadata:
 "@sanjo/diff@workspace:packages/diff":
   version: 0.0.0-use.local
   resolution: "@sanjo/diff@workspace:packages/diff"
+  dependencies:
+    "@sanjo/array": ^0.0.0
+    "@sanjo/set": ^1.0.0
   languageName: unknown
   linkType: soft
 
@@ -1859,6 +1862,12 @@ __metadata:
 "@sanjo/request@^0.2.0, @sanjo/request@workspace:packages/request":
   version: 0.0.0-use.local
   resolution: "@sanjo/request@workspace:packages/request"
+  languageName: unknown
+  linkType: soft
+
+"@sanjo/set@^1.0.0, @sanjo/set@workspace:packages/set":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/set@workspace:packages/set"
   languageName: unknown
   linkType: soft
 

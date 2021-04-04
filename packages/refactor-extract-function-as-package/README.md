@@ -1,5 +1,7 @@
 # @sanjo/refactor-extract-function-as-package
 
+This work is devoted to God.
+
 Extracts a function as a package.
 
 ## How to install

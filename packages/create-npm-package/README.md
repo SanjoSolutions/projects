@@ -1,5 +1,7 @@
 # @sanjo/create-npm-package
 
+This work is devoted to God.
+
 Creates NPM package.
 
 ## How to install

@@ -1,5 +1,7 @@
 # forum-eu-automation
 
+This work is devoted to God.
+
 Automation for Forum.eu.
 
 ## How to use

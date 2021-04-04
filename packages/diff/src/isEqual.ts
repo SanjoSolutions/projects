@@ -1,8 +1,8 @@
-import { arrayDiff } from "./arrayDiff.js";
-import { isObject } from "./isObject.js";
-import { objectDiff } from "./objectDiff.js";
+import { arrayDiff } from "./arrayDiff";
+import { isObject } from "./isObject";
+import { objectDiff } from "./objectDiff";
 
-export function isEqual(a, b) {
+export function isEqual(a: any, b: any): boolean {
   return (
     a === b ||
     (isObject(a) && isObject(b) && objectDiff(a, b).length === 0) ||

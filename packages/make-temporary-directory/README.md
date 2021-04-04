@@ -1,5 +1,7 @@
 # @sanjo/make-temporary-directory
 
+This work is devoted to God.
+
 Make temporary directory.
 
 ## How to install

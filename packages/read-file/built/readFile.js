@@ -8,7 +8,7 @@ const fs_1 = require("fs");
  * @returns {Promise<string>} Contents of file
  */
 async function readFile(filePath) {
-    return await fs_1.promises.readFile(filePath, { encoding: 'utf-8' });
+    return await fs_1.promises.readFile(filePath, { encoding: "utf-8" });
 }
 exports.readFile = readFile;
 //# sourceMappingURL=readFile.js.map

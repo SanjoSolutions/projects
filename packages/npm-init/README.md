@@ -1,5 +1,7 @@
 # @sanjo/npm-init
 
+This work is devoted to God.
+
 NPM init.
 
 ## How to install

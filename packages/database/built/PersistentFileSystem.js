@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PersistentFileSystem = void 0;
 const fs_1 = require("fs");
-const encoding = 'utf-8';
+const encoding = "utf-8";
 class PersistentFileSystem {
     async contains(filePath) {
         try {

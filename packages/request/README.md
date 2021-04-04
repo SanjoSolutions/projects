@@ -1,4 +1,6 @@
-# `@sanjo/request`
+# @sanjo/request
+
+This work is devoted to God.
 
 > TODO: description
 

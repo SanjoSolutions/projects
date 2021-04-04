@@ -1,5 +1,7 @@
 # @sanjo/read-file
 
+This work is devoted to God.
+
 Read file.
 
 ## How to use

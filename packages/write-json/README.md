@@ -1,5 +1,7 @@
 # @sanjo/write-json
 
+This work is devoted to God.
+
 Write JSON into file.
 
 ## How to use

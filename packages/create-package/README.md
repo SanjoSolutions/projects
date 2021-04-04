@@ -1,5 +1,7 @@
 # @sanjo/create-package
 
+This work is devoted to God.
+
 Initializer for new NPM packages.
 See [npm-init](https://docs.npmjs.com/cli/init).
 

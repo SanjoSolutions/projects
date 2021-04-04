@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.packageNameToDefaultExportName = void 0;
 const dashToCamelCase_1 = require("./dashToCamelCase");
 function packageNameToDefaultExportName(packageName) {
-    const scopePattern = '@[^/]+';
+    const scopePattern = "@[^/]+";
     const regExp = new RegExp(`^(?:${scopePattern}/)?(.+)$`);
     const match = regExp.exec(packageName);
     const packageNameWithoutScope = match[1];

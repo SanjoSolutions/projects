@@ -1,5 +1,7 @@
 # @sanjo/create-temporary-npm-package
 
+This work is devoted to God.
+
 Creates temporary NPM package.
 
 ## How to install

@@ -1,5 +1,7 @@
 # @sanjo/test-npm-init
 
+This work is devoted to God.
+
 Test NPM init.
 
 ## How to install

@@ -1,5 +1,7 @@
 # @sanjo/puppeteer-helpers
 
+This work is devoted to God.
+
 Puppeteer helpers.
 
 ## How to install

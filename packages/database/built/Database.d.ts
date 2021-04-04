@@ -1,5 +1,5 @@
-import type { ICollection } from './ICollection';
-import { IStorage } from './IStorage';
+import type { ICollection } from "./ICollection";
+import { IStorage } from "./IStorage";
 export declare class Database {
     _storage: IStorage;
     _collections: Map<string, ICollection>;

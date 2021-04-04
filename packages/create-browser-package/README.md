@@ -1,5 +1,7 @@
 # @sanjo/create-browser-package
 
+This work is devoted to God.
+
 Create browser package.
 
 ## How to install

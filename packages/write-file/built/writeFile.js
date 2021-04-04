@@ -9,7 +9,7 @@ const fs_1 = require("fs");
  * @returns {Promise<void>}
  */
 async function writeFile(filePath, content) {
-    await fs_1.promises.writeFile(filePath, content, { encoding: 'utf-8' });
+    await fs_1.promises.writeFile(filePath, content, { encoding: "utf-8" });
 }
 exports.writeFile = writeFile;
 //# sourceMappingURL=writeFile.js.map

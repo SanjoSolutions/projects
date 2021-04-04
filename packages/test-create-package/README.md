@@ -1,5 +1,7 @@
 # @sanjo/test-create-package
 
+This work is devoted to God.
+
 Test create package.
 
 ## How to install

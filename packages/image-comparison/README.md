@@ -1,5 +1,7 @@
 # @sanjo/image-comparison
 
+This work is devoted to God.
+
 Image comparison.
 
 ## How to install

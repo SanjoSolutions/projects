@@ -1,12 +1,14 @@
-import { arrayDiff } from "./arrayDiff.js";
-import { isObject } from "./isObject.js";
-import { objectDiff } from "./objectDiff.js";
+import { arrayDiff } from "./arrayDiff";
+import { ArrayOperation } from "./ArrayOperation";
+import { isObject } from "./isObject";
+import { objectDiff } from "./objectDiff";
+import { ObjectOperation } from "./ObjectOperation";
 
 export function getOperationsForDiffSubsequence(
-  fromArray,
-  toArray,
-  subsequence
-) {
+  fromArray: any[],
+  toArray: any[],
+  subsequence: any[]
+): (ArrayOperation | ObjectOperation)[] {
   const fromSubsequence = fromArray.slice(
     subsequence[0].from,
     subsequence[0].to
@@ -15,24 +17,24 @@ export function getOperationsForDiffSubsequence(
   const fromArrayMaxIndex = fromSubsequence.length - 1;
   const toArrayMaxIndex = toSubsequence.length - 1;
   const maxIndex = Math.max(fromArrayMaxIndex, toArrayMaxIndex);
-  const operations = [];
+  const operations: (ArrayOperation | ObjectOperation)[] = [];
   for (let index = 0; index <= maxIndex; index++) {
     // when index value in fromArray missing then add operation
     if (index > fromArrayMaxIndex) {
-      const operation = {
+      const operation: ArrayOperation = {
         type: "add",
         index: subsequence[0].from + index,
-        values: toSubsequence.slice(index),
+        values: toSubsequence.slice(index)
       };
       operations.push(operation);
       break;
     }
     // when index value in toArray missing then remove operation
     else if (index > toArrayMaxIndex) {
-      const operation = {
+      const operation: ArrayOperation = {
         type: "remove",
         index: subsequence[0].from + index,
-        deleteCount: fromArrayMaxIndex - toArrayMaxIndex,
+        deleteCount: fromArrayMaxIndex - toArrayMaxIndex
       };
       operations.push(operation);
       break;
@@ -46,10 +48,10 @@ export function getOperationsForDiffSubsequence(
       } else if (Array.isArray(fromValue) && Array.isArray(toValue)) {
         operations.push(...arrayDiff(fromValue, toValue));
       } else {
-        const operation = {
+        const operation: ArrayOperation = {
           type: "update",
           index: subsequence[0].from + index,
-          value: toValue,
+          value: toValue
         };
         operations.push(operation);
       }

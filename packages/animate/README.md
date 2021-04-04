@@ -1,5 +1,7 @@
 # @sanjo/animate
 
+This work is devoted to God.
+
 Animate.
 
 ## How to install

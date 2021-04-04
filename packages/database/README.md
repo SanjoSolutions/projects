@@ -1,5 +1,7 @@
 # @sanjo/database
 
+This work is devoted to God.
+
 Database.
 
 ## How to install

@@ -9,22 +9,22 @@ const mergeRequests_js_1 = require("./mergeRequests.js");
 async function main() {
     const args = process.argv.slice(2);
     const command = args[0];
-    const home = process.env.HOME || '~';
-    const configPath = path_1.default.join(home, 'forum-eu-automation.config.json');
+    const home = process.env.HOME || "~";
+    const configPath = path_1.default.join(home, "forum-eu-automation.config.json");
     const mergeRequests = new mergeRequests_js_1.MergeRequests(configPath);
     await mergeRequests.initialize();
     switch (command) {
-        case 'create-pr':
+        case "create-pr":
             await createMR(mergeRequests, args);
             break;
-        case 'mark-pr-as-ready':
+        case "mark-pr-as-ready":
             await markMRAsReady(mergeRequests, args);
             break;
     }
 }
 async function createMR(mergeRequests, args) {
     const status = args[1];
-    if (!['wip', 'ready'].includes(status)) {
+    if (!["wip", "ready"].includes(status)) {
         throw new Error(`Invalid status: "${status}"`);
     }
     const ticketId = args[2];

@@ -15,22 +15,22 @@ async function createBrowserPackage() {
 }
 exports.createBrowserPackage = createBrowserPackage;
 async function adjustPackageJSON(packagePath) {
-    console.log('adjustPackageJSON', packagePath);
-    const packageJSONPath = path_1.default.join(packagePath, 'package.json');
+    console.log("adjustPackageJSON", packagePath);
+    const packageJSONPath = path_1.default.join(packagePath, "package.json");
     const packageJSON = await read_json_1.default(packageJSONPath);
-    if (!packageJSON.hasOwnProperty('scripts')) {
+    if (!packageJSON.hasOwnProperty("scripts")) {
         packageJSON.scripts = {};
     }
-    packageJSON.scripts['build'] = 'webpack';
-    packageJSON.scripts['build:watch'] = 'webpack-dev-server --open';
+    packageJSON.scripts["build"] = "webpack";
+    packageJSON.scripts["build:watch"] = "webpack-dev-server --open";
     await write_json_1.default(packageJSONPath, packageJSON);
 }
 async function adjustTsconfigJSON(packagePath) {
-    console.log('adjustTsconfigJSON', packagePath);
-    const tsconfigJSONPath = path_1.default.join(packagePath, 'tsconfig.json');
+    console.log("adjustTsconfigJSON", packagePath);
+    const tsconfigJSONPath = path_1.default.join(packagePath, "tsconfig.json");
     const tsconfigJSON = await read_json_1.default(tsconfigJSONPath);
-    tsconfigJSON.compilerOptions.module = 'ES2020';
-    tsconfigJSON.compilerOptions.lib.push('DOM');
+    tsconfigJSON.compilerOptions.module = "ES2020";
+    tsconfigJSON.compilerOptions.lib.push("DOM");
     await write_json_1.default(tsconfigJSONPath, tsconfigJSON);
 }
 //# sourceMappingURL=createBrowserPackage.js.map

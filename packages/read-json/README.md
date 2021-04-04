@@ -1,5 +1,7 @@
 # @sanjo/read-json
 
+This work is devoted to God.
+
 Read JSON.
 
 ## How to install

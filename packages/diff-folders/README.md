@@ -1,5 +1,7 @@
 # @sanjo/diff-folders
 
+This work is devoted to God.
+
 Diff folders.
 
 ## How to install

@@ -1,5 +1,7 @@
 # @sanjo/write-file
 
+This work is devoted to God.
+
 Write file.
 
 ## How to use

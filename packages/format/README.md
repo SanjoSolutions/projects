@@ -1,5 +1,7 @@
 # @sanjo/format
 
+This work is devoted to God.
+
 Format code.
 
 ## How to install

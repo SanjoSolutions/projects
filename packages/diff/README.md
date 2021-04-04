@@ -1,5 +1,7 @@
 # @sanjo/diff
 
+This work is devoted to God.
+
 Diff.
 
 ## How to install

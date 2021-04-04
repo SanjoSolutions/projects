@@ -1,5 +1,7 @@
 # @sanjo/arithmetic
 
+This work is devoted to God.
+
 Arithmetic.
 
 ## How to install

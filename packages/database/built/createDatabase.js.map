@@ -1,1 +1,1 @@
-{"version":3,"file":"createDatabase.js","sourceRoot":"","sources":["../src/createDatabase.ts"],"names":[],"mappings":";;;AAAA,yCAAqC;AAIrC,SAAgB,cAAc,CAAE,OAAiB;IAC/C,MAAM,QAAQ,GAAG,IAAI,mBAAQ,CAAC,OAAO,CAAC,CAAA;IACtC,OAAO,QAAQ,CAAA;AACjB,CAAC;AAHD,wCAGC"}
+{"version":3,"file":"createDatabase.js","sourceRoot":"","sources":["../src/createDatabase.ts"],"names":[],"mappings":";;;AAAA,yCAAsC;AAItC,SAAgB,cAAc,CAAC,OAAiB;IAC9C,MAAM,QAAQ,GAAG,IAAI,mBAAQ,CAAC,OAAO,CAAC,CAAC;IACvC,OAAO,QAAQ,CAAC;AAClB,CAAC;AAHD,wCAGC"}

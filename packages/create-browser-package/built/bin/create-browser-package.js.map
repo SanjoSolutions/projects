@@ -1,1 +1,1 @@
-{"version":3,"file":"create-browser-package.js","sourceRoot":"","sources":["../../src/bin/create-browser-package.ts"],"names":[],"mappings":";;;AAEA,kEAA8D;AAE9D,2CAAoB,EAAE,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,CAAA"}
+{"version":3,"file":"create-browser-package.js","sourceRoot":"","sources":["../../src/bin/create-browser-package.ts"],"names":[],"mappings":";;;AAEA,kEAA+D;AAE/D,2CAAoB,EAAE,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,CAAC"}

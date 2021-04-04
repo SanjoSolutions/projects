@@ -1,34 +1,34 @@
 // See: https://en.wikipedia.org/wiki/Set_theory#Basic_concepts_and_notation
 
-export function includes(setA, setB) {
+export function includes<T>(setA: Set<T>, setB: Set<T>): boolean {
   return intersection(setA, setB).size === setB.size;
 }
 
-export function union(setA, setB) {
+export function union<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA, ...setB]);
 }
 
-export function intersection(setA, setB) {
+export function intersection<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA].filter((value) => setB.has(value)));
 }
 
-export function difference(setA, setB) {
+export function difference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA].filter((value) => !setB.has(value)));
 }
 
-export function symmetricDifference(setA, setB) {
+export function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return difference(union(setA, setB), intersection(setA, setB));
 }
 
-export function cartesianProduct(setA, setB) {
-  const result = new Set();
+export function cartesianProduct<T, U>(setA: Set<T>, setB: Set<U>): Set<[T, U]> {
+  const result = new Set<[T, U]>();
   setA.forEach((valueA) =>
     setB.forEach((valueB) => result.add([valueA, valueB]))
   );
   return result;
 }
 
-export function powerSet(set) {
+export function powerSet<T>(set: Set<T>): Set<Set<T>> {
   const array = [...set];
   array.sort();
 
@@ -43,8 +43,8 @@ export function powerSet(set) {
   return result;
 }
 
-function getIndexSubSequences(length) {
-  let subSequences = [[]];
+function getIndexSubSequences(length: number): number[][] {
+  let subSequences: number[][] = [[]];
   const result = [...subSequences];
   do {
     const nextSubSequences = [];

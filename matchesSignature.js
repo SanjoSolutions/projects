@@ -1,4 +1,4 @@
-import { includes } from "./set.js";
+import { includes } from "./packages/set/built/index.js";
 
 export function matchesSignature(object, keys) {
   keys = new Set(keys);

@@ -1,1 +1,1 @@
-{"version":3,"file":"packageNameToFolderName.d.ts","sourceRoot":"","sources":["../src/packageNameToFolderName.ts"],"names":[],"mappings":"AAAA,wBAAgB,uBAAuB,CAAE,WAAW,EAAE,MAAM,GAAG,MAAM,CAKpE"}
+{"version":3,"file":"packageNameToFolderName.d.ts","sourceRoot":"","sources":["../src/packageNameToFolderName.ts"],"names":[],"mappings":"AAAA,wBAAgB,uBAAuB,CAAC,WAAW,EAAE,MAAM,GAAG,MAAM,CAKnE"}

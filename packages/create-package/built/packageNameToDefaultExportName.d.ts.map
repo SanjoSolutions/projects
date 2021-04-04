@@ -1,1 +1,1 @@
-{"version":3,"file":"packageNameToDefaultExportName.d.ts","sourceRoot":"","sources":["../src/packageNameToDefaultExportName.ts"],"names":[],"mappings":"AAEA,wBAAgB,8BAA8B,CAAE,WAAW,EAAE,MAAM,GAAG,MAAM,CAM3E"}
+{"version":3,"file":"packageNameToDefaultExportName.d.ts","sourceRoot":"","sources":["../src/packageNameToDefaultExportName.ts"],"names":[],"mappings":"AAEA,wBAAgB,8BAA8B,CAAC,WAAW,EAAE,MAAM,GAAG,MAAM,CAM1E"}

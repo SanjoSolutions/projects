@@ -1,1 +1,1 @@
-{"version":3,"file":"dashToCamelCase.d.ts","sourceRoot":"","sources":["../src/dashToCamelCase.ts"],"names":[],"mappings":"AAAA,wBAAgB,eAAe,CAAE,MAAM,EAAE,MAAM,GAAG,MAAM,CAGvD"}
+{"version":3,"file":"dashToCamelCase.d.ts","sourceRoot":"","sources":["../src/dashToCamelCase.ts"],"names":[],"mappings":"AAAA,wBAAgB,eAAe,CAAC,MAAM,EAAE,MAAM,GAAG,MAAM,CAStD"}

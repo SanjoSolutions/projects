@@ -1,5 +1,7 @@
 # @sanjo/binary-search
 
+This work is devoted to God.
+
 Binary search.
 
 ## How to install

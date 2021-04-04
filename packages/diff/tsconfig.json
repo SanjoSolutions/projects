@@ -6,5 +6,9 @@
     "module": "CommonJS",
     "lib": ["ES2020"]
   },
-  "references": []
+  "references": [
+    {
+      "path": "../set"
+    }
+  ]
 }

@@ -1,5 +1,7 @@
 # @sanjo/array
 
+This work is devoted to God.
+
 Array functions.
 
 ## How to install

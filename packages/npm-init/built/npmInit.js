@@ -7,17 +7,17 @@ exports.npmInit = void 0;
 const exec_1 = __importDefault(require("@sanjo/exec"));
 async function npmInit(rootPath, createPackageName, args) {
     let command = `npx '${createPackageName}'`;
-    const argsString = args.map(arg => `'${arg}'`).join(' ');
+    const argsString = args.map((arg) => `'${arg}'`).join(" ");
     if (argsString.length >= 1) {
         command += ` ${argsString}`;
     }
     console.log(`exec: ${command}, cwd: ${rootPath}`);
     const { stdout, stderr } = await exec_1.default(command, { cwd: rootPath });
     if (stdout) {
-        console.log('stdout: ' + stdout);
+        console.log("stdout: " + stdout);
     }
     if (stderr) {
-        console.error('stderr: ' + stderr);
+        console.error("stderr: " + stderr);
     }
 }
 exports.npmInit = npmInit;

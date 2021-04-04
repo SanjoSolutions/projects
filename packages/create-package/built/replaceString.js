@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.replaceString = void 0;
 const escape_for_reg_exp_1 = __importDefault(require("@sanjo/escape-for-reg-exp"));
 function replaceString(text, stringToReplace, stringToReplaceWith) {
-    return text.replace(new RegExp(escape_for_reg_exp_1.default(stringToReplace), 'g'), stringToReplaceWith);
+    return text.replace(new RegExp(escape_for_reg_exp_1.default(stringToReplace), "g"), stringToReplaceWith);
 }
 exports.replaceString = replaceString;
 //# sourceMappingURL=replaceString.js.map

@@ -1,2 +1,2 @@
-export { escapeForRegExp as default } from './escapeForRegExp';
+export { escapeForRegExp as default } from "./escapeForRegExp";
 //# sourceMappingURL=index.d.ts.map

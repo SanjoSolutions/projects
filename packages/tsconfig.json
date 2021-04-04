@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "./animate"
+    },
+    {
       "path": "./binary-search"
     },
     {
@@ -90,7 +93,7 @@
       "path": "./write-file"
     },
     {
-      "path": "./animate"
+      "path": ".\\set"
     }
   ]
 }

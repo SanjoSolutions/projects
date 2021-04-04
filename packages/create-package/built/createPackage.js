@@ -19,19 +19,19 @@ async function createPackage() {
     const packageDescription = args[1];
     const packageFolderName = packageNameToFolderName_1.packageNameToFolderName(packageName);
     const defaultExportName = packageNameToDefaultExportName_1.packageNameToDefaultExportName(packageName);
-    const templatePath = path_1.default.resolve(__dirname, '../template/');
-    const packagesPath = path_1.default.resolve(process.cwd(), 'packages');
+    const templatePath = path_1.default.resolve(__dirname, "../template/");
+    const packagesPath = path_1.default.resolve(process.cwd(), "packages");
     await fs_1.promises.mkdir(packagesPath, { recursive: true });
     const destinationPath = path_1.default.join(packagesPath, packageFolderName);
     await copyRecursively(templatePath, destinationPath);
     const replacements = new Map([
-        ['<PACKAGE_NAME>', packageName],
-        ['<PACKAGE_DESCRIPTION>', packageDescription],
-        ['<PACKAGE_DEFAULT_EXPORT>', defaultExportName],
+        ["<PACKAGE_NAME>", packageName],
+        ["<PACKAGE_DESCRIPTION>", packageDescription],
+        ["<PACKAGE_DEFAULT_EXPORT>", defaultExportName],
     ]);
-    await replaceStringsInFile_1.replaceStringsInFile(path_1.default.resolve(destinationPath, 'package.json'), replacements);
-    await replaceStringsInFile_1.replaceStringsInFile(path_1.default.resolve(destinationPath, 'README.md'), replacements);
-    await addPackageReference_1.addPackageReference(path_1.default.join(packagesPath, 'tsconfig.json'), destinationPath);
+    await replaceStringsInFile_1.replaceStringsInFile(path_1.default.resolve(destinationPath, "package.json"), replacements);
+    await replaceStringsInFile_1.replaceStringsInFile(path_1.default.resolve(destinationPath, "README.md"), replacements);
+    await addPackageReference_1.addPackageReference(path_1.default.join(packagesPath, "tsconfig.json"), destinationPath);
     return destinationPath;
 }
 exports.createPackage = createPackage;

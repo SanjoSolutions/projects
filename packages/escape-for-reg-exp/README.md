@@ -1,5 +1,7 @@
 # @sanjo/escape-for-reg-exp
 
+This work is devoted to God.
+
 Escape for RegExp.
 
 ## How to install

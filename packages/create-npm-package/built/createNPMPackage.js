@@ -12,8 +12,8 @@ async function createNPMPackage(packagePath, packageJSON) {
         private: true,
         packageJSON,
     };
-    await write_json_1.default(path_1.default.join(packagePath, 'package.json'), packageJSONContent);
-    await exec_1.default('npm install', { cwd: packagePath });
+    await write_json_1.default(path_1.default.join(packagePath, "package.json"), packageJSONContent);
+    await exec_1.default("npm install", { cwd: packagePath });
 }
 exports.createNPMPackage = createNPMPackage;
 //# sourceMappingURL=createNPMPackage.js.map

@@ -1,5 +1,7 @@
 # @sanjo/gunbound
 
+This work is devoted to God.
+
 Gunbound.
 
 ## How to install

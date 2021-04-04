@@ -18,19 +18,19 @@ function testCreatePackage(createPackagePackageName, createPackagePackagePath, c
                     [createPackagePackageName]: `file:${createPackagePackagePath}`,
                 },
             });
-            const packagesPath = path_1.default.join(rootPath, 'packages');
+            const packagesPath = path_1.default.join(rootPath, "packages");
             await fs_1.promises.mkdir(packagesPath);
-            await write_json_1.default(path_1.default.join(packagesPath, 'tsconfig.json'), {
-                'files': [],
-                'include': [],
-                'references': [],
+            await write_json_1.default(path_1.default.join(packagesPath, "tsconfig.json"), {
+                files: [],
+                include: [],
+                references: [],
             });
         });
         afterEach(async function () {
             await fs_1.promises.rmdir(rootPath, { recursive: true });
         });
-        it('creates a package', async () => {
-            const expectedPath = path_1.default.join(createPackagePackagePath, 'src/expected');
+        it("creates a package", async () => {
+            const expectedPath = path_1.default.join(createPackagePackagePath, "src/expected");
             await test_npm_init_1.default(rootPath, createPackagePackageName, createPackagePackageArguments, expectedPath);
         });
     });

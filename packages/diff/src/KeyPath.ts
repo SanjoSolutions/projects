@@ -1,0 +1,1 @@
+export type KeyPath = string[];

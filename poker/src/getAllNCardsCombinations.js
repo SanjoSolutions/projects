@@ -1,4 +1,4 @@
-import { powerSet } from "../../set.js";
+import { powerSet } from "../../packages/set/built/set.js";
 
 export function getAllNCardsCombinations(cards, numberOfCards) {
   return new Set(

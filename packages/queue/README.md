@@ -1,5 +1,7 @@
 # @sanjo/queue
 
+This work is devoted to God.
+
 Queue.
 
 ## How to install

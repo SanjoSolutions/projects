@@ -1,10 +1,16 @@
-export function getDiffSubsequences(fromArray, toArray, matchingSubsequences) {
-  const diffSubsequences = [];
+import type { Subsequence } from "./Subsequence";
+
+export function getDiffSubsequences(
+  fromArray: any[],
+  toArray: any[],
+  matchingSubsequences: Subsequence[]
+): Subsequence[] {
+  const diffSubsequences: Subsequence[] = [];
 
   if (matchingSubsequences.length === 0) {
     diffSubsequences.push([
       { from: 0, to: fromArray.length },
-      { from: 0, to: toArray.length },
+      { from: 0, to: toArray.length }
     ]);
   } else {
     const firstMatchingSubsequence = matchingSubsequences[0];
@@ -14,7 +20,7 @@ export function getDiffSubsequences(fromArray, toArray, matchingSubsequences) {
     ) {
       diffSubsequences.push([
         { from: 0, to: firstMatchingSubsequence[0].from },
-        { from: 0, to: firstMatchingSubsequence[1].from },
+        { from: 0, to: firstMatchingSubsequence[1].from }
       ]);
     }
 
@@ -24,12 +30,12 @@ export function getDiffSubsequences(fromArray, toArray, matchingSubsequences) {
       diffSubsequences.push([
         {
           from: previousMatchingSubsequence[0].to,
-          to: currentMatchingSubsequence[0].from,
+          to: currentMatchingSubsequence[0].from
         },
         {
           from: previousMatchingSubsequence[1].to,
-          to: currentMatchingSubsequence[1].from,
-        },
+          to: currentMatchingSubsequence[1].from
+        }
       ]);
     }
 
@@ -41,7 +47,7 @@ export function getDiffSubsequences(fromArray, toArray, matchingSubsequences) {
     ) {
       diffSubsequences.push([
         { from: lastMatchingSubsequence[0].to, to: fromArray.length },
-        { from: lastMatchingSubsequence[1].to, to: toArray.length },
+        { from: lastMatchingSubsequence[1].to, to: toArray.length }
       ]);
     }
   }

@@ -1,5 +1,7 @@
 # @sanjo/comparison
 
+This work is devoted to God.
+
 comparison.
 
 ## How to install

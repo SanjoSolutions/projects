@@ -1,6 +1,8 @@
 # @sanjo/identity
 
-identity.
+This work is devoted to God.
+
+Identity function.
 
 ## How to install
 
