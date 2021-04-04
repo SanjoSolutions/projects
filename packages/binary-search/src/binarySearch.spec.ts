@@ -1,5 +1,5 @@
-import { binarySearch } from "./binarySearch";
-import { numberCompareFn } from "./numberCompareFn";
+import { binarySearch } from "./binarySearch.js";
+import { numberCompareFn } from "./numberCompareFn.js";
 
 describe("binarySearch", () => {
   it("searches for an item with binary search", () => {

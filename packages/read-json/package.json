@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/read-json",
+  "type": "module",
   "description": "Read JSON",
   "license": "Unlicense",
   "version": "1.0.0",

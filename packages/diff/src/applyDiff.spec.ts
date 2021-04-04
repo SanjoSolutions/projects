@@ -1,4 +1,4 @@
-import { applyDiff } from "./applyDiff";
+import { applyDiff } from "./applyDiff.js";
 
 describe("applyDiff", () => {
   applyDiffTest(

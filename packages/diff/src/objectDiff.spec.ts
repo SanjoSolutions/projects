@@ -1,4 +1,4 @@
-import { objectDiff } from "./objectDiff";
+import { objectDiff } from "./objectDiff.js";
 
 describe("objectDiff", () => {
   objectDiffTest({ a: 1 }, { b: 2 }, [

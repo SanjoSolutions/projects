@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/gunbound",
+  "type": "module",
   "description": "Gunbound",
   "license": "Unlicense",
   "version": "0.0.0",

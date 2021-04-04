@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/identity",
+  "type": "module",
   "description": "identity",
   "license": "Unlicense",
   "version": "1.0.0",

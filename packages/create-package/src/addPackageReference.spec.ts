@@ -2,7 +2,7 @@ jest.mock("@sanjo/read-file");
 jest.mock("@sanjo/write-file");
 
 import path from "path";
-import { addPackageReference } from "./addPackageReference";
+import { addPackageReference } from "./addPackageReference.js";
 import readFile from "@sanjo/read-file";
 import writeFile from "@sanjo/write-file";
 

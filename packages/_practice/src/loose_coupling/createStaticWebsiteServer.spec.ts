@@ -7,11 +7,11 @@ import path, { resolve } from "path";
 import {
   createStaticWebsiteServer,
   StaticHTTPServer,
-} from "./createStaticWebsiteServer";
-import { exec } from "./exec";
-import { waitForMockFunctionToHaveBeenCalled } from "./waitForMockFunctionToHaveBeenCalled";
-import { waitForUrl } from "./waitForUrl";
-import { writeFile } from "./writeFile";
+} from "./createStaticWebsiteServer.js";
+import { exec } from "./exec.js";
+import { waitForMockFunctionToHaveBeenCalled } from "./waitForMockFunctionToHaveBeenCalled.js";
+import { waitForUrl } from "./waitForUrl.js";
+import { writeFile } from "./writeFile.js";
 
 async function createStaticWebSite(directory: string): void {
   await removeStaticWebSite(directory);

@@ -1,7 +1,7 @@
 jest.mock("http");
 jest.mock("https");
 
-import { request } from "./request";
+import { request } from "./request.js";
 import http from "http";
 import https from "https";
 

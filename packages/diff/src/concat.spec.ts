@@ -1,4 +1,4 @@
-import { concat } from "./concat";
+import { concat } from "./concat.js";
 
 describe("concat", () => {
   it("concatenates multiple arrays", () => {

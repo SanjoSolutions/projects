@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/write-json",
+  "type": "module",
   "description": "Write JSON into file",
   "license": "Unlicense",
   "version": "1.0.0",

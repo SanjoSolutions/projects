@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/make-temporary-directory",
+  "type": "module",
   "description": "Make temporary directory",
   "license": "Unlicense",
   "version": "1.0.0",

@@ -1,1 +1,1 @@
-export { testCreatePackage as default } from "./testCreatePackage";
+export { testCreatePackage as default } from "./testCreatePackage.js";

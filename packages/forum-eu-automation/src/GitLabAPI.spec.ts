@@ -1,8 +1,8 @@
 jest.mock("@sanjo/request-json");
 
 import requestJSON from "@sanjo/request-json";
-import { GitLabAPI } from "./GitLabAPI";
-import { createMergeRequest } from "./testing/fixtures/gitLabAPI/gitlab/createMergeRequest";
+import { GitLabAPI } from "./GitLabAPI.js";
+import { createMergeRequest } from "./testing/fixtures/gitLabAPI/gitlab/createMergeRequest.js";
 
 // TODO: Way to get merge request id for ticketId
 //   Maybe just stored it when getting it from createMergeRequest response

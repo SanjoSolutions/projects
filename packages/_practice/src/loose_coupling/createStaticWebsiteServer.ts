@@ -1,10 +1,10 @@
 import type { FSWatcher } from "fs";
 import fs from "fs";
 import path, { extname } from "path";
-import { createRoutes } from "./createRoutes";
-import { extensionToContentType } from "./extensionToContentType";
-import { HTTPServer } from "./HTTPServer";
-import { readFile } from "./readFile";
+import { createRoutes } from "./createRoutes.js";
+import { extensionToContentType } from "./extensionToContentType.js";
+import { HTTPServer } from "./HTTPServer.js";
+import { readFile } from "./readFile.js";
 
 export class StaticHTTPServer extends HTTPServer {
   private _fileWatcher: FSWatcher;

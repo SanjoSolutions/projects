@@ -1,10 +1,10 @@
 import exec from "@sanjo/exec";
 import readJSON from "@sanjo/read-json";
 import puppeteer from "puppeteer";
-import { GitLabAPI } from "./GitLabAPI";
-import type { MergeRequest } from "./MergeRequest";
-import { SlackChannelPage } from "./SlackChannelPage";
-import { SlackLoginPage } from "./SlackLoginPage";
+import { GitLabAPI } from "./GitLabAPI.js";
+import type { MergeRequest } from "./MergeRequest.js";
+import { SlackChannelPage } from "./SlackChannelPage.js";
+import { SlackLoginPage } from "./SlackLoginPage.js";
 
 export type Status = "wip" | "ready";
 

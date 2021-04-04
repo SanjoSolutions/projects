@@ -1,4 +1,4 @@
-import { packageNameToDefaultExportName } from "./packageNameToDefaultExportName";
+import { packageNameToDefaultExportName } from "./packageNameToDefaultExportName.js";
 
 describe("packageNameToDefaultExportName", () => {
   it('"@sanjo/escape-for-reg-exp" to "escapeForRegExp"', () => {

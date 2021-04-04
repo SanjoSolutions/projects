@@ -1,1 +1,1 @@
-export { identity as default } from "./identity";
+export { identity as default } from "./identity.js";

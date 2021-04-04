@@ -1,4 +1,4 @@
-import { InMemoryFileSystem } from "./InMemoryFileSystem";
+import { InMemoryFileSystem } from "./InMemoryFileSystem.js";
 
 describe("InMemoryFileSystem", () => {
   it("stores files", async () => {

@@ -1,4 +1,4 @@
-import { camelCaseToUnderscore } from "./camelCaseToUnderscore";
+import { camelCaseToUnderscore } from "./camelCaseToUnderscore.js";
 
 describe("camelCaseToUnderscore", () => {
   it('"fooBarBaz" to "foo_bar_baz"', () => {

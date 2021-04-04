@@ -1,4 +1,4 @@
-import { dashToCamelCase } from "./dashToCamelCase";
+import { dashToCamelCase } from "./dashToCamelCase.js";
 
 describe("dashToCamelCase", () => {
   it('"escape-for-reg-exp" to "escapeForRegExp"', () => {

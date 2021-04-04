@@ -1,8 +1,8 @@
-import { arrayDiff } from "./arrayDiff";
-import { ArrayOperation } from "./ArrayOperation";
-import { isObject } from "./isObject";
-import { objectDiff } from "./objectDiff";
-import { ObjectOperation } from "./ObjectOperation";
+import { arrayDiff } from "./arrayDiff.js";
+import { ArrayOperation } from "./ArrayOperation.js";
+import { isObject } from "./isObject.js";
+import { objectDiff } from "./objectDiff.js";
+import { ObjectOperation } from "./ObjectOperation.js";
 
 export function getOperationsForDiffSubsequence(
   fromArray: any[],
@@ -24,7 +24,7 @@ export function getOperationsForDiffSubsequence(
       const operation: ArrayOperation = {
         type: "add",
         index: subsequence[0].from + index,
-        values: toSubsequence.slice(index)
+        values: toSubsequence.slice(index),
       };
       operations.push(operation);
       break;
@@ -34,7 +34,7 @@ export function getOperationsForDiffSubsequence(
       const operation: ArrayOperation = {
         type: "remove",
         index: subsequence[0].from + index,
-        deleteCount: fromArrayMaxIndex - toArrayMaxIndex
+        deleteCount: fromArrayMaxIndex - toArrayMaxIndex,
       };
       operations.push(operation);
       break;
@@ -51,7 +51,7 @@ export function getOperationsForDiffSubsequence(
         const operation: ArrayOperation = {
           type: "update",
           index: subsequence[0].from + index,
-          value: toValue
+          value: toValue,
         };
         operations.push(operation);
       }

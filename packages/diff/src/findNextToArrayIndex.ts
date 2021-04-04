@@ -1,5 +1,5 @@
-import { isEqual } from "./isEqual";
-import type { Subsequence } from "./Subsequence";
+import { isEqual } from "./isEqual.js";
+import type { Subsequence } from "./Subsequence.js";
 
 export function findNextToArrayIndex(
   toArray: any[],

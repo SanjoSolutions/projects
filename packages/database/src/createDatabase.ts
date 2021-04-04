@@ -1,6 +1,6 @@
-import { Database } from "./Database";
-import { InMemoryFileSystem } from "./InMemoryFileSystem";
-import { IStorage } from "./IStorage";
+import { Database } from "./Database.js";
+import { InMemoryFileSystem } from "./InMemoryFileSystem.js";
+import { IStorage } from "./IStorage.js";
 
 export function createDatabase(storage: IStorage) {
   const database = new Database(storage);

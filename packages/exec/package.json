@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/exec",
+  "type": "module",
   "description": "Exec",
   "license": "Unlicense",
   "version": "1.0.0",

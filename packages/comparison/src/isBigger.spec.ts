@@ -1,4 +1,4 @@
-import { isBigger } from "./isBigger.js";
+import { isBigger } from "./isBigger.js.js";
 
 describe("isBigger", () => {
   it("returns true when first value bigger than second", () => {

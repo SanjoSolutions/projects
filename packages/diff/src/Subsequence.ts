@@ -1,3 +1,3 @@
-import { SubsequenceRange } from "./SubsequenceRange";
+import { SubsequenceRange } from "./SubsequenceRange.js";
 
 export type Subsequence = [SubsequenceRange, SubsequenceRange];

@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/npm-init",
+  "type": "module",
   "description": "NPM init",
   "license": "Unlicense",
   "version": "0.1.0",

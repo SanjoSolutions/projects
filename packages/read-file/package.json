@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/read-file",
+  "type": "module",
   "description": "Read file",
   "license": "Unlicense",
   "version": "1.0.0",

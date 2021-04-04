@@ -1624,7 +1624,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/array@^0.0.0, @sanjo/array@workspace:packages/array":
+"@sanjo/array@workspace:packages/array":
   version: 0.0.0-use.local
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
@@ -1739,7 +1739,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/diff@workspace:packages/diff"
   dependencies:
-    "@sanjo/array": ^0.0.0
     "@sanjo/set": ^1.0.0
   languageName: unknown
   linkType: soft
@@ -6516,6 +6515,15 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"jest-ts-webcompat-resolver@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "jest-ts-webcompat-resolver@npm:1.0.0"
+  peerDependencies:
+    jest-resolve: "*"
+  checksum: ed22761a3cabde8020899a7fd87cc636b33523812d1ad26d29cc64a8144010b745ad09c29192216c24054494ba23538c81fd13ddc3ece28e027991acc9d1a51a
+  languageName: node
+  linkType: hard
+
 "jest-util@npm:^26.6.2":
   version: 26.6.2
   resolution: "jest-util@npm:26.6.2"
@@ -10094,6 +10102,7 @@ typescript@^4.2.3:
     css-loader: ^3.6.0
     husky: ">=6"
     jest: ^26.0.1
+    jest-ts-webcompat-resolver: ^1.0.0
     lint-staged: ">=10"
     prettier: 2.2.1
     style-loader: ^1.2.1

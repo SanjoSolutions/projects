@@ -1,8 +1,8 @@
 import type { PathLike } from "fs";
 import { promises as fs } from "fs";
 import type { FileHandle } from "fs/promises";
-import { InMemoryFileSystem } from "./InMemoryFileSystem";
-import { PersistentFileSystem } from "./PersistentFileSystem";
+import { InMemoryFileSystem } from "./InMemoryFileSystem.js";
+import { PersistentFileSystem } from "./PersistentFileSystem.js";
 
 function mockFileSystem() {
   const mockedFileSystem = new InMemoryFileSystem();

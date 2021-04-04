@@ -1,4 +1,4 @@
-import { getMatchingSubsequences } from "./getMatchingSubsequences";
+import { getMatchingSubsequences } from "./getMatchingSubsequences.js";
 
 describe("getMatchingSubsequences", () => {
   const testCases = [

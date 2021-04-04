@@ -1,6 +1,6 @@
-import { FilePath } from "./FilePath";
-import { IFileEntry } from "./IFileEntry";
-import { IFileSystem } from "./IFileSystem";
+import { FilePath } from "./FilePath.js";
+import { IFileEntry } from "./IFileEntry.js";
+import { IFileSystem } from "./IFileSystem.js";
 
 export class InMemoryFileSystem implements IFileSystem {
   _files: Map<FilePath, IFileEntry> = new Map();

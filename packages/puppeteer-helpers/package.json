@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/puppeteer-helpers",
+  "type": "module",
   "description": "Puppeteer helpers",
   "license": "Unlicense",
   "version": "0.1.0",

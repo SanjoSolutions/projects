@@ -1,8 +1,8 @@
-import { createData } from "./createData";
-import { createDatabase } from "./createDatabase";
-import { Database } from "./Database";
-import { ICollection } from "./ICollection";
-import { MemoryStorage } from "./MemoryStorage";
+import { createData } from "./createData.js";
+import { createDatabase } from "./createDatabase.js";
+import { Database } from "./Database.js";
+import { ICollection } from "./ICollection.js";
+import { MemoryStorage } from "./MemoryStorage.js";
 
 describe("Database", () => {
   describe("storing", () => {

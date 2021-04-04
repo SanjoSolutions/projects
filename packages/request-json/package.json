@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/request-json",
+  "type": "module",
   "description": "Request JSON",
   "license": "Unlicense",
   "version": "0.1.0",

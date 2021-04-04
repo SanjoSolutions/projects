@@ -1,4 +1,4 @@
-import { dashToCamelCase } from "./dashToCamelCase";
+import { dashToCamelCase } from "./dashToCamelCase.js";
 
 export function packageNameToDefaultExportName(packageName: string): string {
   const scopePattern = "@[^/]+";

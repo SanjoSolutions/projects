@@ -3,8 +3,8 @@
  */
 
 import { act } from "react-dom/test-utils";
-import { createContainer } from "./createContainer";
-import { renderOS } from "./renderOS";
+import { createContainer } from "./createContainer.js";
+import { renderOS } from "./renderOS.js";
 
 describe("operation system", () => {
   let container;

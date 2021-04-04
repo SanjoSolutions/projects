@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/create-package",
+  "type": "module",
   "description": "Create package",
   "license": "Unlicense",
   "version": "0.2.0",

@@ -1,5 +1,5 @@
-import { findNextToArrayIndex } from "./findNextToArrayIndex";
-import type { Subsequence } from "./Subsequence";
+import { findNextToArrayIndex } from "./findNextToArrayIndex.js";
+import type { Subsequence } from "./Subsequence.js";
 
 export function getMatchingSubsequences(
   fromArray: any[],

@@ -1,7 +1,7 @@
 import requestJSON from "@sanjo/request-json";
 import { URL } from "url";
-import { convertObjectPropertyNamesFromCamelCaseToUnderscore } from "./convertObjectPropertyNamesFromCamelCaseToUnderscore";
-import type { MergeRequest } from "./MergeRequest";
+import { convertObjectPropertyNamesFromCamelCaseToUnderscore } from "./convertObjectPropertyNamesFromCamelCaseToUnderscore.js";
+import type { MergeRequest } from "./MergeRequest.js";
 
 export interface GitLabMergeRequest {
   id: string;

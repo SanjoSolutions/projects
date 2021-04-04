@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/diff",
+  "type": "module",
   "description": "Diff",
   "license": "Unlicense",
   "version": "0.1.0",

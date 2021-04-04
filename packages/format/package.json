@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/format",
+  "type": "module",
   "description": "Format code",
   "license": "Unlicense",
   "version": "0.0.0",

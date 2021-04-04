@@ -1,2 +1,2 @@
-export { waitForNavigation } from "./waitForNavigation";
-export { withWaitForNavigation } from "./withWaitForNavigation";
+export { waitForNavigation } from "./waitForNavigation.js";
+export { withWaitForNavigation } from "./withWaitForNavigation.js";

@@ -1,4 +1,4 @@
-import { createStaticWebsiteServer } from "./createStaticWebsiteServer";
+import { createStaticWebsiteServer } from "./createStaticWebsiteServer.js";
 
 async function main() {
   const directoryToServeFrom = process.cwd();

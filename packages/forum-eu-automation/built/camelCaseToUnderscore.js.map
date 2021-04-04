@@ -1,1 +1,0 @@
-{"version":3,"file":"camelCaseToUnderscore.js","sourceRoot":"","sources":["../src/camelCaseToUnderscore.ts"],"names":[],"mappings":";;;AAAA,SAAgB,qBAAqB,CAAC,MAAc;IAClD,OAAO,MAAM,CAAC,OAAO,CAAC,QAAQ,EAAE,KAAK,CAAC,CAAC,WAAW,EAAE,CAAC;AACvD,CAAC;AAFD,sDAEC"}

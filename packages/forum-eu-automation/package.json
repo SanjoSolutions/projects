@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "private": true,
   "dependencies": {
     "@sanjo/exec": "^1.0.0",

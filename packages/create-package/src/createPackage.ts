@@ -2,10 +2,10 @@ import { promises as fs } from "fs";
 import { ncp } from "ncp";
 import path from "path";
 import { promisify } from "util";
-import { addPackageReference } from "./addPackageReference";
-import { packageNameToDefaultExportName } from "./packageNameToDefaultExportName";
-import { packageNameToFolderName } from "./packageNameToFolderName";
-import { replaceStringsInFile } from "./replaceStringsInFile";
+import { addPackageReference } from "./addPackageReference.js";
+import { packageNameToDefaultExportName } from "./packageNameToDefaultExportName.js";
+import { packageNameToFolderName } from "./packageNameToFolderName.js";
+import { replaceStringsInFile } from "./replaceStringsInFile.js";
 
 const copyRecursively = promisify(ncp);
 

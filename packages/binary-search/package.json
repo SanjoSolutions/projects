@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/binary-search",
+  "type": "module",
   "description": "Binary search",
   "license": "Unlicense",
   "version": "1.0.0",

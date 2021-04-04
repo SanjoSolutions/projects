@@ -1,1 +1,1 @@
-export { npmInit as default } from "./npmInit";
+export { npmInit as default } from "./npmInit.js";

@@ -1,6 +1,6 @@
-import { KeyPath } from "./KeyPath";
-import { ObjectDiff } from "./objectDiff";
-import { ObjectOperation } from "./ObjectOperation";
+import { KeyPath } from "./KeyPath.js";
+import { ObjectDiff } from "./objectDiff.js";
+import { ObjectOperation } from "./ObjectOperation.js";
 
 export function applyDiff(object: any, diff: ObjectDiff) {
   return diff.reduce(applyOperation, object);

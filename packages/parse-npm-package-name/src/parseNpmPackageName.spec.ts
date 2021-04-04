@@ -1,4 +1,4 @@
-import { parseNpmPackageName } from "./parseNpmPackageName";
+import { parseNpmPackageName } from "./parseNpmPackageName.js";
 
 describe.skip("parseNpmPackageName", () => {
   it("parses npm package names with scope", () => {

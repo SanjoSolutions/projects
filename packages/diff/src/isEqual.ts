@@ -1,6 +1,6 @@
-import { arrayDiff } from "./arrayDiff";
-import { isObject } from "./isObject";
-import { objectDiff } from "./objectDiff";
+import { arrayDiff } from "./arrayDiff.js";
+import { isObject } from "./isObject.js";
+import { objectDiff } from "./objectDiff.js";
 
 export function isEqual(a: any, b: any): boolean {
   return (

@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/database",
+  "type": "module",
   "description": "Database",
   "license": "Unlicense",
   "version": "0.0.0",

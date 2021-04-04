@@ -1,5 +1,5 @@
 import path from "path";
-import { diffFolders } from "./diffFolders";
+import { diffFolders } from "./diffFolders.js";
 
 describe("diffFolder", () => {
   const testCases = [

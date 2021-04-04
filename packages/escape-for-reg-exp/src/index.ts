@@ -1,1 +1,1 @@
-export { escapeForRegExp as default } from "./escapeForRegExp";
+export { escapeForRegExp as default } from "./escapeForRegExp.js";

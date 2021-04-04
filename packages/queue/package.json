@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/queue",
+  "type": "module",
   "description": "Queue",
   "license": "Unlicense",
   "version": "1.0.0",

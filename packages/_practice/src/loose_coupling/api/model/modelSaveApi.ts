@@ -1,6 +1,6 @@
-import { database } from "../../database";
-import { deserialize } from "../../deserialize";
-import { Model } from "../../Model";
+import { database } from "../../database.js";
+import { deserialize } from "../../deserialize.js";
+import { Model } from "../../Model.js";
 
 export function modelSaveApi(request: { body: string }) {
   const data = deserialize(request.body);

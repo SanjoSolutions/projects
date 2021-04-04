@@ -1,4 +1,4 @@
-import { InMemory } from "./InMemory";
+import { InMemory } from "./InMemory.js";
 
 describe("InMemory", () => {
   let database;

@@ -1,7 +1,7 @@
 import { extname, relative } from "path";
-import { extensionToContentType } from "./extensionToContentType";
-import { readFile } from "./readFile";
-import { traverseDirectory } from "./traverseDirectory";
+import { extensionToContentType } from "./extensionToContentType.js";
+import { readFile } from "./readFile.js";
+import { traverseDirectory } from "./traverseDirectory.js";
 
 export async function readFiles(directoryToServeFrom) {
   const files = [];

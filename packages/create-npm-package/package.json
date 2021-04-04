@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/create-npm-package",
+  "type": "module",
   "description": "Creates NPM package",
   "license": "Unlicense",
   "version": "0.1.0",

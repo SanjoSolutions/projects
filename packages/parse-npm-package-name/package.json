@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/parse-npm-package-name",
+  "type": "module",
   "description": "Parses NPM package name",
   "license": "Unlicense",
   "version": "0.0.0",

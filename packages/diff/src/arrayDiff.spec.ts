@@ -1,4 +1,4 @@
-import { arrayDiff } from "./arrayDiff";
+import { arrayDiff } from "./arrayDiff.js";
 
 describe("arrayDiff", () => {
   arrayDiffTest([], [1], [{ type: "add", index: 0, values: [1] }]);

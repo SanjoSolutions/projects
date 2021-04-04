@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/request",
+  "type": "module",
   "description": "HTTP request",
   "license": "Unlicense",
   "version": "0.2.0",

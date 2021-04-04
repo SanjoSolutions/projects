@@ -1,4 +1,4 @@
-import { isSmaller } from "./isSmaller.js";
+import { isSmaller } from "./isSmaller.js.js";
 
 describe("isSmaller", () => {
   it("returns true when first value is smaller than second value", () => {

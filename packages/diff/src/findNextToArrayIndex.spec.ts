@@ -1,4 +1,4 @@
-import { findNextToArrayIndex } from "./findNextToArrayIndex";
+import { findNextToArrayIndex } from "./findNextToArrayIndex.js";
 
 describe("findNextToArrayIndex", () => {
   it("finds the next index in the array of the search element", () => {

@@ -1,4 +1,4 @@
-import { packageNameToFolderName } from "./packageNameToFolderName";
+import { packageNameToFolderName } from "./packageNameToFolderName.js";
 
 describe("packageNameToFolderName", () => {
   it('"@sanjo/create-package" to "create-package"', () => {

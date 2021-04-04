@@ -1,6 +1,6 @@
-export { Database } from "./Database";
-export type { FilePath } from "./FilePath";
-export { InMemoryFileSystem } from "./InMemoryFileSystem";
-export type { IFileEntry } from "./IFileEntry";
-export type { IFileSystem } from "./IFileSystem";
-export { PersistentFileSystem } from "./PersistentFileSystem";
+export { Database } from "./Database.js";
+export type { FilePath } from "./FilePath.js";
+export { InMemoryFileSystem } from "./InMemoryFileSystem.js";
+export type { IFileEntry } from "./IFileEntry.js";
+export type { IFileSystem } from "./IFileSystem.js";
+export { PersistentFileSystem } from "./PersistentFileSystem.js";

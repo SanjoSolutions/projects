@@ -1,5 +1,5 @@
 import type { Page } from "puppeteer";
-import { waitForNavigation } from "./waitForNavigation";
+import { waitForNavigation } from "./waitForNavigation.js";
 
 export async function withWaitForNavigation(
   page: Page,

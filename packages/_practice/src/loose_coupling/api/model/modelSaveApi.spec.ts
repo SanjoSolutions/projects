@@ -1,8 +1,8 @@
 jest.mock("../../database");
 
-import { database } from "../../database";
-import { serialize } from "../../serialize";
-import { modelSaveApi } from "./modelSaveApi";
+import { database } from "../../database.js";
+import { serialize } from "../../serialize.js";
+import { modelSaveApi } from "./modelSaveApi.js";
 
 describe("modelSaveApi", () => {
   it("saves the data from the request.body to the database", () => {

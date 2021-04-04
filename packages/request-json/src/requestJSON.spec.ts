@@ -1,6 +1,6 @@
 jest.mock("@sanjo/request");
 
-import { requestJSON } from "./requestJSON";
+import { requestJSON } from "./requestJSON.js";
 import request from "@sanjo/request";
 
 describe("requestJSON", () => {

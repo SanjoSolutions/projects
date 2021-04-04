@@ -1,7 +1,7 @@
 import request from "@sanjo/request";
 import type { Server } from "http";
 import http from "http";
-import { HTTPServer } from "./HTTPServer";
+import { HTTPServer } from "./HTTPServer.js";
 
 describe("HTTP server", () => {
   describe("when no port has been passed", () => {

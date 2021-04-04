@@ -1,5 +1,5 @@
-import { calculateArea } from "./calculateArea";
-import { pipe } from "./pipe";
+import { calculateArea } from "./calculateArea.js";
+import { pipe } from "./pipe.js";
 
 describe("practice", () => {
   test("joining with comma and space between", () => {

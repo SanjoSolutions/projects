@@ -1,4 +1,4 @@
-import { waitFor } from "./waitFor";
+import { waitFor } from "./waitFor.js";
 
 export async function waitForMockFunctionToHaveBeenCalled(mockFn) {
   const condition = async () => {

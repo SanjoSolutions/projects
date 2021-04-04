@@ -1,5 +1,5 @@
-import type { StaticHTTPServer } from "./createStaticWebsiteServer";
-import { readFiles } from "./readFiles";
+import type { StaticHTTPServer } from "./createStaticWebsiteServer.js";
+import { readFiles } from "./readFiles.js";
 
 export async function createRoutes(
   server: StaticHTTPServer,

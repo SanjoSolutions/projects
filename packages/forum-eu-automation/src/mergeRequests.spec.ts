@@ -1,13 +1,13 @@
 import readJSON from "@sanjo/read-json";
 import type { ChildProcess, ExecException } from "child_process";
 import child_process from "child_process";
-import { GitLabAPI } from "./GitLabAPI";
-import type { MergeRequest } from "./MergeRequest";
+import { GitLabAPI } from "./GitLabAPI.js";
+import type { MergeRequest } from "./MergeRequest.js";
 import {
   createMergeRequestForTicketNotFoundError,
   MergeRequests,
-} from "./mergeRequests";
-import { createMergeRequest } from "./testing/fixtures/gitLabAPI/createMergeRequest";
+} from "./mergeRequests.js";
+import { createMergeRequest } from "./testing/fixtures/gitLabAPI/createMergeRequest.js";
 
 jest.mock("@sanjo/read-json");
 jest.mock("child_process");

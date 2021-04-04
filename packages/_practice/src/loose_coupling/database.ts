@@ -1,3 +1,3 @@
-import { MongoDB as Database } from "./databases/MongoDB";
+import { MongoDB as Database } from "./databases/MongoDB.js";
 
 export const database = new Database();

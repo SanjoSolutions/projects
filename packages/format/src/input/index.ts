@@ -1,4 +1,4 @@
-export const input = `import {a} from './a'
+export const input = `import {a} from './a.js'
 
 a()
 `;

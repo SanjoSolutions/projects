@@ -1,5 +1,6 @@
 {
   "name": "@sanjo/set",
+  "type": "module",
   "description": "Set",
   "license": "Unlicense",
   "version": "1.0.0",

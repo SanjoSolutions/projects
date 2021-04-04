@@ -2,7 +2,7 @@ import type { RequestOptions } from "http";
 import http from "http";
 import https from "https";
 import { URL } from "url";
-import type { Response } from "./Response";
+import type { Response } from "./Response.js";
 
 export function request(
   url: string,
