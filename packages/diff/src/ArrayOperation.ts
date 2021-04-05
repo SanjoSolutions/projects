@@ -1,7 +1,22 @@
-export interface ArrayOperation {
-  type: "add" | "update" | "remove";
+export type ArrayOperation =
+  | ArrayAddOperation
+  | ArrayUpdateOperation
+  | ArrayRemoveOperation;
+
+export interface ArrayAddOperation {
+  type: "add";
+  index: number;
+  values: any[];
+}
+
+export interface ArrayUpdateOperation {
+  type: "update";
   index: number;
   value?: any;
-  values?: any[];
-  deleteCount?: number;
+}
+
+export interface ArrayRemoveOperation {
+  type: "remove";
+  index: number;
+  deleteCount: number;
 }
