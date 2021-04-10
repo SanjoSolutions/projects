@@ -1,5 +1,7 @@
 # <PACKAGE_NAME>
 
+This work is devoted to God.
+
 <PACKAGE_DESCRIPTION>.
 
 ## How to install
