@@ -4,7 +4,7 @@
     "rootDir": "./src/",
     "outDir": "./built/",
     "module": "ESNext",
-    "lib": ["ES2020"]
+    "lib": ["ESNext"]
   },
   "references": [
     {
