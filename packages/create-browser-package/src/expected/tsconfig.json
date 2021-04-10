@@ -3,7 +3,6 @@
   "compilerOptions": {
     "rootDir": "./src/",
     "outDir": "./built/",
-    "module": "ES2020",
     "lib": ["ESNext", "DOM"]
   },
   "references": []
