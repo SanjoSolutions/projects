@@ -5,5 +5,5 @@ export {
   difference,
   symmetricDifference,
   cartesianProduct,
-  powerSet
+  powerSet,
 } from "./set.js";
