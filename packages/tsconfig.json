@@ -93,7 +93,10 @@
       "path": "./write-file"
     },
     {
-      "path": ".\\set"
+      "path": "./set"
+    },
+    {
+      "path": "./define-element"
     }
   ]
 }

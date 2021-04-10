@@ -3,7 +3,7 @@
   "type": "module",
   "description": "Helper function for definining custom elements, with emphasis on the usage in unit testing with JSDOM.",
   "license": "Unlicense",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "./built/index.js",
   "types": "./built/index.d.js",
   "publishConfig": {
