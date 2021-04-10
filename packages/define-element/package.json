@@ -1,0 +1,12 @@
+{
+  "name": "@sanjo/define-element",
+  "type": "module",
+  "description": "Helper function for definining custom elements, with emphasis on the usage in unit testing with JSDOM.",
+  "license": "Unlicense",
+  "version": "1.0.0",
+  "main": "./built/index.js",
+  "types": "./built/index.d.js",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -8,6 +8,8 @@ module.exports = () => ({
     "!packages/diff/src/**/*.spec.ts",
     "packages/set/src/**/*.ts",
     "!packages/set/src/**/*.spec.ts",
+    "packages/define-element/src/**/*.ts",
+    "!packages/define-element/src/**/*.spec.ts",
     "rgbToHsl.js",
   ],
 
@@ -15,6 +17,7 @@ module.exports = () => ({
     "packages/database/src/**/*.spec.ts",
     "packages/diff/src/**/*.spec.ts",
     "packages/set/src/**/*.spec.ts",
-    "rgbToHsl.spec.js"
+    "packages/define-element/src/**/*.spec.ts",
+    "rgbToHsl.spec.js",
   ],
 });

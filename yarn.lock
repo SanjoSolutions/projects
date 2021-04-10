@@ -1726,6 +1726,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/define-element@workspace:packages/define-element":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/define-element@workspace:packages/define-element"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/diff-folders@^0.1.0, @sanjo/diff-folders@workspace:packages/diff-folders":
   version: 0.0.0-use.local
   resolution: "@sanjo/diff-folders@workspace:packages/diff-folders"
