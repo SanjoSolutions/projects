@@ -2,7 +2,7 @@
 
 This work is devoted to God.
 
-<PACKAGE_DESCRIPTION>.
+<PACKAGE_DESCRIPTION>
 
 ## How to install
 
