@@ -1,9 +1,9 @@
 {
   "name": "@sanjo/request",
   "type": "module",
-  "description": "HTTP request",
+  "description": "Wrapper for `http.request` and `https.request` (Node.js APIs) with Promise API.",
   "license": "Unlicense",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "./built/index.js",
   "types": "./built/index.d.js",
   "publishConfig": {

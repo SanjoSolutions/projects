@@ -2,8 +2,8 @@ jest.mock("http");
 jest.mock("https");
 
 import { request } from "./request.js";
-import http from "http";
-import https from "https";
+import * as http from "http";
+import * as https from "https";
 
 describe("request", () => {
   beforeEach(function () {

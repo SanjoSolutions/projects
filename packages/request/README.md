@@ -2,12 +2,13 @@
 
 This work is devoted to God.
 
-> TODO: description
+Wrapper for `http.request` and `https.request` (Node.js APIs)
+with Promise API.
 
 ## Usage
 
 ```
-const request = require('@sanjo/request');
+const request = require('@sanjo/request')
 
-// TODO: DEMONSTRATE API
+const response = await request('https://example.com')
 ```
