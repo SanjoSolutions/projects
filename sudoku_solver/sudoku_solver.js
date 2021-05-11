@@ -2,16 +2,19 @@ import { concat } from "../packages/array/concat.js";
 import { difference, union } from "../packages/set/built/index.js";
 
 export const sudoku = [
-  [0, 0, 4, 6, 0, 0, 5, 1, 0],
-  [0, 0, 3, 0, 0, 0, 8, 0, 2],
-  [2, 0, 0, 8, 0, 0, 0, 9, 0],
-  [0, 0, 1, 0, 2, 8, 0, 4, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [3, 0, 0, 4, 0, 0, 9, 0, 6],
-  [8, 3, 0, 1, 0, 0, 4, 0, 0],
-  [0, 0, 0, 0, 9, 0, 2, 0, 0],
-  [0, 0, 6, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 2, 0, 4, 8, 6],
+  [4, 0, 5, 1, 3, 0, 7, 0, 0],
+  [0, 0, 0, 0, 4, 0, 0, 0, 0],
+  [5, 0, 0, 0, 1, 0, 0, 0, 0],
+  [0, 6, 2, 9, 5, 0, 8, 0, 1],
+  [0, 0, 4, 6, 7, 0, 0, 0, 0],
+  [0, 0, 3, 4, 0, 0, 2, 0, 0],
+  [0, 0, 0, 3, 8, 1, 5, 4, 0],
+  [0, 4, 7, 0, 9, 2, 0, 0, 3],
 ];
+
+const blockWidth = 3;
+const blockHeight = 3;
 
 export function renderSudokuToHTML(sudoku) {
   const table = document.createElement("table");
@@ -117,6 +120,70 @@ export function possibleNumbers(sudoku) {
             )
           ),
         ];
+      }
+    }
+  }
+
+  for (let rowIndex = 0; rowIndex < possibleNumbers.length; rowIndex++) {
+    for (let columnIndex1 = 0; columnIndex1 < possibleNumbers[rowIndex].length; columnIndex1++) {
+      for (let columnIndex2 = columnIndex1 + 1; columnIndex2 < possibleNumbers[rowIndex].length; columnIndex2++) {
+        const cell1 = possibleNumbers[rowIndex][columnIndex1]
+        const cell2 = possibleNumbers[rowIndex][columnIndex2]
+        if (cell1 && cell2 && cell1.length === 2 && cell2.length === 2 && union(cell1, cell2).size === 2) {
+          for (let columnIndex3 = 0; columnIndex3 < possibleNumbers[rowIndex].length; columnIndex3++) {
+            const cell3 = possibleNumbers[rowIndex][columnIndex3]
+            if (cell3 && cell3 !== cell1 && cell3 !== cell2) {
+              possibleNumbers[rowIndex][columnIndex3] = Array.from(difference(cell3, new Set(cell1)))
+            }
+          }
+
+          if (
+            isInSameBlock(
+              {rowIndex, columnIndex: columnIndex1},
+              {rowIndex, columnIndex: columnIndex2}
+            )
+          ) {
+            const blockStartRowIndex = getBlockStartRowIndex(rowIndex)
+            const blockStartColumnIndex = getBlockStartColumnIndex(columnIndex1)
+            for (let blockRowIndex = 0; blockRowIndex < blockHeight; blockRowIndex++) {
+              for (let blockColumnIndex = 0; blockColumnIndex < blockWidth; blockColumnIndex++) {
+                const rowIndex4 = blockStartRowIndex + blockRowIndex
+                const columnIndex4 = blockStartColumnIndex + blockColumnIndex
+                if (
+                  possibleNumbers[rowIndex4][columnIndex4] &&
+                  !(
+                    (rowIndex4 === rowIndex && columnIndex4 === columnIndex1) ||
+                    (rowIndex4 === rowIndex && columnIndex4 === columnIndex2)
+                  )
+                ) {
+                  possibleNumbers[rowIndex4][columnIndex4] = Array.from(
+                    difference(
+                      possibleNumbers[rowIndex4][columnIndex4],
+                      new Set(cell1)
+                    )
+                  )
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  for (let columnIndex = 0; columnIndex < possibleNumbers[0].length; columnIndex++) {
+    for (let rowIndex1 = 0; rowIndex1 < possibleNumbers.length; rowIndex1++) {
+      for (let rowIndex2 = rowIndex1 + 1; rowIndex2 < possibleNumbers.length; rowIndex2++) {
+        const cell1 = possibleNumbers[rowIndex1][columnIndex]
+        const cell2 = possibleNumbers[rowIndex2][columnIndex]
+        if (cell1 && cell2 && cell1.length === 2 && cell2.length === 2 && union(cell1, cell2).size === 2) {
+          for (let rowIndex3 = 0; rowIndex3 < possibleNumbers.length; rowIndex3++) {
+            const cell3 = possibleNumbers[rowIndex3][columnIndex]
+            if (cell3 && cell3 !== cell1 && cell3 !== cell2) {
+              possibleNumbers[rowIndex3][columnIndex] = Array.from(difference(cell3, new Set(cell1)))
+            }
+          }
+        }
       }
     }
   }
@@ -244,8 +311,6 @@ function getColumnWithout(sudoku, rowIndex, columnIndex) {
 
 function getBlockWithout(sudoku, rowIndex, columnIndex) {
   const block = getBlock(sudoku, rowIndex, columnIndex);
-  const blockWidth = 3;
-  const blockHeight = 3;
   block[rowIndex % blockHeight] = [...block[rowIndex % blockHeight]];
   block[rowIndex % blockHeight].splice(columnIndex % blockWidth, 1, null);
   return block;
@@ -265,11 +330,9 @@ function getColumn(sudoku, columnIndex) {
 }
 
 function getBlock(sudoku, rowIndex, columnIndex) {
-  const blockHeight = 3;
-  const blockWidth = 3;
-  rowIndex = Math.floor(rowIndex / blockHeight) * blockHeight;
-  columnIndex = Math.floor(columnIndex / blockWidth) * blockWidth;
-  const block = new Array(blockHeight * blockWidth);
+  rowIndex = getBlockStartRowIndex(rowIndex);
+  columnIndex = getBlockStartColumnIndex(columnIndex);
+  const block = new Array(blockHeight);
   for (let blockRowIndex = 0; blockRowIndex < blockHeight; blockRowIndex++) {
     block[blockRowIndex] = new Array(blockWidth);
     for (
@@ -282,4 +345,21 @@ function getBlock(sudoku, rowIndex, columnIndex) {
     }
   }
   return block;
+}
+
+function getBlockStartRowIndex(rowIndex) {
+  return Math.floor(rowIndex / blockHeight) * blockHeight;
+}
+
+function getBlockStartColumnIndex(columnIndex) {
+  return Math.floor(columnIndex / blockWidth) * blockWidth;
+}
+
+function isInSameBlock(cellA, cellB) {
+  const {rowIndex: rowIndex1, columnIndex: columnIndex1} = cellA
+  const {rowIndex: rowIndex2, columnIndex: columnIndex2} = cellB
+  return (
+    getBlockStartRowIndex(rowIndex1) === getBlockStartRowIndex(rowIndex2) &&
+    getBlockStartColumnIndex(columnIndex1) === getBlockStartColumnIndex(columnIndex2)
+  )
 }
