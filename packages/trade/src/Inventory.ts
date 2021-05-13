@@ -12,13 +12,13 @@ export class Inventory implements IInventory {
     this.items = [];
   }
 
-  putOut(indexes) {
+  putOut(indexes: number[]) {
     const [putOutItems, items] = putOut(this.items, indexes);
     this.items = items;
     return putOutItems;
   }
 
-  putIn(items) {
+  putIn(items: any[]) {
     putIn(this.items, items);
   }
 }

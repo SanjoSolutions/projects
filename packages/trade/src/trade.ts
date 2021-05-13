@@ -3,8 +3,8 @@ import { ITrader } from "./Trader.js";
 export function trade(
   traderA: ITrader,
   traderB: ITrader,
-  inventoryItemIndexesToTradeA,
-  inventoryItemIndexesToTradeB
+  inventoryItemIndexesToTradeA: number[],
+  inventoryItemIndexesToTradeB: number[]
 ) {
   const inventoryItemsToTradeA = traderA.inventory.putOut(
     inventoryItemIndexesToTradeA
