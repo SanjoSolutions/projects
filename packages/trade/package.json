@@ -4,9 +4,8 @@
   "description": "Trade",
   "license": "Unlicense",
   "version": "0.1.0",
-  "main": "./built/index.js",
+  "main": "./index.js",
   "types": "./built/index.d.js",
-  "dependencies": {},
   "publishConfig": {
     "access": "public"
   }
