@@ -1,13 +1,13 @@
 import { Inventory } from "./Inventory.js";
 
 export interface ITrader {
-    inventory: Inventory
+  inventory: Inventory;
 }
 
 export class Trader implements ITrader {
-    inventory: Inventory
+  inventory: Inventory;
 
-    constructor() {
-        this.inventory = new Inventory()
-    }
+  constructor() {
+    this.inventory = new Inventory();
+  }
 }
