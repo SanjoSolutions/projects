@@ -4,4 +4,4 @@
   because it can be jumped to the definition
   of a named import in WebStorm.
 
-* [ ] Remove index.ts from package template
+* [x] Remove index.ts from package template
