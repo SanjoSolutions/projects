@@ -4,8 +4,8 @@
   "description": "Practice",
   "license": "Unlicense",
   "version": "0.0.0",
-  "main": "./built/index.js",
-  "types": "./built/index.d.js",
+  "main": "./index.js",
+  "types": "./index.d.js",
   "scripts": {
     "build": "webpack",
     "build:watch": "webpack-dev-server --open"

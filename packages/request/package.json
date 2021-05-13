@@ -4,8 +4,8 @@
   "description": "Wrapper for `http.request` and `https.request` (Node.js APIs) with Promise API.",
   "license": "Unlicense",
   "version": "0.3.0",
-  "main": "./built/index.js",
-  "types": "./built/index.d.js",
+  "main": "./index.js",
+  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }

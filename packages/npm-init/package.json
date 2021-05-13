@@ -4,8 +4,8 @@
   "description": "NPM init",
   "license": "Unlicense",
   "version": "0.1.0",
-  "main": "./built/index.js",
-  "types": "./built/index.d.js",
+  "main": "./index.js",
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/exec": "^1.0.0"
   },

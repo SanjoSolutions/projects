@@ -28,7 +28,7 @@ r 59   # gets translated to `node index.js mark-pr-as-ready 659`
 ### Config for .zshrc
 
 ```zsh
-pathToForumEuAutomation='<PATH_TO>/packages/forum-eu-automation/built/index.js'
+pathToForumEuAutomation='<PATH_TO>/packages/forum-eu-automation/index.js'
 ticketIdPrefix='6'
 
 cw() {

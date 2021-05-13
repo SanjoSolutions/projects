@@ -4,8 +4,8 @@
   "description": "Helper function for definining custom elements, with emphasis on the usage in unit testing with JSDOM.",
   "license": "Unlicense",
   "version": "1.0.1",
-  "main": "./built/index.js",
-  "types": "./built/index.d.js",
+  "main": "./index.js",
+  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }

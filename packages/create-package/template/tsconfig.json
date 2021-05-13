@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "./src/",
     "outDir": "./",
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
   },
+  "include": ["./src/**/*"],
   "references": []
 }

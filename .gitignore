@@ -5,7 +5,9 @@ tsconfig.tsbuildinfo
 built
 dist
 .history
-/packages/*/*.js
-/packages/*/*.d.ts
-/packages/*/*.d.ts.map
-/packages/*/*.js.map
+/packages/**/*.js
+!/packages/*/src/**/*.js
+/packages/**/*.d.ts
+!/packages/*/src/**.d.ts
+/packages/**/*.d.ts.map
+/packages/**/*.js.map
