@@ -13,6 +13,8 @@ module.exports = () => ({
     "packages/request/src/**/*.ts",
     "!packages/request/src/**/*.spec.ts",
     "rgbToHsl.js",
+    "packages/trade/src/**/*.ts",
+    "!packages/trade/src/**/*.spec.ts"
   ],
 
   tests: [
@@ -22,5 +24,6 @@ module.exports = () => ({
     "packages/define-element/src/**/*.spec.ts",
     "packages/request/src/**/*.spec.ts",
     "rgbToHsl.spec.js",
+    "packages/trade/src/**/*.spec.ts"
   ],
 });
