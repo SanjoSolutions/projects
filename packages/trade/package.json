@@ -1,0 +1,12 @@
+{
+  "name": "@sanjo/trade",
+  "type": "module",
+  "description": "Trade",
+  "license": "Unlicense",
+  "version": "0.1.0",
+  "main": "./index.js",
+  "types": "./index.d.js",
+  "publishConfig": {
+    "access": "public"
+  }
+}

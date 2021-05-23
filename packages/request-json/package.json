@@ -4,10 +4,10 @@
   "description": "Request JSON",
   "license": "Unlicense",
   "version": "0.1.0",
-  "main": "./built/index.js",
-  "types": "./built/index.d.js",
+  "main": "./index.js",
+  "types": "./index.d.js",
   "dependencies": {
-    "@sanjo/request": "^0.2.0"
+    "@sanjo/request": "^0.3.0"
   },
   "publishConfig": {
     "access": "public"

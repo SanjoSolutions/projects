@@ -4,8 +4,8 @@
   "description": "Queue",
   "license": "Unlicense",
   "version": "1.0.0",
-  "main": "./built/index.js",
-  "types": "./built/index.d.js",
+  "main": "./index.js",
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/binary-search": "^1.0.0"
   },

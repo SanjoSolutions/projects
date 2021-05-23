@@ -4,8 +4,8 @@
   "description": "Create Node.js package",
   "license": "Unlicense",
   "version": "0.1.0",
-  "bin": "./built/bin/create-node-package.js",
-  "types": "./built/index.d.js",
+  "bin": "./bin/create-node-package.js",
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-package": "^0.2.0"
   },

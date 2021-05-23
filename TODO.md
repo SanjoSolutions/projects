@@ -1,5 +1,5 @@
 # TODO
 
-- Use named exports instead of default export
-  because it can be jumped to the definition
-  of a named import in WebStorm.
+- [x] Remove index.ts from package template
+- [x] Convert all packages to build directly into the package root directory
+  - [x] Check for usages of files in "/built" folder.

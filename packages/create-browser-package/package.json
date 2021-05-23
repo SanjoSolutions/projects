@@ -4,8 +4,8 @@
   "description": "Create browser package",
   "license": "Unlicense",
   "version": "0.1.0",
-  "bin": "./built/bin/create-browser-package.js",
-  "types": "./built/index.d.js",
+  "bin": "./bin/create-browser-package.js",
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-package": "^0.2.0",
     "@sanjo/read-json": "^1.0.0",

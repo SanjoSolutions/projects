@@ -1860,11 +1860,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/request-json@workspace:packages/request-json"
   dependencies:
-    "@sanjo/request": ^0.2.0
+    "@sanjo/request": ^0.3.0
   languageName: unknown
   linkType: soft
 
-"@sanjo/request@^0.2.0, @sanjo/request@workspace:packages/request":
+"@sanjo/request@^0.3.0, @sanjo/request@workspace:packages/request":
   version: 0.0.0-use.local
   resolution: "@sanjo/request@workspace:packages/request"
   languageName: unknown
@@ -1898,6 +1898,12 @@ __metadata:
   dependencies:
     "@sanjo/diff-folders": ^0.1.0
     "@sanjo/npm-init": ^0.1.0
+  languageName: unknown
+  linkType: soft
+
+"@sanjo/trade@workspace:packages/trade":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/trade@workspace:packages/trade"
   languageName: unknown
   linkType: soft
 
@@ -8110,7 +8116,7 @@ fsevents@^1.2.7:
   dependencies:
     "@sanjo/make-temporary-directory": ^1.0.0
     "@sanjo/mongodb-diff": ^0.3.0
-    "@sanjo/request": ^0.2.0
+    "@sanjo/request": ^0.3.0
     "@types/react-dom": ^16.9.8
     cucumber: ^6.0.5
     react: ^16.13.1
