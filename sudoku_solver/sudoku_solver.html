@@ -119,7 +119,7 @@
     document.body.appendChild(row);
 
     const sudokuInput = renderSudokuInputToHTML(sudoku);
-    sudokuInput.querySelector("input").autofocus = true
+    sudokuInput.querySelector("input").autofocus = true;
     column1.appendChild(sudokuInput);
 
     column1.appendChild(document.createElement("br"));
@@ -127,7 +127,7 @@
     const button = document.createElement("button");
     button.innerText = "Next";
     button.addEventListener("click", () => {
-      sudoku = getSudokuFromSudokuInput(sudokuInput)
+      sudoku = getSudokuFromSudokuInput(sudokuInput);
       possibleNumbers = getPossibleNumbers(sudoku);
       solutions = solve(possibleNumbers);
       sudoku = fillSolutions(sudoku, solutions);

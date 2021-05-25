@@ -10,25 +10,25 @@ export const sudoku = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0]
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 
 const blockWidth = 3;
 const blockHeight = 3;
 
 export function getSudokuFromSudokuInput(sudokuInput) {
-  const cells = sudokuInput.querySelectorAll('input')
-  const sudoku = new Array()
+  const cells = sudokuInput.querySelectorAll("input");
+  const sudoku = new Array();
   for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
-    const row = new Array()
-    sudoku.push(row)
+    const row = new Array();
+    sudoku.push(row);
     for (let columnIndex = 0; columnIndex < 9; columnIndex++) {
-      const value = cells[rowIndex * 9 + columnIndex].value
-      const number = value ? Number(value) : 0
-      row.push(number)
+      const value = cells[rowIndex * 9 + columnIndex].value;
+      const number = value ? Number(value) : 0;
+      row.push(number);
     }
   }
-  return sudoku
+  return sudoku;
 }
 
 export function renderSudokuInputToHTML(sudoku) {
@@ -46,7 +46,7 @@ export function renderSudokuInputToHTML(sudoku) {
     ) {
       const td = document.createElement("td");
       const input = document.createElement("input");
-      input.maxLength = 1
+      input.maxLength = 1;
       const value = sudoku[rowIndex][columnIndex];
       if (value !== 0) {
         input.value = value;
@@ -168,30 +168,60 @@ export function possibleNumbers(sudoku) {
   }
 
   for (let rowIndex = 0; rowIndex < possibleNumbers.length; rowIndex++) {
-    for (let columnIndex1 = 0; columnIndex1 < possibleNumbers[rowIndex].length; columnIndex1++) {
-      for (let columnIndex2 = columnIndex1 + 1; columnIndex2 < possibleNumbers[rowIndex].length; columnIndex2++) {
-        const cell1 = possibleNumbers[rowIndex][columnIndex1]
-        const cell2 = possibleNumbers[rowIndex][columnIndex2]
-        if (cell1 && cell2 && cell1.length === 2 && cell2.length === 2 && union(cell1, cell2).size === 2) {
-          for (let columnIndex3 = 0; columnIndex3 < possibleNumbers[rowIndex].length; columnIndex3++) {
-            const cell3 = possibleNumbers[rowIndex][columnIndex3]
+    for (
+      let columnIndex1 = 0;
+      columnIndex1 < possibleNumbers[rowIndex].length;
+      columnIndex1++
+    ) {
+      for (
+        let columnIndex2 = columnIndex1 + 1;
+        columnIndex2 < possibleNumbers[rowIndex].length;
+        columnIndex2++
+      ) {
+        const cell1 = possibleNumbers[rowIndex][columnIndex1];
+        const cell2 = possibleNumbers[rowIndex][columnIndex2];
+        if (
+          cell1 &&
+          cell2 &&
+          cell1.length === 2 &&
+          cell2.length === 2 &&
+          union(cell1, cell2).size === 2
+        ) {
+          for (
+            let columnIndex3 = 0;
+            columnIndex3 < possibleNumbers[rowIndex].length;
+            columnIndex3++
+          ) {
+            const cell3 = possibleNumbers[rowIndex][columnIndex3];
             if (cell3 && cell3 !== cell1 && cell3 !== cell2) {
-              possibleNumbers[rowIndex][columnIndex3] = Array.from(difference(cell3, new Set(cell1)))
+              possibleNumbers[rowIndex][columnIndex3] = Array.from(
+                difference(cell3, new Set(cell1))
+              );
             }
           }
 
           if (
             isInSameBlock(
-              {rowIndex, columnIndex: columnIndex1},
-              {rowIndex, columnIndex: columnIndex2}
+              { rowIndex, columnIndex: columnIndex1 },
+              { rowIndex, columnIndex: columnIndex2 }
             )
           ) {
-            const blockStartRowIndex = getBlockStartRowIndex(rowIndex)
-            const blockStartColumnIndex = getBlockStartColumnIndex(columnIndex1)
-            for (let blockRowIndex = 0; blockRowIndex < blockHeight; blockRowIndex++) {
-              for (let blockColumnIndex = 0; blockColumnIndex < blockWidth; blockColumnIndex++) {
-                const rowIndex4 = blockStartRowIndex + blockRowIndex
-                const columnIndex4 = blockStartColumnIndex + blockColumnIndex
+            const blockStartRowIndex = getBlockStartRowIndex(rowIndex);
+            const blockStartColumnIndex = getBlockStartColumnIndex(
+              columnIndex1
+            );
+            for (
+              let blockRowIndex = 0;
+              blockRowIndex < blockHeight;
+              blockRowIndex++
+            ) {
+              for (
+                let blockColumnIndex = 0;
+                blockColumnIndex < blockWidth;
+                blockColumnIndex++
+              ) {
+                const rowIndex4 = blockStartRowIndex + blockRowIndex;
+                const columnIndex4 = blockStartColumnIndex + blockColumnIndex;
                 if (
                   possibleNumbers[rowIndex4][columnIndex4] &&
                   !(
@@ -204,7 +234,7 @@ export function possibleNumbers(sudoku) {
                       possibleNumbers[rowIndex4][columnIndex4],
                       new Set(cell1)
                     )
-                  )
+                  );
                 }
               }
             }
@@ -214,16 +244,36 @@ export function possibleNumbers(sudoku) {
     }
   }
 
-  for (let columnIndex = 0; columnIndex < possibleNumbers[0].length; columnIndex++) {
+  for (
+    let columnIndex = 0;
+    columnIndex < possibleNumbers[0].length;
+    columnIndex++
+  ) {
     for (let rowIndex1 = 0; rowIndex1 < possibleNumbers.length; rowIndex1++) {
-      for (let rowIndex2 = rowIndex1 + 1; rowIndex2 < possibleNumbers.length; rowIndex2++) {
-        const cell1 = possibleNumbers[rowIndex1][columnIndex]
-        const cell2 = possibleNumbers[rowIndex2][columnIndex]
-        if (cell1 && cell2 && cell1.length === 2 && cell2.length === 2 && union(cell1, cell2).size === 2) {
-          for (let rowIndex3 = 0; rowIndex3 < possibleNumbers.length; rowIndex3++) {
-            const cell3 = possibleNumbers[rowIndex3][columnIndex]
+      for (
+        let rowIndex2 = rowIndex1 + 1;
+        rowIndex2 < possibleNumbers.length;
+        rowIndex2++
+      ) {
+        const cell1 = possibleNumbers[rowIndex1][columnIndex];
+        const cell2 = possibleNumbers[rowIndex2][columnIndex];
+        if (
+          cell1 &&
+          cell2 &&
+          cell1.length === 2 &&
+          cell2.length === 2 &&
+          union(cell1, cell2).size === 2
+        ) {
+          for (
+            let rowIndex3 = 0;
+            rowIndex3 < possibleNumbers.length;
+            rowIndex3++
+          ) {
+            const cell3 = possibleNumbers[rowIndex3][columnIndex];
             if (cell3 && cell3 !== cell1 && cell3 !== cell2) {
-              possibleNumbers[rowIndex3][columnIndex] = Array.from(difference(cell3, new Set(cell1)))
+              possibleNumbers[rowIndex3][columnIndex] = Array.from(
+                difference(cell3, new Set(cell1))
+              );
             }
           }
         }
@@ -399,10 +449,11 @@ function getBlockStartColumnIndex(columnIndex) {
 }
 
 function isInSameBlock(cellA, cellB) {
-  const {rowIndex: rowIndex1, columnIndex: columnIndex1} = cellA
-  const {rowIndex: rowIndex2, columnIndex: columnIndex2} = cellB
+  const { rowIndex: rowIndex1, columnIndex: columnIndex1 } = cellA;
+  const { rowIndex: rowIndex2, columnIndex: columnIndex2 } = cellB;
   return (
     getBlockStartRowIndex(rowIndex1) === getBlockStartRowIndex(rowIndex2) &&
-    getBlockStartColumnIndex(columnIndex1) === getBlockStartColumnIndex(columnIndex2)
-  )
+    getBlockStartColumnIndex(columnIndex1) ===
+      getBlockStartColumnIndex(columnIndex2)
+  );
 }
