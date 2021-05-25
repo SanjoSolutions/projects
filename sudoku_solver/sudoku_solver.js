@@ -2,19 +2,62 @@ import { concat } from "../packages/array/src/concat.js";
 import { difference, union } from "../packages/set/built/index.js";
 
 export const sudoku = [
-  [0, 0, 0, 0, 2, 0, 4, 8, 6],
-  [4, 0, 5, 1, 3, 0, 7, 0, 0],
-  [0, 0, 0, 0, 4, 0, 0, 0, 0],
-  [5, 0, 0, 0, 1, 0, 0, 0, 0],
-  [0, 6, 2, 9, 5, 0, 8, 0, 1],
-  [0, 0, 4, 6, 7, 0, 0, 0, 0],
-  [0, 0, 3, 4, 0, 0, 2, 0, 0],
-  [0, 0, 0, 3, 8, 1, 5, 4, 0],
-  [0, 4, 7, 0, 9, 2, 0, 0, 3],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
 const blockWidth = 3;
 const blockHeight = 3;
+
+export function getSudokuFromSudokuInput(sudokuInput) {
+  const cells = sudokuInput.querySelectorAll('input')
+  const sudoku = new Array()
+  for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
+    const row = new Array()
+    sudoku.push(row)
+    for (let columnIndex = 0; columnIndex < 9; columnIndex++) {
+      const value = cells[rowIndex * 9 + columnIndex].value
+      const number = value ? Number(value) : 0
+      row.push(number)
+    }
+  }
+  return sudoku
+}
+
+export function renderSudokuInputToHTML(sudoku) {
+  const table = document.createElement("table");
+  table.classList.add("sudoku");
+  table.classList.add("sudoku-input");
+  const tbody = document.createElement("tbody");
+  table.appendChild(tbody);
+  for (let rowIndex = 0; rowIndex < sudoku.length; rowIndex++) {
+    const tr = document.createElement("tr");
+    for (
+      let columnIndex = 0;
+      columnIndex < sudoku[rowIndex].length;
+      columnIndex++
+    ) {
+      const td = document.createElement("td");
+      const input = document.createElement("input");
+      input.maxLength = 1
+      const value = sudoku[rowIndex][columnIndex];
+      if (value !== 0) {
+        input.value = value;
+      }
+      td.appendChild(input);
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+  }
+  return table;
+}
 
 export function renderSudokuToHTML(sudoku) {
   const table = document.createElement("table");
