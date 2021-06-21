@@ -56,10 +56,16 @@ function isValidMove(fromIndex, toIndex) {
 }
 
 function shuffleTimes(slidingPuzzle, numberOfTimes) {
+  const solution = [0];
   for (let shuffleNumber = 1; shuffleNumber <= numberOfTimes; shuffleNumber++) {
-    slidingPuzzle = shuffle(slidingPuzzle);
+    const { slidingPuzzle: nextSlidingPuzzle, index } = shuffle(slidingPuzzle);
+    slidingPuzzle = nextSlidingPuzzle;
+    solution.unshift(index);
   }
-  return slidingPuzzle;
+  return {
+    slidingPuzzle,
+    solution,
+  };
 }
 
 let lastShuffleToIndex = null;
@@ -74,7 +80,10 @@ function shuffle(slidingPuzzle) {
     movableIndexes[Math.floor(Math.random() * movableIndexes.length)];
   slidingPuzzle = movePiece(slidingPuzzle, index);
   lastShuffleToIndex = emptySlotIndex;
-  return slidingPuzzle;
+  return {
+    slidingPuzzle,
+    index,
+  };
 }
 
 function indexToPosition(index) {
@@ -200,8 +209,35 @@ async function main() {
   updatePositions();
   document.body.appendChild($slidingPuzzle);
   // await animatedShuffle()
-  const numberOfShuffles = 200;
-  slidingPuzzle = shuffleTimes(slidingPuzzle, numberOfShuffles);
+  const numberOfShuffles = 20;
+  // const {slidingPuzzle: shuffledSlidingPuzzle, solution} = shuffleTimes(slidingPuzzle, numberOfShuffles);
+  // console.log('Shuffled sliding puzzle:', shuffledSlidingPuzzle)
+  // slidingPuzzle = shuffledSlidingPuzzle
+  slidingPuzzle = [5, 4, 2, 3, 8, null, 7, 10, 9, 1, 6, 11, 12, 13, 14, 15];
+  const solution = [
+    5,
+    9,
+    13,
+    14,
+    15,
+    11,
+    7,
+    6,
+    10,
+    11,
+    15,
+    14,
+    13,
+    9,
+    8,
+    4,
+    0,
+    1,
+    5,
+    4,
+    0,
+  ];
+  console.log("Solution:", solution);
   updatePositions();
 
   let zIndex = 1;
@@ -358,7 +394,8 @@ async function main() {
     }
   }
 
-  solve(slidingPuzzle, numberOfShuffles, doMoves);
+  solve(slidingPuzzle, numberOfShuffles + 1, doMoves);
+  // doMoves(solution)
 }
 
 document.addEventListener("DOMContentLoaded", main);
@@ -370,7 +407,7 @@ class Node {
     this.move = move;
     this.parent = parent;
     this.children = [];
-    this.manhattanDistance = manhattanDistance(slidingPuzzle);
+    this.manhattanDistance = Infinity;
     this.hasBeenVisited = false;
   }
 }
@@ -388,37 +425,53 @@ async function solve(slidingPuzzle, maxDepth, doMoves) {
 }
 
 function findSolution(slidingPuzzle, maxDepth) {
-  const tree = new Node(slidingPuzzle, 0);
+  const tree = new Node(solvedSlidingPuzzle, 0);
+  tree.manhattanDistance = manhattanDistance(tree.slidingPuzzle, slidingPuzzle);
   // console.log(tree.manhattanDistance)
-  if (evaluateIfSolved(tree)) {
+  console.log(generateMovesForSolution(tree));
+  if (evaluateIfSolved(tree, slidingPuzzle)) {
     return [];
   }
   let node = tree;
   node.hasBeenVisited = true;
+  generateChildren(node, slidingPuzzle);
   while (true) {
     if (!node) {
+      debugger;
       return null;
-    }
-    if (node.children.length === 0) {
-      generateChildren(node);
     }
     node = selectNextNodeToVisit(node);
     if (!node) {
+      debugger;
       return null;
     }
     node.hasBeenVisited = true;
     // console.log(node.manhattanDistance)
-    if (evaluateIfSolved(node)) {
+    const moves = generateMovesForSolution(node);
+    console.log(moves);
+    if (areArraysEqual(moves, [13, 9, 8, 4, 0, 1, 5, 4, 0])) {
+      debugger;
+    }
+    if (evaluateIfSolved(node, slidingPuzzle)) {
       const moves = generateMovesForSolution(node);
       return moves;
     } else {
-      if (node.depth === maxDepth) {
+      if (node.children.length === 0) {
+        generateChildren(node, slidingPuzzle);
+      }
+      if (node.depth === maxDepth || node.children.length === 0) {
         // console.log('Reached max depth. Going up.')
+        const a = node;
         let previousNode;
         do {
           previousNode = node;
           node = node.parent;
-        } while (node && !hasUnvisitedNonLeafChildren(node, maxDepth));
+        } while (node && !hasUnvisitedChildren(node));
+        if (!node) {
+          console.log(a);
+          console.log(tree);
+          debugger;
+        }
         previousNode.children = []; // Save memory
         // console.log('Node depth: ' + node.depth)
       }
@@ -426,17 +479,12 @@ function findSolution(slidingPuzzle, maxDepth) {
   }
 }
 
-function hasUnvisitedNonLeafChildren(node, maxDepth) {
-  return node.children.some(
-    (child) => child.depth < maxDepth && isUnvisited(child)
-  );
-}
-
 function selectNextNodeToVisit(node) {
   const candidates = node.children
     .filter(isUnvisited)
     .sort(compareManhattanDistance);
   if (candidates.length === 0) {
+    debugger;
     return null;
   }
   const nextNodeToVisit = candidates[0];
@@ -459,9 +507,11 @@ function compareManhattanDistance(a, b) {
   return a.manhattanDistance - b.manhattanDistance;
 }
 
-function manhattanDistance(slidingPuzzle) {
+function manhattanDistance(slidingPuzzleA, slidingPuzzleB) {
   return sum(
-    range(0, size).map((index) => pieceManhattanDistance(slidingPuzzle, index))
+    range(0, size).map((index) =>
+      pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index)
+    )
   );
 }
 
@@ -477,14 +527,18 @@ function range(from, to) {
   return range;
 }
 
-function pieceManhattanDistance(slidingPuzzle, index) {
-  let piece = slidingPuzzle[index];
+function pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index) {
+  let piece = slidingPuzzleA[index];
   if (piece === null) {
     piece = 0;
   }
   const position = indexToPosition(index);
-  const c = indexToPosition(piece);
-  return Math.abs(position.row - c.row) + Math.abs(position.column - c.column);
+  const indexB = determinePieceIndex(slidingPuzzleB, piece);
+  const positionB = indexToPosition(indexB);
+  return (
+    Math.abs(position.row - positionB.row) +
+    Math.abs(position.column - positionB.column)
+  );
 }
 
 function allChildren(nodes) {
@@ -498,49 +552,50 @@ function allChildren(nodes) {
 function generateMovesForSolution(nodeWithSolution) {
   const moves = [];
   let node = nodeWithSolution;
-  do {
-    const move = node.move;
-    if (move !== null) {
-      moves.unshift(move);
-    }
+  while (node.parent) {
+    const move = determineEmptySlotIndex(node.parent.slidingPuzzle);
+    moves.push(move);
     node = node.parent;
-  } while (node);
+  }
   return moves;
 }
 
-function generateChildren(node) {
+function generateChildren(node, targetSlidingPuzzle) {
   const slidingPuzzle = node.slidingPuzzle;
   const emptySlotIndex = determineEmptySlotIndex(slidingPuzzle);
   const indexesOfPiecesThatCanBeMovedIntoEmptySlot = determineIndexesOfPiecesThatCanBeMovedIntoSlot(
     slidingPuzzle,
     emptySlotIndex
   );
-  let indexesOfPiecesToConsiderThatCanBeMovedIntoEmptySlot;
-  if (node.parent) {
-    const emptySlotIndex = determineEmptySlotIndex(node.parent.slidingPuzzle);
-    indexesOfPiecesToConsiderThatCanBeMovedIntoEmptySlot = indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter(
-      (index) => index != emptySlotIndex
-    );
-  } else {
-    indexesOfPiecesToConsiderThatCanBeMovedIntoEmptySlot = indexesOfPiecesThatCanBeMovedIntoEmptySlot;
-  }
-  for (const index of indexesOfPiecesToConsiderThatCanBeMovedIntoEmptySlot) {
+
+  let children = [];
+  for (const index of indexesOfPiecesThatCanBeMovedIntoEmptySlot) {
     const child = new Node(
       movePiece(slidingPuzzle, index),
       node.depth + 1,
       index,
       node
     );
-    node.children.push(child);
+    child.manhattanDistance = manhattanDistance(
+      child.slidingPuzzle,
+      targetSlidingPuzzle
+    );
+    children.push(child);
   }
+
+  node.children = children;
 }
 
-function evaluateIfSolved(node) {
-  return node.manhattanDistance === 0;
+function evaluateIfSolved(node, slidingPuzzle) {
+  return areArraysEqual(node.slidingPuzzle, slidingPuzzle);
+}
+
+function determinePieceIndex(slidingPuzzle, piece) {
+  return slidingPuzzle.indexOf(piece);
 }
 
 function determineEmptySlotIndex(slidingPuzzle) {
-  return slidingPuzzle.indexOf(null);
+  return determinePieceIndex(slidingPuzzle, null);
 }
 
 function determineEmptySlotPosition(slidingPuzzle) {
