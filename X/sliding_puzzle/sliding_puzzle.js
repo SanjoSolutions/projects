@@ -209,34 +209,15 @@ async function main() {
   updatePositions();
   document.body.appendChild($slidingPuzzle);
   // await animatedShuffle()
-  const numberOfShuffles = 20;
-  // const {slidingPuzzle: shuffledSlidingPuzzle, solution} = shuffleTimes(slidingPuzzle, numberOfShuffles);
-  // console.log('Shuffled sliding puzzle:', shuffledSlidingPuzzle)
-  // slidingPuzzle = shuffledSlidingPuzzle
-  slidingPuzzle = [5, 4, 2, 3, 8, null, 7, 10, 9, 1, 6, 11, 12, 13, 14, 15];
-  const solution = [
-    5,
-    9,
-    13,
-    14,
-    15,
-    11,
-    7,
-    6,
-    10,
-    11,
-    15,
-    14,
-    13,
-    9,
-    8,
-    4,
-    0,
-    1,
-    5,
-    4,
-    0,
-  ];
+  const numberOfShuffles = 50;
+  const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(
+    slidingPuzzle,
+    numberOfShuffles
+  );
+  console.log("Shuffled sliding puzzle:", shuffledSlidingPuzzle);
+  slidingPuzzle = shuffledSlidingPuzzle;
+  // slidingPuzzle = [5, 4, 2, 3, 8, null, 7, 10, 9, 1, 6, 11, 12, 13, 14, 15]
+  // const solution = [5, 9, 13, 14, 15, 11, 7, 6, 10, 11, 15, 14, 13, 9, 8, 4, 0, 1, 5, 4, 0]
   console.log("Solution:", solution);
   updatePositions();
 
@@ -401,21 +382,51 @@ async function main() {
 document.addEventListener("DOMContentLoaded", main);
 
 class Node {
-  constructor(slidingPuzzle, depth, move = null, parent = null) {
+  constructor(slidingPuzzle, depth, moves, solutionMoves) {
     this.slidingPuzzle = slidingPuzzle;
     this.depth = depth;
-    this.move = move;
-    this.parent = parent;
+    this.moves = moves;
+    this.solutionMoves = solutionMoves;
     this.children = [];
     this.manhattanDistance = Infinity;
-    this.hasBeenVisited = false;
+    this.metric = Infinity;
+  }
+}
+
+class SortedList {
+  constructor(comparator) {
+    this.comparator = comparator;
+    this.list = [];
+  }
+
+  insert(value) {
+    let index = 0;
+    while (
+      index < this.list.length - 2 &&
+      this.comparator(this.list[index], value) <= 0
+    ) {
+      index++;
+    }
+    this.list.splice(index, 0, value);
+  }
+
+  remove(index) {
+    this.list.splice(index, 1);
+  }
+
+  values() {
+    return this.list;
+  }
+
+  get size() {
+    return this.list.length;
   }
 }
 
 async function solve(slidingPuzzle, maxDepth, doMoves) {
   debugger;
   console.log("Finding solution...");
-  const solution = findSolution(slidingPuzzle, maxDepth);
+  const solution = findSolution(slidingPuzzle);
   if (solution) {
     console.log("Solution found:", solution);
     await doMoves(solution);
@@ -424,71 +435,52 @@ async function solve(slidingPuzzle, maxDepth, doMoves) {
   }
 }
 
-function findSolution(slidingPuzzle, maxDepth) {
-  const tree = new Node(solvedSlidingPuzzle, 0);
+function findSolution(slidingPuzzle) {
+  const tree = new Node(solvedSlidingPuzzle, 0, [], []);
   tree.manhattanDistance = manhattanDistance(tree.slidingPuzzle, slidingPuzzle);
+  tree.metric = tree.depth + tree.manhattanDistance;
+  setAsVisited(tree);
   // console.log(tree.manhattanDistance)
   console.log(generateMovesForSolution(tree));
   if (evaluateIfSolved(tree, slidingPuzzle)) {
     return [];
   }
+  let nodes = new SortedList(compareMetric);
   let node = tree;
-  node.hasBeenVisited = true;
-  generateChildren(node, slidingPuzzle);
   while (true) {
-    if (!node) {
+    generateChildren(node, slidingPuzzle);
+    if (node.children.length >= 1) {
+      const nextNodeToVisit = selectNextNodeToVisit(node.children);
+      for (const child of node.children) {
+        if (child !== nextNodeToVisit) {
+          nodes.insert(child);
+        }
+      }
+      node = nextNodeToVisit;
+    } else if (nodes.size >= 1) {
+      node = selectNextNodeToVisit(nodes.values());
+      nodes.remove(node);
+    } else {
       debugger;
       return null;
     }
-    node = selectNextNodeToVisit(node);
-    if (!node) {
-      debugger;
-      return null;
-    }
-    node.hasBeenVisited = true;
-    // console.log(node.manhattanDistance)
     const moves = generateMovesForSolution(node);
     console.log(moves);
-    if (areArraysEqual(moves, [13, 9, 8, 4, 0, 1, 5, 4, 0])) {
-      debugger;
-    }
     if (evaluateIfSolved(node, slidingPuzzle)) {
       const moves = generateMovesForSolution(node);
       return moves;
     } else {
-      if (node.children.length === 0) {
-        generateChildren(node, slidingPuzzle);
-      }
-      if (node.depth === maxDepth || node.children.length === 0) {
-        // console.log('Reached max depth. Going up.')
-        const a = node;
-        let previousNode;
-        do {
-          previousNode = node;
-          node = node.parent;
-        } while (node && !hasUnvisitedChildren(node));
-        if (!node) {
-          console.log(a);
-          console.log(tree);
-          debugger;
-        }
-        previousNode.children = []; // Save memory
-        // console.log('Node depth: ' + node.depth)
-      }
+      setAsVisited(node);
     }
   }
 }
 
-function selectNextNodeToVisit(node) {
-  const candidates = node.children
-    .filter(isUnvisited)
-    .sort(compareManhattanDistance);
-  if (candidates.length === 0) {
-    debugger;
+function selectNextNodeToVisit(nodes) {
+  if (nodes.length >= 1) {
+    return nodes[0];
+  } else {
     return null;
   }
-  const nextNodeToVisit = candidates[0];
-  return nextNodeToVisit;
 }
 
 function hasUnvisitedChildren(node) {
@@ -496,11 +488,15 @@ function hasUnvisitedChildren(node) {
 }
 
 function isUnvisited(node) {
-  return !node.hasBeenVisited && node.children.length === 0;
+  return node.children.length === 0;
 }
 
 function hasBeenVisited(node) {
-  return node.hasBeenVisited || node.children.length >= 1;
+  return node.children.length >= 1;
+}
+
+function compareMetric(a, b) {
+  return a.metric - b.metric;
 }
 
 function compareManhattanDistance(a, b) {
@@ -549,15 +545,8 @@ function allChildren(nodes) {
   return children;
 }
 
-function generateMovesForSolution(nodeWithSolution) {
-  const moves = [];
-  let node = nodeWithSolution;
-  while (node.parent) {
-    const move = determineEmptySlotIndex(node.parent.slidingPuzzle);
-    moves.push(move);
-    node = node.parent;
-  }
-  return moves;
+function generateMovesForSolution(node) {
+  return node.solutionMoves;
 }
 
 function generateChildren(node, targetSlidingPuzzle) {
@@ -573,17 +562,53 @@ function generateChildren(node, targetSlidingPuzzle) {
     const child = new Node(
       movePiece(slidingPuzzle, index),
       node.depth + 1,
-      index,
-      node
+      node.moves.concat([index]),
+      [emptySlotIndex].concat(node.solutionMoves)
     );
     child.manhattanDistance = manhattanDistance(
       child.slidingPuzzle,
       targetSlidingPuzzle
     );
+    child.metric = child.depth + child.manhattanDistance;
     children.push(child);
   }
 
+  children = children.filter((node) => !hasAlreadyBeenVisited(node));
+
   node.children = children;
+
+  node.children.forEach(setAsVisited);
+}
+
+const visitedStates = new Map();
+
+function setAsVisited(node) {
+  const slidingPuzzle = node.slidingPuzzle.map((piece) =>
+    piece === null ? 0 : piece
+  );
+  let a = visitedStates;
+  for (let index = 0; index < slidingPuzzle.length - 1; index++) {
+    if (!a.has(slidingPuzzle[index])) {
+      a.set(slidingPuzzle[index], new Map());
+    }
+    a = a.get(slidingPuzzle[index]);
+  }
+  a.set(slidingPuzzle[slidingPuzzle.length - 1], true);
+}
+
+function hasAlreadyBeenVisited(node) {
+  const slidingPuzzle = node.slidingPuzzle.map((piece) =>
+    piece === null ? 0 : piece
+  );
+  let a = visitedStates;
+  for (let index = 0; index < node.slidingPuzzle.length; index++) {
+    if (a.has(slidingPuzzle[index])) {
+      a = a.get(slidingPuzzle[index]);
+    } else {
+      return false;
+    }
+  }
+  return true;
 }
 
 function evaluateIfSolved(node, slidingPuzzle) {
