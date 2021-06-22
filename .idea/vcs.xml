@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/../babel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/X/sliding_puzzle/ida_star" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/automatic_application_for_flats" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/automatic_application_for_flats_production" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/forum_eu_header" vcs="Git" />
