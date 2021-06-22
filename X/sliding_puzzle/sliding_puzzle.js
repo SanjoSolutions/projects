@@ -1,15 +1,19 @@
-const slidingPuzzleLength = 4;
+const slidingPuzzleLength = 8;
 const width = slidingPuzzleLength;
 const height = slidingPuzzleLength;
 const size = height * width;
+
+const slidingPuzzleWidth = 256;
+const slidingPuzzleHeight = 256;
+const slidingPuzzlePieceWidth = slidingPuzzleWidth / width;
+const slidingPuzzlePieceHeight = slidingPuzzleHeight / height;
+
 let slidingPuzzle = createSlidingPuzzle();
 
 console.log(slidingPuzzleToString(slidingPuzzle));
 
 function createSlidingPuzzle() {
-  const slidingPuzzle = new Array(width * height)
-    .fill(null)
-    .map((value, index) => index);
+  const slidingPuzzle = new Array(size).fill(null).map((value, index) => index);
   slidingPuzzle[0] = null;
   return slidingPuzzle;
 }
@@ -27,7 +31,9 @@ function slidingPuzzleToString(slidingPuzzle) {
 }
 
 function slidingPuzzleValueToString(value) {
-  return (value === null ? "" : String(value)).padStart(3, " ");
+  const maxValue = size - 1;
+  const maxLength = String(maxValue).length + 1;
+  return (value === null ? "" : String(value)).padStart(maxLength, " ");
 }
 
 function movePiece(slidingPuzzle, indexOrPosition) {
@@ -139,21 +145,35 @@ async function renderSlidingPuzzle(slidingPuzzle) {
       (scaledHeight / image.naturalHeight) * image.naturalWidth
     );
   }
+
   const $slidingPuzzle = document.createElement("div");
   $slidingPuzzle.classList.add("sliding-puzzle");
-  for (const value of slidingPuzzle) {
-    if (value !== null) {
-      const $slidingPuzzlePiece = document.createElement("div");
-      $slidingPuzzlePiece.classList.add(
-        "sliding-puzzle__piece",
-        `sliding-puzzle__piece--top-right-${value}`
-      );
-      // $slidingPuzzlePiece.innerText = value
-      $slidingPuzzlePiece.setAttribute("data-value", value);
-      $slidingPuzzlePiece.style.backgroundSize = `${scaledWidth}px ${scaledHeight}px`;
-      $slidingPuzzle.appendChild($slidingPuzzlePiece);
+  $slidingPuzzle.style.width = slidingPuzzleWidth + "px";
+  $slidingPuzzle.style.height = slidingPuzzleHeight + "px";
+
+  for (let row = 0; row < height; row++) {
+    for (let column = 0; column < width; column++) {
+      const value = slidingPuzzle[positionToIndex({ row, column })];
+      if (value !== null) {
+        const $slidingPuzzlePiece = document.createElement("div");
+        $slidingPuzzlePiece.classList.add("sliding-puzzle__piece");
+        // $slidingPuzzlePiece.innerText = value
+        $slidingPuzzlePiece.setAttribute("data-value", value);
+        $slidingPuzzlePiece.style.width = slidingPuzzlePieceWidth + "px";
+        $slidingPuzzlePiece.style.height = slidingPuzzlePieceHeight + "px";
+        $slidingPuzzlePiece.style.left = `${
+          column * slidingPuzzlePieceWidth
+        }px`;
+        $slidingPuzzlePiece.style.top = `${row * slidingPuzzlePieceHeight}px`;
+        $slidingPuzzlePiece.style.backgroundSize = `${scaledWidth}px ${scaledHeight}px`;
+        $slidingPuzzlePiece.style.backgroundPosition = `right ${
+          (width - column - 1) * -slidingPuzzlePieceWidth
+        }px top ${row * -slidingPuzzlePieceHeight}px`;
+        $slidingPuzzle.appendChild($slidingPuzzlePiece);
+      }
     }
   }
+
   return $slidingPuzzle;
 }
 
@@ -186,12 +206,16 @@ async function main() {
 
   function updatePositions() {
     for (const $slidingPuzzlePiece of $slidingPuzzlePieces) {
-      let className = "sliding-puzzle__piece";
       const value = Number($slidingPuzzlePiece.getAttribute("data-value"));
       const slotIndex = slidingPuzzle.indexOf(value);
-      className += ` sliding-puzzle__piece--top-right-${value}`;
-      className += ` sliding-puzzle__piece--position-${slotIndex}`;
-      $slidingPuzzlePiece.className = className;
+      const { row, column } = indexToPosition(slotIndex);
+      const left = column * slidingPuzzlePieceWidth;
+      const top = row * slidingPuzzlePieceHeight;
+      if (Number.isNaN(left) || Number.isNaN(top)) {
+        debugger;
+      }
+      $slidingPuzzlePiece.style.left = `${column * slidingPuzzlePieceWidth}px`;
+      $slidingPuzzlePiece.style.top = `${row * slidingPuzzlePieceHeight}px`;
     }
   }
 
@@ -283,12 +307,17 @@ async function main() {
     const slotPosition = indexToPosition(slotIndex);
     const emptySlotPosition = indexToPosition(emptySlotIndex);
     const minimumTranslateX =
-      emptySlotPosition.column < slotPosition.column ? -64 : 0;
+      emptySlotPosition.column < slotPosition.column
+        ? -slidingPuzzlePieceWidth
+        : 0;
     const maximumTranslateX =
-      emptySlotPosition.column > slotPosition.column ? 64 : 0;
+      emptySlotPosition.column > slotPosition.column
+        ? slidingPuzzlePieceWidth
+        : 0;
     const minimumTranslateY =
-      emptySlotPosition.row < slotPosition.row ? -64 : 0;
-    const maximumTranslateY = emptySlotPosition.row > slotPosition.row ? 64 : 0;
+      emptySlotPosition.row < slotPosition.row ? -slidingPuzzlePieceHeight : 0;
+    const maximumTranslateY =
+      emptySlotPosition.row > slotPosition.row ? slidingPuzzlePieceHeight : 0;
     return {
       translateX,
       translateY,
@@ -358,13 +387,11 @@ async function main() {
 
       if (hasMoved()) {
         slidingPuzzle = movePiece(slidingPuzzle, slotIndex);
-        updatePositions();
       }
+      updatePositions();
       $movingSlidingPuzzlePiece.classList.remove(
         "sliding-puzzle__piece--moving"
       );
-      $movingSlidingPuzzlePiece.style.left = null;
-      $movingSlidingPuzzlePiece.style.top = null;
       $movingSlidingPuzzlePiece = null;
     }
   });
