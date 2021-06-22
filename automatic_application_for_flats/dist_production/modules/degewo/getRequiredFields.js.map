@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/modules/degewo/getRequiredFields.js"],"names":["getRequiredFields"],"mappings":";;;;;;;AAAO,SAASA,iBAAT,GAA8B;AACnC,SAAO,CACL,WADK,EAEL,UAFK,EAGL,OAHK,CAAP;AAKD","sourcesContent":["export function getRequiredFields () {\n  return [\n    'firstName',\n    'lastName',\n    'email'\n  ]\n}\n"],"file":"getRequiredFields.js"}

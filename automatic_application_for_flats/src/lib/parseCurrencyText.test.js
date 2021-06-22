@@ -1,11 +1,11 @@
-import {parseCurrencyText} from './parseCurrencyText.js'
+import { parseCurrencyText } from "./parseCurrencyText.js";
 
-describe('parseCurrencyText', () => {
-  it('returns currency as float', () => {
-    const currencyText = '12,34 €'
+describe("parseCurrencyText", () => {
+  it("returns currency as float", () => {
+    const currencyText = "12,34 €";
 
-    const currency = parseCurrencyText(currencyText)
+    const currency = parseCurrencyText(currencyText);
 
-    expect(currency).toEqual(12.34)
-  })
-})
+    expect(currency).toEqual(12.34);
+  });
+});

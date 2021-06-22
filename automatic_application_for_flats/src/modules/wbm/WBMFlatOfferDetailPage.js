@@ -1,5 +1,3 @@
-import { FlatOfferDetailPage } from '../../lib/FlatOfferDetailPage.js'
+import { FlatOfferDetailPage } from "../../lib/FlatOfferDetailPage.js";
 
-export class WBMFlatOfferDetailPage extends FlatOfferDetailPage {
-
-}
+export class WBMFlatOfferDetailPage extends FlatOfferDetailPage {}

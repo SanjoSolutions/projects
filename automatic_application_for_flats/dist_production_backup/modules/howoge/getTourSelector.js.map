@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/modules/howoge/getTourSelector.js"],"names":["getTourSelector"],"mappings":";;;;;;;AAAO,SAASA,eAAT,GAA4B;AACjC,SAAO,4BAAP;AACD","sourcesContent":["export function getTourSelector () {\n  return '.tour-registration-process'\n}\n"],"file":"getTourSelector.js"}

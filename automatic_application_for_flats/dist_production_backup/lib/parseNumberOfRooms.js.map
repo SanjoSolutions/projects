@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/lib/parseNumberOfRooms.js"],"names":["parseNumberOfRooms","numberOfRoomsText","parseFloat"],"mappings":";;;;;;;AAAO,SAASA,kBAAT,CAA6BC,iBAA7B,EAAgD;AACrD,SAAOC,UAAU,CAACD,iBAAD,CAAjB;AACD","sourcesContent":["export function parseNumberOfRooms (numberOfRoomsText) {\n  return parseFloat(numberOfRoomsText)\n}\n"],"file":"parseNumberOfRooms.js"}

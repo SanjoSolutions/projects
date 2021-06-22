@@ -1,3 +1,3 @@
-export async function navigateToFlatOfferListPage (page, flatOffersUrl) {
-  await page.goto(flatOffersUrl)
+export async function navigateToFlatOfferListPage(page, flatOffersUrl) {
+  await page.goto(flatOffersUrl);
 }

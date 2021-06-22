@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/lib/closePage.js"],"names":["closePage","page","close"],"mappings":";;;;;;;AAAO,SAASA,SAAT,CAAoBC,IAApB,EAA0B;AAC/B,SAAOA,IAAI,CAACC,KAAL,EAAP;AACD","sourcesContent":["export function closePage (page) {\n  return page.close()\n}\n"],"file":"closePage.js"}

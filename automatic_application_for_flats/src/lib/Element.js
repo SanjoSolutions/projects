@@ -1,5 +1,5 @@
 export class Element {
-  constructor (element) {
-    this.element = element
+  constructor(element) {
+    this.element = element;
   }
 }

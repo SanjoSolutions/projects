@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/lib/isBoolean.js"],"names":["isBoolean","value"],"mappings":";;;;;;;AAAO,SAASA,SAAT,CAAoBC,KAApB,EAA2B;AAChC,SAAO,OAAOA,KAAP,KAAiB,SAAxB;AACD","sourcesContent":["export function isBoolean (value) {\n  return typeof value === 'boolean'\n}\n"],"file":"isBoolean.js"}

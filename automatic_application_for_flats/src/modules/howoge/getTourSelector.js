@@ -1,3 +1,3 @@
-export function getTourSelector () {
-  return '.tour-registration-process'
+export function getTourSelector() {
+  return ".tour-registration-process";
 }

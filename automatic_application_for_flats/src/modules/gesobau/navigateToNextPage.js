@@ -1,4 +1,4 @@
-export async function navigateToNextPage (page) {
+export async function navigateToNextPage(page) {
   /*
   // Momentan nur eine Seite
   nextButton = await page.$('a[rel="next"]')
@@ -8,5 +8,5 @@ export async function navigateToNextPage (page) {
   }
   return Boolean(nextButton)
   */
-  return false
+  return false;
 }

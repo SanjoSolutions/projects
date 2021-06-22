@@ -1,3 +1,3 @@
-export async function getTourSteps (tour) {
-  return await tour.$$('.step-content')
+export async function getTourSteps(tour) {
+  return await tour.$$(".step-content");
 }

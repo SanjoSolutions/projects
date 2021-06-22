@@ -1,12 +1,12 @@
-import puppeteer from 'puppeteer'
+import puppeteer from "puppeteer";
 
-export async function createBrowser (optionsOverwrites) {
+export async function createBrowser(optionsOverwrites) {
   return await puppeteer.launch({
     headless: true,
     defaultViewport: {
       width: 1024,
-      height: 768
+      height: 768,
     },
-    ...optionsOverwrites
-  })
+    ...optionsOverwrites,
+  });
 }

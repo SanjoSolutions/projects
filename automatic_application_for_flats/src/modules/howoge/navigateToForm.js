@@ -1,13 +1,13 @@
-import { closeCoronaModal } from './closeCoronaModal.js'
-import { getTourSelector } from './getTourSelector.js'
+import { closeCoronaModal } from "./closeCoronaModal.js";
+import { getTourSelector } from "./getTourSelector.js";
 
-export async function navigateToForm (page) {
-  await closeCoronaModal(page)
+export async function navigateToForm(page) {
+  await closeCoronaModal(page);
 
-  const contactButton = await page.$('.expose-contact .button')
-  await contactButton.click()
+  const contactButton = await page.$(".expose-contact .button");
+  await contactButton.click();
 
-  await page.waitFor(getTourSelector(), { visible: true })
+  await page.waitFor(getTourSelector(), { visible: true });
 
-  return null
+  return null;
 }

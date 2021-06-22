@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/lib/Element.js"],"names":["Element","constructor","element"],"mappings":";;;;;;;AAAO,MAAMA,OAAN,CAAc;AACnBC,EAAAA,WAAW,CAAEC,OAAF,EAAW;AACpB,SAAKA,OAAL,GAAeA,OAAf;AACD;;AAHkB","sourcesContent":["export class Element {\n  constructor (element) {\n    this.element = element\n  }\n}\n"],"file":"Element.js"}

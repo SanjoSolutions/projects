@@ -1,3 +1,3 @@
-export function getInnerTextProperty (node) {
-  return node.innerText
+export function getInnerTextProperty(node) {
+  return node.innerText;
 }

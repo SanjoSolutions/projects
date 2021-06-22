@@ -1,8 +1,3 @@
-export function getRequiredFields () {
-  return [
-    'wbs',
-    'firstName',
-    'lastName',
-    'email'
-  ]
+export function getRequiredFields() {
+  return ["wbs", "firstName", "lastName", "email"];
 }

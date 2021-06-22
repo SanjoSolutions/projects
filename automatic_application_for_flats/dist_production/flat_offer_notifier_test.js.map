@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/flat_offer_notifier_test.js"],"names":["url","email"],"mappings":";;AAAA;;AAEA,iCAAO;AAACA,EAAAA,GAAG,EAAE;AAAN,CAAP,EAAqC;AAACC,EAAAA,KAAK,EAAE;AAAR,CAArC","sourcesContent":["import { notify } from './flat_offer_notifier.js'\n\nnotify({url: 'https://example.com'}, {email: 'jonas.aschenbrenner@gmail.com'})\n"],"file":"flat_offer_notifier_test.js"}

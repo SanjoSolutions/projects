@@ -1,3 +1,3 @@
-export function closePage (page) {
-  return page.close()
+export function closePage(page) {
+  return page.close();
 }

@@ -1,10 +1,10 @@
-import { closePage } from '../../lib/closePage.js'
-import { createApplyForFlatOffer } from '../../lib/createApplyForFlatOffer.js'
-import { saveScreenshotOfFlatOfferApplication } from '../../lib/saveScreenshotOfFlatOfferApplication.js'
-import { fillForm } from './fillForm.js'
-import { openForm } from './openForm.js'
-import { submitForm } from './submitForm.js'
-import { verifyRequiredFields } from './verifyRequiredFields.js'
+import { closePage } from "../../lib/closePage.js";
+import { createApplyForFlatOffer } from "../../lib/createApplyForFlatOffer.js";
+import { saveScreenshotOfFlatOfferApplication } from "../../lib/saveScreenshotOfFlatOfferApplication.js";
+import { fillForm } from "./fillForm.js";
+import { openForm } from "./openForm.js";
+import { submitForm } from "./submitForm.js";
+import { verifyRequiredFields } from "./verifyRequiredFields.js";
 
 export const applyForFlatOffer = createApplyForFlatOffer({
   verifyRequiredFields,
@@ -13,5 +13,5 @@ export const applyForFlatOffer = createApplyForFlatOffer({
   submitForm,
   // FIXME: Screenshot doesn't show success message
   saveScreenshot: saveScreenshotOfFlatOfferApplication,
-  closePage() {} // closePage
-})
+  closePage() {}, // closePage
+});

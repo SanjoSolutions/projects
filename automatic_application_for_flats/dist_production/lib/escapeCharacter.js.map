@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/lib/escapeCharacter.js"],"names":["escapeCharacter","character"],"mappings":";;;;;;;AAAO,SAASA,eAAT,CAA0BC,SAA1B,EAAqC;AAC1C,SAAQ,KAAIA,SAAU,EAAtB;AACD","sourcesContent":["export function escapeCharacter (character) {\n  return `\\\\${character}`\n}\n"],"file":"escapeCharacter.js"}

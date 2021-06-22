@@ -1,7 +1,7 @@
-import { acceptCookies } from './acceptCookies.js'
+import { acceptCookies } from "./acceptCookies.js";
 
-export async function navigateToForm (page) {
-  await acceptCookies(page)
+export async function navigateToForm(page) {
+  await acceptCookies(page);
 
-  return await page.$('form.powermail_form')
+  return await page.$("form.powermail_form");
 }

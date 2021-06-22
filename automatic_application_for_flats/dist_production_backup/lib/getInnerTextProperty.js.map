@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/lib/getInnerTextProperty.js"],"names":["getInnerTextProperty","node","innerText"],"mappings":";;;;;;;AAAO,SAASA,oBAAT,CAA+BC,IAA/B,EAAqC;AAC1C,SAAOA,IAAI,CAACC,SAAZ;AACD","sourcesContent":["export function getInnerTextProperty (node) {\n  return node.innerText\n}\n"],"file":"getInnerTextProperty.js"}

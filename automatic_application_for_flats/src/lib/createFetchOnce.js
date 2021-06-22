@@ -1,45 +1,56 @@
-import { hasFetchedFlatOffer, registerFlatOfferAsFetched } from '../fetchedFlatOffers.js'
-import { navigateToFlatOfferListPage } from './navigateToFlatOfferListPage.js'
+import {
+  hasFetchedFlatOffer,
+  registerFlatOfferAsFetched,
+} from "../fetchedFlatOffers.js";
+import { navigateToFlatOfferListPage } from "./navigateToFlatOfferListPage.js";
 
-export function createFetchOnce ({
+export function createFetchOnce({
   flatOffersUrl,
   parseFlatOffer,
   navigateToNextPage,
-  FlatOfferListPage
+  FlatOfferListPage,
 }) {
-  return async function fetchOnce (getBrowser, page, onFlatOffer, shouldStop = () => false) {
-    const flatOfferListPage = new FlatOfferListPage(page)
-    await navigateToFlatOfferListPage(page, flatOffersUrl)
-    let hasNavigatedToNextPage
-    let totalNumberOfFlatOfferElements = 0
-    const numberOfResults = await flatOfferListPage.getNumberOfResults()
+  return async function fetchOnce(
+    getBrowser,
+    page,
+    onFlatOffer,
+    shouldStop = () => false
+  ) {
+    const flatOfferListPage = new FlatOfferListPage(page);
+    await navigateToFlatOfferListPage(page, flatOffersUrl);
+    let hasNavigatedToNextPage;
+    let totalNumberOfFlatOfferElements = 0;
+    const numberOfResults = await flatOfferListPage.getNumberOfResults();
     do {
-      const flatOfferElements = await flatOfferListPage.getFlatOfferElements()
-      totalNumberOfFlatOfferElements += flatOfferElements.length
+      const flatOfferElements = await flatOfferListPage.getFlatOfferElements();
+      totalNumberOfFlatOfferElements += flatOfferElements.length;
       for (const flatOfferElement of flatOfferElements) {
         if (shouldStop()) {
-          return
+          return;
         }
-        const url = await flatOfferElement.getUrl()
-        if (process.env.NODE_ENV === 'TESTING' || !await hasFetchedFlatOffer(url)) {
-          const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement)
+        const url = await flatOfferElement.getUrl();
+        if (
+          process.env.NODE_ENV === "TESTING" ||
+          !(await hasFetchedFlatOffer(url))
+        ) {
+          const flatOffer = await parseFlatOffer(getBrowser, flatOfferElement);
           onFlatOffer(flatOffer).then(async () => {
-            if (process.env.NODE_ENV !== 'TESTING') {
-              await registerFlatOfferAsFetched(url, flatOffer)
+            if (process.env.NODE_ENV !== "TESTING") {
+              await registerFlatOfferAsFetched(url, flatOffer);
             }
-          })
+          });
         }
       }
-      hasNavigatedToNextPage = await navigateToNextPage(page)
-    } while (hasNavigatedToNextPage)
+      hasNavigatedToNextPage = await navigateToNextPage(page);
+    } while (hasNavigatedToNextPage);
     if (totalNumberOfFlatOfferElements !== numberOfResults) {
       console.error(
         new Error(
           `Has fetched ${totalNumberOfFlatOfferElements} elements, ` +
-          `but number as results was states as ${numberOfResults} ` +
-          `(on ${flatOffersUrl}).`
+            `but number as results was states as ${numberOfResults} ` +
+            `(on ${flatOffersUrl}).`
         )
-      )
+      );
     }
-  }
+  };
 }

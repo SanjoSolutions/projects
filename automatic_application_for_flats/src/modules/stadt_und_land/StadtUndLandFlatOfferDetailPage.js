@@ -1,5 +1,3 @@
-import { FlatOfferDetailPage } from '../../lib/FlatOfferDetailPage.js'
+import { FlatOfferDetailPage } from "../../lib/FlatOfferDetailPage.js";
 
-export class StadtUndLandFlatOfferDetailPage extends FlatOfferDetailPage {
-
-}
+export class StadtUndLandFlatOfferDetailPage extends FlatOfferDetailPage {}

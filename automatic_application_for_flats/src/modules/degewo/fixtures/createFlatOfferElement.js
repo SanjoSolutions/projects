@@ -1,7 +1,9 @@
-import { createPageWithHTML } from '../../../lib/createPageWithHTML.js'
+import { createPageWithHTML } from "../../../lib/createPageWithHTML.js";
 
-export async function createFlatOfferElement (browser) {
-  const page = await createPageWithHTML(browser, `
+export async function createFlatOfferElement(browser) {
+  const page = await createPageWithHTML(
+    browser,
+    `
     <article class="article-list__item article-list__item--immosearch">
       <a target="_blank" href="/de/properties/1400-40137-0270">
         <div class="article-list__image">
@@ -54,6 +56,7 @@ export async function createFlatOfferElement (browser) {
         </div>
       </a>
     </article>
-  `)
-  return await page.$('article')
+  `
+  );
+  return await page.$("article");
 }
