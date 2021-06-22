@@ -1,0 +1,3 @@
+[submodule "ida_star"]
+	path = ida_star
+	url = git@github.com:SanjoSolutions/ida_star.git
