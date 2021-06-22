@@ -60,7 +60,9 @@ function shuffleTimes(slidingPuzzle, numberOfTimes) {
   for (let shuffleNumber = 1; shuffleNumber <= numberOfTimes; shuffleNumber++) {
     const { slidingPuzzle: nextSlidingPuzzle, index } = shuffle(slidingPuzzle);
     slidingPuzzle = nextSlidingPuzzle;
-    solution.unshift(index);
+    if (shuffleNumber < numberOfTimes) {
+      solution.unshift(index);
+    }
   }
   return {
     slidingPuzzle,
@@ -209,15 +211,15 @@ async function main() {
   updatePositions();
   document.body.appendChild($slidingPuzzle);
   // await animatedShuffle()
-  const numberOfShuffles = 50;
+  const numberOfShuffles = 100;
   const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(
     slidingPuzzle,
     numberOfShuffles
   );
   console.log("Shuffled sliding puzzle:", shuffledSlidingPuzzle);
   slidingPuzzle = shuffledSlidingPuzzle;
-  // slidingPuzzle = [5, 4, 2, 3, 8, null, 7, 10, 9, 1, 6, 11, 12, 13, 14, 15]
-  // const solution = [5, 9, 13, 14, 15, 11, 7, 6, 10, 11, 15, 14, 13, 9, 8, 4, 0, 1, 5, 4, 0]
+  // slidingPuzzle = [5, 1, 9, 6, 3, 13, 2, 10, 8, 4, 14, 7, 12, 15, 11, null]
+  // const solution = [14, 13, 12, 8, 9, 5, 4, 0, 1, 5, 6, 7, 11, 15, 14, 10, 11, 7, 6, 2, 1, 5, 4, 0, 1, 2, 3, 7, 11, 10, 6, 2, 3, 7, 6, 2, 1, 0, 4, 8, 12, 13, 9, 10, 6, 7, 3, 2, 1, 0]
   console.log("Solution:", solution);
   updatePositions();
 
@@ -375,7 +377,7 @@ async function main() {
     }
   }
 
-  solve(slidingPuzzle, numberOfShuffles + 1, doMoves);
+  // solve(slidingPuzzle, numberOfShuffles, doMoves);
   // doMoves(solution)
 }
 
@@ -393,25 +395,81 @@ class Node {
   }
 }
 
+function generateSlidingPuzzleToMovesToSolve() {
+  const root = new Node(solvedSlidingPuzzle, 0, [], []);
+  const numberOfMovesToSolve = new Map();
+  let i = 0;
+  let nodes = [root];
+
+  while (i <= 10) {
+    for (const node of nodes) {
+      const slidingPuzzle = node.slidingPuzzle;
+      const hash = hashSlidingPuzzle(slidingPuzzle);
+      if (!numberOfMovesToSolve.has(hash)) {
+        numberOfMovesToSolve.set(hash, i);
+      }
+    }
+
+    const nextNodes = [];
+    for (const node of nodes) {
+      generateChildren(node);
+      nextNodes.push(...node.children);
+    }
+    nodes = nextNodes;
+
+    i++;
+  }
+
+  return numberOfMovesToSolve;
+}
+
+function hashSlidingPuzzle(slidingPuzzle) {
+  let hash = "";
+  const maximumSlotNumberLength = size.toString().length;
+  for (const slot of slidingPuzzle.map((value) =>
+    value === null ? 0 : value
+  )) {
+    hash += String(slot).padStart(maximumSlotNumberLength, "0");
+  }
+  return hash;
+}
+
 class SortedList {
   constructor(comparator) {
     this.comparator = comparator;
     this.list = [];
   }
 
+  // test cases:
+  // insert 2 into [1, 2, 3]
+  // insert 4 into [1, 2, 3]
   insert(value) {
+    const index = this._findIndexToInsert(value);
+    this._insertAt(index, value);
+  }
+
+  _insertAt(index, value) {
+    this.list.splice(index, 0, value);
+  }
+
+  _findIndexToInsert(value) {
     let index = 0;
     while (
       index < this.list.length - 2 &&
-      this.comparator(this.list[index], value) <= 0
+      this.comparator(value, this.list[index]) > 0
     ) {
       index++;
     }
-    this.list.splice(index, 0, value);
+    index += 1;
+    return index;
   }
 
   remove(index) {
     this.list.splice(index, 1);
+  }
+
+  filter(predicate) {
+    this.list = this.list.filter(predicate);
   }
 
   values() {
@@ -423,10 +481,49 @@ class SortedList {
   }
 }
 
+class List {
+  constructor(comparator, hash) {
+    this.hash = hash;
+    this.sortedList = new SortedList(comparator);
+    this.set = new Set();
+    this.map = new Map();
+  }
+
+  has(value) {
+    return this.set.has(this.hash(value));
+  }
+
+  get(value) {
+    return this.map.get(this.hash(value));
+  }
+
+  insert(value) {
+    this.sortedList.insert(value);
+    const hash = this.hash(value);
+    this.set.add(hash);
+    this.map.set(hash, value);
+  }
+
+  remove(value) {
+    const hash = this.hash(value);
+    this.sortedList.filter((node) => this.hash(node) !== hash);
+    this.set.delete(hash);
+    this.map.delete(hash);
+  }
+
+  values() {
+    return this.sortedList.values();
+  }
+
+  get size() {
+    return this.set.size;
+  }
+}
+
 async function solve(slidingPuzzle, maxDepth, doMoves) {
   debugger;
   console.log("Finding solution...");
-  const solution = findSolution(slidingPuzzle);
+  const solution = findSolution(slidingPuzzle, maxDepth);
   if (solution) {
     console.log("Solution found:", solution);
     await doMoves(solution);
@@ -435,44 +532,68 @@ async function solve(slidingPuzzle, maxDepth, doMoves) {
   }
 }
 
-function findSolution(slidingPuzzle) {
+function findSolution(slidingPuzzle, maxDepth) {
+  const lowerBound = manhattanDistance(slidingPuzzle, solvedSlidingPuzzle);
+
+  debugger;
+
   const tree = new Node(solvedSlidingPuzzle, 0, [], []);
   tree.manhattanDistance = manhattanDistance(tree.slidingPuzzle, slidingPuzzle);
   tree.metric = tree.depth + tree.manhattanDistance;
   setAsVisited(tree);
   // console.log(tree.manhattanDistance)
   console.log(generateMovesForSolution(tree));
-  if (evaluateIfSolved(tree, slidingPuzzle)) {
-    return [];
+  if (tree.depth < lowerBound) {
+    if (evaluateIfSolved(tree, slidingPuzzle)) {
+      return [];
+    }
   }
-  let nodes = new SortedList(compareMetric);
+  let nodes = new List(compareMetric, hashNode);
   let node = tree;
   while (true) {
-    generateChildren(node, slidingPuzzle);
-    if (node.children.length >= 1) {
-      const nextNodeToVisit = selectNextNodeToVisit(node.children);
-      for (const child of node.children) {
-        if (child !== nextNodeToVisit) {
-          nodes.insert(child);
+    let nextNodeToVisit = null;
+    if (node.depth < maxDepth) {
+      generateChildrenForSolver(node, slidingPuzzle);
+      if (node.children.length >= 1) {
+        nextNodeToVisit = selectNextNodeToVisit(node.children);
+        for (const child of node.children) {
+          if (child !== nextNodeToVisit) {
+            if (nodes.has(child)) {
+              const nodeInList = nodes.get(child);
+              if (child.depth < nodeInList.depth) {
+                nodes.remove(nodeInList);
+                nodes.insert(child);
+              }
+            } else {
+              nodes.insert(child);
+            }
+          }
         }
       }
-      node = nextNodeToVisit;
-    } else if (nodes.size >= 1) {
-      node = selectNextNodeToVisit(nodes.values());
-      nodes.remove(node);
-    } else {
-      debugger;
-      return null;
     }
+    if (!nextNodeToVisit) {
+      if (nodes.size >= 1) {
+        nextNodeToVisit = selectNextNodeToVisit(nodes.values());
+        nodes.remove(nextNodeToVisit);
+      } else {
+        debugger;
+        return null;
+      }
+    }
+    node = nextNodeToVisit;
     const moves = generateMovesForSolution(node);
     console.log(moves);
-    if (evaluateIfSolved(node, slidingPuzzle)) {
+    if (node.depth >= lowerBound && evaluateIfSolved(node, slidingPuzzle)) {
       const moves = generateMovesForSolution(node);
       return moves;
     } else {
       setAsVisited(node);
     }
   }
+}
+
+function hashNode(node) {
+  return hashSlidingPuzzle(node.slidingPuzzle);
 }
 
 function selectNextNodeToVisit(nodes) {
@@ -526,7 +647,7 @@ function range(from, to) {
 function pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index) {
   let piece = slidingPuzzleA[index];
   if (piece === null) {
-    piece = 0;
+    return 0;
   }
   const position = indexToPosition(index);
   const indexB = determinePieceIndex(slidingPuzzleB, piece);
@@ -549,7 +670,23 @@ function generateMovesForSolution(node) {
   return node.solutionMoves;
 }
 
-function generateChildren(node, targetSlidingPuzzle) {
+function generateChildrenForSolver(node, targetSlidingPuzzle) {
+  generateChildren(node);
+
+  for (const child of node.children) {
+    child.manhattanDistance = manhattanDistance(
+      child.slidingPuzzle,
+      targetSlidingPuzzle
+    );
+    child.metric = child.depth + child.manhattanDistance;
+  }
+
+  node.children = node.children.filter((node) => !hasAlreadyBeenVisited(node));
+
+  node.children.forEach(setAsVisited);
+}
+
+function generateChildren(node) {
   const slidingPuzzle = node.slidingPuzzle;
   const emptySlotIndex = determineEmptySlotIndex(slidingPuzzle);
   const indexesOfPiecesThatCanBeMovedIntoEmptySlot = determineIndexesOfPiecesThatCanBeMovedIntoSlot(
@@ -565,19 +702,10 @@ function generateChildren(node, targetSlidingPuzzle) {
       node.moves.concat([index]),
       [emptySlotIndex].concat(node.solutionMoves)
     );
-    child.manhattanDistance = manhattanDistance(
-      child.slidingPuzzle,
-      targetSlidingPuzzle
-    );
-    child.metric = child.depth + child.manhattanDistance;
     children.push(child);
   }
 
-  children = children.filter((node) => !hasAlreadyBeenVisited(node));
-
   node.children = children;
-
-  node.children.forEach(setAsVisited);
 }
 
 const visitedStates = new Map();
