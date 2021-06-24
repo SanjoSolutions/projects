@@ -1,5 +1,7 @@
 import { search } from '../../ida_star/index.js'
 
+const WITH_NUMBERS = true
+
 const slidingPuzzleLength = 4;
 const width = slidingPuzzleLength;
 const height = slidingPuzzleLength;
@@ -132,7 +134,7 @@ function areArraysEqual(a, b) {
   return a.every((item, index) => item === b[index]);
 }
 
-async function renderSlidingPuzzle(slidingPuzzle) {
+async function renderSlidingPuzzle(slidingPuzzle, withNumbers = false) {
   const image = await loadImage("images/cat.jpg");
   let scaledWidth;
   let scaledHeight;
@@ -158,6 +160,9 @@ async function renderSlidingPuzzle(slidingPuzzle) {
       const value = slidingPuzzle[positionToIndex({ row, column })];
       if (value !== null) {
         const $slidingPuzzlePiece = document.createElement("div");
+        if (withNumbers) {
+          $slidingPuzzlePiece.textContent = value
+        }
         $slidingPuzzlePiece.classList.add("sliding-puzzle__piece");
         // $slidingPuzzlePiece.innerText = value
         $slidingPuzzlePiece.setAttribute("data-value", value);
@@ -202,7 +207,7 @@ function wait(numberOfSeconds) {
 }
 
 async function main() {
-  const $slidingPuzzle = await renderSlidingPuzzle(slidingPuzzle);
+  const $slidingPuzzle = await renderSlidingPuzzle(slidingPuzzle, WITH_NUMBERS);
 
   const $slidingPuzzlePieces = Array.from($slidingPuzzle.children);
 

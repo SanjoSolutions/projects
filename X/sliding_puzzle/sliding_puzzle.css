@@ -29,6 +29,9 @@ body {
   transition-property: transform;
   transition-duration: 0.4s;
   user-select: none;
+  color: white;
+  font-size: 1.6rem;
+  font-family: sans-serif;
 }
 
 .sliding-puzzle__piece--moving {
