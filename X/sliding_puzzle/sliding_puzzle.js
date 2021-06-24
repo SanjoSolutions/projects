@@ -2,7 +2,7 @@ import { search } from '../../ida_star/index.js'
 
 const WITH_NUMBERS = false
 
-const slidingPuzzleLength = 10;
+const slidingPuzzleLength = 4;
 const width = slidingPuzzleLength;
 const height = slidingPuzzleLength;
 const size = height * width;
@@ -237,7 +237,7 @@ async function main() {
   updatePositions();
   document.body.appendChild($slidingPuzzle);
   // await animatedShuffle()
-  const numberOfShuffles = 200;
+  const numberOfShuffles = 40;
   const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(
     slidingPuzzle,
     numberOfShuffles
@@ -407,7 +407,7 @@ async function main() {
     }
   }
 
-  // solve(slidingPuzzle, numberOfShuffles, doMoves);
+  solve(slidingPuzzle, numberOfShuffles, doMoves);
   // doMoves(solution)
 }
 
