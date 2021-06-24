@@ -232,7 +232,7 @@ async function main() {
   updatePositions();
   document.body.appendChild($slidingPuzzle);
   // await animatedShuffle()
-  const numberOfShuffles = 40;
+  const numberOfShuffles = 200;
   const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(
     slidingPuzzle,
     numberOfShuffles
@@ -402,7 +402,7 @@ async function main() {
     }
   }
 
-  solve(slidingPuzzle, numberOfShuffles, doMoves);
+  // solve(slidingPuzzle, numberOfShuffles, doMoves);
   // doMoves(solution)
 }
 
