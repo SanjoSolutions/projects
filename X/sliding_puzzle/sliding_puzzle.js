@@ -1,8 +1,8 @@
 import { search } from '../../ida_star/index.js'
 
-const WITH_NUMBERS = true
+const WITH_NUMBERS = false
 
-const slidingPuzzleLength = 4;
+const slidingPuzzleLength = 10;
 const width = slidingPuzzleLength;
 const height = slidingPuzzleLength;
 const size = height * width;
