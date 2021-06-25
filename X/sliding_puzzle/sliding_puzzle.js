@@ -852,7 +852,7 @@ function solveSubgame(slidingPuzzle, subgame) {
   }
 
   function isSolution(node) {
-    return evaluateIfSubgameIsSolved(node, subgame)
+    return node.manhattanDistance === subgame.pieceIndexesToPutInPlace.length - 1
   }
 
   function requestChildren(node) {
@@ -886,8 +886,10 @@ function subgameManhattanDistance2(slidingPuzzle, subgame) {
   let distance = 0
   const pieceIndexesToPutInPlace = subgame.pieceIndexesToPutInPlace
   for (let index = 0; index < pieceIndexesToPutInPlace.length - 1; index++) {
-    const positionA = indexToPosition(pieceIndexesToPutInPlace[index])
-    const positionB = indexToPosition(pieceIndexesToPutInPlace[index + 1])
+    const indexA = slidingPuzzle.indexOf(pieceIndexesToPutInPlace[index])
+    const positionA = indexToPosition(indexA)
+    const indexB = slidingPuzzle.indexOf(pieceIndexesToPutInPlace[index + 1])
+    const positionB = indexToPosition(indexB)
     distance += manhattanDistance(positionA, positionB)
   }
   return distance
