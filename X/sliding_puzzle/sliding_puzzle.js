@@ -237,7 +237,7 @@ async function main() {
   updatePositions();
   document.body.appendChild($slidingPuzzle);
   // await animatedShuffle()
-  const numberOfShuffles = 40;
+  const numberOfShuffles = 1000;
   const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(
     slidingPuzzle,
     numberOfShuffles
@@ -407,8 +407,17 @@ async function main() {
     }
   }
 
-  solve(slidingPuzzle, numberOfShuffles, doMoves);
-  // doMoves(solution)
+  // solve(slidingPuzzle, numberOfShuffles, doMoves);
+  const solutionMoves = solve2(slidingPuzzle)
+  console.log('Solved:', solutionMoves)
+  doMoves(solutionMoves)
+}
+
+function applyMoves(slidingPuzzle, moves) {
+  return moves.reduce(
+    (slidingPuzzle, move) => movePiece(slidingPuzzle, move),
+    slidingPuzzle
+  )
 }
 
 document.addEventListener("DOMContentLoaded", main);
@@ -572,7 +581,7 @@ function findSolution(slidingPuzzle, maxDepth) {
 
   function estimateTravelDistance(node) {
     if (node.manhattanDistance === null) {
-      node.manhattanDistance = manhattanDistance(node.slidingPuzzle, solvedSlidingPuzzle)
+      node.manhattanDistance = totalManhattanDistance(node.slidingPuzzle, solvedSlidingPuzzle)
     }
     if (node.metric === null) {
       node.metric = node.depth + node.manhattanDistance
@@ -646,7 +655,7 @@ function compareManhattanDistance(a, b) {
   return a.manhattanDistance - b.manhattanDistance;
 }
 
-function manhattanDistance(slidingPuzzleA, slidingPuzzleB) {
+function totalManhattanDistance(slidingPuzzleA, slidingPuzzleB) {
   return sum(
     range(0, size).map((index) =>
       pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index)
@@ -674,9 +683,24 @@ function pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index) {
   const position = indexToPosition(index);
   const indexB = determinePieceIndex(slidingPuzzleB, piece);
   const positionB = indexToPosition(indexB);
+  return manhattanDistance(position, positionB)
+}
+
+function pieceManhattanDistance2(slidingPuzzle, index) {
+  let piece = slidingPuzzle[index];
+  if (piece === null) {
+    return 0;
+  }
+  const position = indexToPosition(index);
+  const indexB = piece;
+  const positionB = indexToPosition(indexB);
+  return manhattanDistance(position, positionB)
+}
+
+function manhattanDistance(a, b) {
   return (
-    Math.abs(position.row - positionB.row) +
-    Math.abs(position.column - positionB.column)
+    Math.abs(a.row - b.row) +
+    Math.abs(a.column - b.column)
   );
 }
 
@@ -696,7 +720,7 @@ function generateChildrenForSolver(node, targetSlidingPuzzle) {
   generateChildren(node);
 
   for (const child of node.children) {
-    child.manhattanDistance = manhattanDistance(
+    child.manhattanDistance = totalManhattanDistance(
       child.slidingPuzzle,
       targetSlidingPuzzle
     );
@@ -806,10 +830,20 @@ function flatten(array) {
 }
 
 function solve2(slidingPuzzle) {
+  const solutionMoves = []
   const subgames = generateSubgames();
+  let i = 1
   for (const subgame of subgames) {
-    slidingPuzzle = solveSubgame(slidingPuzzle, subgame);
+    console.log('Subgame ' + i + ':')
+    const moves = solveSubgame(slidingPuzzle, subgame);
+    if (!moves) {
+      throw new Error("Wasn't able to solve subgame.")
+    }
+    slidingPuzzle = applyMoves(slidingPuzzle, moves)
+    solutionMoves.push(...moves)
+    i++
   }
+  return solutionMoves
 }
 
 function generateSubgames() {
@@ -840,7 +874,7 @@ function generateSubgames() {
       fromRow: 0,
       toRow: height,
       fromColumn: 0,
-      toColumn: 2,
+      toColumn: 1,
     },
   };
   subgames.push(subgame);
@@ -886,10 +920,122 @@ function pieceIndexesInColumnFromBottomToTop(column) {
 }
 
 function solveSubgame(slidingPuzzle, subgame) {
-  return putPiecesInPlace(slidingPuzzle, subgame);
+  const tree = new Node(slidingPuzzle, 0, [], null);
+
+  function estimateTravelDistance(node) {
+    if (node.manhattanDistance === null) {
+      node.manhattanDistance = subgameManhattanDistance2(node.slidingPuzzle, subgame)
+    }
+    if (node.metric === null) {
+      node.metric = node.depth + node.manhattanDistance
+    }
+    return node.metric
+  }
+
+  function isSolution(node) {
+    return evaluateIfSubgameIsSolved(node, subgame)
+  }
+
+  function requestChildren(node) {
+    if (node.children.length === 0) {
+      generateChildrenForSubgame(node, subgame);
+    }
+    return node.children
+  }
+
+  function requestParent(node) {
+    return node.parent
+  }
+
+  const solutionNode = search(
+    tree,
+    estimateTravelDistance,
+    isSolution,
+    requestChildren,
+    requestParent
+  )
+
+  let solutionMoves
+  if (solutionNode) {
+    solutionMoves = generateMovesForSolution(solutionNode)
+  } else {
+    solutionMoves = null
+  }
+
+  return solutionMoves
 }
 
-function putPiecesInPlace(slidingPuzzle, subgame) {}
+function subgameManhattanDistance(slidingPuzzle, subgame) {
+  return sum(
+    subgame.pieceIndexesToPutInPlace.map((index) =>
+      pieceManhattanDistance2(slidingPuzzle, index)
+    )
+  );
+}
+
+function subgameManhattanDistance2(slidingPuzzle, subgame) {
+  let distance = 0
+  const pieceIndexesToPutInPlace = subgame.pieceIndexesToPutInPlace
+  for (let index = 0; index < pieceIndexesToPutInPlace.length - 1; index++) {
+    const positionA = indexToPosition(pieceIndexesToPutInPlace[index])
+    const positionB = indexToPosition(pieceIndexesToPutInPlace[index + 1])
+    distance += manhattanDistance(positionA, positionB)
+  }
+  return distance
+}
+
+function evaluateIfSubgameIsSolved(node, subgame) {
+  const slidingPuzzle = node.slidingPuzzle
+  for (let index of subgame.pieceIndexesToPutInPlace) {
+    if (slidingPuzzle[index] !== solvedSlidingPuzzle[index]) {
+      return false
+    }
+  }
+  return true
+}
+
+function generateChildrenForSubgame(node, subgame) {
+  const slidingPuzzle = node.slidingPuzzle;
+  const emptySlotIndex = determineEmptySlotIndex(slidingPuzzle);
+  let indexesOfPiecesThatCanBeMovedIntoEmptySlot = determineIndexesOfPiecesThatCanBeMovedIntoSlot(
+    slidingPuzzle,
+    emptySlotIndex
+  );
+
+  const parent = node.parent
+  if (parent) {
+    const parentEmptySlotIndex = determineEmptySlotIndex(parent.slidingPuzzle)
+    indexesOfPiecesThatCanBeMovedIntoEmptySlot = indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter(
+      index => index !== parentEmptySlotIndex
+    )
+  }
+
+  const areaThatCanBeUsed = subgame.areaThatCanBeUsed
+  indexesOfPiecesThatCanBeMovedIntoEmptySlot = indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter(
+    index => {
+      const position = indexToPosition(index)
+      return (
+        position.row >= areaThatCanBeUsed.fromRow &&
+        position.row <= areaThatCanBeUsed.toRow &&
+        position.column >= areaThatCanBeUsed.fromColumn &&
+        position.column <= areaThatCanBeUsed.toColumn
+      )
+    }
+  )
+
+  let children = [];
+  for (const index of indexesOfPiecesThatCanBeMovedIntoEmptySlot) {
+    const child = new Node(
+      movePiece(slidingPuzzle, index),
+      node.depth + 1,
+      node.moves.concat([index]),
+      node
+    );
+    children.push(child);
+  }
+
+  node.children = children;
+}
 
 function moveFromIndexToIndex(slidingPuzzle, fromIndex, toIndex) {
   const fromPosition = indexToPosition(fromIndex);
