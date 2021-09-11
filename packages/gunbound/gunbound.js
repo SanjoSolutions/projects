@@ -23,7 +23,7 @@ const power = 100; // in N (Newton)
 const dx = 100;
 const dy = 0;
 
-const windSpeed = 0.1; // m / s (meter per second)
+const windSpeed = 2; // m / s (meter per second)
 const windDirection = 0.5 * (2 * Math.PI); // in rad (radian) (direction to the left)
 
 const canvas = document.querySelector("canvas");
@@ -56,11 +56,11 @@ animate((ellapsedTime) => {
   const windDeltaY =
     windSpeed * meterToPixelRatio * passedSeconds * Math.sin(windDirection);
 
-  const x = initialPoint.x + deltaX + windDeltaX;
+  const x = initialPoint.x + deltaX + passedSeconds * windDeltaX;
   const y =
     initialPoint.y +
     deltaY +
-    windDeltaY -
+    passedSeconds * windDeltaY -
     0.5 * gravityOfEarth * meterToPixelRatio * passedSeconds ** 2;
 
   // Draw
