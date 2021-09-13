@@ -1,4 +1,4 @@
-export function angleToPositiveAngle(angle) {
+export function convertAngleToPositiveAngle(angle) {
   let positiveAngle;
   if (angle >= 0) {
     positiveAngle = angle;
