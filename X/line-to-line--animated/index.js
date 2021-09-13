@@ -1,4 +1,4 @@
-import { animate } from "../../animate.js";
+import { animate } from "../../packages/animate/animate.js";
 
 export function createLineToLineAnimated({
   width,
