@@ -1,6 +1,6 @@
 import { max } from "./max.js";
 import { min } from "./min.js";
-import { sum } from "./sum.js";
+import { sum } from "@sanjo/arithmetic/sum.js";
 
 export class ExtendedArray extends Array {
   sum() {
