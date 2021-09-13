@@ -1,5 +1,3 @@
-import { animate } from "../animate.js";
-
 function createProgressBar({ borderRadius, progress }) {
   const progressBar = document.createElement("div");
   progressBar.style.border = "1px solid greenyellow";
