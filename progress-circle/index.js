@@ -1,4 +1,4 @@
-import { animate } from "../animate.js";
+import { animate } from "../packages/animate/animate.js";
 
 function normalizeProgress(progress) {
   return Math.max(0, Math.min(progress, 1));
