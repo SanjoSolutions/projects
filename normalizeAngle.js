@@ -1,6 +1,6 @@
 import { angleToBetween0And2PIAngle } from "./angleToBetween0And2PIAngle.js";
-import { angleToNonNegativeAngle } from "./angleToNonNegativeAngle.js";
+import { angleToPositiveAngle } from "./angleToPositiveAngle.js";
 
 export function normalizeAngle(angle) {
-  return angleToNonNegativeAngle(angleToBetween0And2PIAngle(angle));
+  return angleToPositiveAngle(angleToBetween0And2PIAngle(angle));
 }
