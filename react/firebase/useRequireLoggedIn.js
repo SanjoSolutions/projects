@@ -4,8 +4,8 @@ import { useIsInitializing } from './useIsInitializing.js'
 import { useUser } from './useUser.js'
 
 export function useRequireLoggedIn() {
-  const isInitializing = useIsInitializing()
   const user = useUser()
+  const isInitializing = useIsInitializing()
   const history = useHistory()
 
   useEffect(
