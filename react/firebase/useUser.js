@@ -8,10 +8,11 @@ export function useUser() {
 
   useEffect(
     () => {
+      const auth = firebase.auth()
       const unsubscribe = auth.onAuthStateChanged(setUser)
       return unsubscribe
     },
-    [auth]
+    []
   )
 
   return user
