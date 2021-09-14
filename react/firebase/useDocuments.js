@@ -9,13 +9,13 @@ export function useDocuments(
 
   useEffect(
     () => {
-      async function retrieveDocuments() {
-        const documentsResult = await queryRef.get()
-        const documents = filterFn(documentsResult.docs)
+      async function retrieve() {
+        setDocuments(null)
+        const documents = await retrieveDocuments(queryRef, filterFn)
         setDocuments(documents)
       }
 
-      retrieveDocuments()
+      retrieve()
     },
     [
       queryRef,
@@ -23,5 +23,11 @@ export function useDocuments(
     ],
   )
 
+  return documents
+}
+
+export async function retrieveDocuments(queryRef, filterFn = identity) {
+  const documentsResult = await queryRef.get()
+  const documents = filterFn(documentsResult.docs)
   return documents
 }
