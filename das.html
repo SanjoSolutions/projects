@@ -10,14 +10,14 @@
 </style>
 <body>
   <script>
-    const width = 64;
-    const height = 64;
-    const tileSize = 2 ** 3 * 32;
+    const tileSize = 2 ** 4;
     const numberOfPaddingTiles = 2;
     const canvas = document.createElement("canvas");
     document.body.appendChild(canvas);
     canvas.width = /*window.devicePixelRatio * */ window.innerWidth;
     canvas.height = /*window.devicePixelRatio * */ window.innerHeight;
+    const width = Math.floor(canvas.width / tileSize);
+    const height = Math.floor(canvas.height / tileSize);
     const context = canvas.getContext("2d");
     // context.scale(window.devicePixelRatio, window.devicePixelRatio)
 
