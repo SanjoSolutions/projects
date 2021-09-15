@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { identity } from '../../packages/identity/src/identity.js'
 
-export function useDocumentSnapshot(
+export function useDocumentSnapshots(
   queryRef,
   filterFn = identity,
 ) {
