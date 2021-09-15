@@ -9,8 +9,9 @@ export function useDocuments(
 
   useEffect(
     () => {
+      setDocuments(null)
+
       async function retrieve() {
-        setDocuments(null)
         const documents = await retrieveDocuments(queryRef, filterFn)
         setDocuments(documents)
       }
