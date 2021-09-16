@@ -27,7 +27,7 @@ export function makeMovable(
   elementWithWhichTheElementCanBeMovedWith.addEventListener(
     'pointerdown',
     function (event) {
-      onPointerDown()
+      onPointerDown(event)
       isMousePressed = true
       event.preventDefault()
     }
@@ -46,8 +46,8 @@ export function makeMovable(
       element.style.top = y + 'px'
     }
   })
-  window.addEventListener('pointerup', function () {
-    onPointerUp()
+  window.addEventListener('pointerup', function (event) {
+    onPointerUp(event)
     isMousePressed = false
   })
 
