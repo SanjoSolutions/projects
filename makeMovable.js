@@ -1,8 +1,22 @@
 import { getPosition } from "./getPosition.js";
+import { identity } from './packages/identity/src/identity.js'
 
-export function makeMovable(element, {elementWithWhichTheElementCanBeMovedWith} = {}) {
+export function makeMovable(
+  element,
+  {
+    elementWithWhichTheElementCanBeMovedWith,
+    onPointerDown,
+    onPointerUp
+  } = {}
+) {
   if (!elementWithWhichTheElementCanBeMovedWith) {
     elementWithWhichTheElementCanBeMovedWith = element
+  }
+  if (!onPointerDown) {
+    onPointerDown = identity
+  }
+  if (!onPointerUp) {
+    onPointerUp = identity
   }
   const {x, y} = element.getBoundingClientRect()
   element.style.position = 'absolute'
@@ -13,6 +27,7 @@ export function makeMovable(element, {elementWithWhichTheElementCanBeMovedWith} 
   elementWithWhichTheElementCanBeMovedWith.addEventListener(
     'pointerdown',
     function (event) {
+      onPointerDown()
       isMousePressed = true
       event.preventDefault()
     }
@@ -32,6 +47,7 @@ export function makeMovable(element, {elementWithWhichTheElementCanBeMovedWith} 
     }
   })
   window.addEventListener('pointerup', function () {
+    onPointerUp()
     isMousePressed = false
   })
 
