@@ -1,0 +1,3 @@
+.disable-iframe-pointer-events {
+  pointer-events: none;
+}
