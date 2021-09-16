@@ -6,7 +6,8 @@ export function makeMovable(
   {
     elementWithWhichTheElementCanBeMovedWith,
     onPointerDown,
-    onPointerUp
+    onPointerUp,
+    isMoving
   } = {}
 ) {
   if (!elementWithWhichTheElementCanBeMovedWith) {
@@ -17,6 +18,9 @@ export function makeMovable(
   }
   if (!onPointerUp) {
     onPointerUp = identity
+  }
+  if (!isMoving) {
+    isMoving = () => true
   }
   const {x, y} = element.getBoundingClientRect()
   element.style.position = 'absolute'
@@ -32,11 +36,9 @@ export function makeMovable(
       event.preventDefault()
     }
   )
-  function isMoving(event) {
-    return isMousePressed && !event.shiftKey
-  }
+
   window.addEventListener('pointermove', function (event) {
-    if (isMoving(event)) {
+    if (isMousePressed && isMoving(event)) {
       let {x, y} = getPosition(element)
       x += event.movementX
       y += event.movementY

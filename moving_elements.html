@@ -96,7 +96,11 @@
 	}
 
 	function makeMovableAndRotatableAndPersistPosition(element) {
-		return persistPosition(makeRotatable(makeMovable(element)))
+		return persistPosition(makeRotatable(makeMovable(element, {
+		  isMoving(event) {
+		    return !event.shiftKey
+		  }
+		})))
 	}
 
 	const elements = Array.from(document.querySelectorAll('.element'))
