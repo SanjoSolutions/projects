@@ -1,0 +1,139 @@
+<style>
+	.triangle {
+
+	}
+
+	#element1 {
+		box-sizing: border-box;
+		border: 1px solid black;
+		width: 300px;
+		height: 80px;
+	}
+
+	#triangle {
+		width: 0;
+      		height: 0;
+      		border-left: 50px solid transparent;
+      		border-right: 50px solid transparent;
+      		border-bottom: 100px solid green;
+	}
+</style>
+
+<div id="element1" class="element"></div>
+<div id="triangle" class="element triangle"></div>
+
+<script>
+	function getPosition(element) {
+		const x = parseInt(element.style.left, 10)
+		const y = parseInt(element.style.top, 10)
+		return {x, y}
+	}
+
+	function getAngle(element) {
+		let angle
+		const transform = element.style.transform
+		if (transform) {
+			const match = /rotate\((\d+(?:\.\d+)?)rad\)/.exec(transform)
+			if (match) {
+				angle = Number(match[1])
+			} else {
+				angle = 0
+			}
+		} else {
+			angle = 0
+		}
+		return angle
+	}
+
+	function makeMovable(element) {
+		const {x, y} = element.getBoundingClientRect()
+		element.style.position = 'absolute'
+		element.style.left = x + 'px'
+		element.style.top = y + 'px'
+
+		let isMousePressed = false
+		element.addEventListener('pointerdown', function (event) {
+			isMousePressed = true
+			event.preventDefault()
+		})
+		function isMoving(event) {
+			return isMousePressed && !event.shiftKey
+		}
+		window.addEventListener('pointermove', function (event) {
+			if (isMoving(event)) {
+				let {x, y} = getPosition(element)
+				x += event.movementX
+				y += event.movementY
+
+				element.style.position = 'absolute'
+				element.style.left = x + 'px'
+				element.style.top = y + 'px'
+			}
+		})
+		window.addEventListener('pointerup', function () {
+			isMousePressed = false
+		})
+
+		return element
+	}
+
+	function makeRotatable(element) {
+		let isMousePressed = false
+		element.addEventListener('pointerdown', function (event) {
+			isMousePressed = true
+			event.preventDefault()
+		})
+		function isRotating(event) {
+			return isMousePressed && event.shiftKey
+		}
+		window.addEventListener('pointermove', function (event) {
+			if (isRotating(event)) {
+				let angle = getAngle(element)
+				angle += event.movementY * (2 * Math.PI / 360)
+				element.style.transformOrigin = 'center'
+				element.style.transform = `rotate(${angle}rad)`
+			}
+		})
+		window.addEventListener('pointerup', function (event) {
+			isMousePressed = false
+		})
+
+		return element
+	}
+
+	function persistPosition(element) {
+		const id = element.id
+
+		if (!id) {
+			throw new Error('element needs an id for persistPosition')
+		}
+
+		const position = localStorage.getItem(id)
+		if (position) {
+			const {x, y, angle} = JSON.parse(position)
+			element.style.position = 'absolute'
+			element.style.left = x + 'px'
+			element.style.top = y + 'px'
+			element.style.transform = `rotate(${angle}rad)`
+		}
+
+		const observer = new MutationObserver(function () {
+			const {x, y} = getPosition(element)
+			const angle = getAngle(element)
+			localStorage.setItem(id, JSON.stringify({x, y, angle}))
+		})
+		observer.observe(element, {
+			attributes: true,
+			attributeFilter: ['style']
+		})
+
+		return element
+	}
+
+	function makeMovableAndRotatableAndPersistPosition(element) {
+		return persistPosition(makeRotatable(makeMovable(element)))
+	}
+
+	const elements = Array.from(document.querySelectorAll('.element'))
+	elements.forEach(makeMovableAndRotatableAndPersistPosition)
+</script>
