@@ -1,4 +1,3 @@
-import { getPosition } from "./getPosition.js";
 import { identity } from './packages/identity/src/identity.js'
 
 export function makeMovable(
@@ -7,8 +6,8 @@ export function makeMovable(
     elementWithWhichTheElementCanBeMovedWith,
     onPointerDown,
     onPointerUp,
-    isMoving
-  } = {}
+    isMoving,
+  } = {},
 ) {
   if (!elementWithWhichTheElementCanBeMovedWith) {
     elementWithWhichTheElementCanBeMovedWith = element
@@ -22,26 +21,30 @@ export function makeMovable(
   if (!isMoving) {
     isMoving = () => true
   }
-  const {x, y} = element.getBoundingClientRect()
+  const { x, y } = element.getBoundingClientRect()
   element.style.position = 'absolute'
   element.style.left = x + 'px'
   element.style.top = y + 'px'
 
   let isMousePressed = false
+  let pointerClickOffsetToWindow = null
   elementWithWhichTheElementCanBeMovedWith.addEventListener(
     'pointerdown',
     function (event) {
       onPointerDown(event)
       isMousePressed = true
+      pointerClickOffsetToWindow = {
+        x: event.clientX - element.offsetLeft,
+        y: event.clientY - element.offsetTop,
+      }
       event.preventDefault()
-    }
+    },
   )
 
   window.addEventListener('pointermove', function (event) {
     if (isMousePressed && isMoving(event)) {
-      let {x, y} = getPosition(element)
-      x += event.movementX
-      y += event.movementY
+      const x = event.clientX - pointerClickOffsetToWindow.x
+      const y = event.clientY - pointerClickOffsetToWindow.y
 
       element.style.position = 'absolute'
       element.style.left = x + 'px'
@@ -51,6 +54,7 @@ export function makeMovable(
   window.addEventListener('pointerup', function (event) {
     onPointerUp(event)
     isMousePressed = false
+    pointerClickOffsetToWindow = null
   })
 
   return element
