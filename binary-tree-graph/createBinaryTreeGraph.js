@@ -125,12 +125,16 @@ function rerenderBinaryTree(binaryTree, { viewportBoundingBox }) {
   const binaryTreeRenderingBoundingBox = calculateBinaryTreeRenderingBoundingBox(
     viewportBoundingBox
   );
+  const binaryTreeRendering2 = new BinaryTreeRendering(
+    binaryTree,
+    binaryTreeRenderingBoundingBox
+  )
   const {
     canvas: binaryTreeRendering,
     renderableBinaryTree,
     totalRenderingWidth,
     totalRenderingHeight,
-  } = renderBinaryTree(binaryTree, binaryTreeRenderingBoundingBox);
+  } = binaryTreeRendering2.render()
   binaryTreeRenderingBoundingBox.width = Math.min(
     binaryTreeRenderingBoundingBox.width,
     totalRenderingWidth
@@ -182,191 +186,233 @@ function calculateBinaryTreeRenderingBoundingBox(viewportBoundingBox) {
 const nodeRadius = 16;
 const paddingToEdge = 16;
 
+
+class BinaryTreeRendering {
+  constructor(binaryTree, boundingBox) {
+    this.binaryTree = binaryTree
+    this.boundingBox = boundingBox
+  }
+
+  render() {
+    const binaryTree = this.binaryTree
+    const boundingBox = this.boundingBox
+
+    const renderableBinaryTree = createRenderableBinaryTree(binaryTree);
+    const paddingBetweenNodes = 16;
+
+    const numberOfNodes = getNumberOfNodes(renderableBinaryTree);
+    const numberOfLevels = numberOfNodes.length;
+    // console.log('numberOfNodes', numberOfNodes)
+    // console.log('numberOfLevel', numberOfLevels)
+
+    const lastLevelNumberOfNodes = numberOfNodes[numberOfLevels - 1];
+    const lastLevelWidth =
+      lastLevelNumberOfNodes * 2 * nodeRadius +
+      (lastLevelNumberOfNodes - 1) * paddingBetweenNodes;
+    const levelWidths = new Array(numberOfLevels);
+    levelWidths[numberOfLevels - 1] = lastLevelWidth;
+    const spaceBetweenNodes = new Array(numberOfLevels);
+    spaceBetweenNodes[numberOfLevels - 1] = paddingBetweenNodes;
+    for (let level = numberOfLevels - 2; level >= 0; level--) {
+      const levelWidth =
+        levelWidths[level + 1] -
+        2 * (nodeRadius + 0.5 * spaceBetweenNodes[level + 1]);
+      levelWidths[level] = levelWidth;
+      const numberOfNodes = 2 ** level;
+      spaceBetweenNodes[level] =
+        numberOfNodes === 1
+          ? 0
+          : (levelWidth - numberOfNodes * 2 * nodeRadius) / (numberOfNodes - 1);
+    }
+    // console.log('levelWidths', levelWidths)
+    // console.log('spaceBetweenNodes', spaceBetweenNodes)
+
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    const devicePixelRatio = window.devicePixelRatio;
+    const totalRenderingWidth =
+      devicePixelRatio * (2 * paddingToEdge + lastLevelWidth);
+    const totalRenderingHeight =
+      devicePixelRatio *
+      (2 * paddingToEdge +
+        numberOfLevels * 2 * nodeRadius +
+        (numberOfLevels - 1) * paddingBetweenNodes);
+    canvas.width = Math.min(boundingBox.width, totalRenderingWidth);
+    canvas.height = Math.min(boundingBox.height, totalRenderingHeight);
+
+    context.translate(-boundingBox.x, -boundingBox.y);
+    context.scale(devicePixelRatio, devicePixelRatio);
+
+    /*
+    const canvasWidth = canvas.width / devicePixelRatio
+    const canvasHeight = canvas.height / devicePixelRatio
+
+    context.save()
+
+    context.fillStyle = '#FAFAFA'
+    context.fillRect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
+
+    context.beginPath()
+    context.rect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
+    context.stroke()
+
+    context.restore()
+    */
+
+    calculatePositions();
+    render();
+
+    function calculatePositions() {
+      let nodes = [renderableBinaryTree.root];
+      let level = 0;
+      while (nodes.length >= 1) {
+        const numberOfNodes = nodes.length;
+        const levelWidth = levelWidths[level];
+        const spaceBetweenNodesOnLevel = spaceBetweenNodes[level];
+        const y =
+          paddingToEdge +
+          nodeRadius +
+          level * (2 * nodeRadius + paddingBetweenNodes);
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          let x;
+          if (numberOfNodes === 1) {
+            x = totalRenderingWidth / devicePixelRatio / 2;
+          } else {
+            x =
+              totalRenderingWidth / devicePixelRatio / 2 -
+              0.5 * levelWidth +
+              nodeRadius +
+              index * (2 * nodeRadius + spaceBetweenNodesOnLevel);
+          }
+          node.position = {
+            x,
+            y,
+          };
+        }
+        nodes = nodes.map((node) => node.children).flat();
+        level++;
+      }
+    }
+
+    function render() {
+      renderNodes();
+      renderConnections();
+    }
+
+    function renderNodes() {
+      let nodes = [renderableBinaryTree.root];
+      let level = 0;
+      while (nodes.length >= 1) {
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          this.renderNode(node)
+        }
+        nodes = nodes.map((node) => node.children).flat();
+      }
+    }
+
+    function hasNodaAValue(node) {
+      return typeof node.value !== "undefined"
+    }
+
+    function isNodeInViewport(node) {
+      const x = window.devicePixelRatio * node.position.x;
+      const y = window.devicePixelRatio * node.position.y;
+      const result =
+        boundingBox.x - nodeRadius <= x &&
+        x <= x + canvas.width + nodeRadius &&
+        boundingBox.y - nodeRadius <= y &&
+        y <= y + canvas.height + nodeRadius;
+      return result;
+    }
+
+    function renderConnections() {
+      let nodes = [renderableBinaryTree.root];
+      let level = 0;
+      while (nodes.length >= 1) {
+        for (let index = 0; index < nodes.length; index++) {
+          const node = nodes[index];
+          const children = node.children.flat();
+          for (const child of children) {
+            context.beginPath();
+            context.moveTo(node.position.x, node.position.y + nodeRadius);
+            context.lineTo(child.position.x, child.position.y - nodeRadius);
+            context.stroke();
+          }
+        }
+        nodes = nodes.map((node) => node.children).flat();
+      }
+    }
+
+    return {
+      canvas,
+      renderableBinaryTree,
+      totalRenderingWidth,
+      totalRenderingHeight,
+    };
+  }
+
+  renderNode(node, {textFillStyle, fillStyle} = {}) {
+    if (isNodeInViewport(node)) {
+      const shouldSaveAndRestoreContext = (
+        fillStyle ||
+        (textFillStyle && hasNodaAValue(node))
+      )
+
+      if (shouldSaveAndRestoreContext) {
+        context.save()
+      }
+      context.beginPath();
+      context.arc(
+        node.position.x,
+        node.position.y,
+        nodeRadius,
+        0,
+        2 * Math.PI
+      );
+      if (fillStyle) {
+        context.fillStyle = fillStyle
+        context.fill()
+      }
+      context.stroke();
+      if (hasNodaAValue(node)) {
+        let value = node.value;
+        if (!Number.isInteger(value)) {
+          value = value.toFixed(1);
+        }
+        const textMeasures = context.measureText(value);
+        if (textFillStyle) {
+          context.fillStyle = textFillStyle
+        }
+        context.fillText(
+          value,
+          node.position.x -
+            0.5 *
+              (textMeasures.actualBoundingBoxLeft +
+                textMeasures.actualBoundingBoxRight),
+          node.position.y +
+            0.5 *
+              (textMeasures.actualBoundingBoxAscent +
+                textMeasures.actualBoundingBoxDescent)
+        );
+      }
+      if (shouldSaveAndRestoreContext) {
+        context.restore()
+      }
+    }
+  }
+}
+
+
 /**
  *
  * @param binaryTree
  * @param boundingBox The boundingBox for the area of the binary tree rendering that should be rendered.
  */
 function renderBinaryTree(binaryTree, boundingBox) {
-  const renderableBinaryTree = createRenderableBinaryTree(binaryTree);
-  const paddingBetweenNodes = 16;
 
-  const numberOfNodes = getNumberOfNodes(renderableBinaryTree);
-  const numberOfLevels = numberOfNodes.length;
-  // console.log('numberOfNodes', numberOfNodes)
-  // console.log('numberOfLevel', numberOfLevels)
-
-  const lastLevelNumberOfNodes = numberOfNodes[numberOfLevels - 1];
-  const lastLevelWidth =
-    lastLevelNumberOfNodes * 2 * nodeRadius +
-    (lastLevelNumberOfNodes - 1) * paddingBetweenNodes;
-  const levelWidths = new Array(numberOfLevels);
-  levelWidths[numberOfLevels - 1] = lastLevelWidth;
-  const spaceBetweenNodes = new Array(numberOfLevels);
-  spaceBetweenNodes[numberOfLevels - 1] = paddingBetweenNodes;
-  for (let level = numberOfLevels - 2; level >= 0; level--) {
-    const levelWidth =
-      levelWidths[level + 1] -
-      2 * (nodeRadius + 0.5 * spaceBetweenNodes[level + 1]);
-    levelWidths[level] = levelWidth;
-    const numberOfNodes = 2 ** level;
-    spaceBetweenNodes[level] =
-      numberOfNodes === 1
-        ? 0
-        : (levelWidth - numberOfNodes * 2 * nodeRadius) / (numberOfNodes - 1);
-  }
-  // console.log('levelWidths', levelWidths)
-  // console.log('spaceBetweenNodes', spaceBetweenNodes)
-
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-
-  const devicePixelRatio = window.devicePixelRatio;
-  const totalRenderingWidth =
-    devicePixelRatio * (2 * paddingToEdge + lastLevelWidth);
-  const totalRenderingHeight =
-    devicePixelRatio *
-    (2 * paddingToEdge +
-      numberOfLevels * 2 * nodeRadius +
-      (numberOfLevels - 1) * paddingBetweenNodes);
-  canvas.width = Math.min(boundingBox.width, totalRenderingWidth);
-  canvas.height = Math.min(boundingBox.height, totalRenderingHeight);
-
-  context.translate(-boundingBox.x, -boundingBox.y);
-  context.scale(devicePixelRatio, devicePixelRatio);
-
-  /*
-  const canvasWidth = canvas.width / devicePixelRatio
-  const canvasHeight = canvas.height / devicePixelRatio
-
-  context.save()
-
-  context.fillStyle = '#FAFAFA'
-  context.fillRect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
-
-  context.beginPath()
-  context.rect(boundingBox.x / devicePixelRatio, boundingBox.y / devicePixelRatio, canvasWidth, canvasHeight)
-  context.stroke()
-
-  context.restore()
-  */
-
-  calculatePositions();
-  render();
-
-  function calculatePositions() {
-    let nodes = [renderableBinaryTree.root];
-    let level = 0;
-    while (nodes.length >= 1) {
-      const numberOfNodes = nodes.length;
-      const levelWidth = levelWidths[level];
-      const spaceBetweenNodesOnLevel = spaceBetweenNodes[level];
-      const y =
-        paddingToEdge +
-        nodeRadius +
-        level * (2 * nodeRadius + paddingBetweenNodes);
-      for (let index = 0; index < nodes.length; index++) {
-        const node = nodes[index];
-        let x;
-        if (numberOfNodes === 1) {
-          x = totalRenderingWidth / devicePixelRatio / 2;
-        } else {
-          x =
-            totalRenderingWidth / devicePixelRatio / 2 -
-            0.5 * levelWidth +
-            nodeRadius +
-            index * (2 * nodeRadius + spaceBetweenNodesOnLevel);
-        }
-        node.position = {
-          x,
-          y,
-        };
-      }
-      nodes = nodes.map((node) => node.children).flat();
-      level++;
-    }
-  }
-
-  function render() {
-    renderNodes();
-    renderConnections();
-  }
-
-  function renderNodes() {
-    let nodes = [renderableBinaryTree.root];
-    let level = 0;
-    while (nodes.length >= 1) {
-      for (let index = 0; index < nodes.length; index++) {
-        const node = nodes[index];
-        if (isNodeInViewport(node)) {
-          context.beginPath();
-          context.arc(
-            node.position.x,
-            node.position.y,
-            nodeRadius,
-            0,
-            2 * Math.PI
-          );
-          context.stroke();
-          if (typeof node.value !== "undefined") {
-            let value = node.value;
-            if (!Number.isInteger(value)) {
-              value = value.toFixed(1);
-            }
-            const textMeasures = context.measureText(value);
-            context.fillText(
-              value,
-              node.position.x -
-                0.5 *
-                  (textMeasures.actualBoundingBoxLeft +
-                    textMeasures.actualBoundingBoxRight),
-              node.position.y +
-                0.5 *
-                  (textMeasures.actualBoundingBoxAscent +
-                    textMeasures.actualBoundingBoxDescent)
-            );
-          }
-        }
-      }
-      nodes = nodes.map((node) => node.children).flat();
-    }
-  }
-
-  function isNodeInViewport(node) {
-    const x = window.devicePixelRatio * node.position.x;
-    const y = window.devicePixelRatio * node.position.y;
-    const result =
-      boundingBox.x - nodeRadius <= x &&
-      x <= x + canvas.width + nodeRadius &&
-      boundingBox.y - nodeRadius <= y &&
-      y <= y + canvas.height + nodeRadius;
-    return result;
-  }
-
-  function renderConnections() {
-    let nodes = [renderableBinaryTree.root];
-    let level = 0;
-    while (nodes.length >= 1) {
-      for (let index = 0; index < nodes.length; index++) {
-        const node = nodes[index];
-        const children = node.children.flat();
-        for (const child of children) {
-          context.beginPath();
-          context.moveTo(node.position.x, node.position.y + nodeRadius);
-          context.lineTo(child.position.x, child.position.y - nodeRadius);
-          context.stroke();
-        }
-      }
-      nodes = nodes.map((node) => node.children).flat();
-    }
-  }
-
-  return {
-    canvas,
-    renderableBinaryTree,
-    totalRenderingWidth,
-    totalRenderingHeight,
-  };
 }
 
 function getNumberOfNodes(binaryTree) {
@@ -438,23 +484,24 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
     previousBoundingBox = viewportBoundingBox;
     viewportBoundingBox = newViewportBoundingBox;
     if (
-      (binaryTreeRenderingBoundingBox.x > 0 &&
-        viewportBoundingBox.x < binaryTreeRenderingBoundingBox.x) ||
-      (binaryTreeRenderingBoundingBox.x + binaryTreeRenderingBoundingBox.width <
-        totalRenderingWidth &&
-        viewportBoundingBox.x +
-          (window.devicePixelRatio * viewportBoundingBox.width) / zoom >
-          binaryTreeRenderingBoundingBox.x +
-            binaryTreeRenderingBoundingBox.width) ||
-      (binaryTreeRenderingBoundingBox.y > 0 &&
-        viewportBoundingBox.y < binaryTreeRenderingBoundingBox.y) ||
-      (binaryTreeRenderingBoundingBox.y +
-        binaryTreeRenderingBoundingBox.height <
-        totalRenderingHeight &&
-        viewportBoundingBox.y +
-          (window.devicePixelRatio * viewportBoundingBox.height) / zoom >
-          binaryTreeRenderingBoundingBox.y +
-            binaryTreeRenderingBoundingBox.height)
+      true
+      // (binaryTreeRenderingBoundingBox.x > 0 &&
+      //   viewportBoundingBox.x < binaryTreeRenderingBoundingBox.x) ||
+      // (binaryTreeRenderingBoundingBox.x + binaryTreeRenderingBoundingBox.width <
+      //   totalRenderingWidth &&
+      //   viewportBoundingBox.x +
+      //     (window.devicePixelRatio * viewportBoundingBox.width) / zoom >
+      //     binaryTreeRenderingBoundingBox.x +
+      //       binaryTreeRenderingBoundingBox.width) ||
+      // (binaryTreeRenderingBoundingBox.y > 0 &&
+      //   viewportBoundingBox.y < binaryTreeRenderingBoundingBox.y) ||
+      // (binaryTreeRenderingBoundingBox.y +
+      //   binaryTreeRenderingBoundingBox.height <
+      //   totalRenderingHeight &&
+      //   viewportBoundingBox.y +
+      //     (window.devicePixelRatio * viewportBoundingBox.height) / zoom >
+      //     binaryTreeRenderingBoundingBox.y +
+      //       binaryTreeRenderingBoundingBox.height)
     ) {
       result = rerenderBinaryTree(binaryTree, { viewportBoundingBox });
       binaryTreeRendering = result.binaryTreeRendering;
@@ -504,6 +551,8 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
     }
   });
 
+  let selectedNode = null
+
   window.addEventListener("mousedown", (event) => {
     if (event.button === 0) {
       primaryMouseButtonPressed = true;
@@ -515,6 +564,8 @@ export function createBinaryTreeGraph({ min, max, step, showLabels }) {
         );
         if (connection) {
           const [node, child] = connection;
+          selectedNode = child
+          renderNode(child)
           const binaryTreeGraphicsScale = window.devicePixelRatio;
           setViewportBoundingBox({
             x: child.position.x - 0.5 * viewportBoundingBox.width,
