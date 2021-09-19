@@ -1,3 +1,4 @@
+import { createCanvasCopy } from '../createCanvasCopy.js'
 import { listenToDevicePixelRatioChange } from '../listenToDevicePixelRatioChange.js'
 import { noop } from '../noop.js'
 import { throttle } from '../throttle.js'
@@ -41,14 +42,15 @@ export function createFullDocumentCanvas(
       const devicePixelRatio = window.devicePixelRatio
 
       if (newWidth > oldWidth || newHeight > oldHeight) {
-        const copyCanvas = document.createElement('canvas')
-        copyCanvas.width = canvas.width
-        copyCanvas.height = canvas.height
-        const copyContext = copyCanvas.getContext('2d')
-        copyContext.putImageData(
-          context.getImageData(0, 0, canvas.width, canvas.height),
-          0,
-          0,
+        const { canvas: canvasCopy, context: copyContext } = createCanvasCopy(
+          canvas,
+          context,
+          {
+            x: 0,
+            y: 0,
+            width: canvas.width,
+            height: canvas.height,
+          },
         )
 
         if (newWidth > oldWidth) {
@@ -64,7 +66,7 @@ export function createFullDocumentCanvas(
         context.resetTransform()
         context.scale(devicePixelRatio, devicePixelRatio)
         context.putImageData(
-          copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height),
+          copyContext.getImageData(0, 0, canvasCopy.width, canvasCopy.height),
           0,
           0,
         )
