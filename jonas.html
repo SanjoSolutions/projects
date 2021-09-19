@@ -26,13 +26,15 @@
     );
 
     const { canvas, context } = createFullDocumentCanvas(
-      function onDevicePixelRatioOrDocumentSizeChange() {
-        const documentWidth = window.innerWidth;
-        const documentHeight = window.innerHeight;
-        grid.resize(
-          Math.floor(documentWidth / tileSize),
-          Math.floor(documentHeight / tileSize)
-        );
+      {
+        onDevicePixelRatioOrDocumentSizeChange() {
+          const documentWidth = window.innerWidth;
+          const documentHeight = window.innerHeight;
+          grid.resize(
+            Math.floor(documentWidth / tileSize),
+            Math.floor(documentHeight / tileSize)
+          );
+        }
       }
     );
     document.body.appendChild(canvas);

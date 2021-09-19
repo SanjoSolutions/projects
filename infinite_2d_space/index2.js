@@ -54,11 +54,8 @@ async function main() {
   )
 
   const pencil = document.querySelector('.pencil')
-  const { canvas, context } = createFullDocumentCanvas()
-
-  window.addEventListener(
-    'resize',
-    function onResize() {
+  const { canvas, context } = createFullDocumentCanvas({
+    afterCanvasSizeAndScaleSet() {
       const width = parseInt(canvas.style.width, 10)
       const height = parseInt(canvas.style.height, 10)
       setViewport({
@@ -68,7 +65,7 @@ async function main() {
         maxY: viewport.minY + height
       })
     }
-  )
+  })
 
   context.lineWidth = 1
   context.lineCap = 'round'

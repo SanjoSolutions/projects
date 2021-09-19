@@ -6,8 +6,19 @@ import { throttle } from '../throttle.js'
  * @see createFullDocumentCanvas.css
  */
 export function createFullDocumentCanvas(
-  onDevicePixelRatioOrDocumentSizeChangeFn = noop,
+  {
+    onDevicePixelRatioOrDocumentSizeChange,
+    afterCanvasSizeAndScaleSet
+  } = {}
 ) {
+  if (!onDevicePixelRatioOrDocumentSizeChange) {
+    onDevicePixelRatioOrDocumentSizeChange = noop
+  }
+
+  if (!afterCanvasSizeAndScaleSet) {
+    afterCanvasSizeAndScaleSet = noop
+  }
+
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
 
@@ -59,16 +70,18 @@ export function createFullDocumentCanvas(
         )
         copyCanvas.remove()
       }
+
+      afterCanvasSizeAndScaleSet()
     },
     200,
   )
 
-  listenToDevicePixelRatioChange(onDevicePixelRatioOrDocumentSizeChange)
-  window.addEventListener('resize', onDevicePixelRatioOrDocumentSizeChange)
+  listenToDevicePixelRatioChange(_onDevicePixelRatioOrDocumentSizeChange)
+  window.addEventListener('resize', _onDevicePixelRatioOrDocumentSizeChange)
 
-  function onDevicePixelRatioOrDocumentSizeChange(event) {
+  function _onDevicePixelRatioOrDocumentSizeChange(event) {
     setCanvasSizeAndScale()
-    onDevicePixelRatioOrDocumentSizeChangeFn(event)
+    onDevicePixelRatioOrDocumentSizeChange(event)
   }
 
   return { canvas, context }
