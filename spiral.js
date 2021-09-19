@@ -1,5 +1,5 @@
 import { animate } from "./animate.js";
-import { createFullDocumentCanvas } from "./createFullDocumentCanvas.js";
+import { createFullDocumentCanvas } from "./createFullDocumentCanvas/createFullDocumentCanvas.js";
 import { Drawer } from "./Drawer.js";
 import { getCenter } from "./getCenter.js";
 

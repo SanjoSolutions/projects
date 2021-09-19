@@ -1,5 +1,5 @@
 import { colorToString } from './colorToString.js';
-import { createFullDocumentCanvas } from './createFullDocumentCanvas.js';
+import { createFullDocumentCanvas } from './createFullDocumentCanvas/createFullDocumentCanvas.js';
 import { getCenter } from './getCenter.js';
 import { animate } from './packages/animate/animate.js';
 import { polarCoordinatesToCartesianCoordinates } from './polarCoordinatesToCartesianCoordinates.js';

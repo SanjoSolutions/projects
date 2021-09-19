@@ -1,4 +1,4 @@
-import { createFullDocumentCanvas } from "../createFullDocumentCanvas.js";
+import { createFullDocumentCanvas } from "../createFullDocumentCanvas/createFullDocumentCanvas.js";
 
 async function main() {
   const { canvas, context } = createFullDocumentCanvas();

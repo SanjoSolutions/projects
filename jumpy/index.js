@@ -9,7 +9,7 @@ let platforms = [];
 let cameraYOffset = 0;
 let cameraMoveToYOffset = 0;
 
-import { createFullDocumentCanvas } from "../createFullDocumentCanvas.js";
+import { createFullDocumentCanvas } from "../createFullDocumentCanvas/createFullDocumentCanvas.js";
 import { loadImage } from "../loadImage.js";
 import { animate } from "../packages/animate/animate.js";
 import { randomInteger } from "../randomInteger.js";

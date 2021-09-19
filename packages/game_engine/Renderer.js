@@ -1,4 +1,4 @@
-import { createFullDocumentCanvas } from "../../createFullDocumentCanvas.js";
+import { createFullDocumentCanvas } from "../../createFullDocumentCanvas/createFullDocumentCanvas.js";
 import { loadImage } from "../../loadImage.js";
 
 export class Renderer {
