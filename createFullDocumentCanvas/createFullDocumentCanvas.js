@@ -70,7 +70,6 @@ export function createFullDocumentCanvas(
           0,
           0,
         )
-        copyCanvas.remove()
       }
 
       afterCanvasSizeAndScaleSet()
