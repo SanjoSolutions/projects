@@ -22,7 +22,7 @@ async function main() {
     if (!saveViewportCenterHandler) {
       saveViewportCenterHandler = setTimeout(() => {
         saveViewportCenterBase(viewport)
-      }, 5000)
+      }, 1000)
     }
   }
 
@@ -50,7 +50,7 @@ async function main() {
     function savePixels() {
       save(pixels)
     },
-    5000
+    1000
   )
 
   const pencil = document.querySelector('.pencil')
