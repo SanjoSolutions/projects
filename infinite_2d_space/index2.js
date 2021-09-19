@@ -304,6 +304,7 @@ function eventToPoint(event) {
 
 function save(pixels) {
   setValue('pixels', JSON.stringify(pixels))
+  console.log('Saved pixels.')
 }
 
 async function load() {
@@ -312,6 +313,7 @@ async function load() {
 
 function saveViewportCenterBase(viewport) {
   setValue('viewportCenter', JSON.stringify(getViewportCenter()))
+  console.log('Saved viewport center.')
 }
 
 async function loadViewportCenter() {
