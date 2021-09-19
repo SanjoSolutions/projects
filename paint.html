@@ -19,7 +19,9 @@
 <div class="pencil"></div>
 <canvas></canvas>
 
-<script>
+<script type="module">
+  import { throttle } from './throttle.js'
+
   const pencil = document.querySelector(".pencil");
   const canvas = document.querySelector("canvas");
   canvas.style.width = window.innerWidth;
@@ -112,17 +114,6 @@
       }
     }, 200)
   );
-
-  function throttle(fn, delay) {
-    let handle;
-    return (...args) => {
-      if (handle) clearTimeout(handle);
-      handle = setTimeout(() => {
-        fn(...args);
-        handle = null;
-      }, delay);
-    };
-  }
 
   function isLeftMouseButton(event) {
     return event.button === 0;

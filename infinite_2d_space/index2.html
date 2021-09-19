@@ -31,6 +31,7 @@
   import { min } from "./min.js";
   import { max } from "./max.js";
   import { Viewport } from "./Viewport.js";
+  import { throttle } from '../throttle.js'
 
   class Pixel {
     constructor(x, y) {
@@ -349,17 +350,6 @@
   }
 
   main();
-
-  function throttle(fn, delay) {
-    let handle;
-    return (...args) => {
-      if (handle) clearTimeout(handle);
-      handle = setTimeout(() => {
-        fn(...args);
-        handle = null;
-      }, delay);
-    };
-  }
 
   function isLeftMouseButton(event) {
     return event.button === 0;
