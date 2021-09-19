@@ -1,5 +1,5 @@
 import { createCanvasCopy } from '../createCanvasCopy.js'
-import { listenToDevicePixelRatioChange } from '../listenToDevicePixelRatioChange.js'
+import { addDevicePixelRatioChangeListener } from '../addDevicePixelRatioChangeListener.js'
 import { noop } from '../noop.js'
 import { throttle } from '../throttle.js'
 
@@ -78,7 +78,7 @@ export function createFullDocumentCanvas(
     200,
   )
 
-  listenToDevicePixelRatioChange(_onDevicePixelRatioOrDocumentSizeChange)
+  addDevicePixelRatioChangeListener(_onDevicePixelRatioOrDocumentSizeChange)
   window.addEventListener('resize', _onDevicePixelRatioOrDocumentSizeChange)
 
   function _onDevicePixelRatioOrDocumentSizeChange(event) {
