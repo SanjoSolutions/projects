@@ -2,7 +2,6 @@ import { noop } from "./noop.js";
 import { listenToDevicePixelRatioChange } from "./listenToDevicePixelRatioChange.js";
 
 /**
- * @usage
  * @see createFullDocumentCanvas.css
  */
 export function createFullDocumentCanvas(
