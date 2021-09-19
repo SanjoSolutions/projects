@@ -1,5 +1,5 @@
-import { createCanvasCopy } from '../createCanvasCopy.js'
 import { addDevicePixelRatioChangeListener } from '../addDevicePixelRatioChangeListener.js'
+import { createCanvasCopy } from '../createCanvasCopy.js'
 import { noop } from '../noop.js'
 import { throttle } from '../throttle.js'
 
@@ -9,8 +9,8 @@ import { throttle } from '../throttle.js'
 export function createFullDocumentCanvas(
   {
     onDevicePixelRatioOrDocumentSizeChange,
-    afterCanvasSizeAndScaleSet
-  } = {}
+    afterCanvasSizeAndScaleSet,
+  } = {},
 ) {
   if (!onDevicePixelRatioOrDocumentSizeChange) {
     onDevicePixelRatioOrDocumentSizeChange = noop
@@ -77,7 +77,9 @@ export function createFullDocumentCanvas(
     200,
   )
 
-  addDevicePixelRatioChangeListener(_onDevicePixelRatioOrDocumentSizeChange)
+  const removeDevicePixelRatioChangeListener = addDevicePixelRatioChangeListener(
+    _onDevicePixelRatioOrDocumentSizeChange,
+  )
   window.addEventListener('resize', _onDevicePixelRatioOrDocumentSizeChange)
 
   function _onDevicePixelRatioOrDocumentSizeChange(event) {
@@ -85,5 +87,11 @@ export function createFullDocumentCanvas(
     onDevicePixelRatioOrDocumentSizeChange(event)
   }
 
-  return { canvas, context }
+  function removeEventListeners() {
+    setCanvasSizeAndScale.cancel()
+    removeDevicePixelRatioChangeListener()
+    window.removeEventListener('resize', _onDevicePixelRatioOrDocumentSizeChange)
+  }
+
+  return { canvas, context, removeEventListeners }
 }
