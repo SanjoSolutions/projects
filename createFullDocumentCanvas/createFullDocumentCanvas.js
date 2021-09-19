@@ -3,7 +3,6 @@ import { noop } from '../noop.js'
 import { throttle } from '../throttle.js'
 
 /**
- * @usage
  * @see createFullDocumentCanvas.css
  */
 export function createFullDocumentCanvas(
