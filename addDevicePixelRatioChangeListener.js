@@ -18,6 +18,6 @@ export function addDevicePixelRatioChangeListener(callback) {
 
   addDevicePixelRatioChangeListener(onDevicePixelRatioChange)
 
-  return removeDevicePixelRatioChangeListener()
+  return removeDevicePixelRatioChangeListener
 }
 
