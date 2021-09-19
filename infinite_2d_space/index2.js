@@ -63,9 +63,9 @@ async function main() {
       const height = parseInt(canvas.style.height, 10)
       setViewport({
         minX: viewport.minX,
-        minY: viewport.maxY,
+        minY: viewport.minY,
         maxX: viewport.minX + width,
-        maxY: viewport.maxY + height
+        maxY: viewport.minY + height
       })
     }
   )
