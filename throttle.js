@@ -3,14 +3,18 @@ export function throttle(fn, interval) {
 
   function throttleFn(...args) {
     let hasBeenCalled = false
+    let calledWithArgs = []
     if (handle) {
       hasBeenCalled = true
+      calledWithArgs = args
     } else {
-      fn()
+      fn(...args)
       handle = setTimeout(() => {
         handle = null
         if (hasBeenCalled) {
-          fn()
+          hasBeenCalled = false
+          fn(...calledWithArgs)
+          calledWithArgs = []
         }
       }, interval)
     }
