@@ -1,6 +1,0 @@
-{
-  "name": "infinite_2d_space_server",
-  "dependencies": {
-    "ws": "^7.3.1"
-  }
-}
