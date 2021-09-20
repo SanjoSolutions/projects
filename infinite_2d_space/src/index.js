@@ -1,15 +1,18 @@
-import { createFullDocumentCanvas } from '../createFullDocumentCanvas/createFullDocumentCanvas.js'
-import { delayed } from '../delayed.js'
-import { getValue, setValue } from '../localStorageDB.js'
+import '../../createFullDocumentCanvas/createFullDocumentCanvas.css'
+import { createFullDocumentCanvas } from '../../createFullDocumentCanvas/createFullDocumentCanvas.js'
+import { delayed } from '../../delayed.js'
+import { getValue, setValue } from '../../localStorageDB.js'
+import { max } from '../../max.js'
+import { min } from '../../min.js'
+import { throttle } from '../../throttle.js'
+import './index.css'
 import { interpolatePointsOnLine } from './interpolatePointsOnLine2.js'
-import { max } from './max.js'
-import { min } from './min.js'
 import { Space } from './Space2.js'
 import { Viewport } from './Viewport.js'
-import { throttle } from '../throttle.js'
-
 
 async function main() {
+  initializeFirebase()
+
   let viewport = await loadViewportCenter()
 
   let saveViewportCenterHandler

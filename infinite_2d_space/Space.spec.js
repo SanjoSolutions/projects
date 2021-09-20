@@ -1,6 +1,6 @@
 import { describe, it } from "@jest/globals";
 import { Space } from "./Space.js";
-import { Viewport } from "./Viewport.js";
+import { Viewport } from "./src/Viewport.js";
 
 describe("Space", () => {
   describe("get", () => {

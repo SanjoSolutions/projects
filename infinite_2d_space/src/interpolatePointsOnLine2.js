@@ -1,4 +1,4 @@
-import { removeDuplicates } from "./removeDuplicates.js";
+import { removeDuplicates } from "../removeDuplicates.js";
 
 export function interpolatePointsOnLine(a, b) {
   const minX = Math.round(Math.min(a.x, b.x));
