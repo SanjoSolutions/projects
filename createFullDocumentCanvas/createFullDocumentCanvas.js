@@ -1,7 +1,7 @@
 import { addDevicePixelRatioChangeListener } from '../addDevicePixelRatioChangeListener.js'
 import { createCanvasCopy } from '../createCanvasCopy.js'
 import { noop } from '../noop.js'
-import { throttle } from '../throttle.js'
+import { debounce } from '../debounce.js'
 
 /**
  * @see createFullDocumentCanvas.css
@@ -32,7 +32,7 @@ export function createFullDocumentCanvas(
   canvas.height = devicePixelRatio * documentHeight
   context.scale(devicePixelRatio, devicePixelRatio)
 
-  const setCanvasSizeAndScale = throttle(
+  const setCanvasSizeAndScale = debounce(
     function setCanvasSizeAndScale() {
       const oldWidth = parseInt(canvas.style.width, 10)
       const newWidth = window.innerWidth

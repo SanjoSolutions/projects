@@ -1,22 +1,27 @@
-export function throttle(fn, delay) {
+export function throttle(fn, interval) {
   let handle = null
 
-  function throttledFn(...args) {
+  function throttleFn(...args) {
+    let hasBeenCalled = false
     if (handle) {
-      clearTimeout(handle)
-    }
-    handle = setTimeout(() => {
-      fn(...args)
-      handle = null
-    }, delay)
-  }
-
-  throttledFn.cancel = function () {
-    if (handle) {
-      clearTimeout(handle)
-      handle = null
+      hasBeenCalled = true
+    } else {
+      fn()
+      handle = setTimeout(() => {
+        handle = null
+        if (hasBeenCalled) {
+          fn()
+        }
+      }, interval)
     }
   }
 
-  return throttledFn
+  throttleFn.cancel = function () {
+    if (handle) {
+      clearTimeout(handle)
+      handle = null
+    }
+  }
+
+  return throttleFn
 }
