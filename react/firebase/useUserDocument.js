@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getDatabase } from '../../firebase/getDatabase.js'
+import { getDatabase } from '../../firebase/compat/getDatabase.js'
 import { useUserId } from './useUserId.js'
 
 export function useUserDocument() {
