@@ -8,12 +8,6 @@ import { Space } from './Space2.js'
 import { Viewport } from './Viewport.js'
 import { throttle } from '../throttle.js'
 
-class Pixel {
-  constructor(x, y) {
-    this.x = x
-    this.y = y
-  }
-}
 
 async function main() {
   let viewport = await loadViewportCenter()
