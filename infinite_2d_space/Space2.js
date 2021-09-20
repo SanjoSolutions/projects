@@ -1,5 +1,5 @@
 export class Space {
-  constructor(viewport) {
+  constructor() {
     this.data = new Map();
   }
 

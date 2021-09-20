@@ -29,22 +29,9 @@ async function main() {
 
   const pixels = await load()
 
-  let spaceViewport = createSpaceViewport(pixels)
-  const space = new Space(spaceViewport)
+  const space = new Space()
   for (const pixel of pixels) {
     space.set(pixel)
-  }
-
-  function getVisiblePixels(viewport) {
-    const visiblePixels = []
-    for (let y = viewport.minY; y <= viewport.maxY; y++) {
-      for (let x = viewport.minX; x <= viewport.maxX; x++) {
-        if (space.get({ x, y })) {
-          visiblePixels.push(new Pixel(x, y))
-        }
-      }
-    }
-    return visiblePixels
   }
 
   const saveDelayed = delayed(
