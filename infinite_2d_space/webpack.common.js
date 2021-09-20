@@ -12,6 +12,7 @@ export default {
       type: 'module'
     }
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {

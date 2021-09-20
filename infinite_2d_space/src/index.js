@@ -6,14 +6,27 @@ import { max } from '../../max.js'
 import { min } from '../../min.js'
 import { throttle } from '../../throttle.js'
 import './index.css'
+import { FirestoreSpace } from './FirestoreSpace.js'
+import { initializeFirebase } from './initializeFirebase.js'
 import { interpolatePointsOnLine } from './interpolatePointsOnLine2.js'
 import { Space } from './Space2.js'
 import { Viewport } from './Viewport.js'
+import { initializeApp } from "firebase/app"
 
 async function main() {
-  initializeFirebase()
+  const firebaseApp = initializeApp({
+    apiKey: "AIzaSyBpMvJ0coLk4bhNdm5jNiYUO1ZpXmi_4bY",
+    authDomain: "infinite-2d-space.firebaseapp.com",
+    projectId: "infinite-2d-space",
+    storageBucket: "infinite-2d-space.appspot.com",
+    messagingSenderId: "532791309142",
+    appId: "1:532791309142:web:b70bea12bae00ad71fdcf7"
+  })
+  debugger
+  const space = new FirestoreSpace()
 
   let viewport = await loadViewportCenter()
+  space.setViewport(viewport)
 
   let saveViewportCenterHandler
   const saveViewportCenter = () => {
@@ -24,16 +37,9 @@ async function main() {
     }
   }
 
-  const pixels = await load()
-
-  const space = new Space()
-  for (const pixel of pixels) {
-    space.set(pixel)
-  }
-
   const saveDelayed = delayed(
     function savePixels() {
-      save(pixels)
+      save()
     },
     1000,
   )
@@ -128,7 +134,6 @@ async function main() {
       isDrawing = true
       const point = eventToPoint(event)
       const pixel = viewportCoordinatesToPixelCoordinates(viewport, point)
-      pixels.push(pixel)
       space.set(pixel)
       if (isPixelVisible(viewport, pixel)) {
         drawLine(
@@ -151,7 +156,6 @@ async function main() {
       ).map((point) =>
         viewportCoordinatesToPixelCoordinates(viewport, point),
       )
-      pixels.push(...interpolatedPixels)
       for (const pixel of interpolatedPixels) {
         space.set(pixel)
       }
@@ -253,6 +257,7 @@ async function main() {
           maxX: viewport.maxX - delta.x,
           maxY: viewport.maxY + delta.y,
         }
+        space.setViewport(viewport)
         saveViewportCenter()
 
         updateViewonTheSides()
@@ -375,6 +380,7 @@ async function main() {
 
   function setViewport(_viewport) {
     viewport = _viewport
+    space.setViewport(viewport)
     saveViewportCenter()
     updateView()
   }
@@ -392,6 +398,7 @@ async function main() {
 
   function setViewportCenter(x, y) {
     viewport = convertViewportCenterToViewport({ x, y })
+    space.setViewport(viewport)
     saveViewportCenter()
     updateView()
   }
@@ -403,6 +410,7 @@ async function main() {
       maxX: viewport.maxX + Math.floor(deltaX),
       maxY: viewport.maxY + Math.floor(deltaY),
     })
+    space.setViewport(viewport)
     saveViewportCenter()
     updateView()
   }
@@ -433,8 +441,8 @@ function eventToPoint(event) {
   return { x: event.pageX, y: event.pageY }
 }
 
-function save(pixels) {
-  setValue('pixels', JSON.stringify(pixels))
+function save() {
+
   console.log('Saved pixels.')
 }
 
@@ -448,9 +456,7 @@ function saveViewportCenterBase(viewport) {
 }
 
 async function loadViewportCenter() {
-  const viewportCenter = JSON.parse(
-    (await getValue('viewportCenter')) || JSON.stringify({ x: 0, y: 0 }),
-  )
+  const viewportCenter = { x: 0, y: 0 }
   return convertViewportCenterToViewport(viewportCenter)
 }
 
