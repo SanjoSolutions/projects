@@ -41,9 +41,5 @@
   },
   "lint-staged": {
     "*.{ts,js,json,css,md}": "prettier --write"
-  },
-  "dependencies": {
-    "firebase": "^9.0.2",
-    "lodash.once": "^4.1.1"
   }
 }
