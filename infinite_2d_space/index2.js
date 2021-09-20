@@ -282,7 +282,7 @@ async function main() {
   })
 
   function isMovingCanvas() {
-    return spacePressed && primaryMouseButtonPressed
+    return spacePressed && primaryMouseButtonPressed && movedCanvas && viewportBeforeMove
   }
 
   const updateViewonTheSides = throttle(
