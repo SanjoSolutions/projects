@@ -1,5 +1,5 @@
 const radianToDegreesConversionValue = 180 / Math.PI;
 
-export function radianToDegrees(value) {
+export function convertRadianToDegrees(value) {
   return value * radianToDegreesConversionValue;
 }
