@@ -5,7 +5,14 @@ export function includes<T>(setA: Set<T>, setB: Set<T>): boolean {
 }
 
 export function union<T>(setA: Set<T>, setB: Set<T>): Set<T> {
-  return new Set([...setA, ...setB]);
+  const unionSet = new Set<T>()
+  for (const value of setA) {
+    unionSet.add(value)
+  }
+  for (const value of setB) {
+    unionSet.add(value)
+  }
+  return unionSet
 }
 
 export function intersection<T>(setA: Set<T>, setB: Set<T>): Set<T> {
@@ -13,7 +20,13 @@ export function intersection<T>(setA: Set<T>, setB: Set<T>): Set<T> {
 }
 
 export function difference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
-  return new Set([...setA].filter((value) => !setB.has(value)));
+  const differenceSet = new Set<T>()
+  for (const value of setA) {
+    if (!setB.has(value)) {
+      differenceSet.add(value)
+    }
+  }
+  return differenceSet
 }
 
 export function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
