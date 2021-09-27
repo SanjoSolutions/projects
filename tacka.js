@@ -3,7 +3,7 @@ import { createFullDocumentCanvas } from './createFullDocumentCanvas/createFullD
 import { getCenter } from './getCenter.js';
 import { animate } from './packages/animate/animate.js';
 import { polarCoordinatesToCartesianCoordinates } from './polarCoordinatesToCartesianCoordinates.js';
-import { convertRadianToDegrees } from './convertRadianToDegrees.js';
+import { convertRadiansToDegrees } from './convertRadiansToDegrees.js';
 
 const { canvas, context } = createFullDocumentCanvas()
 document.body.appendChild(canvas)
@@ -90,7 +90,7 @@ function drawPointsLine(canvas, context, points) {
       context.beginPath()
       context.moveTo(previousX, previousY)
       const color = {
-        hue: Math.round(convertRadianToDegrees((lastPoint.angle + point.angle) / 2)),
+        hue: Math.round(convertRadiansToDegrees((lastPoint.angle + point.angle) / 2)),
         saturation: 1,
         lightness: 0.5,
       }
@@ -121,7 +121,7 @@ function drawPointsFilled(canvas, context, points, { minRadius }) {
     points.forEach((point) => {
       context.beginPath()
       const color = {
-        hue: Math.round(convertRadianToDegrees(point.angle)),
+        hue: Math.round(convertRadiansToDegrees(point.angle)),
         saturation: 1,
         lightness: 0.5,
       }
