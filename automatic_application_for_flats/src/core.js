@@ -116,6 +116,7 @@ export function kommtInFrage(contactData, flatOffer) {
   const maxWarmRent = 600.00;
   const monthlyIncome = contactData.monthlyIncome
   return (
+    (!flatOffer.wbs || contactData.wbs) &&
     totalRent(flatOffer) <= maxWarmRent &&
     forPeopleOfAge(flatOffer, 30) &&
     // flatOffer.area <= 50 && // m ** 2

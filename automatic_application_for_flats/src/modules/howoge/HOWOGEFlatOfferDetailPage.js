@@ -1,4 +1,5 @@
 import { FlatOfferDetailPage } from "../../lib/FlatOfferDetailPage.js";
+import { getInnerText } from '../../lib/getInnerText.js'
 import { isTitleOfSeniorsOnlyFlat } from "../../lib/isTitleOfSeniorsOnlyFlat.js";
 import { parseCurrencyText } from "../../lib/parseCurrencyText.js";
 import { parseFloatNumberText } from "../../lib/parseFloatNumberText.js";
@@ -79,5 +80,16 @@ export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
 
   async getSeniorsOnly() {
     return isTitleOfSeniorsOnlyFlat(await this.getTitle());
+  }
+
+  async getFeatures() {
+    const $features = await this.page.$$('.features .feature')
+    const features = (await Promise.all($features.map($feature => getInnerText($feature)))).map(text => text.trim())
+    return new Set(features)
+  }
+
+  async getWbs() {
+    const features = await this.getFeatures()
+    return features.has('WBS erforderlich')
   }
 }

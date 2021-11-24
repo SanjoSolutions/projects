@@ -86,4 +86,9 @@ export class DegewoFlatOfferDetailPage extends FlatOfferDetailPage {
     );
     return /für ältere(?:n)? Menschen/.test(descriptionFirstParagraphText);
   }
+
+  async getWbs() {
+    const wbsRequired = await this.getObjectDetail("WBS benötigt");
+    return Boolean(wbsRequired && wbsRequired[1] === 'Ja')
+  }
 }

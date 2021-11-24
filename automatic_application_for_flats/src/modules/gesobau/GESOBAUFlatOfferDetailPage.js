@@ -93,4 +93,9 @@ export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
     const numberOfRoomsText = (await this.getKeyFigure("Anzahl Zimmer"))[1];
     return parseNumberOfRooms(numberOfRoomsText);
   }
+
+  async getWbs() {
+    const wbsRequired = await this.getObjectDetail("WBS");
+    return Boolean(wbsRequired && wbsRequired[1] === 'ja')
+  }
 }

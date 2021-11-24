@@ -22,6 +22,7 @@ export function createParseFlatOffer({
       "seniorsOnly",
       "requiredMinimumAge",
       "selfRenovation",
+      "wbs",
     ];
     for (const flatOfferProperty of flatOfferProperties) {
       const getterName = `get${
