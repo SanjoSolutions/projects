@@ -113,27 +113,13 @@ function fetchFlatOffers(
 
 // TODO: Needs unit tests
 export function kommtInFrage(contactData, flatOffer) {
-  const maxColdRentPlusColdServiceCharges = 463.65;
-  const maxWarmServiceCharges = 76.5;
-  const monthlyIncome =
-    972.15 /* AG2 */ + 100; /* Abzugsfreier Nebenverdienst */
+  const maxWarmRent = 600.00;
+  const monthlyIncome = contactData.monthlyIncome
   return (
-    ((isNumber(flatOffer.coldRent) &&
-      isNumber(flatOffer.coldServiceCharges) &&
-      isNumber(flatOffer.warmServiceCharges) &&
-      flatOffer.coldRent + flatOffer.coldServiceCharges <=
-        maxColdRentPlusColdServiceCharges &&
-      flatOffer.warmServiceCharges <= maxWarmServiceCharges) ||
-      (isNumber(flatOffer.warmRent) &&
-        flatOffer.warmRent <=
-          maxColdRentPlusColdServiceCharges + maxWarmServiceCharges) ||
-      (isNumber(flatOffer.coldRent) &&
-        isNumber(flatOffer.serviceCharges) &&
-        flatOffer.coldRent + flatOffer.serviceCharges <=
-          maxColdRentPlusColdServiceCharges + maxWarmServiceCharges)) &&
-    forPeopleOfAge(flatOffer, 29) &&
-    flatOffer.area <= 50 && // m ** 2
-    flatOffer.numberOfRooms <= 2 &&
+    totalRent(flatOffer) <= maxWarmRent &&
+    forPeopleOfAge(flatOffer, 30) &&
+    // flatOffer.area <= 50 && // m ** 2
+    flatOffer.numberOfRooms <= 1.5 &&
     (!flatOffer.url.includes("howoge") ||
       monthlyIncome >= 3 * totalRent(flatOffer)) && // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
     (!isBoolean(flatOffer.selfRenovation) ||
