@@ -3,6 +3,7 @@ process.env.NODE_ENV = "TESTING";
 import path from "path";
 import puppeteer from "puppeteer";
 import { contactData } from "../config.js";
+import { wait } from '../lib/wait.js'
 
 run(main);
 
@@ -45,7 +46,8 @@ async function main() {
   await fetchOnce(getBrowser, page, onFlatOffer, shouldStop);
 
   if (flatOffer) {
-    flatOffer.apply(getBrowser, contactData);
+    await flatOffer.apply(getBrowser, contactData);
+    await wait(5 * 60 * 1000)
   }
 }
 

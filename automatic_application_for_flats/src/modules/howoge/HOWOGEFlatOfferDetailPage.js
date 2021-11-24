@@ -63,7 +63,7 @@ export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getArea() {
-    const areaText = (await this.getKeyFigure("Wohnfläche"))[1];
+    const areaText = (await this.getKeyFigure("Fläche"))[1];
     return parseFloatNumberText(areaText);
   }
 

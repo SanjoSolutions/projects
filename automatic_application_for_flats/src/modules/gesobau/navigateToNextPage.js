@@ -1,12 +1,12 @@
+import { waitForNavigation } from '../../lib/puppeteer/waitForNavigation.js'
+
 export async function navigateToNextPage(page) {
-  /*
-  // Momentan nur eine Seite
-  nextButton = await page.$('a[rel="next"]')
+  const nextButton = await page.$('a[rel="next"]')
   if (nextButton) {
-    await nextButton.click()
-    await page.waitFor('.search__results--loading', {hidden: true})
+    await Promise.all([
+      waitForNavigation(page),
+      nextButton.evaluate(button => button.click())
+    ])
   }
   return Boolean(nextButton)
-  */
-  return false;
 }

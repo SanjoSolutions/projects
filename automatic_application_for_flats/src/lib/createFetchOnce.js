@@ -18,6 +18,8 @@ export function createFetchOnce({
   ) {
     const flatOfferListPage = new FlatOfferListPage(page);
     await navigateToFlatOfferListPage(page, flatOffersUrl);
+    await flatOfferListPage.handleCookiesAndPrivacy()
+    await flatOfferListPage.waitForResultsToHaveBeenLoaded()
     let hasNavigatedToNextPage;
     let totalNumberOfFlatOfferElements = 0;
     const numberOfResults = await flatOfferListPage.getNumberOfResults();
@@ -42,6 +44,7 @@ export function createFetchOnce({
         }
       }
       hasNavigatedToNextPage = await navigateToNextPage(page);
+      await flatOfferListPage.waitForResultsToHaveBeenLoaded()
     } while (hasNavigatedToNextPage);
     if (totalNumberOfFlatOfferElements !== numberOfResults) {
       console.error(
