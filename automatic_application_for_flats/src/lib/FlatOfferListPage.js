@@ -27,4 +27,12 @@ export class FlatOfferListPage extends Page {
         )
       : 0;
   }
+
+  async handleCookiesAndPrivacy() {
+
+  }
+
+  async waitForResultsToHaveBeenLoaded() {
+
+  }
 }

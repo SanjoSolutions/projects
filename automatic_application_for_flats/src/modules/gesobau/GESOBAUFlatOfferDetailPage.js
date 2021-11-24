@@ -1,5 +1,6 @@
 import { findAsync } from "../../lib/findAsync.js";
 import { FlatOfferDetailPage } from "../../lib/FlatOfferDetailPage.js";
+import { parseCurrencyText } from '../../lib/parseCurrencyText.js'
 import { parseFloatNumberText } from "../../lib/parseFloatNumberText.js";
 import { parseNumberOfRooms } from "../../lib/parseNumberOfRooms.js";
 
@@ -65,17 +66,22 @@ export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
 
   async getColdRent() {
     const coldRentText = (await this.getCost("Kaltmiete"))[1];
-    return parseFloatNumberText(coldRentText);
+    return parseCurrencyText(coldRentText);
   }
 
   async getColdServiceCharges() {
     const coldServiceChargesText = (await this.getCost("Betriebskosten"))[1];
-    return parseFloatNumberText(coldServiceChargesText);
+    return parseCurrencyText(coldServiceChargesText);
   }
 
   async getWarmServiceCharges() {
     const warmServiceChargesText = (await this.getCost("Heizkosten"))[1];
-    return parseFloatNumberText(warmServiceChargesText);
+    return parseCurrencyText(warmServiceChargesText);
+  }
+
+  async getWarmRent() {
+    const warmRentText = (await this.getCost("Miete inkl. NK"))[1];
+    return parseCurrencyText(warmRentText);
   }
 
   async getArea() {
