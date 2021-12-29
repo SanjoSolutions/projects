@@ -9,8 +9,8 @@ const size = height * width;
 
 const slidingPuzzleWidth = 256;
 const slidingPuzzleHeight = 256;
-const slidingPuzzlePieceWidth = slidingPuzzleWidth / width;
-const slidingPuzzlePieceHeight = slidingPuzzleHeight / height;
+const slidingPuzzlePieceWidth = Math.round(slidingPuzzleWidth / width);
+const slidingPuzzlePieceHeight = Math.round(slidingPuzzleHeight / height);
 
 let slidingPuzzle = createSlidingPuzzle();
 
