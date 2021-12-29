@@ -408,9 +408,9 @@ async function main() {
   }
 
   // solve(slidingPuzzle, numberOfShuffles, doMoves);
-  const solutionMoves = solve2(slidingPuzzle)
-  console.log('Solved:', solutionMoves)
-  doMoves(solutionMoves)
+  // const solutionMoves = solve2(slidingPuzzle)
+  // console.log('Solved:', solutionMoves)
+  // doMoves(solutionMoves)
 }
 
 function applyMoves(slidingPuzzle, moves) {
