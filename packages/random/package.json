@@ -6,6 +6,7 @@
   "keywords": [
     "random"
   ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/random",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
