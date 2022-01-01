@@ -1,0 +1,12 @@
+{
+  "name": "@sanjo/random",
+  "type": "module",
+  "description": "Random utility functions",
+  "license": "Unlicense",
+  "version": "0.0.0",
+  "main": "./index.js",
+  "types": "./index.d.js",
+  "publishConfig": {
+    "access": "public"
+  }
+}

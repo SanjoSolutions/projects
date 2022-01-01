@@ -30,6 +30,9 @@
       "path": "./database"
     },
     {
+      "path": "./define-element"
+    },
+    {
       "path": "./diff"
     },
     {
@@ -84,22 +87,22 @@
       "path": "./request-json"
     },
     {
+      "path": "./set"
+    },
+    {
       "path": "./test-create-package"
     },
     {
       "path": "./test-npm-init"
     },
     {
+      "path": "./trade"
+    },
+    {
       "path": "./write-file"
     },
     {
-      "path": "./set"
-    },
-    {
-      "path": "./define-element"
-    },
-    {
-      "path": "./trade"
+      "path": "./random"
     }
   ]
 }
