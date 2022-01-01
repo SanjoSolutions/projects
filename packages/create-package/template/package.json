@@ -4,6 +4,7 @@
   "type": "module",
   "description": "<PACKAGE_DESCRIPTION>",
   "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/<PACKAGE_FOLDER_NAME>",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
