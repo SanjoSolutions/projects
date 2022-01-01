@@ -13,7 +13,7 @@
   },
   "dependencies": {},
   "devDependencies": {},
-  "types": "./index.d.js",
+  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }
