@@ -2,6 +2,7 @@
   "name": "<PACKAGE_NAME>",
   "type": "module",
   "description": "<PACKAGE_DESCRIPTION>",
+  "keywords": [],
   "license": "Unlicense",
   "version": "0.0.0",
   "main": "./index.js",
