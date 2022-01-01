@@ -1,20 +1,20 @@
 {
   "name": "<PACKAGE_NAME>",
+  "version": "0.0.0",
   "type": "module",
   "description": "<PACKAGE_DESCRIPTION>",
   "keywords": [],
   "license": "Unlicense",
-  "version": "0.0.0",
   "main": "./index.js",
-  "types": "./index.d.js",
-  "dependencies": {},
-  "devDependencies": {},
-  "publishConfig": {
-    "access": "public"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/<PACKAGE_FOLDER_NAME>"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "./index.d.js",
+  "publishConfig": {
+    "access": "public"
   }
 }
