@@ -2,7 +2,7 @@
 
 This work is devoted to God.
 
-Random utility functions
+Random utility functions.
 
 ## How to install
 

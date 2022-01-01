@@ -1,11 +1,19 @@
 {
   "name": "@sanjo/random",
+  "version": "1.0.0",
   "type": "module",
   "description": "Random utility functions",
+  "keywords": [
+    "random"
+  ],
   "license": "Unlicense",
-  "version": "0.0.0",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/random"
+  },
+  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }
