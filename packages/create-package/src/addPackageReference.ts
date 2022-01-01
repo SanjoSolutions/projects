@@ -11,7 +11,7 @@ export async function addPackageReference(
   const json = JSON.parse(await readFile(tsconfigPath));
   json.references.push({
     path:
-      "." + path.sep + path.relative(path.dirname(tsconfigPath), referencePath),
+      "./" + path.relative(path.dirname(tsconfigPath), referencePath),
   });
   const uniquePropertyName = "path";
   json.references = sortedUniqBy(
