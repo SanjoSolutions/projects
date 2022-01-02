@@ -54,9 +54,6 @@
       "path": "./identity"
     },
     {
-      "path": "./image-comparison"
-    },
-    {
       "path": "./make-temporary-directory"
     },
     {
