@@ -1,3 +1,0 @@
-export {};
-
-describe("gunbound", () => {});
