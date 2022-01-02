@@ -55,6 +55,14 @@ describe('EventStorage', () => {
       await eventStorage.initialize()
       expect(eventStorage.retrieve()).toEqual([{}])
     })
+
+    describe('when the file does not exist', () => {
+      it('initializes the store with an empty list', async () => {
+        const eventStorage = new EventStorage(fileName)
+        await eventStorage.initialize()
+        expect(eventStorage.retrieve()).toEqual([])
+      })
+    })
   })
 
   describe('store', () => {

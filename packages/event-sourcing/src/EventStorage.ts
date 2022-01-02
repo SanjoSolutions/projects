@@ -10,7 +10,15 @@ export class EventStorage {
   }
 
   async initialize() {
-    this.events = JSON.parse(await fs.readFile(this._fileName, { encoding: 'utf-8' }))
+    try {
+      this.events = JSON.parse(await fs.readFile(this._fileName, { encoding: 'utf-8' }))
+    } catch (error) {
+      if ((error as any).code === 'ENOENT') {
+        this.events = []
+      } else {
+        throw error
+      }
+    }
   }
 
   async store(event: any) {
