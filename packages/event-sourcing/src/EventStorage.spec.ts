@@ -66,33 +66,47 @@ describe('EventStorage', () => {
   })
 
   describe('store', () => {
-    it('saves the event in memory', () => {
-      const event = {}
+    it('saves the event in memory', async () => {
       const eventStorage = new EventStorage(fileName)
-      eventStorage.store(event)
+      await eventStorage.initialize()
+      const event = {}
+      await eventStorage.store(event)
       expect(event).toHaveBeenStoredIn(eventStorage)
     })
 
     it('saves the event to disk', async () => {
-      const event = {}
       const eventStorage = new EventStorage(fileName)
+      await eventStorage.initialize()
+      const event = {}
       await eventStorage.store(event)
       expect(event).toHaveBeenStoredOnDisk()
+    })
+
+    describe('when it is called before initialize', () => {
+      it('throws an error', async () => {
+        const eventStorage = new EventStorage(fileName)
+        const event = {}
+        await expect(() => eventStorage.store(event)).rejects.toThrow(
+          'Please call initialize() before calling store().'
+        )
+      })
     })
   })
 
   describe('retrieve', () => {
-    it('returns all events', () => {
-      const event = {}
+    it('returns all events', async () => {
       const eventStorage = new EventStorage(fileName)
+      await eventStorage.initialize()
+      const event = {}
       eventStorage.store(event)
       const events = eventStorage.retrieve()
       expect(events).toEqual([event])
     })
 
-    it('returns a copy of the list of events', () => {
-      const event = {}
+    it('returns a copy of the list of events', async () => {
       const eventStorage = new EventStorage(fileName)
+      await eventStorage.initialize()
+      const event = {}
       eventStorage.store(event)
       const events = eventStorage.retrieve()
 
@@ -101,6 +115,13 @@ describe('EventStorage', () => {
 
       const events2 = eventStorage.retrieve()
       expect(events2).toEqual([event])
+    })
+
+    describe('when it is called before initialize', () => {
+      it('throws an error', async () => {
+        const eventStorage = new EventStorage(fileName)
+        expect(() => eventStorage.retrieve()).toThrow('Please call initialize() before calling retrieve().')
+      })
     })
   })
 })
