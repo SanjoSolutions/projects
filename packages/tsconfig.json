@@ -3,109 +3,109 @@
   "include": [],
   "references": [
     {
-      "path": "./animate"
+      "path": "./animate/tsconfig-build.json"
     },
     {
-      "path": "./binary-search"
+      "path": "./binary-search/tsconfig-build.json"
     },
     {
-      "path": "./comparison"
+      "path": "./comparison/tsconfig-build.json"
     },
     {
-      "path": "./create-browser-package"
+      "path": "./create-browser-package/tsconfig-build.json"
     },
     {
-      "path": "./create-node-package"
+      "path": "./create-node-package/tsconfig-build.json"
     },
     {
-      "path": "./create-npm-package"
+      "path": "./create-npm-package/tsconfig-build.json"
     },
     {
-      "path": "./create-package"
+      "path": "./create-package/tsconfig-build.json"
     },
     {
-      "path": "./create-temporary-npm-package"
+      "path": "./create-temporary-npm-package/tsconfig-build.json"
     },
     {
-      "path": "./database"
+      "path": "./database/tsconfig-build.json"
     },
     {
-      "path": "./define-element"
+      "path": "./define-element/tsconfig-build.json"
     },
     {
-      "path": "./diff"
+      "path": "./diff/tsconfig-build.json"
     },
     {
-      "path": "./diff-folders"
+      "path": "./diff-folders/tsconfig-build.json"
     },
     {
-      "path": "./escape-for-reg-exp"
+      "path": "./escape-for-reg-exp/tsconfig-build.json"
     },
     {
-      "path": "./event-sourcing"
+      "path": "./event-sourcing/tsconfig-build.json"
     },
     {
-      "path": "./exec"
+      "path": "./exec/tsconfig-build.json"
     },
     {
-      "path": "./format"
+      "path": "./format/tsconfig-build.json"
     },
     {
-      "path": "./forum-eu-automation"
+      "path": "./forum-eu-automation/tsconfig-build.json"
     },
     {
-      "path": "./identity"
+      "path": "./identity/tsconfig-build.json"
     },
     {
-      "path": "./make-temporary-directory"
+      "path": "./make-temporary-directory/tsconfig-build.json"
     },
     {
-      "path": "./npm-init"
+      "path": "./npm-init/tsconfig-build.json"
     },
     {
-      "path": "./parse-npm-package-name"
+      "path": "./parse-npm-package-name/tsconfig-build.json"
     },
     {
-      "path": "./puppeteer-helpers"
+      "path": "./puppeteer-helpers/tsconfig-build.json"
     },
     {
-      "path": "./queue"
+      "path": "./queue/tsconfig-build.json"
     },
     {
-      "path": "./random"
+      "path": "./random/tsconfig-build.json"
     },
     {
-      "path": "./read-file"
+      "path": "./read-file/tsconfig-build.json"
     },
     {
-      "path": "./read-json"
+      "path": "./read-json/tsconfig-build.json"
     },
     {
-      "path": "./refactor-extract-function-as-package"
+      "path": "./refactor-extract-function-as-package/tsconfig-build.json"
     },
     {
-      "path": "./request"
+      "path": "./request/tsconfig-build.json"
     },
     {
-      "path": "./request-json"
+      "path": "./request-json/tsconfig-build.json"
     },
     {
-      "path": "./set"
+      "path": "./set/tsconfig-build.json"
     },
     {
-      "path": "./test-create-package"
+      "path": "./test-create-package/tsconfig-build.json"
     },
     {
-      "path": "./test-npm-init"
+      "path": "./test-npm-init/tsconfig-build.json"
     },
     {
-      "path": "./trade"
+      "path": "./trade/tsconfig-build.json"
     },
     {
-      "path": "./webpack"
+      "path": "./webpack/tsconfig-build.json"
     },
     {
-      "path": "./write-file"
+      "path": "./write-file/tsconfig-build.json"
     }
   ]
 }
