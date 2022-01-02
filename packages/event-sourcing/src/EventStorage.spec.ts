@@ -34,6 +34,13 @@ expect.extend({
 const fileName = 'a.json'
 
 describe('EventStorage', () => {
+  beforeEach(() => {
+    jest.spyOn(fs, 'readFile').mockRejectedValue({
+      code: 'ENOENT',
+    })
+    jest.spyOn(fs, 'writeFile').mockResolvedValue(undefined)
+  })
+
   describe('constructor', () => {
     it('accepts a file name for persistence', () => {
       const eventStorage = new EventStorage(fileName)
@@ -44,7 +51,7 @@ describe('EventStorage', () => {
   describe('initialisation', () => {
     it('loads events from disk', async () => {
       const eventStorage = new EventStorage(fileName)
-      jest.spyOn(fs, 'readFile').mockResolvedValue('[{}]')
+      ;(fs.readFile as jest.Mock).mockResolvedValue('[{}]')
       await eventStorage.initialize()
       expect(eventStorage.retrieve()).toEqual([{}])
     })
@@ -61,7 +68,6 @@ describe('EventStorage', () => {
     it('saves the event to disk', async () => {
       const event = {}
       const eventStorage = new EventStorage(fileName)
-      jest.spyOn(fs, 'writeFile')
       await eventStorage.store(event)
       expect(event).toHaveBeenStoredOnDisk()
     })
