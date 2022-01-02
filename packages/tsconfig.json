@@ -42,6 +42,9 @@
       "path": "./escape-for-reg-exp"
     },
     {
+      "path": "./event-sourcing"
+    },
+    {
       "path": "./exec"
     },
     {

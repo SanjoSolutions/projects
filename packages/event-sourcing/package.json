@@ -1,0 +1,24 @@
+{
+  "name": "@sanjo/event-sourcing",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Event sourcing",
+  "keywords": [
+    "event sourcing"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/event-sourcing",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/event-sourcing"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.6"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

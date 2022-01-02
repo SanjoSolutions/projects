@@ -16,7 +16,9 @@ module.exports = () => ({
     "packages/trade/src/**/*.ts",
     "!packages/trade/src/**/*.spec.ts",
     "packages/random/src/**/*.ts",
-    "!packages/random/src/**/*.spec.ts"
+    "!packages/random/src/**/*.spec.ts",
+    "packages/event-storage/src/**/*.ts",
+    "!packages/event-storage/src/**/*.spec.ts"
   ],
 
   tests: [
@@ -27,6 +29,7 @@ module.exports = () => ({
     "packages/request/src/**/*.spec.ts",
     "rgbToHsl.spec.js",
     "packages/trade/src/**/*.spec.ts",
-    "packages/random/src/**/*.spec.ts"
+    "packages/random/src/**/*.spec.ts",
+    "packages/event-storage/src/**/*.spec.ts"
   ],
 });
