@@ -4,9 +4,9 @@ export class EventStorage {
   events: any[]
   _fileName: string
 
-  constructor() {
+  constructor(fileName: string) {
     this.events = []
-    this._fileName = 'a.json'
+    this._fileName = fileName
   }
 
   async initialize() {

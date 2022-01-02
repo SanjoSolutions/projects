@@ -31,10 +31,19 @@ expect.extend({
   },
 })
 
+const fileName = 'a.json'
+
 describe('EventStorage', () => {
+  describe('constructor', () => {
+    it('accepts a file name for persistence', () => {
+      const eventStorage = new EventStorage(fileName)
+      expect(eventStorage._fileName).toEqual(fileName)
+    })
+  })
+
   describe('initialisation', () => {
     it('loads events from disk', async () => {
-      const eventStorage = new EventStorage()
+      const eventStorage = new EventStorage(fileName)
       jest.spyOn(fs, 'readFile').mockResolvedValue('[{}]')
       await eventStorage.initialize()
       expect(eventStorage.retrieve()).toEqual([{}])
@@ -44,14 +53,14 @@ describe('EventStorage', () => {
   describe('store', () => {
     it('saves the event in memory', () => {
       const event = {}
-      const eventStorage = new EventStorage()
+      const eventStorage = new EventStorage(fileName)
       eventStorage.store(event)
       expect(event).toHaveBeenStoredIn(eventStorage)
     })
 
     it('saves the event to disk', async () => {
       const event = {}
-      const eventStorage = new EventStorage()
+      const eventStorage = new EventStorage(fileName)
       jest.spyOn(fs, 'writeFile')
       await eventStorage.store(event)
       expect(event).toHaveBeenStoredOnDisk()
@@ -61,7 +70,7 @@ describe('EventStorage', () => {
   describe('retrieve', () => {
     it('returns all events', () => {
       const event = {}
-      const eventStorage = new EventStorage()
+      const eventStorage = new EventStorage(fileName)
       eventStorage.store(event)
       const events = eventStorage.retrieve()
       expect(events).toEqual([event])
@@ -69,7 +78,7 @@ describe('EventStorage', () => {
 
     it('returns a copy of the list of events', () => {
       const event = {}
-      const eventStorage = new EventStorage()
+      const eventStorage = new EventStorage(fileName)
       eventStorage.store(event)
       const events = eventStorage.retrieve()
 
