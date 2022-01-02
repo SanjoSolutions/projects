@@ -72,6 +72,9 @@
       "path": "./queue"
     },
     {
+      "path": "./random"
+    },
+    {
       "path": "./read-file"
     },
     {
@@ -99,10 +102,10 @@
       "path": "./trade"
     },
     {
-      "path": "./write-file"
+      "path": "./webpack"
     },
     {
-      "path": "./random"
+      "path": "./write-file"
     }
   ]
 }
