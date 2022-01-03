@@ -125,3 +125,121 @@ describe('EventStorage', () => {
     })
   })
 })
+
+describe('', () => {
+  test('', () => {
+    const events = [
+      {
+        type: 'deposit',
+        to: 'a',
+        amount: 10,
+      },
+      {
+        type: 'transfer',
+        from: 'a',
+        to: 'b',
+        amount: 10,
+      },
+    ]
+    const balanceA = determineBalance(events, 'a')
+    const balanceB = determineBalance(events, 'b')
+
+    expect(balanceA).toEqual(0)
+    expect(balanceB).toEqual(10)
+  })
+})
+
+describe('updating of balance', () => {
+  it('updates the balance when a event is added which changes the balance', () => {
+    const events: any[] = []
+
+    const balanceA = balance(events, 'a')
+
+    events.push({
+      type: 'deposit',
+      to: 'a',
+      amount: 10,
+    })
+
+    expect(balanceA.get()).toEqual(10)
+  })
+
+  it('updates the balance when a event is added which changes the balance', () => {
+    const events: any[] = []
+
+    const balanceA = balance(events, 'a')
+
+    events.push({
+      type: 'deposit',
+      to: 'a',
+      amount: 11,
+    })
+
+    expect(balanceA.get()).toEqual(11)
+  })
+
+  it('updates the balance when a event is added which changes the balance', () => {
+    const events: any[] = []
+
+    const balanceA = balance(events, 'a')
+
+    events.push({
+      type: 'deposit',
+      to: 'a',
+      amount: 11,
+    })
+
+    expect(balanceA.get()).toEqual(11)
+
+    events.push({
+      type: 'transfer',
+      from: 'a',
+      to: 'b',
+      amount: 10,
+    })
+
+    expect(balanceA.get()).toEqual(1)
+  })
+})
+
+describe('balance', () => {
+  it('returns a default balance of 0', () => {
+    const events: any[] = []
+
+    const balanceA = balance(events, 'a')
+
+    expect(balanceA.get()).toEqual(0)
+  })
+})
+
+function balance(events: any[], accountId: string): { get: () => number } {
+  return value<number>(events, (events, lastValue) => determineBalance(events, accountId, lastValue))
+}
+
+function value<T>(events: any[], determineValue: (events: any[], lastValue: T | undefined) => T): { get: () => T } {
+  let lastEventIndexProcessed = -1
+  let lastValue: T | undefined = undefined
+  return {
+    get() {
+      const eventsToProcess = events.slice(lastEventIndexProcessed + 1)
+      const value = determineValue(eventsToProcess, lastValue)
+      lastEventIndexProcessed = events.length - 1
+      lastValue = value
+      return value
+    },
+  }
+}
+
+function determineBalance(events: any[], accountId: string, balance: number = 0): number {
+  return events.reduce((balance, event) => {
+    if (event.type === 'deposit' && event.to === accountId) {
+      return balance + event.amount
+    } else if (event.type === 'transfer' && event.from === accountId) {
+      return balance - event.amount
+    } else if (event.type === 'transfer' && event.to === accountId) {
+      return balance + event.amount
+    } else {
+      return balance
+    }
+  }, balance)
+}
