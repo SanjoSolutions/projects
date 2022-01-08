@@ -1,4 +1,4 @@
-export { getRandomFloat } from './getRandomFloat.js'
-export { getRandomInteger } from './getRandomInteger.js'
-export { getRandomValue } from './getRandomValue.js'
+export { generateRandomFloat } from './generateRandomFloat.js'
+export { generateRandomInteger } from './generateRandomInteger.js'
+export { generateRandomValue } from './generateRandomValue.js'
 //# sourceMappingURL=index.d.ts.map

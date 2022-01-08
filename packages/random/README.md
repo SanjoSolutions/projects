@@ -15,7 +15,7 @@ npm install --save '@sanjo/random'
 ```js
 import { randomFloat, randomInteger, randomValue } from '@sanjo/random'
 
-const randomFloat = getRandomFloat(0, 1)
-const randomInteger = getRandomInteger(0, 5)
-const randomValue = getRandomValue([0, 1, 2])
+const randomFloat = generateRandomFloat(0, 1)
+const randomInteger = generateRandomInteger(0, 5)
+const randomValue = generateRandomValue([0, 1, 2])
 ```

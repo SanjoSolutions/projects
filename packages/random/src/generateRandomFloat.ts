@@ -2,7 +2,6 @@
  * @param min Minimum number (inclusive)
  * @param max Maximum number (exclusive)
  */
-export function getRandomFloat(min, max) {
+export function generateRandomFloat(min: number, max: number) {
   return min + (max - min) * Math.random()
 }
-//# sourceMappingURL=getRandomFloat.js.map
