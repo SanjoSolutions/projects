@@ -1,2 +1,2 @@
-export { EventStorage } from './EventStorage.js'
+export { EventStorage } from './EventStorage.js';
 //# sourceMappingURL=index.js.map

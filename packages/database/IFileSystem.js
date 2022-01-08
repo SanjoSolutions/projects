@@ -1,2 +1,2 @@
-export {}
+export {};
 //# sourceMappingURL=IFileSystem.js.map

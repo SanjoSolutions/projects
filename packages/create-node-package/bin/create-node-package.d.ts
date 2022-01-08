@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-export {}
+export {};
 //# sourceMappingURL=create-node-package.d.ts.map

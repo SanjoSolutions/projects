@@ -1,4 +1,4 @@
 export function format(code) {
-  return code
+    return code;
 }
 //# sourceMappingURL=format.js.map

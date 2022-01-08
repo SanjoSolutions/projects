@@ -4,5 +4,5 @@
  * @param content {string} Content to write to file
  * @returns {Promise<void>}
  */
-export declare function writeFile(filePath: string, content: string): Promise<void>
+export declare function writeFile(filePath: string, content: string): Promise<void>;
 //# sourceMappingURL=writeFile.d.ts.map

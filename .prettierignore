@@ -5,3 +5,5 @@ tsconfig.tsbuildinfo
 built
 dist
 .history
+/packages/*/**
+!/packages/*/src/**

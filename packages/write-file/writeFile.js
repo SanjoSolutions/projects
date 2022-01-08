@@ -1,4 +1,4 @@
-import { promises as fs } from 'fs'
+import { promises as fs } from "fs";
 /**
  * Writes file with utf-8 encoding.
  * @param filePath {string} Path to file
@@ -6,6 +6,6 @@ import { promises as fs } from 'fs'
  * @returns {Promise<void>}
  */
 export async function writeFile(filePath, content) {
-  await fs.writeFile(filePath, content, { encoding: 'utf-8' })
+    await fs.writeFile(filePath, content, { encoding: "utf-8" });
 }
 //# sourceMappingURL=writeFile.js.map

@@ -1,2 +1,2 @@
-export function parseNpmPackageName(packageName) {}
+export function parseNpmPackageName(packageName) { }
 //# sourceMappingURL=parseNpmPackageName.js.map

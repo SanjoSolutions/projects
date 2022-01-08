@@ -1,5 +1,5 @@
 export interface SubsequenceRange {
-  from: number
-  to: number
+    from: number;
+    to: number;
 }
 //# sourceMappingURL=SubsequenceRange.d.ts.map

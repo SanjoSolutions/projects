@@ -1,2 +1,2 @@
-export declare type KeyPath = string[]
+export declare type KeyPath = string[];
 //# sourceMappingURL=KeyPath.d.ts.map

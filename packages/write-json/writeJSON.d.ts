@@ -4,5 +4,5 @@
  * @param content {any} Content to write to file
  * @returns {Promise<void>}
  */
-export declare function writeJSON(filePath: string, content: any): Promise<void>
+export declare function writeJSON(filePath: string, content: any): Promise<void>;
 //# sourceMappingURL=writeJSON.d.ts.map

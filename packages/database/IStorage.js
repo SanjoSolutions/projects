@@ -1,2 +1,2 @@
-export {}
+export {};
 //# sourceMappingURL=IStorage.js.map

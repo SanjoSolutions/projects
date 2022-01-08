@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-export {}
+export {};
 //# sourceMappingURL=create-browser-package.d.ts.map

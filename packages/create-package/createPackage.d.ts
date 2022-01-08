@@ -1,2 +1,2 @@
-export declare function createPackage(): Promise<string>
+export declare function createPackage(): Promise<string>;
 //# sourceMappingURL=createPackage.d.ts.map

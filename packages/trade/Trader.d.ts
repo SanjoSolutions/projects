@@ -1,9 +1,9 @@
-import { Inventory } from './Inventory.js'
+import { Inventory } from "./Inventory.js";
 export interface ITrader {
-  inventory: Inventory
+    inventory: Inventory;
 }
 export declare class Trader implements ITrader {
-  inventory: Inventory
-  constructor()
+    inventory: Inventory;
+    constructor();
 }
 //# sourceMappingURL=Trader.d.ts.map

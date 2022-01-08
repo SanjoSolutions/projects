@@ -1,2 +1,2 @@
-export { binarySearch as default } from './binarySearch.js'
+export { binarySearch as default } from "./binarySearch.js";
 //# sourceMappingURL=index.js.map
