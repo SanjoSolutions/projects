@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.isNumber = isNumber;
+})
+exports.isNumber = isNumber
 
 function isNumber(value) {
-  return typeof value === "number";
+  return typeof value === 'number'
 }
 //# sourceMappingURL=isNumber.js.map

@@ -1,3 +1,3 @@
 export function isObject(value: any): boolean {
-  return typeof value === "object" && !Array.isArray(value);
+  return typeof value === 'object' && !Array.isArray(value)
 }

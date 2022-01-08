@@ -1,15 +1,15 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.Element = void 0;
+})
+exports.Element = void 0
 
 class Element {
   constructor(element) {
-    this.element = element;
+    this.element = element
   }
 }
 
-exports.Element = Element;
+exports.Element = Element
 //# sourceMappingURL=Element.js.map

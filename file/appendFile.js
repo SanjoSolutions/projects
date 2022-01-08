@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+import { promises as fs } from 'fs'
 
 /**
  * Appends text to an file with utf-8 encoding.
@@ -7,5 +7,5 @@ import { promises as fs } from "fs";
  * @returns {Promise<void>}
  */
 export async function appendFile(filePath, content) {
-  await fs.writeFile(filePath, content, { encoding: "utf-8", flag: "a" });
+  await fs.writeFile(filePath, content, { encoding: 'utf-8', flag: 'a' })
 }

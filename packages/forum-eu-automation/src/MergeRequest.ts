@@ -1,6 +1,6 @@
 export interface MergeRequest {
-  id: string;
-  iid: string;
-  title: string;
-  url: string;
+  id: string
+  iid: string
+  title: string
+  url: string
 }

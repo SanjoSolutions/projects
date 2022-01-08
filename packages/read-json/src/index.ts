@@ -1,1 +1,1 @@
-export { readJSON as default } from "./readJSON.js";
+export { readJSON as default } from './readJSON.js'

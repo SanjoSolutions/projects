@@ -1,13 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.getMissingFields = getMissingFields;
+})
+exports.getMissingFields = getMissingFields
 
 function getMissingFields(requiredFields, object) {
-  return requiredFields.filter(
-    (requiredField) => !object.hasOwnProperty(requiredField)
-  );
+  return requiredFields.filter(requiredField => !object.hasOwnProperty(requiredField))
 }
 //# sourceMappingURL=getMissingFields.js.map

@@ -1,6 +1,6 @@
-import { modelSaveApi } from "./api/model/modelSaveApi.js";
-import { createHttpServer } from "./createHttpServer.js";
+import { modelSaveApi } from './api/model/modelSaveApi.js'
+import { createHttpServer } from './createHttpServer.js'
 
 const httpServer = createHttpServer({
-  "/model/save": modelSaveApi,
-});
+  '/model/save': modelSaveApi,
+})

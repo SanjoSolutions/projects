@@ -1,13 +1,13 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.escapeTextForRegExp = escapeTextForRegExp;
+})
+exports.escapeTextForRegExp = escapeTextForRegExp
 
-var _escapeCharacter = require("./escapeCharacter.js");
+var _escapeCharacter = require('./escapeCharacter.js')
 
 function escapeTextForRegExp(text) {
-  return text.replace(/[()]/g, _escapeCharacter.escapeCharacter);
+  return text.replace(/[()]/g, _escapeCharacter.escapeCharacter)
 }
 //# sourceMappingURL=escapeTextForRegExp.js.map

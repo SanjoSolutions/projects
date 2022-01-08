@@ -1,1 +1,1 @@
-export { format } from "./format.js";
+export { format } from './format.js'

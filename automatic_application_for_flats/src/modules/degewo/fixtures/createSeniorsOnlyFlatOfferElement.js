@@ -1,4 +1,4 @@
-import { createPageWithHTML } from "../../../lib/createPageWithHTML.js";
+import { createPageWithHTML } from '../../../lib/createPageWithHTML.js'
 
 export async function createSeniorsOnlyFlatOfferElement(browser) {
   const page = await createPageWithHTML(
@@ -57,6 +57,6 @@ export async function createSeniorsOnlyFlatOfferElement(browser) {
       </a>
     </article>
   `
-  );
-  return await page.$("article");
+  )
+  return await page.$('article')
 }

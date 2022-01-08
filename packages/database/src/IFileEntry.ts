@@ -1,3 +1,3 @@
 export interface IFileEntry {
-  content: string;
+  content: string
 }

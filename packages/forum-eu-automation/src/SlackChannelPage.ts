@@ -1,10 +1,10 @@
-import type { Page } from "puppeteer";
+import type { Page } from 'puppeteer'
 
 export class SlackChannelPage {
-  #page: Page;
+  #page: Page
 
   constructor(page: Page) {
-    this.#page = page;
+    this.#page = page
   }
 
   async postMessage(message: string): Promise<void> {}

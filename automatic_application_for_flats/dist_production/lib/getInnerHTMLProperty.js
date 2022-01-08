@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.getInnerHTMLProperty = getInnerHTMLProperty;
+})
+exports.getInnerHTMLProperty = getInnerHTMLProperty
 
 function getInnerHTMLProperty(node) {
-  return node.innerHTML;
+  return node.innerHTML
 }
 //# sourceMappingURL=getInnerHTMLProperty.js.map

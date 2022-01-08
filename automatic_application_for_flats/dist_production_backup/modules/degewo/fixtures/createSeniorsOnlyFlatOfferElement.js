@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.createSeniorsOnlyFlatOfferElement = createSeniorsOnlyFlatOfferElement;
+})
+exports.createSeniorsOnlyFlatOfferElement = createSeniorsOnlyFlatOfferElement
 
-var _createPageWithHTML = require("../../../lib/createPageWithHTML.js");
+var _createPageWithHTML = require('../../../lib/createPageWithHTML.js')
 
 async function createSeniorsOnlyFlatOfferElement(browser) {
   const page = await (0, _createPageWithHTML.createPageWithHTML)(
@@ -64,7 +64,7 @@ async function createSeniorsOnlyFlatOfferElement(browser) {
       </a>
     </article>
   `
-  );
-  return await page.$("article");
+  )
+  return await page.$('article')
 }
 //# sourceMappingURL=createSeniorsOnlyFlatOfferElement.js.map

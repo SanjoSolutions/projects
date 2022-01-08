@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.closePage = closePage;
+})
+exports.closePage = closePage
 
 function closePage(page) {
-  return page.close();
+  return page.close()
 }
 //# sourceMappingURL=closePage.js.map

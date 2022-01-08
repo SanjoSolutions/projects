@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.parseFloatNumberText = parseFloatNumberText;
+})
+exports.parseFloatNumberText = parseFloatNumberText
 
 function parseFloatNumberText(floatNumberText) {
-  return parseFloat(floatNumberText.replace(/\./, "").replace(",", "."));
+  return parseFloat(floatNumberText.replace(/\./, '').replace(',', '.'))
 }
 //# sourceMappingURL=parseFloatNumberText.js.map

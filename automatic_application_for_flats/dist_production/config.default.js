@@ -1,24 +1,24 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.contactData = void 0;
+})
+exports.contactData = void 0
 const contactData = {
-  title: "",
+  title: '',
   // Mr. or Mrs. or ''
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
   address: {
-    street: "",
-    number: "",
-    postalCode: "",
-    city: "",
+    street: '',
+    number: '',
+    postalCode: '',
+    city: '',
   },
-  note: "",
-  applicationMessage: "",
+  note: '',
+  applicationMessage: '',
   selfRenovation: false,
   numberOfAdults: 0,
   numberOfChildren: 0,
@@ -34,7 +34,7 @@ const contactData = {
   firstTimeHousehold: false,
   mBill: false,
   monthlyIncome: 0,
-  earliestDateToMoveIn: new Date("2020-02-01"),
-};
-exports.contactData = contactData;
+  earliestDateToMoveIn: new Date('2020-02-01'),
+}
+exports.contactData = contactData
 //# sourceMappingURL=config.default.js.map

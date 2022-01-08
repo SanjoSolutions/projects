@@ -1,3 +1,3 @@
 export function getInnerHTMLProperty(node) {
-  return node.innerHTML;
+  return node.innerHTML
 }

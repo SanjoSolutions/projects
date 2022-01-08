@@ -1,5 +1,5 @@
-import { fileURLToPath } from "url";
+import { fileURLToPath } from 'url'
 
 export function __filename(importUrl: string): string {
-  return fileURLToPath(importUrl);
+  return fileURLToPath(importUrl)
 }

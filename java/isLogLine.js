@@ -4,5 +4,5 @@
  * @returns {boolean} True if it is a log line. False if it is not a log line.
  */
 export function isLogLine(line) {
-  return /^[ \t]*(?:\/\/[ \t]*)?Log/.test(line);
+  return /^[ \t]*(?:\/\/[ \t]*)?Log/.test(line)
 }

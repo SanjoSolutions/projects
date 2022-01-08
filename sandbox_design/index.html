@@ -36,30 +36,28 @@
 </div>
 
 <script>
-  const $grid = document.querySelector(".grid");
+  const $grid = document.querySelector('.grid')
 
-  $grid.addEventListener("drop", (event) => {
-    event.preventDefault();
+  $grid.addEventListener('drop', event => {
+    event.preventDefault()
 
-    if (event.target.classList.contains("card")) {
+    if (event.target.classList.contains('card')) {
       if (event.dataTransfer.items) {
-        const files = [...event.dataTransfer.items].map((dataTransferItem) =>
-          dataTransferItem.getAsFile()
-        );
-        const file = files[0];
-        const fileReader = new FileReader();
-        const image = new Image();
-        fileReader.addEventListener("load", () => {
-          image.src = fileReader.result;
-          event.target.innerHTML = "";
-          event.target.appendChild(image);
-        });
-        fileReader.readAsDataURL(file);
+        const files = [...event.dataTransfer.items].map(dataTransferItem => dataTransferItem.getAsFile())
+        const file = files[0]
+        const fileReader = new FileReader()
+        const image = new Image()
+        fileReader.addEventListener('load', () => {
+          image.src = fileReader.result
+          event.target.innerHTML = ''
+          event.target.appendChild(image)
+        })
+        fileReader.readAsDataURL(file)
       }
     }
-  });
+  })
 
-  $grid.addEventListener("dragover", (event) => {
-    event.preventDefault();
-  });
+  $grid.addEventListener('dragover', event => {
+    event.preventDefault()
+  })
 </script>

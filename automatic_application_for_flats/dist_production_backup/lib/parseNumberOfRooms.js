@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.parseNumberOfRooms = parseNumberOfRooms;
+})
+exports.parseNumberOfRooms = parseNumberOfRooms
 
 function parseNumberOfRooms(numberOfRoomsText) {
-  return parseFloat(numberOfRoomsText);
+  return parseFloat(numberOfRoomsText)
 }
 //# sourceMappingURL=parseNumberOfRooms.js.map

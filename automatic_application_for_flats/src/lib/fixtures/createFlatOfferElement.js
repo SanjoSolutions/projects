@@ -1,4 +1,4 @@
-import { createPageWithHTML } from "../createPageWithHTML.js";
+import { createPageWithHTML } from '../createPageWithHTML.js'
 
 export async function createFlatOfferElement(browser) {
   const page = await createPageWithHTML(
@@ -12,6 +12,6 @@ export async function createFlatOfferElement(browser) {
       </div>
     </div>
   `
-  );
-  return await page.$(".flat-offer");
+  )
+  return await page.$('.flat-offer')
 }

@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.escapeCharacter = escapeCharacter;
+})
+exports.escapeCharacter = escapeCharacter
 
 function escapeCharacter(character) {
-  return `\\${character}`;
+  return `\\${character}`
 }
 //# sourceMappingURL=escapeCharacter.js.map

@@ -13,152 +13,126 @@
     </div>
     <div id="output"></div>
     <script>
-      const minNumber = 0;
-      let maxNumber = 1023;
-      const numberOfBits = calculateNumberOfBits(maxNumber);
-      maxNumber = 2 ** numberOfBits;
-      console.log("numberOfBits", numberOfBits);
+      const minNumber = 0
+      let maxNumber = 1023
+      const numberOfBits = calculateNumberOfBits(maxNumber)
+      maxNumber = 2 ** numberOfBits
+      console.log('numberOfBits', numberOfBits)
 
       function calculateNumberOfBits(maxNumber) {
         // 2 ** numberOfBits = maxNumber + 1
-        return Math.ceil(Math.log2(maxNumber - minNumber + 1));
+        return Math.ceil(Math.log2(maxNumber - minNumber + 1))
       }
 
-      const $l = document.getElementById("l");
-      const $r = document.getElementById("r");
-      const $counter = document.getElementById("counter");
-      const $canvas = document.getElementById("canvas");
-      const { width: bodyWidth } = document.body.getBoundingClientRect();
-      $canvas.width = bodyWidth;
-      const context = $canvas.getContext("2d");
-      const $output = document.getElementById("output");
+      const $l = document.getElementById('l')
+      const $r = document.getElementById('r')
+      const $counter = document.getElementById('counter')
+      const $canvas = document.getElementById('canvas')
+      const { width: bodyWidth } = document.body.getBoundingClientRect()
+      $canvas.width = bodyWidth
+      const context = $canvas.getContext('2d')
+      const $output = document.getElementById('output')
 
-      let number = 0n;
-      let counter = 0;
-      updateCounter();
+      let number = 0n
+      let counter = 0
+      updateCounter()
 
-      $l.addEventListener("click", () => {
-        number = (number << 1n) | 1n;
-        next();
-        output();
-      });
+      $l.addEventListener('click', () => {
+        number = (number << 1n) | 1n
+        next()
+        output()
+      })
 
-      $r.addEventListener("click", () => {
-        number = (number << 1n) | 0n;
-        next();
-        output();
-      });
+      $r.addEventListener('click', () => {
+        number = (number << 1n) | 0n
+        next()
+        output()
+      })
 
       function next() {
-        counter++;
-        updateCounter();
-        updateVisualization();
+        counter++
+        updateCounter()
+        updateVisualization()
       }
 
       function updateCounter() {
-        $counter.textContent = String(counter);
+        $counter.textContent = String(counter)
       }
 
       function updateVisualization() {
-        const paddingLeftRight = 32;
-        const spaceBetweenTextAndLine = 4;
-        const minimumSpaceBetweenLabels = 8;
-        const y = canvas.height / 2;
-        const height = canvas.height / 2;
+        const paddingLeftRight = 32
+        const spaceBetweenTextAndLine = 4
+        const minimumSpaceBetweenLabels = 8
+        const y = canvas.height / 2
+        const height = canvas.height / 2
 
-        let numberAsBinaryEncodedString = number.toString(2);
+        let numberAsBinaryEncodedString = number.toString(2)
         numberAsBinaryEncodedString =
-          "0".repeat(counter - numberAsBinaryEncodedString.length) +
-          numberAsBinaryEncodedString;
+          '0'.repeat(counter - numberAsBinaryEncodedString.length) + numberAsBinaryEncodedString
         const lowerBound = BigInt(
-          "0b" +
-            numberAsBinaryEncodedString +
-            "0".repeat(numberOfBits - numberAsBinaryEncodedString.length)
-        );
+          '0b' + numberAsBinaryEncodedString + '0'.repeat(numberOfBits - numberAsBinaryEncodedString.length)
+        )
         const upperBound = BigInt(
-          "0b" +
-            numberAsBinaryEncodedString +
-            "1".repeat(numberOfBits - numberAsBinaryEncodedString.length)
-        );
+          '0b' + numberAsBinaryEncodedString + '1'.repeat(numberOfBits - numberAsBinaryEncodedString.length)
+        )
 
-        const width = canvas.width - 2 * paddingLeftRight;
-        const range = BigInt(maxNumber - minNumber);
-        const left = 1 / (Number((range * 100n) / (lowerBound || 1n)) / 100);
+        const width = canvas.width - 2 * paddingLeftRight
+        const range = BigInt(maxNumber - minNumber)
+        const left = 1 / (Number((range * 100n) / (lowerBound || 1n)) / 100)
         // 1 - upperBound / range
-        const right =
-          1 - 1 / (Number((range * 100n) / (upperBound || 1n)) / 100);
+        const right = 1 - 1 / (Number((range * 100n) / (upperBound || 1n)) / 100)
 
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.clearRect(0, 0, canvas.width, canvas.height)
 
-        const lineWidth = 1;
-        const leftLineX = paddingLeftRight + left * width;
-        context.fillRect(leftLineX, y, lineWidth, height);
-        const rightLineX = canvas.width - paddingLeftRight - right * width;
-        context.fillRect(rightLineX, y, lineWidth, height);
-        context.fillRect(
-          leftLineX,
-          y + height / 2,
-          rightLineX - leftLineX,
-          lineWidth
-        );
+        const lineWidth = 1
+        const leftLineX = paddingLeftRight + left * width
+        context.fillRect(leftLineX, y, lineWidth, height)
+        const rightLineX = canvas.width - paddingLeftRight - right * width
+        context.fillRect(rightLineX, y, lineWidth, height)
+        context.fillRect(leftLineX, y + height / 2, rightLineX - leftLineX, lineWidth)
 
-        let lowerBoundString = String(lowerBound);
-        const upperBoundString = String(upperBound);
+        let lowerBoundString = String(lowerBound)
+        const upperBoundString = String(upperBound)
 
-        const lowerBoundTextMeasures = context.measureText(lowerBoundString);
+        const lowerBoundTextMeasures = context.measureText(lowerBoundString)
         const lowerBoundTextWidth =
-          lowerBoundTextMeasures.actualBoundingBoxLeft +
-          lowerBoundTextMeasures.actualBoundingBoxRight;
+          lowerBoundTextMeasures.actualBoundingBoxLeft + lowerBoundTextMeasures.actualBoundingBoxRight
         const lowerBoundTextHeight =
-          lowerBoundTextMeasures.actualBoundingBoxAscent +
-          lowerBoundTextMeasures.actualBoundingBoxDescent;
+          lowerBoundTextMeasures.actualBoundingBoxAscent + lowerBoundTextMeasures.actualBoundingBoxDescent
 
-        const upperBoundTextMeasures = context.measureText(upperBoundString);
+        const upperBoundTextMeasures = context.measureText(upperBoundString)
         const upperBoundTextWidth =
-          upperBoundTextMeasures.actualBoundingBoxLeft +
-          upperBoundTextMeasures.actualBoundingBoxRight;
+          upperBoundTextMeasures.actualBoundingBoxLeft + upperBoundTextMeasures.actualBoundingBoxRight
         const upperBoundTextHeight =
-          upperBoundTextMeasures.actualBoundingBoxAscent +
-          upperBoundTextMeasures.actualBoundingBoxDescent;
+          upperBoundTextMeasures.actualBoundingBoxAscent + upperBoundTextMeasures.actualBoundingBoxDescent
 
         const lowerBoundTextLeft = Math.min(
           leftLineX,
-          canvas.width -
-            paddingLeftRight -
-            upperBoundTextWidth -
-            minimumSpaceBetweenLabels -
-            0.5 * lowerBoundTextWidth
-        );
+          canvas.width - paddingLeftRight - upperBoundTextWidth - minimumSpaceBetweenLabels - 0.5 * lowerBoundTextWidth
+        )
 
         const upperBoundTextRight = Math.max(
           rightLineX,
-          lowerBoundTextLeft +
-            0.5 * lowerBoundTextWidth +
-            minimumSpaceBetweenLabels +
-            0.5 * upperBoundTextWidth
-        );
+          lowerBoundTextLeft + 0.5 * lowerBoundTextWidth + minimumSpaceBetweenLabels + 0.5 * upperBoundTextWidth
+        )
 
-        context.fillText(
-          lowerBoundString,
-          lowerBoundTextLeft - 0.5 * lowerBoundTextWidth,
-          y - spaceBetweenTextAndLine
-        );
+        context.fillText(lowerBoundString, lowerBoundTextLeft - 0.5 * lowerBoundTextWidth, y - spaceBetweenTextAndLine)
 
         if (upperBoundString !== lowerBoundString) {
           context.fillText(
             upperBoundString,
             upperBoundTextRight - 0.5 * upperBoundTextWidth,
             y - spaceBetweenTextAndLine
-          );
+          )
         }
       }
 
       function output() {
-        console.log(number.toString(2));
+        console.log(number.toString(2))
         if (counter === numberOfBits) {
-          $output.textContent = String(number);
-          $l.setAttribute("disabled", String(true));
-          $r.setAttribute("disabled", String(true));
+          $output.textContent = String(number)
+          $l.setAttribute('disabled', String(true))
+          $r.setAttribute('disabled', String(true))
         }
       }
     </script>

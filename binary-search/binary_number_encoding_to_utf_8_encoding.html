@@ -16,47 +16,47 @@
     </div>
     <div id="output"></div>
     <script>
-      const $l = document.getElementById("l");
-      const $r = document.getElementById("r");
-      const $doOutput = document.getElementById("doOutput");
-      const $output = document.getElementById("output");
+      const $l = document.getElementById('l')
+      const $r = document.getElementById('r')
+      const $doOutput = document.getElementById('doOutput')
+      const $output = document.getElementById('output')
 
-      const characters = [];
-      let number = 0;
-      let index = 0;
-      const maxIndex = 16 - 1;
+      const characters = []
+      let number = 0
+      let index = 0
+      const maxIndex = 16 - 1
 
-      $l.addEventListener("click", () => {
-        number = (number << 1) | 1;
-        index++;
-        createNextCharacter();
-      });
+      $l.addEventListener('click', () => {
+        number = (number << 1) | 1
+        index++
+        createNextCharacter()
+      })
 
-      $r.addEventListener("click", () => {
-        number = (number << 1) | 0;
-        index++;
-        createNextCharacter();
-      });
+      $r.addEventListener('click', () => {
+        number = (number << 1) | 0
+        index++
+        createNextCharacter()
+      })
 
-      $doOutput.addEventListener("click", () => {
-        output();
-      });
+      $doOutput.addEventListener('click', () => {
+        output()
+      })
 
       function createNextCharacter() {
         if (index === maxIndex) {
-          const character = String.fromCharCode(number);
-          characters.push(character);
-          number = 0;
-          index = 0;
+          const character = String.fromCharCode(number)
+          characters.push(character)
+          number = 0
+          index = 0
         }
       }
 
       function output() {
-        const string = characters.join("");
-        $output.textContent = string;
-        $l.setAttribute("disabled", String(true));
-        $r.setAttribute("disabled", String(true));
-        $doOutput.setAttribute("disabled", String(true));
+        const string = characters.join('')
+        $output.textContent = string
+        $l.setAttribute('disabled', String(true))
+        $r.setAttribute('disabled', String(true))
+        $doOutput.setAttribute('disabled', String(true))
       }
     </script>
   </body>

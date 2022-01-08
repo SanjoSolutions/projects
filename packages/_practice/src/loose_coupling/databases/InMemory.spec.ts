@@ -1,13 +1,13 @@
-import { InMemory } from "./InMemory.js";
+import { InMemory } from './InMemory.js'
 
-describe("InMemory", () => {
-  let database;
+describe('InMemory', () => {
+  let database
   beforeEach(() => {
-    database = new InMemory();
-  });
+    database = new InMemory()
+  })
 
-  it("returns data as JavaScript objects", () => {
-    database.save({ a: 1 });
-    expect(database.find()).toEqual([{ a: 1 }]);
-  });
-});
+  it('returns data as JavaScript objects', () => {
+    database.save({ a: 1 })
+    expect(database.find()).toEqual([{ a: 1 }])
+  })
+})

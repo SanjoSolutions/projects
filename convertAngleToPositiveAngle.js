@@ -1,9 +1,9 @@
 export function convertAngleToPositiveAngle(angle) {
-  let positiveAngle;
+  let positiveAngle
   if (angle >= 0) {
-    positiveAngle = angle;
+    positiveAngle = angle
   } else {
-    positiveAngle = angle + 2 * Math.PI;
+    positiveAngle = angle + 2 * Math.PI
   }
-  return positiveAngle;
+  return positiveAngle
 }

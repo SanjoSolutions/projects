@@ -1,3 +1,3 @@
-describe("evaluateHandStrength", () => {
-  it("", () => {});
-});
+describe('evaluateHandStrength', () => {
+  it('', () => {})
+})

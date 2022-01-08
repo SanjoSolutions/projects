@@ -1,20 +1,16 @@
-import { FlatOfferListPage } from "../../lib/FlatOfferListPage.js";
-import { getFlatOfferElements } from "../../lib/getFlatOfferElements.js";
+import { FlatOfferListPage } from '../../lib/FlatOfferListPage.js'
+import { getFlatOfferElements } from '../../lib/getFlatOfferElements.js'
 import { hasClass } from '../../lib/puppeteer/hasClass.js'
-import { HOWOGEFlatOfferListElement } from "./HOWOGEFlatOfferListElement.js";
+import { HOWOGEFlatOfferListElement } from './HOWOGEFlatOfferListElement.js'
 
 export class HowogeFlatOfferListPage extends FlatOfferListPage {
   async getFlatOfferElements() {
-    const flatOfferElementsSelector = "#immoobject-list .flat-single";
-    return await getFlatOfferElements(
-      this.page,
-      flatOfferElementsSelector,
-      HOWOGEFlatOfferListElement
-    );
+    const flatOfferElementsSelector = '#immoobject-list .flat-single'
+    return await getFlatOfferElements(this.page, flatOfferElementsSelector, HOWOGEFlatOfferListElement)
   }
 
   async getNumberOfResultsElement() {
-    return await this.page.$(".immoobject-list--info-length");
+    return await this.page.$('.immoobject-list--info-length')
   }
 
   async handleCookiesAndPrivacy() {
@@ -23,7 +19,7 @@ export class HowogeFlatOfferListPage extends FlatOfferListPage {
 
     const modal = await this.page.$(cmpboxSelector)
 
-    if (!await hasClass(modal, 'cmpboxclosed')) {
+    if (!(await hasClass(modal, 'cmpboxclosed'))) {
       const settingsButton = await this.page.$('.cmpboxbtncustom')
       await settingsButton.click()
 
@@ -35,11 +31,9 @@ export class HowogeFlatOfferListPage extends FlatOfferListPage {
   }
 
   async waitForResultsToHaveBeenLoaded() {
-    await this.page.waitForFunction(
-      () => {
-        const loading = document.querySelector('.results-wrapper .loading')
-        return !loading.classList.contains('is')
-      }
-    )
+    await this.page.waitForFunction(() => {
+      const loading = document.querySelector('.results-wrapper .loading')
+      return !loading.classList.contains('is')
+    })
   }
 }

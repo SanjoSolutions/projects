@@ -18,18 +18,15 @@ unsubscribe = auth.onAuthStateChanged(function () {
 export function useIsInitializing() {
   const [isInitializing2, setIsInitializing2] = useState(isInitializing)
 
-  useEffect(
-    () => {
-      if (isInitializing) {
-        let unsubscribe
-        unsubscribe = auth.onAuthStateChanged(function () {
-          setIsInitializing2(false)
-          unsubscribe()
-        })
-      }
-    },
-    []
-  )
+  useEffect(() => {
+    if (isInitializing) {
+      let unsubscribe
+      unsubscribe = auth.onAuthStateChanged(function () {
+        setIsInitializing2(false)
+        unsubscribe()
+      })
+    }
+  }, [])
 
   return isInitializing2
 }

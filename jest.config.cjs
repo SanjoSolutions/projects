@@ -21,7 +21,7 @@ module.exports = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "coverage",
+  coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -103,7 +103,7 @@ module.exports = {
   // resetModules: false,
 
   // A path to a custom resolver
-  resolver: "jest-ts-webcompat-resolver",
+  resolver: 'jest-ts-webcompat-resolver',
 
   // Automatically restore mock state between every test
   restoreMocks: true,
@@ -129,7 +129,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "jsdom",
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -144,11 +144,7 @@ module.exports = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  testPathIgnorePatterns: [
-    "/node_modules/",
-    "/automatic_application_for_flats/",
-    "/manufacturer-offers/",
-  ],
+  testPathIgnorePatterns: ['/node_modules/', '/automatic_application_for_flats/', '/manufacturer-offers/'],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
@@ -184,4 +180,4 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}

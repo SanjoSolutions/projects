@@ -1,5 +1,5 @@
 export function delayed(fn, delay) {
-  let handler = null;
+  let handler = null
 
   function delayedFn(...args) {
     if (!handler) {

@@ -1,6 +1,6 @@
 export function getCenter() {
-    return {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-    }
+  return {
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  }
 }

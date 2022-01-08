@@ -1,15 +1,15 @@
 export function cancelableDebounce(f, delay) {
-  let handler;
+  let handler
 
   const fDebounced = () => {
-    cancelFDebounced();
-    handler = setTimeout(f, delay);
-  };
+    cancelFDebounced()
+    handler = setTimeout(f, delay)
+  }
 
   const cancelFDebounced = () => {
-    clearTimeout(handler);
-    handler = undefined;
-  };
+    clearTimeout(handler)
+    handler = undefined
+  }
 
-  return [fDebounced, cancelFDebounced];
+  return [fDebounced, cancelFDebounced]
 }

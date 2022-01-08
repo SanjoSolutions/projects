@@ -1,29 +1,24 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError = getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError;
+})
+exports.getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError = getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError
 
-var _getInnerTextAndExtractCurrencyValueFromLabeledText = require("./getInnerTextAndExtractCurrencyValueFromLabeledText.js");
+var _getInnerTextAndExtractCurrencyValueFromLabeledText = require('./getInnerTextAndExtractCurrencyValueFromLabeledText.js')
 
-async function getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError(
-  page,
-  selector,
-  label,
-  errorMessage
-) {
+async function getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError(page, selector, label, errorMessage) {
   const result = await (0,
   _getInnerTextAndExtractCurrencyValueFromLabeledText.getInnerTextAndExtractCurrencyValueFromLabeledText)(
     page,
     selector,
     label
-  );
+  )
 
   if (!result) {
-    throw new Error(errorMessage);
+    throw new Error(errorMessage)
   }
 
-  return result;
+  return result
 }
 //# sourceMappingURL=getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError.js.map

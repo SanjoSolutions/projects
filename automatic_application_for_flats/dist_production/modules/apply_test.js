@@ -1,102 +1,93 @@
-"use strict";
+'use strict'
 
-var path__NAMESPACE__ = _interopRequireWildcard(require("path"));
+var path__NAMESPACE__ = _interopRequireWildcard(require('path'))
 
-var puppeteer__NAMESPACE__ = _interopRequireWildcard(require("puppeteer"));
+var puppeteer__NAMESPACE__ = _interopRequireWildcard(require('puppeteer'))
 
-var _config = require("../config.js");
+var _config = require('../config.js')
 
 function _getRequireWildcardCache() {
-  if (typeof WeakMap !== "function") return null;
-  var cache = new WeakMap();
+  if (typeof WeakMap !== 'function') return null
+  var cache = new WeakMap()
   _getRequireWildcardCache = function () {
-    return cache;
-  };
-  return cache;
+    return cache
+  }
+  return cache
 }
 
 function _interopRequireWildcard(obj) {
   if (obj && obj.__esModule) {
-    return obj;
+    return obj
   }
-  if (obj === null || (typeof obj !== "object" && typeof obj !== "function")) {
-    return { default: obj };
+  if (obj === null || (typeof obj !== 'object' && typeof obj !== 'function')) {
+    return { default: obj }
   }
-  var cache = _getRequireWildcardCache();
+  var cache = _getRequireWildcardCache()
   if (cache && cache.has(obj)) {
-    return cache.get(obj);
+    return cache.get(obj)
   }
-  var newObj = {};
-  var hasPropertyDescriptor =
-    Object.defineProperty && Object.getOwnPropertyDescriptor;
+  var newObj = {}
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor
   for (var key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      var desc = hasPropertyDescriptor
-        ? Object.getOwnPropertyDescriptor(obj, key)
-        : null;
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null
       if (desc && (desc.get || desc.set)) {
-        Object.defineProperty(newObj, key, desc);
+        Object.defineProperty(newObj, key, desc)
       } else {
-        newObj[key] = obj[key];
+        newObj[key] = obj[key]
       }
     }
   }
-  newObj.default = obj;
+  newObj.default = obj
   if (cache) {
-    cache.set(obj, newObj);
+    cache.set(obj, newObj)
   }
-  return newObj;
+  return newObj
 }
 
-process.env.NODE_ENV = "TESTING";
-const path = path__NAMESPACE__.default || path__NAMESPACE__;
-const puppeteer = puppeteer__NAMESPACE__.default || puppeteer__NAMESPACE__;
-run(main);
+process.env.NODE_ENV = 'TESTING'
+const path = path__NAMESPACE__.default || path__NAMESPACE__
+const puppeteer = puppeteer__NAMESPACE__.default || puppeteer__NAMESPACE__
+run(main)
 
 async function main() {
-  const moduleNameUnderTest = process.argv[2];
-  const modulePathUnderTest = path.resolve(
-    __dirname,
-    moduleNameUnderTest,
-    "index.js"
-  );
-  const { fetchOnce } = await Promise.resolve(
-    `${modulePathUnderTest}`
-  ).then((s) => _interopRequireWildcard(require(s)));
+  const moduleNameUnderTest = process.argv[2]
+  const modulePathUnderTest = path.resolve(__dirname, moduleNameUnderTest, 'index.js')
+  const { fetchOnce } = await Promise.resolve(`${modulePathUnderTest}`).then(s => _interopRequireWildcard(require(s)))
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: {
       width: 1024,
       height: 768,
     },
-  });
+  })
 
   function getBrowser() {
-    return browser;
+    return browser
   }
 
-  const page = await browser.newPage();
-  let flatOffer = null;
+  const page = await browser.newPage()
+  let flatOffer = null
 
   async function onFlatOffer(_flatOffer) {
     if (!flatOffer) {
-      console.log("Flat offer: ", _flatOffer);
-      flatOffer = _flatOffer;
+      console.log('Flat offer: ', _flatOffer)
+      flatOffer = _flatOffer
     }
   }
 
   function shouldStop() {
-    return Boolean(flatOffer);
+    return Boolean(flatOffer)
   }
 
-  await fetchOnce(getBrowser, page, onFlatOffer, shouldStop);
+  await fetchOnce(getBrowser, page, onFlatOffer, shouldStop)
 
   if (flatOffer) {
-    flatOffer.apply(getBrowser, _config.contactData);
+    flatOffer.apply(getBrowser, _config.contactData)
   }
 }
 
 function run(fn) {
-  fn().then(console.log, console.error);
+  fn().then(console.log, console.error)
 }
 //# sourceMappingURL=apply_test.js.map

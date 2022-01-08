@@ -1,8 +1,8 @@
-import { replaceStringValue } from "./replaceStringValue.js";
-import { StringValueNotFoundError } from "../StringValueNotFoundError.js";
-import { getLineNumber } from "../getLineNumber.js";
-import { getLine } from "../getLine.js";
-import { isLogLine } from "./isLogLine.js";
+import { replaceStringValue } from './replaceStringValue.js'
+import { StringValueNotFoundError } from '../StringValueNotFoundError.js'
+import { getLineNumber } from '../getLineNumber.js'
+import { getLine } from '../getLine.js'
+import { isLogLine } from './isLogLine.js'
 
 /**
  * Replaces all string values with its reference string.
@@ -14,39 +14,29 @@ import { isLogLine } from "./isLogLine.js";
  * @returns {{text: string, errors: Array}} Object with substituted text and errors.
  */
 export function replaceStringValues(lookUp, javaText) {
-  const regExp = /"(.+?)"/g;
-  const errors = [];
-  const text = javaText.replace(
-    regExp,
-    replaceOccurrence.bind(null, lookUp, javaText, errors)
-  );
+  const regExp = /"(.+?)"/g
+  const errors = []
+  const text = javaText.replace(regExp, replaceOccurrence.bind(null, lookUp, javaText, errors))
 
-  return { text, errors };
+  return { text, errors }
 }
 
-function replaceOccurrence(
-  lookUp,
-  javaText,
-  errors,
-  match,
-  stringValue,
-  offset
-) {
+function replaceOccurrence(lookUp, javaText, errors, match, stringValue, offset) {
   if (isLogLine(getLine(javaText, offset))) {
-    return match;
+    return match
   } else {
     try {
-      return replaceStringValue(lookUp, stringValue);
+      return replaceStringValue(lookUp, stringValue)
     } catch (error) {
       if (error instanceof StringValueNotFoundError) {
         const stringValueNotFoundError = {
           stringValue: stringValue,
           lineNumber: getLineNumber(javaText, offset),
-        };
-        errors.push(stringValueNotFoundError);
-        return match;
+        }
+        errors.push(stringValueNotFoundError)
+        return match
       } else {
-        throw error;
+        throw error
       }
     }
   }

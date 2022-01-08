@@ -1,4 +1,4 @@
-import { lastMatch } from "./lastMatch.js";
+import { lastMatch } from './lastMatch.js'
 
 /**
  * Returns the full line, that the given index lies within, without leading or ending line break characters.
@@ -7,17 +7,17 @@ import { lastMatch } from "./lastMatch.js";
  * @returns {string} The line
  */
 export function getLine(text, index) {
-  let lineStartMatch = lastMatch(text, /\r\n|\n|\r/g, index - 1);
-  let lineStartIndex;
+  let lineStartMatch = lastMatch(text, /\r\n|\n|\r/g, index - 1)
+  let lineStartIndex
   if (lineStartMatch === null) {
-    lineStartIndex = 0;
+    lineStartIndex = 0
   } else {
-    lineStartIndex = lineStartMatch.index + lineStartMatch[0].length;
+    lineStartIndex = lineStartMatch.index + lineStartMatch[0].length
   }
-  let lineEndIndex = text.indexOf(/\r\n|\n|\r/g, index + 1);
+  let lineEndIndex = text.indexOf(/\r\n|\n|\r/g, index + 1)
   if (lineEndIndex === -1) {
-    lineEndIndex = text.length;
+    lineEndIndex = text.length
   }
-  lineEndIndex -= 1;
-  return text.substring(lineStartIndex, lineEndIndex + 1);
+  lineEndIndex -= 1
+  return text.substring(lineStartIndex, lineEndIndex + 1)
 }

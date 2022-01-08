@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.getRequiredFields = getRequiredFields;
+})
+exports.getRequiredFields = getRequiredFields
 
 function getRequiredFields() {
-  return ["firstName", "lastName", "email", "phone"];
+  return ['firstName', 'lastName', 'email', 'phone']
 }
 //# sourceMappingURL=getRequiredFields.js.map

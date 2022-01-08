@@ -1,13 +1,13 @@
-import { unmountComponentAtNode } from "react-dom";
+import { unmountComponentAtNode } from 'react-dom'
 
 export function createContainer(): HTMLDivElement {
-  const container = document.createElement("div");
-  document.body.appendChild(container);
+  const container = document.createElement('div')
+  document.body.appendChild(container)
 
   afterEach(function () {
-    unmountComponentAtNode(container);
-    container.remove();
-  });
+    unmountComponentAtNode(container)
+    container.remove()
+  })
 
-  return container;
+  return container
 }

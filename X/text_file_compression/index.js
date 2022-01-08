@@ -1,118 +1,101 @@
-import { promises as fs } from "fs";
+import { promises as fs } from 'fs'
 
 function escapeRegExpText(text) {
-  return text.replace(/[\[\]().*+\\]/g, (character) => `\\${character}`);
+  return text.replace(/[\[\]().*+\\]/g, character => `\\${character}`)
 }
 
-(async function () {
-  const operation = process.argv[2];
+;(async function () {
+  const operation = process.argv[2]
 
-  if (operation === "compress") {
-    const filePathToCompress = process.argv[3];
-    const filePathToSaveCompressedFile = process.argv[4];
+  if (operation === 'compress') {
+    const filePathToCompress = process.argv[3]
+    const filePathToSaveCompressedFile = process.argv[4]
 
-    const text = await fs.readFile(filePathToCompress, { encoding: "utf8" });
+    const text = await fs.readFile(filePathToCompress, { encoding: 'utf8' })
 
-    const map = new Map();
+    const map = new Map()
 
-    const minLength = 3;
+    const minLength = 3
     for (let index = 0; index < text.length; index++) {
-      if (!text.substring(index, index + minLength).includes("\n")) {
+      if (!text.substring(index, index + minLength).includes('\n')) {
         for (let length = minLength; length <= text.length - index; length++) {
-          if (text[index + length - 1] === "\n") {
-            break;
+          if (text[index + length - 1] === '\n') {
+            break
           }
-          const token = text.substring(index, index + length);
+          const token = text.substring(index, index + length)
           if (map.has(token)) {
-            map.set(token, map.get(token) + 1);
+            map.set(token, map.get(token) + 1)
           } else {
-            map.set(token, 1);
+            map.set(token, 1)
           }
         }
       }
     }
 
-    let tokens = [...map];
+    let tokens = [...map]
 
     tokens = tokens.map(([token, count]) => {
-      return [
-        token,
-        count,
-        count * token.length - (2 + token.length + 1 + count * 3),
-      ];
-    });
+      return [token, count, count * token.length - (2 + token.length + 1 + count * 3)]
+    })
 
-    tokens = tokens.filter(
-      ([token, count, charactersSaved]) => charactersSaved > 0
-    );
+    tokens = tokens.filter(([token, count, charactersSaved]) => charactersSaved > 0)
 
-    tokens.sort((a, b) => b[2] - a[2]);
+    tokens.sort((a, b) => b[2] - a[2])
 
-    let header = "";
-    let compressedText = text;
-    let nextCompressedText;
+    let header = ''
+    let compressedText = text
+    let nextCompressedText
 
-    let tokenIndex = 0;
+    let tokenIndex = 0
     for (const [token] of tokens) {
-      let replaceCount = 0;
-      const headerLine = `${tokenIndex}:${token}\n`;
-      nextCompressedText = compressedText.replace(
-        new RegExp(escapeRegExpText(token), "g"),
-        () => {
-          replaceCount++;
-          return `\0${tokenIndex}\0`;
-        }
-      );
-      if (
-        headerLine.length + nextCompressedText.length <
-        compressedText.length
-      ) {
-        header = header + headerLine;
-        compressedText = nextCompressedText;
-        tokenIndex++;
+      let replaceCount = 0
+      const headerLine = `${tokenIndex}:${token}\n`
+      nextCompressedText = compressedText.replace(new RegExp(escapeRegExpText(token), 'g'), () => {
+        replaceCount++
+        return `\0${tokenIndex}\0`
+      })
+      if (headerLine.length + nextCompressedText.length < compressedText.length) {
+        header = header + headerLine
+        compressedText = nextCompressedText
+        tokenIndex++
       }
     }
-    compressedText = header + "\n" + compressedText;
+    compressedText = header + '\n' + compressedText
 
-    console.log(`Characters saved: ${text.length - compressedText.length}`); // Output: 735
+    console.log(`Characters saved: ${text.length - compressedText.length}`) // Output: 735
     console.log(
-      `Compression to ${Math.round(
-        (compressedText.length * 100) / text.length
-      )}% of the size of original file.`
-    );
+      `Compression to ${Math.round((compressedText.length * 100) / text.length)}% of the size of original file.`
+    )
 
     await fs.writeFile(filePathToSaveCompressedFile, compressedText, {
-      encoding: "utf8",
-    });
-  } else if (operation === "decompress") {
-    const filePathToDecompress = process.argv[3];
-    const filePathToSaveDecompressedFile = process.argv[4];
+      encoding: 'utf8',
+    })
+  } else if (operation === 'decompress') {
+    const filePathToDecompress = process.argv[3]
+    const filePathToSaveDecompressedFile = process.argv[4]
 
     let compressedText = await fs.readFile(filePathToDecompress, {
-      encoding: "utf8",
-    });
+      encoding: 'utf8',
+    })
 
-    const indexOfHeaderSeparator = compressedText.indexOf("\n\n");
-    const header = compressedText.substring(0, indexOfHeaderSeparator);
-    compressedText = compressedText.substring(indexOfHeaderSeparator + 2);
+    const indexOfHeaderSeparator = compressedText.indexOf('\n\n')
+    const header = compressedText.substring(0, indexOfHeaderSeparator)
+    compressedText = compressedText.substring(indexOfHeaderSeparator + 2)
 
-    let tokens = header.split("\n").map((headerLine) => {
-      const separatorIndex = headerLine.indexOf(":");
-      return [
-        Number(headerLine.substring(0, separatorIndex)),
-        headerLine.substring(separatorIndex + 1),
-      ];
-    });
+    let tokens = header.split('\n').map(headerLine => {
+      const separatorIndex = headerLine.indexOf(':')
+      return [Number(headerLine.substring(0, separatorIndex)), headerLine.substring(separatorIndex + 1)]
+    })
 
-    tokens = tokens.reverse();
+    tokens = tokens.reverse()
 
-    let text = compressedText;
+    let text = compressedText
     for (const [tokenIndex, token] of tokens) {
-      text = text.replace(new RegExp(`\0${tokenIndex}\0`, "g"), token);
+      text = text.replace(new RegExp(`\0${tokenIndex}\0`, 'g'), token)
     }
 
     await fs.writeFile(filePathToSaveDecompressedFile, text, {
-      encoding: "utf8",
-    });
+      encoding: 'utf8',
+    })
   }
-})();
+})()

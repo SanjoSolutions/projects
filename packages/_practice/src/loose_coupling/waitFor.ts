@@ -1,7 +1,7 @@
-import { wait } from "./wait.js";
+import { wait } from './wait.js'
 
 export async function waitFor(condition) {
   while (!(await condition())) {
-    await wait(1000);
+    await wait(1000)
   }
 }

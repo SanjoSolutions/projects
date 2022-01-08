@@ -1,3 +1,3 @@
 export function parseNumberOfRooms(numberOfRoomsText) {
-  return parseFloat(numberOfRoomsText);
+  return parseFloat(numberOfRoomsText)
 }

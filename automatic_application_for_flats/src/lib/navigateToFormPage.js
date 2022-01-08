@@ -1,3 +1,3 @@
 export async function navigateToFormPage(page, flatOffer) {
-  await page.goto(flatOffer.url);
+  await page.goto(flatOffer.url)
 }

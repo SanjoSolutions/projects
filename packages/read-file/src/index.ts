@@ -1,1 +1,1 @@
-export { readFile as default } from "./readFile.js";
+export { readFile as default } from './readFile.js'

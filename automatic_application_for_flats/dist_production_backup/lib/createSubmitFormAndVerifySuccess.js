@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.createSubmitFormAndVerifySuccess = createSubmitFormAndVerifySuccess;
+})
+exports.createSubmitFormAndVerifySuccess = createSubmitFormAndVerifySuccess
 
-var _submitFormAndVerifySuccess = require("./submitFormAndVerifySuccess.js");
+var _submitFormAndVerifySuccess = require('./submitFormAndVerifySuccess.js')
 
 function createSubmitFormAndVerifySuccess(verifySuccess) {
   return ({ form, page }) =>
@@ -15,6 +15,6 @@ function createSubmitFormAndVerifySuccess(verifySuccess) {
         page,
       },
       verifySuccess
-    );
+    )
 }
 //# sourceMappingURL=createSubmitFormAndVerifySuccess.js.map

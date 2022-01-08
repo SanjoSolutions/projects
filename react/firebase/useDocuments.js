@@ -1,28 +1,19 @@
 import { useEffect, useState } from 'react'
 import { identity } from '../../packages/identity/src/identity.js'
 
-export function useDocuments(
-  queryRef,
-  filterFn = identity,
-) {
+export function useDocuments(queryRef, filterFn = identity) {
   const [documents, setDocuments] = useState(null)
 
-  useEffect(
-    () => {
-      setDocuments(null)
+  useEffect(() => {
+    setDocuments(null)
 
-      async function retrieve() {
-        const documents = await retrieveDocuments(queryRef, filterFn)
-        setDocuments(documents)
-      }
+    async function retrieve() {
+      const documents = await retrieveDocuments(queryRef, filterFn)
+      setDocuments(documents)
+    }
 
-      retrieve()
-    },
-    [
-      queryRef,
-      filterFn
-    ],
-  )
+    retrieve()
+  }, [queryRef, filterFn])
 
   return documents
 }

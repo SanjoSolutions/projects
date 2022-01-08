@@ -1,1 +1,1 @@
-export { exec as default } from "./exec.js";
+export { exec as default } from './exec.js'

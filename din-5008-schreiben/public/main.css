@@ -16,7 +16,7 @@
 
 html,
 body {
-  font-family: "Roboto", "Helvetica", sans-serif;
+  font-family: 'Roboto', 'Helvetica', sans-serif;
   background-color: #f5f5f5;
 }
 a {
@@ -57,7 +57,7 @@ code {
   word-break: break-all;
 }
 h3 {
-  background: url("firebase-logo.png") no-repeat;
+  background: url('firebase-logo.png') no-repeat;
   background-size: 40px;
   padding-left: 50px;
   color: white;

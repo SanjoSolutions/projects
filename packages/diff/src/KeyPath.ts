@@ -1,1 +1,1 @@
-export type KeyPath = string[];
+export type KeyPath = string[]

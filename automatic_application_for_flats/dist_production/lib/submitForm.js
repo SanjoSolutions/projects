@@ -1,13 +1,13 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.submitForm = submitForm;
+})
+exports.submitForm = submitForm
 
 async function submitForm({ form, page }) {
-  await form.evaluate((form) => {
-    form.submit();
-  });
+  await form.evaluate(form => {
+    form.submit()
+  })
 }
 //# sourceMappingURL=submitForm.js.map

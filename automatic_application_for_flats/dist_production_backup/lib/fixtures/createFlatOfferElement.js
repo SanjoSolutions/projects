@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.createFlatOfferElement = createFlatOfferElement;
+})
+exports.createFlatOfferElement = createFlatOfferElement
 
-var _createPageWithHTML = require("../createPageWithHTML.js");
+var _createPageWithHTML = require('../createPageWithHTML.js')
 
 async function createFlatOfferElement(browser) {
   const page = await (0, _createPageWithHTML.createPageWithHTML)(
@@ -19,7 +19,7 @@ async function createFlatOfferElement(browser) {
       </div>
     </div>
   `
-  );
-  return await page.$(".flat-offer");
+  )
+  return await page.$('.flat-offer')
 }
 //# sourceMappingURL=createFlatOfferElement.js.map

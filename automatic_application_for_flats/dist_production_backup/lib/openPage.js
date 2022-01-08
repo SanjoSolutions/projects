@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.openPage = openPage;
+})
+exports.openPage = openPage
 
 async function openPage(getBrowser) {
-  return await (await getBrowser()).newPage();
+  return await (await getBrowser()).newPage()
 }
 //# sourceMappingURL=openPage.js.map

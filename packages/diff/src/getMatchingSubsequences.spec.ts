@@ -1,6 +1,6 @@
-import { getMatchingSubsequences } from "./getMatchingSubsequences.js";
+import { getMatchingSubsequences } from './getMatchingSubsequences.js'
 
-describe("getMatchingSubsequences", () => {
+describe('getMatchingSubsequences', () => {
   const testCases = [
     {
       from: [1, 2, 3],
@@ -81,7 +81,7 @@ describe("getMatchingSubsequences", () => {
       to: [2],
       expectedResult: [],
     },
-  ];
+  ]
 
   for (const { from, to, expectedResult } of testCases) {
     test(
@@ -89,8 +89,8 @@ describe("getMatchingSubsequences", () => {
         `and to "${JSON.stringify(to)}" ` +
         `with expected result "${JSON.stringify(expectedResult)}"`,
       () => {
-        expect(getMatchingSubsequences(from, to)).toEqual(expectedResult);
+        expect(getMatchingSubsequences(from, to)).toEqual(expectedResult)
       }
-    );
+    )
   }
-});
+})

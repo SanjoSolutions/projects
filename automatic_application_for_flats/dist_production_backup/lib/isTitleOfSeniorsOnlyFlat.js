@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.isTitleOfSeniorsOnlyFlat = isTitleOfSeniorsOnlyFlat;
+})
+exports.isTitleOfSeniorsOnlyFlat = isTitleOfSeniorsOnlyFlat
 
 function isTitleOfSeniorsOnlyFlat(title) {
-  return title.includes("Senioren") || title.includes("ältere Generation");
+  return title.includes('Senioren') || title.includes('ältere Generation')
 }
 //# sourceMappingURL=isTitleOfSeniorsOnlyFlat.js.map

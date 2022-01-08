@@ -1,4 +1,4 @@
 export interface SubsequenceRange {
-  from: number;
-  to: number;
+  from: number
+  to: number
 }

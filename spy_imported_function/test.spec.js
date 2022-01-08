@@ -1,12 +1,12 @@
-import { a } from "./a.js";
-import * as moduleB from "./b.js";
+import { a } from './a.js'
+import * as moduleB from './b.js'
 
-describe("spy imported function", () => {
-  test("spy imported function", () => {
-    jest.spyOn(moduleB, "b").mockImplementation(() => {
-      return "mocked!";
-    });
+describe('spy imported function', () => {
+  test('spy imported function', () => {
+    jest.spyOn(moduleB, 'b').mockImplementation(() => {
+      return 'mocked!'
+    })
 
-    expect(a()).toEqual("mocked!");
-  });
-});
+    expect(a()).toEqual('mocked!')
+  })
+})

@@ -7,16 +7,16 @@ export function createApplyForFlatOffer({
   closePage,
 }) {
   return async function applyForFlatOffer(getBrowser, flatOffer, contactData) {
-    verifyRequiredFields(contactData);
+    verifyRequiredFields(contactData)
 
-    const { page, form } = await openForm(getBrowser, flatOffer);
+    const { page, form } = await openForm(getBrowser, flatOffer)
 
-    await fillForm({ form, page }, contactData);
+    await fillForm({ form, page }, contactData)
 
-    if (process.env.NODE_ENV !== "TESTING") {
-      await submitForm({ form, page });
-      await saveScreenshot(page, flatOffer);
-      await closePage(page);
+    if (process.env.NODE_ENV !== 'TESTING') {
+      await submitForm({ form, page })
+      await saveScreenshot(page, flatOffer)
+      await closePage(page)
     }
-  };
+  }
 }

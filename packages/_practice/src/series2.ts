@@ -1,9 +1,9 @@
 function series2(to) {
-  const numbers = [];
+  const numbers = []
   for (let number = 1; number <= to; number++) {
-    numbers.push(number);
+    numbers.push(number)
   }
-  return numbers;
+  return numbers
 }
 
-console.log(series2(3));
+console.log(series2(3))

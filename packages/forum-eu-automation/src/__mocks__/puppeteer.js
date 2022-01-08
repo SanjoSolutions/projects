@@ -4,10 +4,10 @@ const puppeteer = {
       newPage() {
         return {
           goto: jest.fn(),
-        };
+        }
       },
-    });
+    })
   },
-};
+}
 
-export default puppeteer;
+export default puppeteer

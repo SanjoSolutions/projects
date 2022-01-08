@@ -1,1 +1,1 @@
-export type FilePath = string;
+export type FilePath = string

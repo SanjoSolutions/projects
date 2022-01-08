@@ -1,5 +1,5 @@
-import { HTTPServer } from "./HTTPServer.js";
+import { HTTPServer } from './HTTPServer.js'
 
 export function createHttpServer() {
-  return new HTTPServer();
+  return new HTTPServer()
 }

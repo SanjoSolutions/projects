@@ -1,1 +1,1 @@
-export { defineElement as default } from "./defineElement.js";
+export { defineElement as default } from './defineElement.js'

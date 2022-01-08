@@ -1,1 +1,1 @@
-export { writeFile as default } from "./writeFile.js";
+export { writeFile as default } from './writeFile.js'

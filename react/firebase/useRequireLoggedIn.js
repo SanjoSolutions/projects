@@ -8,18 +8,11 @@ export function useRequireLoggedIn() {
   const isInitializing = useIsInitializing()
   const history = useHistory()
 
-  useEffect(
-    () => {
-      if (!isInitializing && !user) {
-        history.replace('/log-in', {
-          redirectToAfterLogin: history.location.pathname
-        })
-      }
-    },
-    [
-      isInitializing,
-      user,
-      history,
-    ],
-  )
+  useEffect(() => {
+    if (!isInitializing && !user) {
+      history.replace('/log-in', {
+        redirectToAfterLogin: history.location.pathname,
+      })
+    }
+  }, [isInitializing, user, history])
 }

@@ -1,17 +1,17 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.findAsync = findAsync;
+})
+exports.findAsync = findAsync
 
 async function findAsync(iterable, matcher) {
   for (const value of iterable) {
     if (await matcher(value)) {
-      return value;
+      return value
     }
   }
 
-  return null;
+  return null
 }
 //# sourceMappingURL=findAsync.js.map

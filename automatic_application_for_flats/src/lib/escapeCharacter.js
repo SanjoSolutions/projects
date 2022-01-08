@@ -1,3 +1,3 @@
 export function escapeCharacter(character) {
-  return `\\${character}`;
+  return `\\${character}`
 }

@@ -1,20 +1,20 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.navigateToNextPage = navigateToNextPage;
+})
+exports.navigateToNextPage = navigateToNextPage
 
 async function navigateToNextPage(page) {
-  const nextButton = await page.$('a[rel="next"]');
+  const nextButton = await page.$('a[rel="next"]')
 
   if (nextButton) {
-    await nextButton.click();
-    await page.waitFor(".search__results--loading", {
+    await nextButton.click()
+    await page.waitFor('.search__results--loading', {
       hidden: true,
-    });
+    })
   }
 
-  return Boolean(nextButton);
+  return Boolean(nextButton)
 }
 //# sourceMappingURL=navigateToNextPage.js.map

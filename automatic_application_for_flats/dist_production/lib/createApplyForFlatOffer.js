@@ -1,37 +1,30 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.createApplyForFlatOffer = createApplyForFlatOffer;
+})
+exports.createApplyForFlatOffer = createApplyForFlatOffer
 
-function createApplyForFlatOffer({
-  verifyRequiredFields,
-  openForm,
-  fillForm,
-  submitForm,
-  saveScreenshot,
-  closePage,
-}) {
+function createApplyForFlatOffer({ verifyRequiredFields, openForm, fillForm, submitForm, saveScreenshot, closePage }) {
   return async function applyForFlatOffer(getBrowser, flatOffer, contactData) {
-    verifyRequiredFields(contactData);
-    const { page, form } = await openForm(getBrowser, flatOffer);
+    verifyRequiredFields(contactData)
+    const { page, form } = await openForm(getBrowser, flatOffer)
     await fillForm(
       {
         form,
         page,
       },
       contactData
-    );
+    )
 
-    if (process.env.NODE_ENV !== "TESTING") {
+    if (process.env.NODE_ENV !== 'TESTING') {
       await submitForm({
         form,
         page,
-      });
-      await saveScreenshot(page, flatOffer);
-      await closePage(page);
+      })
+      await saveScreenshot(page, flatOffer)
+      await closePage(page)
     }
-  };
+  }
 }
 //# sourceMappingURL=createApplyForFlatOffer.js.map

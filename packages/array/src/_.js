@@ -1,5 +1,5 @@
-import { ExtendedArray } from "./ExtendedArray.js";
+import { ExtendedArray } from './ExtendedArray.js'
 
 export function _(array) {
-  return new ExtendedArray(...array);
+  return new ExtendedArray(...array)
 }

@@ -10,12 +10,7 @@ const CIRCLE_BORDER = 1 // px
 export function main() {
   const rows = 20
   const columns = 20
-  const colors = [
-    'red',
-    'green',
-    'yellow',
-    'blue',
-  ]
+  const colors = ['red', 'green', 'yellow', 'blue']
   const circleGrid = document.querySelector('.circle-grid')
   spawnCircles(circleGrid, { rows, columns, colors })
 
@@ -53,13 +48,7 @@ export function main() {
         const circleColor = determineCircleColor(circle)
         if (
           circleColor === selectedColor &&
-          (
-            !selectedCircles.has(circle) ||
-            (
-              selectedCircles.size >= 3 &&
-              circle === firstSelectedCircle
-            )
-          ) &&
+          (!selectedCircles.has(circle) || (selectedCircles.size >= 3 && circle === firstSelectedCircle)) &&
           canBeConnected(circle, lastSelectedCircle)
         ) {
           drawConnectionLine(circle, lastSelectedCircle)
@@ -100,9 +89,9 @@ export function main() {
 
   function drawConnectionLine(circleA, circleB) {
     context.beginPath()
-    const {x: x1, y: y1} = calculateElementCenter(circleA)
+    const { x: x1, y: y1 } = calculateElementCenter(circleA)
     context.moveTo(x1, y1)
-    const {x: x2, y: y2} = calculateElementCenter(circleB)
+    const { x: x2, y: y2 } = calculateElementCenter(circleB)
     context.lineTo(x2, y2)
     context.stroke()
   }
@@ -113,16 +102,14 @@ function canBeConnected(circleA, circleB) {
   const positionB = determinePosition(circleB)
   const rowDifference = Math.abs(positionA.row - positionB.row)
   const columnDifference = Math.abs(positionA.column - positionB.column)
-  return (
-    (rowDifference === 0 && columnDifference === 1) ||
-    (columnDifference === 0 && rowDifference === 1)
-  )
+  return (rowDifference === 0 && columnDifference === 1) || (columnDifference === 0 && rowDifference === 1)
 }
 
 function determinePosition(circle) {
   return {
     row: (circle.offsetLeft - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_WIDTH + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
-    column: (circle.offsetTop - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_HEIGHT + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
+    column:
+      (circle.offsetTop - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_HEIGHT + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
   }
 }
 
@@ -141,9 +128,7 @@ function extractColorName(colorClass) {
 function hasSquareBeenSelected(selectedCircles, numberOfColumns) {
   if (selectedCircles.size === 4) {
     const positions = Array.from(selectedCircles).map(determinePosition)
-    positions.sort((a, b) => (
-      calculateIndex(a, numberOfColumns) - calculateIndex(b, numberOfColumns)
-    ))
+    positions.sort((a, b) => calculateIndex(a, numberOfColumns) - calculateIndex(b, numberOfColumns))
     return (
       positions[0].row === positions[1].row &&
       positions[0].column === positions[1].column - 1 &&
@@ -157,13 +142,13 @@ function hasSquareBeenSelected(selectedCircles, numberOfColumns) {
 }
 
 function calculateIndex(position, numberOfColumns) {
-  return (position.row * numberOfColumns) + position.column
+  return position.row * numberOfColumns + position.column
 }
 
 function calculateElementCenter(element) {
   return {
     x: element.offsetLeft + 0.5 * element.clientWidth,
-    y: element.offsetTop + 0.5 * element.clientHeight
+    y: element.offsetTop + 0.5 * element.clientHeight,
   }
 }
 
@@ -188,7 +173,7 @@ function createCircleWithRandomColor(colors) {
 function createCircle({ color }) {
   const circle = document.createElement('div')
   circle.classList.add('circle')
-  circle.classList.add(`circle--${ color }`)
+  circle.classList.add(`circle--${color}`)
   return circle
 }
 

@@ -6,14 +6,11 @@ export function useUser() {
   const auth = firebase.auth()
   const [user, setUser] = useState(auth.currentUser)
 
-  useEffect(
-    () => {
-      const auth = firebase.auth()
-      const unsubscribe = auth.onAuthStateChanged(setUser)
-      return unsubscribe
-    },
-    []
-  )
+  useEffect(() => {
+    const auth = firebase.auth()
+    const unsubscribe = auth.onAuthStateChanged(setUser)
+    return unsubscribe
+  }, [])
 
   return user
 }

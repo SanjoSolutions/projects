@@ -1,4 +1,4 @@
-import { getInnerTextAndExtractCurrencyValueFromLabeledText } from "./getInnerTextAndExtractCurrencyValueFromLabeledText.js";
+import { getInnerTextAndExtractCurrencyValueFromLabeledText } from './getInnerTextAndExtractCurrencyValueFromLabeledText.js'
 
 export async function getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowError(
   page,
@@ -6,13 +6,9 @@ export async function getInnerTextAndExtractCurrencyValueFromLabeledTextOrThrowE
   label,
   errorMessage
 ) {
-  const result = await getInnerTextAndExtractCurrencyValueFromLabeledText(
-    page,
-    selector,
-    label
-  );
+  const result = await getInnerTextAndExtractCurrencyValueFromLabeledText(page, selector, label)
   if (!result) {
-    throw new Error(errorMessage);
+    throw new Error(errorMessage)
   }
-  return result;
+  return result
 }

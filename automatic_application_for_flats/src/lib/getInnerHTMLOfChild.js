@@ -1,5 +1,5 @@
-import { getInnerHTMLProperty } from "./getInnerHTMLProperty.js";
+import { getInnerHTMLProperty } from './getInnerHTMLProperty.js'
 
 export async function getInnerHTMLOfChild(pageOrElement, selector) {
-  return await pageOrElement.$eval(selector, getInnerHTMLProperty);
+  return await pageOrElement.$eval(selector, getInnerHTMLProperty)
 }

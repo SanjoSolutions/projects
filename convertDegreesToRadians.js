@@ -1,5 +1,5 @@
-const degreesToRadiansConversionValue = Math.PI / 180;
+const degreesToRadiansConversionValue = Math.PI / 180
 
 export function convertDegreesToRadians(value) {
-  return value * degreesToRadiansConversionValue;
+  return value * degreesToRadiansConversionValue
 }

@@ -1,51 +1,51 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.FlatOfferInformationRetriever = void 0;
+})
+exports.FlatOfferInformationRetriever = void 0
 
 class FlatOfferInformationRetriever {
   async getColdRent() {
-    return null;
+    return null
   }
 
   async getColdServiceCharges() {
-    return null;
+    return null
   }
 
   async getWarmServiceCharges() {
-    return null;
+    return null
   }
 
   async getServiceCharges() {
-    return null;
+    return null
   }
 
   async getWarmRent() {
-    return null;
+    return null
   }
 
   async getArea() {
-    return null;
+    return null
   }
 
   async getNumberOfRooms() {
-    return null;
+    return null
   }
 
   async getSeniorsOnly() {
-    return null;
+    return null
   }
 
   async getRequiredMinimumAge() {
-    return null;
+    return null
   }
 
   async getSelfRenovation() {
-    return null;
+    return null
   }
 }
 
-exports.FlatOfferInformationRetriever = FlatOfferInformationRetriever;
+exports.FlatOfferInformationRetriever = FlatOfferInformationRetriever
 //# sourceMappingURL=FlatOfferInformationRetriever.js.map

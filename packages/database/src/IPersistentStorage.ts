@@ -1,3 +1,3 @@
-import { IStorage } from "./IStorage.js";
+import { IStorage } from './IStorage.js'
 
 export interface IPersistentStorage extends IStorage {}

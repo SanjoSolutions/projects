@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import createPackage from "@sanjo/create-package";
+import createPackage from '@sanjo/create-package'
 
-createPackage().catch(console.error);
+createPackage().catch(console.error)

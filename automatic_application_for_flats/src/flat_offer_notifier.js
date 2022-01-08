@@ -1,15 +1,15 @@
-import util from "util";
-import nodemailer from "nodemailer";
+import util from 'util'
+import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
   auth: {
     user: process.env.GMAIL_EMAIL,
     pass: process.env.GMAIL_PASSWORD,
   },
-});
+})
 
-const sendMail = util.promisify(transporter.sendMail.bind(transporter));
+const sendMail = util.promisify(transporter.sendMail.bind(transporter))
 
 export async function notify(flatOffer, contactData) {
   const mailOptions = {
@@ -17,7 +17,7 @@ export async function notify(flatOffer, contactData) {
     to: contactData.email,
     subject: `New flat offer (${flatOffer.url})`,
     html: `<a href="${flatOffer.url}">${flatOffer.url}</a>`,
-  };
+  }
 
-  await sendMail(mailOptions);
+  await sendMail(mailOptions)
 }

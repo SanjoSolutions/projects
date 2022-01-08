@@ -1,11 +1,11 @@
-"use strict";
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true,
-});
-exports.isBoolean = isBoolean;
+})
+exports.isBoolean = isBoolean
 
 function isBoolean(value) {
-  return typeof value === "boolean";
+  return typeof value === 'boolean'
 }
 //# sourceMappingURL=isBoolean.js.map

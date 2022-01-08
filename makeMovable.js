@@ -2,12 +2,7 @@ import { identity } from './packages/identity/src/identity.js'
 
 export function makeMovable(
   element,
-  {
-    elementWithWhichTheElementCanBeMovedWith,
-    onPointerDown,
-    onPointerUp,
-    isMoving,
-  } = {},
+  { elementWithWhichTheElementCanBeMovedWith, onPointerDown, onPointerUp, isMoving } = {}
 ) {
   if (!elementWithWhichTheElementCanBeMovedWith) {
     elementWithWhichTheElementCanBeMovedWith = element
@@ -28,18 +23,15 @@ export function makeMovable(
 
   let isMousePressed = false
   let pointerClickOffsetToWindow = null
-  elementWithWhichTheElementCanBeMovedWith.addEventListener(
-    'pointerdown',
-    function (event) {
-      onPointerDown(event)
-      isMousePressed = true
-      pointerClickOffsetToWindow = {
-        x: event.clientX - element.offsetLeft,
-        y: event.clientY - element.offsetTop,
-      }
-      event.preventDefault()
-    },
-  )
+  elementWithWhichTheElementCanBeMovedWith.addEventListener('pointerdown', function (event) {
+    onPointerDown(event)
+    isMousePressed = true
+    pointerClickOffsetToWindow = {
+      x: event.clientX - element.offsetLeft,
+      y: event.clientY - element.offsetTop,
+    }
+    event.preventDefault()
+  })
 
   window.addEventListener('pointermove', function (event) {
     if (isMousePressed && isMoving(event)) {

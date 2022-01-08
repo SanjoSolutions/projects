@@ -6,32 +6,26 @@ export function useUserDocument() {
   const userId = useUserId()
   const [userDocument, setUserDocument] = useState(null)
 
-  useEffect(
-    () => {
-      setUserDocument(null)
+  useEffect(() => {
+    setUserDocument(null)
 
-      let unsubscribe
+    let unsubscribe
 
-      if (userId) {
-        async function retrieve() {
-          const database = getDatabase()
-          unsubscribe = database
-            .collection('users')
-            .doc(userId)
-            .onSnapshot(setUserDocument)
-        }
-
-        retrieve()
+    if (userId) {
+      async function retrieve() {
+        const database = getDatabase()
+        unsubscribe = database.collection('users').doc(userId).onSnapshot(setUserDocument)
       }
 
-      return () => {
-        if (unsubscribe) {
-          unsubscribe()
-        }
+      retrieve()
+    }
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe()
       }
-    },
-    [userId]
-  )
+    }
+  }, [userId])
 
   return userDocument
 }
