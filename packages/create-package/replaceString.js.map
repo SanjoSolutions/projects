@@ -1,0 +1,1 @@
+{"version":3,"file":"replaceString.js","sourceRoot":"","sources":["src/replaceString.ts"],"names":[],"mappings":"AAAA,OAAO,eAAe,MAAM,2BAA2B,CAAC;AAExD,MAAM,UAAU,aAAa,CAC3B,IAAY,EACZ,eAAuB,EACvB,mBAA2B;IAE3B,OAAO,IAAI,CAAC,OAAO,CACjB,IAAI,MAAM,CAAC,eAAe,CAAC,eAAe,CAAC,EAAE,GAAG,CAAC,EACjD,mBAAmB,CACpB,CAAC;AACJ,CAAC"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"Trader.js","sourceRoot":"","sources":["src/Trader.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,gBAAgB,CAAC;AAM3C,MAAM,OAAO,MAAM;IACjB,SAAS,CAAY;IAErB;QACE,IAAI,CAAC,SAAS,GAAG,IAAI,SAAS,EAAE,CAAC;IACnC,CAAC;CACF"}

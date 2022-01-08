@@ -1,0 +1,1 @@
+{"version":3,"file":"ObjectOperation.d.ts","sourceRoot":"","sources":["src/ObjectOperation.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,cAAc,CAAA;AAEtC,MAAM,WAAW,eAAe;IAC9B,IAAI,EAAE,KAAK,GAAG,QAAQ,GAAG,QAAQ,CAAA;IACjC,GAAG,EAAE,OAAO,CAAA;IACZ,KAAK,CAAC,EAAE,GAAG,CAAA;IACX,KAAK,CAAC,EAAE,MAAM,CAAA;CACf"}

@@ -1,0 +1,1 @@
+{"version":3,"file":"withWaitForNavigation.js","sourceRoot":"","sources":["src/withWaitForNavigation.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,iBAAiB,EAAE,MAAM,wBAAwB,CAAC;AAE3D,MAAM,CAAC,KAAK,UAAU,qBAAqB,CACzC,IAAU,EACV,GAAG,QAAwB;IAE3B,MAAM,OAAO,CAAC,GAAG,CAAC,CAAC,iBAAiB,CAAC,IAAI,CAAC,EAAE,GAAG,QAAQ,CAAC,CAAC,CAAC;AAC5D,CAAC"}
