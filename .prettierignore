@@ -5,5 +5,13 @@ tsconfig.tsbuildinfo
 built
 dist
 .history
-/packages/*/**
-!/packages/*/src/**
+/packages/**/*.ts
+/packages/**/*.js
+/packages/**/*.json
+/packages/**/*.css
+/packages/**/*.md
+!/packages/*/src/**/*.ts
+!/packages/*/src/**/*.js
+!/packages/*/src/**/*.json
+!/packages/*/src/**/*.css
+!/packages/*/src/**/*.md
