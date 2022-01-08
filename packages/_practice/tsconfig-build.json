@@ -3,16 +3,16 @@
   "compilerOptions": {
     "rootDir": "./src/",
     "outDir": "./",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "tsBuildInfoFile": "tsconfig.tsbuildinfo"
   },
   "include": ["./src/**/*"],
   "references": [
     {
-      "path": "../diff-folders"
+      "path": "../make-temporary-directory"
     },
     {
-      "path": "../npm-init"
+      "path": "../request"
     }
   ]
 }

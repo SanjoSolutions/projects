@@ -106,6 +106,9 @@
     },
     {
       "path": "./write-file/tsconfig-build.json"
+    },
+    {
+      "path": "./write-json/tsconfig-build.json"
     }
   ]
 }

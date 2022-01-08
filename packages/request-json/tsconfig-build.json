@@ -1,24 +1,15 @@
 {
-  "extends": "./tsconfig.json",
-  "exclude": [
-    "**/*.spec.ts",
-    "**/*.spec.tsx",
-    "**/*.spec.js",
-    "**/*.spec.jsx",
-    "**/*.test.ts",
-    "**/*.test.tsx",
-    "**/*.test.js",
-    "**/*.test.jsx",
-    "**/*.specs.ts",
-    "**/*.specs.tsx",
-    "**/*.specs.js",
-    "**/*.specs.jsx",
-    "**/*.tests.ts",
-    "**/*.tests.tsx",
-    "**/*.tests.js",
-    "**/*.tests.jsx",
-    "**/__tests__/**/*",
-    "**/__mocks__/**/*",
-    "**/testing/fixtures/**/*"
+  "extends": "../../tsconfig-base-build.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./",
+    "lib": ["ESNext"],
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
+  },
+  "include": ["./src/**/*"],
+  "references": [
+    {
+      "path": "../request"
+    }
   ]
 }

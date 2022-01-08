@@ -9,10 +9,7 @@
   "include": ["./src/**/*"],
   "references": [
     {
-      "path": "../diff-folders"
-    },
-    {
-      "path": "../npm-init"
+      "path": "../write-file"
     }
   ]
 }
