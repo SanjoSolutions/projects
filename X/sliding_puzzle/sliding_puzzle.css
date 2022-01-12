@@ -37,3 +37,7 @@ body {
 .sliding-puzzle__piece--moving {
   transition-property: none;
 }
+
+.sliding-puzzle--solved .sliding-puzzle__piece {
+  border: none;
+}

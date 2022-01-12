@@ -357,6 +357,12 @@ async function main() {
       updatePositions()
       $movingSlidingPuzzlePiece.classList.remove('sliding-puzzle__piece--moving')
       $movingSlidingPuzzlePiece = null
+
+      if (isSolved(slidingPuzzle)) {
+        $slidingPuzzle.classList.add('sliding-puzzle--solved')
+      } else {
+        $slidingPuzzle.classList.remove('sliding-puzzle--solved')
+      }
     }
   })
 
