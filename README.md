@@ -19,3 +19,15 @@ E.g.
 ```sh
 npm init @sanjo/package '@sanjo/arithmetic' 'Arithmetic'
 ```
+
+## Publishing a package
+
+```sh
+yarn workspace <PACKAGE_NAME> npm publish
+```
+
+E.g.
+
+```sh
+yarn workspace @sanjo/arithmetic npm publish
+```
