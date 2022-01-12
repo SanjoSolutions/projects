@@ -1,6 +1,6 @@
-import { arrayDiff } from "./arrayDiff.js";
-import { isObject } from "./isObject.js";
-import { objectDiff } from "./objectDiff.js";
+import { arrayDiff } from './arrayDiff.js';
+import { isObject } from './isObject.js';
+import { objectDiff } from './objectDiff.js';
 export function getOperationsForDiffSubsequence(fromArray, toArray, subsequence) {
     const fromSubsequence = fromArray.slice(subsequence[0].from, subsequence[0].to);
     const toSubsequence = toArray.slice(subsequence[1].from, subsequence[1].to);
@@ -12,7 +12,7 @@ export function getOperationsForDiffSubsequence(fromArray, toArray, subsequence)
         // when index value in fromArray missing then add operation
         if (index > fromArrayMaxIndex) {
             const operation = {
-                type: "add",
+                type: 'add',
                 index: subsequence[0].from + index,
                 values: toSubsequence.slice(index),
             };
@@ -22,7 +22,7 @@ export function getOperationsForDiffSubsequence(fromArray, toArray, subsequence)
         // when index value in toArray missing then remove operation
         else if (index > toArrayMaxIndex) {
             const operation = {
-                type: "remove",
+                type: 'remove',
                 index: subsequence[0].from + index,
                 deleteCount: fromArrayMaxIndex - toArrayMaxIndex,
             };
@@ -41,7 +41,7 @@ export function getOperationsForDiffSubsequence(fromArray, toArray, subsequence)
             }
             else {
                 const operation = {
-                    type: "update",
+                    type: 'update',
                     index: subsequence[0].from + index,
                     value: toValue,
                 };

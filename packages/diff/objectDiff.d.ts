@@ -1,5 +1,5 @@
-import { KeyPath } from "./KeyPath.js";
-import { ObjectOperation } from "./ObjectOperation.js";
+import { KeyPath } from './KeyPath.js';
+import { ObjectOperation } from './ObjectOperation.js';
 export declare type ObjectDiff = ObjectOperation[];
 export declare function objectDiff(fromObject: {
     [key: string]: any;

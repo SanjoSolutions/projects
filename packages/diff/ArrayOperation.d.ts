@@ -1,16 +1,16 @@
 export declare type ArrayOperation = ArrayAddOperation | ArrayUpdateOperation | ArrayRemoveOperation;
 export interface ArrayAddOperation {
-    type: "add";
+    type: 'add';
     index: number;
     values: any[];
 }
 export interface ArrayUpdateOperation {
-    type: "update";
+    type: 'update';
     index: number;
     value?: any;
 }
 export interface ArrayRemoveOperation {
-    type: "remove";
+    type: 'remove';
     index: number;
     deleteCount: number;
 }

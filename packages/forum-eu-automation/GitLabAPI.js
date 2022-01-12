@@ -1,6 +1,6 @@
-import requestJSON from "@sanjo/request-json";
-import { URL } from "url";
-import { convertObjectPropertyNamesFromCamelCaseToUnderscore } from "./convertObjectPropertyNamesFromCamelCaseToUnderscore.js";
+import requestJSON from '@sanjo/request-json';
+import { URL } from 'url';
+import { convertObjectPropertyNamesFromCamelCaseToUnderscore } from './convertObjectPropertyNamesFromCamelCaseToUnderscore.js';
 export class GitLabAPI {
     #baseUrl;
     #token;
@@ -39,7 +39,7 @@ export class GitLabAPI {
      * @see https://docs.gitlab.com/12.10/ee/api/merge_requests.html#create-mr
      */
     async createMergeRequest(projectId, options) {
-        await this.request(`/projects/${projectId}/merge_requests`, { method: "POST" }, options);
+        await this.request(`/projects/${projectId}/merge_requests`, { method: 'POST' }, options);
     }
     /**
      *
@@ -47,17 +47,17 @@ export class GitLabAPI {
      * @see https://docs.gitlab.com/12.10/ee/api/merge_requests.html#update-mr
      */
     async updateMergeRequest(projectId, mergeRequestId, options) {
-        await this.request(`/projects/${projectId}/merge_requests/${mergeRequestId}`, { method: "PUT" }, options);
+        await this.request(`/projects/${projectId}/merge_requests/${mergeRequestId}`, { method: 'PUT' }, options);
     }
     getEndpointUrl(path) {
         return new URL(this.#baseUrl + path).toString();
     }
     async request(path, options = {}, data) {
         let endpointURL = this.getEndpointUrl(path);
-        if (typeof data === "object") {
+        if (typeof data === 'object') {
             data = convertObjectPropertyNamesFromCamelCaseToUnderscore(data);
         }
-        return await requestJSON(endpointURL, options, data ?? "");
+        return await requestJSON(endpointURL, options, data ?? '');
     }
 }
 //# sourceMappingURL=GitLabAPI.js.map

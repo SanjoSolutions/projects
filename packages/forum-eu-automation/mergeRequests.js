@@ -1,23 +1,23 @@
-import exec from "@sanjo/exec";
-import readJSON from "@sanjo/read-json";
-import puppeteer from "puppeteer";
-import { GitLabAPI } from "./GitLabAPI.js";
-import { SlackChannelPage } from "./SlackChannelPage.js";
-import { SlackLoginPage } from "./SlackLoginPage.js";
+import exec from '@sanjo/exec';
+import readJSON from '@sanjo/read-json';
+import puppeteer from 'puppeteer';
+import { GitLabAPI } from './GitLabAPI.js';
+import { SlackChannelPage } from './SlackChannelPage.js';
+import { SlackLoginPage } from './SlackLoginPage.js';
 export class MergeRequests {
     #hasBeenInitialized = false;
     #configPath;
     #config = {
-        baseUrl: "",
-        gitLabToken: "",
-        projectId: "",
-        targetBranch: "",
+        baseUrl: '',
+        gitLabToken: '',
+        projectId: '',
+        targetBranch: '',
         slackAccount: {
-            email: "",
-            password: "",
+            email: '',
+            password: '',
         },
-        slackReadyToReviewPostChannelUrl: "",
-        slackLoginUrl: "",
+        slackReadyToReviewPostChannelUrl: '',
+        slackLoginUrl: '',
     };
     constructor(configPath) {
         this.#configPath = configPath;
@@ -28,11 +28,11 @@ export class MergeRequests {
     }
     async createMRWip(ticketId) {
         this.makeSureThatHasBeenInitialized();
-        await this.createMR(ticketId, "wip");
+        await this.createMR(ticketId, 'wip');
     }
     async createMRReady(ticketId) {
         this.makeSureThatHasBeenInitialized();
-        await this.createMR(ticketId, "ready");
+        await this.createMR(ticketId, 'ready');
     }
     async createMR(ticketId, status) {
         this.makeSureThatHasBeenInitialized();
@@ -41,11 +41,11 @@ export class MergeRequests {
     }
     async pushFeatureBranch(ticketId) {
         this.makeSureThatHasBeenInitialized();
-        const remoteRepository = "origin";
+        const remoteRepository = 'origin';
         const branchNames = await this.getBranchNames();
         const localBranchName = this.findBranchNameForTicketId(branchNames, ticketId);
         if (!localBranchName) {
-            throw new Error("Feature branch not found.");
+            throw new Error('Feature branch not found.');
         }
         const src = localBranchName;
         const dst = localBranchName;
@@ -57,7 +57,7 @@ export class MergeRequests {
     }
     findBranchNameThatStartsWith(branchNames, branchNameStart) {
         this.makeSureThatHasBeenInitialized();
-        const matchingBranchNames = branchNames.filter((branchName) => branchName.startsWith(branchNameStart));
+        const matchingBranchNames = branchNames.filter(branchName => branchName.startsWith(branchNameStart));
         if (matchingBranchNames.length > 1) {
             throw new Error(`Multiple branch names found that start with "${branchNameStart}".`);
         }
@@ -68,14 +68,14 @@ export class MergeRequests {
     async getBranchNames() {
         this.makeSureThatHasBeenInitialized();
         const branches = await this.getBranches();
-        const branchNames = branches.map((branch) => branch.name);
+        const branchNames = branches.map(branch => branch.name);
         return branchNames;
     }
     async getBranches() {
         this.makeSureThatHasBeenInitialized();
-        const { stdout } = await exec("git branch --list");
+        const { stdout } = await exec('git branch --list');
         const branchNameRegExp = /^(?:\* )?\s*([^\s]+)$/;
-        const branches = stdout.split("\n").map((line) => {
+        const branches = stdout.split('\n').map(line => {
             const match = branchNameRegExp.exec(line);
             if (match) {
                 return { name: match[1] };
@@ -105,9 +105,9 @@ export class MergeRequests {
     generateMRTitle(branchName, status) {
         this.makeSureThatHasBeenInitialized();
         switch (status) {
-            case "wip":
+            case 'wip':
                 return `WIP: ${branchName}`;
-            case "ready":
+            case 'ready':
                 return branchName;
         }
     }
@@ -130,7 +130,7 @@ export class MergeRequests {
         return mergeRequest;
     }
     findMergeRequestForTicketId(mergeRequests, ticketId) {
-        return findStartsWith(mergeRequests, "title", `${ticketId}-`);
+        return findStartsWith(mergeRequests, 'title', `${ticketId}-`);
     }
     createGitLabAPI() {
         return new GitLabAPI(this.#config.baseUrl, this.#config.gitLabToken);
@@ -152,9 +152,9 @@ export class MergeRequests {
     }
     makeSureThatHasBeenInitialized() {
         if (!this.#hasBeenInitialized) {
-            throw new Error("MergeRequests needs to be initialized " +
-                "by calling the initialize method " +
-                "before other methods can be used.");
+            throw new Error('MergeRequests needs to be initialized ' +
+                'by calling the initialize method ' +
+                'before other methods can be used.');
         }
     }
 }

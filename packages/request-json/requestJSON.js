@@ -1,4 +1,4 @@
-import request from "@sanjo/request";
+import request from '@sanjo/request';
 export async function requestJSON(url, options = {}, data) {
     const body = data ? JSON.stringify(data) : undefined;
     const response = await request(url, options, body);

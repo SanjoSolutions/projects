@@ -4,9 +4,7 @@ export class InMemoryFileSystem {
         return this._files.has(filePath);
     }
     async getContent(filePath) {
-        return (await this.contains(filePath))
-            ? this._files.get(filePath).content
-            : null;
+        return (await this.contains(filePath)) ? this._files.get(filePath).content : null;
     }
     async store(filePath, content) {
         this._files.set(filePath, { content });

@@ -1,4 +1,4 @@
-import type { MergeRequest } from "./MergeRequest.js";
+import type { MergeRequest } from './MergeRequest.js';
 export interface GitLabMergeRequest {
     id: string;
     iid: string;

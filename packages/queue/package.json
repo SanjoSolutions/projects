@@ -1,14 +1,21 @@
 {
   "name": "@sanjo/queue",
-  "type": "module",
-  "description": "Queue",
-  "license": "Unlicense",
   "version": "1.0.0",
+  "type": "module",
+  "description": "A priority queue",
+  "keywords": ["priority queue"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/queue",
+  "license": "Unlicense",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/queue"
+  },
   "dependencies": {
     "@sanjo/binary-search": "^1.0.0"
   },
+  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }

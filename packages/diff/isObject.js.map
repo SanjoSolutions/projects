@@ -1,1 +1,1 @@
-{"version":3,"file":"isObject.js","sourceRoot":"","sources":["src/isObject.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,QAAQ,CAAC,KAAU;IACjC,OAAO,OAAO,KAAK,KAAK,QAAQ,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,CAAC;AAC5D,CAAC"}
+{"version":3,"file":"isObject.js","sourceRoot":"","sources":["src/isObject.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,QAAQ,CAAC,KAAU;IACjC,OAAO,OAAO,KAAK,KAAK,QAAQ,IAAI,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,CAAA;AAC3D,CAAC"}

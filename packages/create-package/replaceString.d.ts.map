@@ -1,1 +1,1 @@
-{"version":3,"file":"replaceString.d.ts","sourceRoot":"","sources":["src/replaceString.ts"],"names":[],"mappings":"AAEA,wBAAgB,aAAa,CAC3B,IAAI,EAAE,MAAM,EACZ,eAAe,EAAE,MAAM,EACvB,mBAAmB,EAAE,MAAM,GAC1B,MAAM,CAKR"}
+{"version":3,"file":"replaceString.d.ts","sourceRoot":"","sources":["src/replaceString.ts"],"names":[],"mappings":"AAEA,wBAAgB,aAAa,CAAC,IAAI,EAAE,MAAM,EAAE,eAAe,EAAE,MAAM,EAAE,mBAAmB,EAAE,MAAM,GAAG,MAAM,CAExG"}

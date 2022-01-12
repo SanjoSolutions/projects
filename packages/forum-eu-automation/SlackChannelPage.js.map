@@ -1,1 +1,1 @@
-{"version":3,"file":"SlackChannelPage.js","sourceRoot":"","sources":["src/SlackChannelPage.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,gBAAgB;IAC3B,KAAK,CAAO;IAEZ,YAAY,IAAU;QACpB,IAAI,CAAC,KAAK,GAAG,IAAI,CAAC;IACpB,CAAC;IAED,KAAK,CAAC,WAAW,CAAC,OAAe,IAAkB,CAAC;CACrD"}
+{"version":3,"file":"SlackChannelPage.js","sourceRoot":"","sources":["src/SlackChannelPage.ts"],"names":[],"mappings":"AAEA,MAAM,OAAO,gBAAgB;IAC3B,KAAK,CAAM;IAEX,YAAY,IAAU;QACpB,IAAI,CAAC,KAAK,GAAG,IAAI,CAAA;IACnB,CAAC;IAED,KAAK,CAAC,WAAW,CAAC,OAAe,IAAkB,CAAC;CACrD"}

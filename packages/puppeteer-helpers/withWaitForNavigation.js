@@ -1,4 +1,4 @@
-import { waitForNavigation } from "./waitForNavigation.js";
+import { waitForNavigation } from './waitForNavigation.js';
 export async function withWaitForNavigation(page, ...promises) {
     await Promise.all([waitForNavigation(page), ...promises]);
 }

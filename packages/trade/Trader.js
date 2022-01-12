@@ -1,4 +1,4 @@
-import { Inventory } from "./Inventory.js";
+import { Inventory } from './Inventory.js';
 export class Trader {
     inventory;
     constructor() {

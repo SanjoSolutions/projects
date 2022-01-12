@@ -1,35 +1,35 @@
-import path from "path";
-import { diffFolders } from "./diffFolders.js";
-describe("diffFolder", () => {
+import path from 'path';
+import { diffFolders } from './diffFolders.js';
+describe('diffFolder', () => {
     const testCases = [
         {
-            name: "equal",
+            name: 'equal',
             expectedResult: [],
         },
         {
-            name: "added",
+            name: 'added',
             expectedResult: [
                 {
-                    type: "added",
-                    filePath: "test.json",
+                    type: 'added',
+                    filePath: 'test.json',
                 },
             ],
         },
         {
-            name: "removed",
+            name: 'removed',
             expectedResult: [
                 {
-                    type: "removed",
-                    filePath: "test.json",
+                    type: 'removed',
+                    filePath: 'test.json',
                 },
             ],
         },
         {
-            name: "distinct",
+            name: 'distinct',
             expectedResult: [
                 {
-                    type: "distinct",
-                    filePath: "test.json",
+                    type: 'distinct',
+                    filePath: 'test.json',
                     contentA: `{
   "name": "a"
 }
@@ -44,10 +44,10 @@ describe("diffFolder", () => {
     ];
     for (const { name, expectedResult } of testCases) {
         it(name, async () => {
-            const fixturesPath = path.resolve(__dirname, "__tests__/fixtures/");
+            const fixturesPath = path.resolve(__dirname, '__tests__/fixtures/');
             const fixturesExamplePath = path.join(fixturesPath, name);
-            const folderPathA = path.join(fixturesExamplePath, "folderA");
-            const folderPathB = path.join(fixturesExamplePath, "folderB");
+            const folderPathA = path.join(fixturesExamplePath, 'folderA');
+            const folderPathB = path.join(fixturesExamplePath, 'folderB');
             const differences = await diffFolders(folderPathA, folderPathB);
             expect(differences).toEqual(expectedResult);
         });

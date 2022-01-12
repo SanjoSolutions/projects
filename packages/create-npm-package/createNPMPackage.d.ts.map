@@ -1,1 +1,1 @@
-{"version":3,"file":"createNPMPackage.d.ts","sourceRoot":"","sources":["src/createNPMPackage.ts"],"names":[],"mappings":"AAIA,wBAAsB,gBAAgB,CACpC,WAAW,EAAE,MAAM,EACnB,WAAW,EAAE,MAAM,GAClB,OAAO,CAAC,IAAI,CAAC,CAOf"}
+{"version":3,"file":"createNPMPackage.d.ts","sourceRoot":"","sources":["src/createNPMPackage.ts"],"names":[],"mappings":"AAIA,wBAAsB,gBAAgB,CAAC,WAAW,EAAE,MAAM,EAAE,WAAW,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,CAAC,CAO9F"}

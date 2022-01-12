@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-const encoding = "utf-8";
+import { promises as fs } from 'fs';
+const encoding = 'utf-8';
 export class PersistentFileSystem {
     async contains(filePath) {
         try {

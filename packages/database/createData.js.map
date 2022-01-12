@@ -1,1 +1,1 @@
-{"version":3,"file":"createData.js","sourceRoot":"","sources":["src/createData.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,UAAU;IACxB,OAAO,EAAE,EAAE,EAAE,CAAC,EAAE,CAAC;AACnB,CAAC"}
+{"version":3,"file":"createData.js","sourceRoot":"","sources":["src/createData.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,UAAU;IACxB,OAAO,EAAE,EAAE,EAAE,CAAC,EAAE,CAAA;AAClB,CAAC"}

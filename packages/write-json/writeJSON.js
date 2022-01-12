@@ -1,4 +1,4 @@
-import writeFile from "@sanjo/write-file";
+import writeFile from '@sanjo/write-file';
 /**
  * Writes JSON into a file with utf-8 encoding.
  * @param filePath {string} Path to file

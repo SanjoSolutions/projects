@@ -13,7 +13,7 @@ export function union(setA, setB) {
     return unionSet;
 }
 export function intersection(setA, setB) {
-    return new Set([...setA].filter((value) => setB.has(value)));
+    return new Set([...setA].filter(value => setB.has(value)));
 }
 export function difference(setA, setB) {
     const differenceSet = new Set();
@@ -29,15 +29,15 @@ export function symmetricDifference(setA, setB) {
 }
 export function cartesianProduct(setA, setB) {
     const result = new Set();
-    setA.forEach((valueA) => setB.forEach((valueB) => result.add([valueA, valueB])));
+    setA.forEach(valueA => setB.forEach(valueB => result.add([valueA, valueB])));
     return result;
 }
 export function powerSet(set) {
     const array = [...set];
     array.sort();
     const indexSubSequences = getIndexSubSequences(array.length);
-    const subSequences = indexSubSequences.map((indexSubSequence) => indexSubSequence.map((index) => array[index]));
-    const subSets = subSequences.map((subSequence) => new Set(subSequence));
+    const subSequences = indexSubSequences.map(indexSubSequence => indexSubSequence.map(index => array[index]));
+    const subSets = subSequences.map(subSequence => new Set(subSequence));
     const result = new Set(subSets);
     return result;
 }

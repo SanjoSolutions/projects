@@ -1,6 +1,6 @@
-import { FilePath } from "./FilePath.js";
-import { IFileEntry } from "./IFileEntry.js";
-import { IFileSystem } from "./IFileSystem.js";
+import { FilePath } from './FilePath.js';
+import { IFileEntry } from './IFileEntry.js';
+import { IFileSystem } from './IFileSystem.js';
 export declare class InMemoryFileSystem implements IFileSystem {
     _files: Map<FilePath, IFileEntry>;
     contains(filePath: string): Promise<boolean>;

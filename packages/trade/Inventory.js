@@ -1,4 +1,4 @@
-import { putOut, putIn } from "./array.js";
+import { putOut, putIn } from './array.js';
 export class Inventory {
     items;
     constructor() {

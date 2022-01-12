@@ -1,1 +1,1 @@
-{"version":3,"file":"create-node-package.js","sourceRoot":"","sources":["../src/bin/create-node-package.ts"],"names":[],"mappings":";AAEA,OAAO,aAAa,MAAM,uBAAuB,CAAC;AAElD,aAAa,EAAE,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,CAAC"}
+{"version":3,"file":"create-node-package.js","sourceRoot":"","sources":["../src/bin/create-node-package.ts"],"names":[],"mappings":";AAEA,OAAO,aAAa,MAAM,uBAAuB,CAAA;AAEjD,aAAa,EAAE,CAAC,KAAK,CAAC,OAAO,CAAC,KAAK,CAAC,CAAA"}

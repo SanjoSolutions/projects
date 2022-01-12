@@ -1,4 +1,4 @@
-import { findNextToArrayIndex } from "./findNextToArrayIndex.js";
+import { findNextToArrayIndex } from './findNextToArrayIndex.js';
 export function getMatchingSubsequences(fromArray, toArray) {
     const matchingSubsequences = [];
     let fromArrayIndex = 0;
@@ -12,8 +12,7 @@ export function getMatchingSubsequences(fromArray, toArray) {
                 indexDelta++;
             } while (fromArrayIndex + indexDelta < fromArray.length &&
                 toArrayIndex + indexDelta < toArray.length &&
-                fromArray[fromArrayIndex + indexDelta] ===
-                    toArray[toArrayIndex + indexDelta]);
+                fromArray[fromArrayIndex + indexDelta] === toArray[toArrayIndex + indexDelta]);
             indexDelta--;
             const matchingSubsequenceLength = indexDelta + 1;
             const previousMatchingSubsequenceLength = matchingSubsequence

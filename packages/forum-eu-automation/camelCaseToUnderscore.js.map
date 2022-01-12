@@ -1,1 +1,1 @@
-{"version":3,"file":"camelCaseToUnderscore.js","sourceRoot":"","sources":["src/camelCaseToUnderscore.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,qBAAqB,CAAC,MAAc;IAClD,OAAO,MAAM,CAAC,OAAO,CAAC,QAAQ,EAAE,KAAK,CAAC,CAAC,WAAW,EAAE,CAAC;AACvD,CAAC"}
+{"version":3,"file":"camelCaseToUnderscore.js","sourceRoot":"","sources":["src/camelCaseToUnderscore.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,qBAAqB,CAAC,MAAc;IAClD,OAAO,MAAM,CAAC,OAAO,CAAC,QAAQ,EAAE,KAAK,CAAC,CAAC,WAAW,EAAE,CAAA;AACtD,CAAC"}

@@ -4,13 +4,13 @@ export function applyDiff(object, diff) {
 function applyOperation(object, operation) {
     const { type } = operation;
     switch (type) {
-        case "add":
+        case 'add':
             applyOperationAdd(object, operation);
             break;
-        case "update":
+        case 'update':
             applyOperationUpdate(object, operation);
             break;
-        case "remove":
+        case 'remove':
             applyOperationRemove(object, operation);
             break;
         default:
@@ -68,6 +68,6 @@ function removeProperty(object, keyPath) {
     delete result[lastKey];
 }
 function keyPathToString(keyPath) {
-    return `.${keyPath.join(".")}`;
+    return `.${keyPath.join('.')}`;
 }
 //# sourceMappingURL=applyDiff.js.map

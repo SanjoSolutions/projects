@@ -1,4 +1,4 @@
-import { Collection } from "./Collection.js";
+import { Collection } from './Collection.js';
 export class Database {
     _storage;
     _collections;

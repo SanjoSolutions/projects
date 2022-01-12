@@ -1,4 +1,4 @@
-import { Database } from "./Database.js";
+import { Database } from './Database.js';
 export function createDatabase(storage) {
     const database = new Database(storage);
     return database;

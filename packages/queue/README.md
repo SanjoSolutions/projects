@@ -2,7 +2,7 @@
 
 This work is devoted to God.
 
-Queue.
+A priority queue.
 
 ## How to install
 
@@ -12,4 +12,4 @@ npm install --save '@sanjo/queue'
 
 ## How to use
 
-See spec.
+See [spec](src/PriorityQueue.spec.ts).

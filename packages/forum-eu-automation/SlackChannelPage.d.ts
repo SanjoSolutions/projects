@@ -1,4 +1,4 @@
-import type { Page } from "puppeteer";
+import type { Page } from 'puppeteer';
 export declare class SlackChannelPage {
     #private;
     constructor(page: Page);

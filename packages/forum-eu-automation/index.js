@@ -1,25 +1,25 @@
 // curl --header "PRIVATE-TOKEN: tE4B3aKudEnAxcuvjQxz" https://git.forum.engineering/api/v4/projects/5/repository/branches
-import path from "path";
-import { MergeRequests } from "./mergeRequests.js";
+import path from 'path';
+import { MergeRequests } from './mergeRequests.js';
 async function main() {
     const args = process.argv.slice(2);
     const command = args[0];
-    const home = process.env.HOME || "~";
-    const configPath = path.join(home, "forum-eu-automation.config.json");
+    const home = process.env.HOME || '~';
+    const configPath = path.join(home, 'forum-eu-automation.config.json');
     const mergeRequests = new MergeRequests(configPath);
     await mergeRequests.initialize();
     switch (command) {
-        case "create-pr":
+        case 'create-pr':
             await createMR(mergeRequests, args);
             break;
-        case "mark-pr-as-ready":
+        case 'mark-pr-as-ready':
             await markMRAsReady(mergeRequests, args);
             break;
     }
 }
 async function createMR(mergeRequests, args) {
     const status = args[1];
-    if (!["wip", "ready"].includes(status)) {
+    if (!['wip', 'ready'].includes(status)) {
         throw new Error(`Invalid status: "${status}"`);
     }
     const ticketId = args[2];

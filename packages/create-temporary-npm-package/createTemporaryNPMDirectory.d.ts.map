@@ -1,1 +1,1 @@
-{"version":3,"file":"createTemporaryNPMDirectory.d.ts","sourceRoot":"","sources":["src/createTemporaryNPMDirectory.ts"],"names":[],"mappings":"AAGA,wBAAsB,yBAAyB,CAC7C,WAAW,EAAE,MAAM,GAClB,OAAO,CAAC,MAAM,CAAC,CAIjB"}
+{"version":3,"file":"createTemporaryNPMDirectory.d.ts","sourceRoot":"","sources":["src/createTemporaryNPMDirectory.ts"],"names":[],"mappings":"AAGA,wBAAsB,yBAAyB,CAAC,WAAW,EAAE,MAAM,GAAG,OAAO,CAAC,MAAM,CAAC,CAIpF"}

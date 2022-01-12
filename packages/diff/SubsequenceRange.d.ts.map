@@ -1,1 +1,1 @@
-{"version":3,"file":"SubsequenceRange.d.ts","sourceRoot":"","sources":["src/SubsequenceRange.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,gBAAgB;IAC/B,IAAI,EAAE,MAAM,CAAC;IACb,EAAE,EAAE,MAAM,CAAC;CACZ"}
+{"version":3,"file":"SubsequenceRange.d.ts","sourceRoot":"","sources":["src/SubsequenceRange.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,gBAAgB;IAC/B,IAAI,EAAE,MAAM,CAAA;IACZ,EAAE,EAAE,MAAM,CAAA;CACX"}
