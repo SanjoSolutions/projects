@@ -1,1 +1,0 @@
-{"version":3,"file":"dashToCamelCase.spec.js","sourceRoot":"","sources":["src/dashToCamelCase.spec.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,eAAe,EAAE,MAAM,sBAAsB,CAAA;AAEtD,QAAQ,CAAC,iBAAiB,EAAE,GAAG,EAAE;IAC/B,EAAE,CAAC,2CAA2C,EAAE,GAAG,EAAE;QACnD,MAAM,CAAC,eAAe,CAAC,oBAAoB,CAAC,CAAC,CAAC,OAAO,CAAC,iBAAiB,CAAC,CAAA;IAC1E,CAAC,CAAC,CAAA;AACJ,CAAC,CAAC,CAAA"}
