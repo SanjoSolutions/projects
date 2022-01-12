@@ -12,4 +12,4 @@ npm install --save '@sanjo/binary-search'
 
 ## How to use
 
-See spec.
+See [spec](src/binarySearch.spec.ts).
