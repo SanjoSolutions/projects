@@ -1,0 +1,23 @@
+{
+  "name": "@sanjo/dependency-injection-container",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A dependency injection container",
+  "keywords": [
+    "dependency injection",
+    "dependency injection container",
+    "DI"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/dependency-injection-container",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/dependency-injection-container"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

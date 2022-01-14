@@ -1677,19 +1677,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/types@npm:^27.4.2":
-  version: 27.4.2
-  resolution: "@jest/types@npm:27.4.2"
-  dependencies:
-    "@types/istanbul-lib-coverage": ^2.0.0
-    "@types/istanbul-reports": ^3.0.0
-    "@types/node": "*"
-    "@types/yargs": ^16.0.0
-    chalk: ^4.0.0
-  checksum: 1191022023e32763063cc1c8b1143fa316fb05db2f9698280a7bdbafcabd989e5fd64f8eb875b8a2e54c53f25dba45ed2eea8ced394d9e484da0fda674cd17a5
-  languageName: node
-  linkType: hard
-
 "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents.3":
   version: 2.1.8-no-fsevents.3
   resolution: "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents.3"
@@ -1837,6 +1824,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/dependency-injection-container@workspace:packages/dependency-injection-container":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/dependency-injection-container@workspace:packages/dependency-injection-container"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/diff-folders@^0.1.0, @sanjo/diff-folders@workspace:packages/diff-folders":
   version: 0.0.0-use.local
   resolution: "@sanjo/diff-folders@workspace:packages/diff-folders"
@@ -1891,12 +1884,6 @@ __metadata:
 "@sanjo/identity@^1.0.0, @sanjo/identity@workspace:packages/identity":
   version: 0.0.0-use.local
   resolution: "@sanjo/identity@workspace:packages/identity"
-  languageName: unknown
-  linkType: soft
-
-"@sanjo/image-comparison@workspace:packages/image-comparison":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/image-comparison@workspace:packages/image-comparison"
   languageName: unknown
   linkType: soft
 
@@ -1992,12 +1979,6 @@ __metadata:
 "@sanjo/set@^1.0.0, @sanjo/set@workspace:packages/set":
   version: 0.0.0-use.local
   resolution: "@sanjo/set@workspace:packages/set"
-  languageName: unknown
-  linkType: soft
-
-"@sanjo/specification@workspace:packages/specification":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/specification@workspace:packages/specification"
   languageName: unknown
   linkType: soft
 
@@ -2334,15 +2315,6 @@ __metadata:
   dependencies:
     "@types/yargs-parser": "*"
   checksum: 8e358aeb8f0c3758e59e2b8fcfdee5627ab2fe3d92f50f380503d966c7f33287be3322155516a50d27727fde1ad3878f48f60cd6648439126d4b0bbb1a1153ed
-  languageName: node
-  linkType: hard
-
-"@types/yargs@npm:^16.0.0":
-  version: 16.0.4
-  resolution: "@types/yargs@npm:16.0.4"
-  dependencies:
-    "@types/yargs-parser": "*"
-  checksum: caa21d2c957592fe2184a8368c8cbe5a82a6c2e2f2893722e489f842dc5963293d2f3120bc06fe3933d60a3a0d1e2eb269649fd6b1947fe1820f8841ba611dd9
   languageName: node
   linkType: hard
 
@@ -2730,13 +2702,6 @@ __metadata:
   dependencies:
     color-convert: ^2.0.1
   checksum: 513b44c3b2105dd14cc42a19271e80f386466c4be574bccf60b627432f9198571ebf4ab1e4c3ba17347658f4ee1711c163d574248c0c1cdc2d5917a0ad582ec4
-  languageName: node
-  linkType: hard
-
-"ansi-styles@npm:^5.0.0":
-  version: 5.2.0
-  resolution: "ansi-styles@npm:5.2.0"
-  checksum: d7f4e97ce0623aea6bc0d90dcd28881ee04cba06c570b97fd3391bd7a268eedfd9d5e2dd4fdcbdd82b8105df5faf6f24aaedc08eaf3da898e702db5948f63469
   languageName: node
   linkType: hard
 
@@ -4266,13 +4231,6 @@ __metadata:
   version: 26.6.2
   resolution: "diff-sequences@npm:26.6.2"
   checksum: 79af871776ef149a7ff3345d6b1bf37fe6e81f68632aa5542787851f6f60fba19b0be22fdd1e06046f56ae7382763ccfe94a982c39ee72bd107aef435ecbc0cf
-  languageName: node
-  linkType: hard
-
-"diff-sequences@npm:^27.4.0":
-  version: 27.4.0
-  resolution: "diff-sequences@npm:27.4.0"
-  checksum: 66d04033e8632eeacdd029b4ecaf87d233d475e4b0cd1cee035eda99e70e1a7f803507d72f2677990ef526f28a2f6e5709af8d94dcdc0682b8884a3a646190a1
   languageName: node
   linkType: hard
 
@@ -6438,18 +6396,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^27.2.5, jest-diff@npm:^27.4.2":
-  version: 27.4.2
-  resolution: "jest-diff@npm:27.4.2"
-  dependencies:
-    chalk: ^4.0.0
-    diff-sequences: ^27.4.0
-    jest-get-type: ^27.4.0
-    pretty-format: ^27.4.2
-  checksum: e5bcdb4f27747795b74a56d56a9545d7fc8f1671a1251d580aea1a7a52df5db044f62ec24f2abc68305f0226d918a443f3b88d9a82f8d0dc4aaa079b621ab091
-  languageName: node
-  linkType: hard
-
 "jest-docblock@npm:^26.0.0":
   version: 26.0.0
   resolution: "jest-docblock@npm:26.0.0"
@@ -6501,29 +6447,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-extended@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "jest-extended@npm:1.2.0"
-  dependencies:
-    expect: ^26.6.2
-    jest-diff: ^27.2.5
-    jest-get-type: ^27.0.6
-    jest-matcher-utils: ^27.2.4
-  checksum: 2c1295041f8029a50f50fa96325a894db812d4d60e21422d244405025ee8bb164135fecc857048ca020bf2996e05330721fe031980ac11b00cf5630e09bc9ddb
-  languageName: node
-  linkType: hard
-
 "jest-get-type@npm:^26.3.0":
   version: 26.3.0
   resolution: "jest-get-type@npm:26.3.0"
   checksum: 1cc6465ae4f5e880be22ba52fd270fa64c21994915f81b41f8f7553a7957dd8e077cc8d03035de9412e2d739f8bad6a032ebb5dab5805692a5fb9e20dd4ea666
-  languageName: node
-  linkType: hard
-
-"jest-get-type@npm:^27.0.6, jest-get-type@npm:^27.4.0":
-  version: 27.4.0
-  resolution: "jest-get-type@npm:27.4.0"
-  checksum: bb9b70e420009fdaed3026d5bccd01569f92c7500f9f544d862796d4f4efa93ced5484864b2f272c7748bfb5bfd3268d48868b169c51ab45fe5b45b9519b6e46
   languageName: node
   linkType: hard
 
@@ -6597,18 +6524,6 @@ __metadata:
     jest-get-type: ^26.3.0
     pretty-format: ^26.6.2
   checksum: 74d2165c1ac7fe98fe27cd2b5407499478e6b2fe99dd54e26d8ee5c9f5f913bdd7bdc07c7221b9b04df0c15e9be0e866ff3455b03e38cc66c480d9996d6d5405
-  languageName: node
-  linkType: hard
-
-"jest-matcher-utils@npm:^27.2.4":
-  version: 27.4.2
-  resolution: "jest-matcher-utils@npm:27.4.2"
-  dependencies:
-    chalk: ^4.0.0
-    jest-diff: ^27.4.2
-    jest-get-type: ^27.4.0
-    pretty-format: ^27.4.2
-  checksum: 7dd9d2f1f7107d5919af170f9d3e2a08890ce05ee63f6fc3a24e6c8fa9672f99ed107377ae7c6d4d0966a77fa35a3da929465b019b6f1be8cf7e0845806bceb3
   languageName: node
   linkType: hard
 
@@ -8399,18 +8314,6 @@ __metadata:
     ansi-styles: ^4.0.0
     react-is: ^17.0.1
   checksum: e3b808404d7e1519f0df1aa1f25cee0054ab475775c6b2b8c5568ff23194a92d54bf93274139b6f584ca70fd773be4eaa754b0e03f12bb0a8d1426b07f079976
-  languageName: node
-  linkType: hard
-
-"pretty-format@npm:^27.4.2":
-  version: 27.4.2
-  resolution: "pretty-format@npm:27.4.2"
-  dependencies:
-    "@jest/types": ^27.4.2
-    ansi-regex: ^5.0.1
-    ansi-styles: ^5.0.0
-    react-is: ^17.0.1
-  checksum: 0daaf00c4dcb35493e57d30147e8045d0c45cb47fc4c94e3ab1892401abe939627c39975c77cc81eb2581aaa5b12bf23ef669fa550bec68b396fb79dd8c10afa
   languageName: node
   linkType: hard
 
@@ -10367,7 +10270,6 @@ __metadata:
     css-loader: ^3.6.0
     husky: ">=6"
     jest: ^26.0.1
-    jest-extended: ^1.2.0
     jest-ts-webcompat-resolver: ^1.0.0
     lint-staged: ">=10"
     prettier: 2.2.1

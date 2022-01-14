@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Binary search",
-  "keywords": ["binary search"],
+  "keywords": [
+    "binary search"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/binary-search",
   "license": "Unlicense",
   "main": "./index.js",
@@ -12,8 +14,6 @@
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/binary-search"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

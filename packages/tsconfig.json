@@ -33,10 +33,13 @@
       "path": "./define-element/tsconfig-build.json"
     },
     {
-      "path": "./diff/tsconfig-build.json"
+      "path": "./dependency-injection-container"
     },
     {
       "path": "./diff-folders/tsconfig-build.json"
+    },
+    {
+      "path": "./diff/tsconfig-build.json"
     },
     {
       "path": "./escape-for-reg-exp/tsconfig-build.json"
@@ -84,10 +87,10 @@
       "path": "./refactor-extract-function-as-package/tsconfig-build.json"
     },
     {
-      "path": "./request/tsconfig-build.json"
+      "path": "./request-json/tsconfig-build.json"
     },
     {
-      "path": "./request-json/tsconfig-build.json"
+      "path": "./request/tsconfig-build.json"
     },
     {
       "path": "./set/tsconfig-build.json"

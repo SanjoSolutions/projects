@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A priority queue",
-  "keywords": ["priority queue"],
+  "keywords": [
+    "priority queue"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/queue",
   "license": "Unlicense",
   "main": "./index.js",
