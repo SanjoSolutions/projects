@@ -21,6 +21,8 @@ module.exports = () => ({
     '!packages/event-storage/src/**/*.spec.ts',
     'packages/dependency-injection-container/src/**/*.ts',
     '!packages/dependency-injection-container/src/**/*.spec.ts',
+    'packages/planning/src/**/*.ts',
+    '!packages/planning/src/**/*.spec.ts',
   ],
 
   tests: [
@@ -34,5 +36,6 @@ module.exports = () => ({
     'packages/random/src/**/*.spec.ts',
     'packages/event-storage/src/**/*.spec.ts',
     'packages/dependency-injection-container/src/**/*.spec.ts',
+    'packages/planning/src/**/*.spec.ts'
   ],
 })

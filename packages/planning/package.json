@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/planning",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Planning",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/planning",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/planning"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

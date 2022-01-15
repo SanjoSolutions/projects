@@ -69,6 +69,9 @@
       "path": "./parse-npm-package-name/tsconfig-build.json"
     },
     {
+      "path": "./planning"
+    },
+    {
       "path": "./puppeteer-helpers/tsconfig-build.json"
     },
     {

@@ -1918,6 +1918,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/planning@workspace:packages/planning":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/planning@workspace:packages/planning"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/puppeteer-helpers@^0.1.0, @sanjo/puppeteer-helpers@workspace:packages/puppeteer-helpers":
   version: 0.0.0-use.local
   resolution: "@sanjo/puppeteer-helpers@workspace:packages/puppeteer-helpers"
