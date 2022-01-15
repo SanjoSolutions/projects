@@ -1,4 +1,4 @@
-import { describe, it } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { resolveOrder } from './resolveOrder.js';
 import { Task } from './Task.js';
 describe('planning DSL (domain specific language)', () => {

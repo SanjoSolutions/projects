@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/card-game",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Card game",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/card-game",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/card-game"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

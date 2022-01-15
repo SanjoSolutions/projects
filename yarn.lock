@@ -1732,6 +1732,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/card-game@workspace:packages/card-game":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/card-game@workspace:packages/card-game"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/comparison@^0.1.0, @sanjo/comparison@workspace:packages/comparison":
   version: 0.0.0-use.local
   resolution: "@sanjo/comparison@workspace:packages/comparison"

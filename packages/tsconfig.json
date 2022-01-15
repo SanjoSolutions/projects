@@ -9,6 +9,9 @@
       "path": "./binary-search/tsconfig-build.json"
     },
     {
+      "path": "./card-game"
+    },
+    {
       "path": "./comparison/tsconfig-build.json"
     },
     {
