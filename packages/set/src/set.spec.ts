@@ -29,7 +29,7 @@ describe('isStrictSubset', () => {
 })
 
 describe('isSubset', () => {
-  test('', () => {
+  test('{ 1 } is a subset of { 1 }', () => {
     const a = new Set([1])
     const b = new Set([1])
     expect(isSubset(a, b)).toEqual(true)
