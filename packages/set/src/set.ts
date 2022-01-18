@@ -19,29 +19,6 @@ export function intersection<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return new Set([...setA].filter(value => setB.has(value)))
 }
 
-export function intersection2<T>(setA: Set<T>, setB: Set<T>): Set<T> {
-  const result = new Set<T>()
-  if (setB.size < setA.size) {
-    const temp = setA
-    setA = setB
-    setB = temp
-  }
-  for (const value of setA) {
-    if (setB.has(value)) {
-      result.add(value)
-    }
-  }
-  return result
-}
-
-export function copyArray1<T>(array: T[]): T[] {
-  return [...array]
-}
-
-export function copyArray2<T>(array: T[]): T[] {
-  return Array.from(array)
-}
-
 export function difference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   const differenceSet = new Set<T>()
   for (const value of setA) {
