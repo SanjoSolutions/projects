@@ -29,6 +29,12 @@ export function intersection2(setA, setB) {
     }
     return result;
 }
+export function copyArray1(array) {
+    return [...array];
+}
+export function copyArray2(array) {
+    return Array.from(array);
+}
 export function difference(setA, setB) {
     const differenceSet = new Set();
     for (const value of setA) {

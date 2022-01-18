@@ -34,6 +34,14 @@ export function intersection2<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   return result
 }
 
+export function copyArray1<T>(array: T[]): T[] {
+  return [...array]
+}
+
+export function copyArray2<T>(array: T[]): T[] {
+  return Array.from(array)
+}
+
 export function difference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   const differenceSet = new Set<T>()
   for (const value of setA) {

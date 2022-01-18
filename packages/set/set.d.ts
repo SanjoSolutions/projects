@@ -2,6 +2,8 @@ export declare function includes<T>(setA: Set<T>, setB: Set<T>): boolean;
 export declare function union<T>(setA: Set<T>, setB: Set<T>): Set<T>;
 export declare function intersection<T>(setA: Set<T>, setB: Set<T>): Set<T>;
 export declare function intersection2<T>(setA: Set<T>, setB: Set<T>): Set<T>;
+export declare function copyArray1<T>(array: T[]): T[];
+export declare function copyArray2<T>(array: T[]): T[];
 export declare function difference<T>(setA: Set<T>, setB: Set<T>): Set<T>;
 export declare function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T>;
 export declare function cartesianProduct<T, U>(setA: Set<T>, setB: Set<U>): Set<[T, U]>;
