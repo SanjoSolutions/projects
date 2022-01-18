@@ -69,3 +69,11 @@ function getIndexSubSequences(length: number): number[][] {
 
   return result
 }
+
+export function isStrictSubset<T>(a: Set<T>, b: Set<T>): boolean {
+  return b.size > a.size && isSubset(a, b)
+}
+
+export function isSubset<T>(a: Set<T>, b: Set<T>): boolean {
+  return [...a].every(element => b.has(element))
+}
