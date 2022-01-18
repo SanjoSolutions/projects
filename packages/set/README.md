@@ -21,5 +21,7 @@ import {
   symmetricDifference,
   cartesianProduct,
   powerSet,
+  isStrictSubset,
+  isSubset
 } from "@sanjo/set";
 ```

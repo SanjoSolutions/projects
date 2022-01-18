@@ -57,4 +57,10 @@ function getIndexSubSequences(length) {
     } while (subSequences.length > 0);
     return result;
 }
+export function isStrictSubset(a, b) {
+    return b.size > a.size && isSubset(a, b);
+}
+export function isSubset(a, b) {
+    return [...a].every(element => b.has(element));
+}
 //# sourceMappingURL=set.js.map
