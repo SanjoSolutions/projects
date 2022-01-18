@@ -15,6 +15,20 @@ export function union(setA, setB) {
 export function intersection(setA, setB) {
     return new Set([...setA].filter(value => setB.has(value)));
 }
+export function intersection2(setA, setB) {
+    const result = new Set();
+    if (setB.size < setA.size) {
+        const temp = setA;
+        setA = setB;
+        setB = temp;
+    }
+    for (const value of setA) {
+        if (setB.has(value)) {
+            result.add(value);
+        }
+    }
+    return result;
+}
 export function difference(setA, setB) {
     const differenceSet = new Set();
     for (const value of setA) {
