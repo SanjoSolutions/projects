@@ -16,4 +16,4 @@ npm install --save '@sanjo/fs'
 import { removeRecursively } from '@sanjo/fs'
 ```
 
-Please also see [specifications](src/).
+Please also see [specifications](./src/).
