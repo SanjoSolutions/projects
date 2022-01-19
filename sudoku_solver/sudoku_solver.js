@@ -1,4 +1,4 @@
-import { concat } from '../packages/array/src/concat.js'
+import { concat } from '../packages/array/concat.js'
 import { difference, union } from '../packages/set/built/index.js'
 
 export const sudoku = [

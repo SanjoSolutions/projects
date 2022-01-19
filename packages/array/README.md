@@ -12,6 +12,4 @@ npm install --save '@sanjo/array'
 
 ## How to use
 
-```js
-import array from "@sanjo/array";
-```
+Please see [specifications](./src).
