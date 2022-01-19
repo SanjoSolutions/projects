@@ -8,7 +8,7 @@
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/comparison": "^0.1.0",
-    "@sanjo/identity": "^1.0.0"
+    "@sanjo/identity": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"

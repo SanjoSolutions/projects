@@ -1,4 +1,4 @@
-import identity from '@sanjo/identity';
+import { identity } from '@sanjo/identity';
 export function getExtrema(array, getter = identity, isMoreExtreme) {
     if (array.length === 0) {
         return null;

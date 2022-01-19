@@ -1,10 +1,8 @@
 class Model {
 }
 class MongoDB {
-    get(id) {
-    }
-    save(state) {
-    }
+    get(id) { }
+    save(state) { }
 }
 {
     function api(id) {
@@ -29,10 +27,8 @@ class MongoDB {
         return response;
     }
     class PostgreSQL {
-        get(id) {
-        }
-        save(state) {
-        }
+        get(id) { }
+        save(state) { }
     }
     const postgreSQL = new PostgreSQL();
     class ModelRepository {
