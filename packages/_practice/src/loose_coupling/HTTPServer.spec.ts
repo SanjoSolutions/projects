@@ -6,17 +6,24 @@ import { HTTPServer } from './HTTPServer.js'
 describe('HTTP server', () => {
   describe('when no port has been passed', () => {
     it('listens on port 80 by default', async () => {
+      const listeningListeners: (() => void)[] = []
       const httpServerMock = ({
         on: jest.fn(),
-        listen: jest.fn().mockImplementation((port, callback) => {
-          callback()
+        once: jest.fn().mockImplementation((eventName, listener) => {
+          if (eventName === 'listening') {
+            listeningListeners.push(listener)
+          }
+        }),
+        off: jest.fn(),
+        listen: jest.fn().mockImplementation((port: number) => {
+          listeningListeners.forEach(listener => listener())
         }),
         close: jest.fn(),
       } as unknown) as Server
       jest.spyOn(http, 'createServer').mockReturnValue(httpServerMock)
       const httpServer = new HTTPServer()
       await httpServer.listen()
-      expect(httpServerMock.listen).toHaveBeenCalledWith(80, expect.anything())
+      expect(httpServerMock.listen).toHaveBeenCalledWith(80)
     })
   })
 })

@@ -1,5 +1,6 @@
 import type { IncomingMessage, RequestListener, Server, ServerResponse } from 'http'
 import http from 'http'
+import { ListenOptions } from 'net'
 import { URL } from 'url'
 import { promisify } from 'util'
 
@@ -39,8 +40,22 @@ export class HTTPServer {
     this._requestHandlers.set(pathname, createDefaultRequestHandler(responseText, contentType))
   }
 
-  async listen() {
-    await promisify(this._server.listen.bind(this._server))(this._port)
+  listen(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const onListening = () => {
+        this._server.off('error', onError)
+        resolve()
+      }
+
+      const onError = (error: Error) => {
+        this._server.off('listening', onListening)
+        reject(error)
+      }
+
+      this._server.once('listening', onListening)
+      this._server.once('error', onError)
+      this._server.listen(this._port)
+    })
   }
 
   async close() {
