@@ -66,6 +66,9 @@
       "path": "./make-temporary-directory/tsconfig-build.json"
     },
     {
+      "path": "./mathematics"
+    },
+    {
       "path": "./npm-init/tsconfig-build.json"
     },
     {

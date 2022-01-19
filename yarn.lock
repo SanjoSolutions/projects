@@ -1899,6 +1899,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/mathematics@workspace:packages/mathematics":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/mathematics@workspace:packages/mathematics"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/mongodb-diff@npm:^0.3.0":
   version: 0.3.0
   resolution: "@sanjo/mongodb-diff@npm:0.3.0"

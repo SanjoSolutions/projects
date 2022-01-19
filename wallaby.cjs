@@ -25,6 +25,8 @@ module.exports = () => ({
     '!packages/planning/src/**/*.spec.ts',
     'packages/card-game/src/**/*.ts',
     '!packages/card-game/src/**/*.spec.ts',
+    'packages/mathematics/src/**/*.ts',
+    '!packages/mathematics/src/**/*.spec.ts',
   ],
 
   tests: [
@@ -39,6 +41,7 @@ module.exports = () => ({
     'packages/event-storage/src/**/*.spec.ts',
     'packages/dependency-injection-container/src/**/*.spec.ts',
     'packages/planning/src/**/*.spec.ts',
-    'packages/card-game/src/**/*.spec.ts'
+    'packages/card-game/src/**/*.spec.ts',
+    'packages/mathematics/src/**/*.spec.ts'
   ],
 })

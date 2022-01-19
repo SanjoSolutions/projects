@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/mathematics",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Mathematics",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/mathematics",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/mathematics"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
