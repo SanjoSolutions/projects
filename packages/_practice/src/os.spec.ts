@@ -7,7 +7,7 @@ import { createContainer } from './createContainer.js'
 import { renderOS } from './renderOS.js'
 
 describe('operation system', () => {
-  let container
+  let container: HTMLDivElement
 
   beforeEach(function () {
     container = createContainer()
