@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { max } from './max.js'
 
 describe('max', () => {
