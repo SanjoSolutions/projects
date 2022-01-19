@@ -1,11 +1,20 @@
 {
   "name": "@sanjo/set",
+  "version": "1.2.0",
   "type": "module",
   "description": "Set",
+  "keywords": ["set"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/set",
   "license": "Unlicense",
-  "version": "1.1.0",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/set"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

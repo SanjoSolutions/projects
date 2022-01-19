@@ -1,12 +1,20 @@
 {
   "name": "@sanjo/test-package",
-  "description": "Description of test package",
-  "license": "Unlicense",
   "version": "0.0.0",
+  "type": "module",
+  "description": "Description of test package",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-package",
+  "license": "Unlicense",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/test-package"
+  },
   "dependencies": {},
   "devDependencies": {},
+  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

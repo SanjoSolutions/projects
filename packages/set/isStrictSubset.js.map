@@ -1,0 +1,1 @@
+{"version":3,"file":"isStrictSubset.js","sourceRoot":"","sources":["src/isStrictSubset.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAA;AAExC,MAAM,UAAU,cAAc,CAAI,CAAS,EAAE,CAAS;IACpD,OAAO,CAAC,CAAC,IAAI,GAAG,CAAC,CAAC,IAAI,IAAI,QAAQ,CAAC,CAAC,EAAE,CAAC,CAAC,CAAA;AAC1C,CAAC"}
