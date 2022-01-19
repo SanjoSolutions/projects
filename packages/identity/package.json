@@ -1,11 +1,20 @@
 {
   "name": "@sanjo/identity",
+  "version": "2.0.0",
   "type": "module",
   "description": "identity",
+  "keywords": ["identity"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/identity",
   "license": "Unlicense",
-  "version": "2.0.0",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/identity"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }
