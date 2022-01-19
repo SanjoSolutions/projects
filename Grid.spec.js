@@ -4,7 +4,6 @@ describe('Grid', () => {
   test('entries', () => {
     const grid = new Grid([3, 3, 3])
     const entries = grid.entries()
-    console.log(entries)
     expect(entries).toEqual([
       [[0, 0, 0], undefined],
       [[1, 0, 0], undefined],

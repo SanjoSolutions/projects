@@ -21,7 +21,6 @@ expect.extend({
   },
 
   toHaveBeenStoredOnDisk(event: any) {
-    console.log((fs.writeFile as jest.Mock).mock.calls.length)
     return {
       pass: (fs.writeFile as jest.Mock).mock.calls.length >= 1,
       message() {

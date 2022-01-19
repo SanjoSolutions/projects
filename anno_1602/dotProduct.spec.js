@@ -9,7 +9,6 @@ test('dot product', () => {
     [5, 6],
     [7, 8],
   ]
-  console.log(dotProduct(A, B))
   expect(dotProduct(A, B)).toEqual([
     [23, 34],
     [31, 46],
