@@ -1,5 +1,5 @@
 import { concat } from '../packages/array/concat.js'
-import { difference, union } from '../packages/set/built/index.js'
+import { difference, union } from '../packages/set/index.js'
 
 export const sudoku = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
