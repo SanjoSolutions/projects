@@ -12,4 +12,4 @@ npm install --save '@sanjo/planning'
 
 ## How to use
 
-See [specifications](./src/planning.spec.ts).
+See [specifications](src/planning.spec.ts).

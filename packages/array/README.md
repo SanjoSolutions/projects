@@ -12,4 +12,4 @@ npm install --save '@sanjo/array'
 
 ## How to use
 
-Please see [specifications](./src).
+Please see [specifications](src/).

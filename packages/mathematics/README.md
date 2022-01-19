@@ -12,4 +12,4 @@ npm install --save '@sanjo/mathematics'
 
 ## How to use
 
-Please see [specifications](./src).
+Please see [specifications](src/).
