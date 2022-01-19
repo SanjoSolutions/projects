@@ -1885,6 +1885,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/fs@^1.0.0, @sanjo/fs@workspace:packages/fs":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/fs@workspace:packages/fs"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/gunbound@workspace:packages/gunbound":
   version: 0.0.0-use.local
   resolution: "@sanjo/gunbound@workspace:packages/gunbound"
@@ -8432,6 +8438,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "practice@workspace:packages/_practice"
   dependencies:
+    "@sanjo/fs": ^1.0.0
     "@sanjo/make-temporary-directory": ^1.0.0
     "@sanjo/mongodb-diff": ^0.3.0
     "@sanjo/random": ^2.0.0

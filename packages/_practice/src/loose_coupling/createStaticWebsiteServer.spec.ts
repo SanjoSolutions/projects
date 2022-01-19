@@ -1,3 +1,4 @@
+import { removeRecursively } from '@sanjo/fs'
 import makeTemporaryDirectory from '@sanjo/make-temporary-directory'
 import { generateRandomInteger } from '@sanjo/random'
 import request from '@sanjo/request'
@@ -18,7 +19,7 @@ async function createStaticWebSite(directory: string): Promise<void> {
 }
 
 async function removeStaticWebSite(directory: string): Promise<void> {
-  await fs.promises.rm(directory, { recursive: true })
+  await removeRecursively(directory)
 }
 
 describe('createStaticWebsiteServer', () => {

@@ -7,18 +7,5 @@
     "tsBuildInfoFile": "tsconfig.tsbuildinfo"
   },
   "include": ["./src/**/*"],
-  "references": [
-    {
-      "path": "../create-temporary-npm-package"
-    },
-    {
-      "path": "../fs"
-    },
-    {
-      "path": "../test-npm-init"
-    },
-    {
-      "path": "../write-json"
-    }
-  ]
+  "references": []
 }

@@ -1,4 +1,5 @@
 import createTemporaryNPMPackage from '@sanjo/create-temporary-npm-package';
+import { removeRecursively } from '@sanjo/fs'
 import testNpmInit from '@sanjo/test-npm-init';
 import writeJSON from '@sanjo/write-json';
 import { promises as fs } from 'fs';
@@ -21,7 +22,7 @@ export function testCreatePackage(createPackagePackageName, createPackagePackage
             });
         });
         afterEach(async function () {
-            await fs.rm(rootPath, { recursive: true });
+            await removeRecursively(rootPath)
         });
         it('creates a package', async () => {
             const expectedPath = path.join(createPackagePackagePath, 'expected');

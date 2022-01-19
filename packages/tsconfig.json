@@ -60,6 +60,9 @@
       "path": "./forum-eu-automation/tsconfig-build.json"
     },
     {
+      "path": "./fs"
+    },
+    {
       "path": "./identity/tsconfig-build.json"
     },
     {

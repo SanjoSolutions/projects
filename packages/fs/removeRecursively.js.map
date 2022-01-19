@@ -1,0 +1,1 @@
+{"version":3,"file":"removeRecursively.js","sourceRoot":"","sources":["src/removeRecursively.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,aAAa,CAAA;AAE5B,MAAM,CAAC,KAAK,UAAU,iBAAiB,CAAC,IAAc,EAAE,OAAkC;IACxF,MAAM,EAAE,CAAC,EAAE,CACT,IAAI,EACJ;QACE,UAAU,EAAE,CAAC;QACb,GAAG,OAAO;QACV,SAAS,EAAE,IAAI;KAChB,CACF,CAAA;AACH,CAAC"}
