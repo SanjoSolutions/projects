@@ -1,10 +1,11 @@
 {
   "name": "@sanjo/identity",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "type": "module",
   "description": "identity",
   "keywords": [
-    "identity"
+    "identity",
+    "identity function"
   ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/identity",
   "license": "Unlicense",
