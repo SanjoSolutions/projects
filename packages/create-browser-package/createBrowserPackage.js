@@ -13,7 +13,7 @@ async function adjustPackageJSON(packagePath) {
     const packageJSONEntries = Object.entries(packageJSON);
     const scripts = {
         build: 'webpack',
-        'build:watch': 'webpack-dev-server --open'
+        'build:watch': 'webpack-dev-server --open',
     };
     const repositoryEntryIndex = packageJSONEntries.findIndex(entry => entry[0] === 'repository');
     packageJSONEntries.splice(repositoryEntryIndex + 1, 0, ['scripts', scripts]);
