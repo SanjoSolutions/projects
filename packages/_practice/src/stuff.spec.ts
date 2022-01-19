@@ -1,13 +1,11 @@
+import { describe, it, expect } from '@jest/globals'
+
 class BinaryTree {
-  constructor() {
-    this.root = new BinaryTreeNode()
-  }
+  public root: BinaryTreeNode = new BinaryTreeNode()
 }
 
 class BinaryTreeNode {
-  constructor() {
-    this.children = []
-  }
+  public children: BinaryTreeNode[] = []
 }
 
 function createBinaryTree() {
@@ -18,7 +16,7 @@ function createBinaryTree() {
   return binaryTree
 }
 
-function createChildren(numberOfChildren) {
+function createChildren(numberOfChildren: number) {
   return new Array(numberOfChildren).fill(undefined).map(createBinaryTreeNode)
 }
 

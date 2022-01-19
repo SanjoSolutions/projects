@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { intersection } from './intersection.js';
 describe('intersection', () => {
     it('returns the intersection of two sets', () => {

@@ -1,13 +1,11 @@
 export class InMemory {
-  constructor() {
-    this.collection = []
+  private _collection: any[] = []
+
+  save(model: any): void {
+    this._collection.push(model)
   }
 
-  save(model) {
-    this.collection.push(model)
-  }
-
-  find() {
-    return this.collection
+  find(): any[] {
+    return this._collection
   }
 }

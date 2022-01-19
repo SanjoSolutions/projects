@@ -1,5 +1,6 @@
 import { calculateArea } from './calculateArea.js'
 import { pipe } from './pipe.js'
+import { describe, test, expect } from '@jest/globals'
 
 describe('practice', () => {
   test('joining with comma and space between', () => {
@@ -47,7 +48,7 @@ describe('practice', () => {
   })
 
   test('...', () => {
-    function sum(...numbers) {
+    function sum(...numbers: number[]): number {
       return numbers.reduce((sum, number) => sum + number)
     }
 

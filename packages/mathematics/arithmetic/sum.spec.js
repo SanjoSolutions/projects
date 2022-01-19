@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { sum } from './sum.js';
 describe('sum', () => {
     it('adds the numbers in an array', () => {

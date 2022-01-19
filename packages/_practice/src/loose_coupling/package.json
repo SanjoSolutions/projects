@@ -6,6 +6,7 @@
   },
   "devDependencies": {
     "@sanjo/jasmine-expect": "^1.0.1",
+    "@types/cucumber": "^6.0.0",
     "cucumber": "^5.1.0"
   },
   "dependencies": {

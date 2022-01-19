@@ -1,7 +1,7 @@
 import request from '@sanjo/request'
 import { waitFor } from './waitFor.js'
 
-export async function waitForUrl(url) {
+export async function waitForUrl(url: string): Promise<void> {
   const condition = async () => {
     try {
       await request(url)

@@ -1,5 +1,5 @@
 export class MongoDB {
   find() {}
 
-  save(data) {}
+  save(data: any) {}
 }

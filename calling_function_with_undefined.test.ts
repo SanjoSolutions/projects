@@ -1,4 +1,4 @@
-export {}
+import { test, expect } from '@jest/globals'
 
 test('calling function with undefined', () => {
   function fn(...args: any[]): number {

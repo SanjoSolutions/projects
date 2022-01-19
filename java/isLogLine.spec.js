@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals'
 import { isLogLine } from './isLogLine.js'
 
 describe('isLogLine', () => {

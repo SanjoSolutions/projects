@@ -1,3 +1,4 @@
+import { expect } from '@jest/globals'
 import diffFolders from '@sanjo/diff-folders'
 import npmInit from '@sanjo/npm-init'
 import path from 'path'

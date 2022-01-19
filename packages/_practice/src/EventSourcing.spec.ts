@@ -1,4 +1,4 @@
-export {}
+import { describe, it, expect } from '@jest/globals'
 
 class EventSourcingEvent {}
 

@@ -1,5 +1,4 @@
-const { Then } = require('cucumber')
-const { When } = require('cucumber')
+import { Then, When } from 'cucumber'
 
 const createJ$ = require('@sanjo/jasmine-expect').createJ$
 // const createSpyEnv = require('@sanjo/jasmine-spy').createEnv;
@@ -9,8 +8,10 @@ const j$ = createJ$()
 const expectEnv = createExpectEnv(j$)
 // const spyEnv = createSpyEnv(j$);
 
+// @ts-ignore
 const expect = expectEnv.expect
 // const spyOn = spyEnv.spyOn;
+// @ts-ignore
 const jasmine = {
   // createSpy: spyEnv.createSpy,
   // createSpyObj: spyEnv.createSpyObj,

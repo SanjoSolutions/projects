@@ -1,7 +1,9 @@
+import { beforeEach, describe, expect, it } from '@jest/globals'
 import { InMemory } from './InMemory.js'
 
 describe('InMemory', () => {
-  let database
+  let database: InMemory
+
   beforeEach(() => {
     database = new InMemory()
   })

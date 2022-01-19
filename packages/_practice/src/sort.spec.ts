@@ -1,5 +1,6 @@
-function sort(values) {
-  debugger
+import { describe, it, expect } from '@jest/globals'
+
+function sort(values: any[]) {
   if (values.length <= 1) {
     return values
   }

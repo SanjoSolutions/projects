@@ -1,4 +1,4 @@
-export {}
+import { describe, it, expect } from '@jest/globals'
 
 function eventWasOnDate(date: Date): ({ date }: { date: Date }) => boolean {
   return ({ date: eventDate }) =>

@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals'
 import { replaceStringValues } from './replaceStringValues.js'
 
 describe('replaceStringValues', () => {

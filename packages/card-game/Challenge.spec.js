@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { Challenge } from './Challenge.js';
 import { Option } from './Option.js';
 describe('Challenge', () => {

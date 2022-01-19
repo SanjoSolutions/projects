@@ -1,4 +1,4 @@
-import { describe, expect } from '@jest/globals';
+import { describe, expect, test } from '@jest/globals';
 import { Card } from './Card.js';
 describe('Card', () => {
     test('constructing a card', () => {

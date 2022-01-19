@@ -1,0 +1,1 @@
+{"version":3,"file":"InMemory.js","sourceRoot":"","sources":["../../src/loose_coupling/databases/InMemory.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,QAAQ;IACX,WAAW,GAAU,EAAE,CAAA;IAE/B,IAAI,CAAC,KAAU;QACb,IAAI,CAAC,WAAW,CAAC,IAAI,CAAC,KAAK,CAAC,CAAA;IAC9B,CAAC;IAED,IAAI;QACF,OAAO,IAAI,CAAC,WAAW,CAAA;IACzB,CAAC;CACF"}

@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
@@ -19,7 +20,8 @@ function Admin({ onStartWebServer, onStopWebServer }: { onStartWebServer: () => 
     }
   }
 
-  return <button onClick={toggleIsWebServerRunning}>{(isWebServerRunning ? 'Stop' : 'Start') + ' web server'}</button>
+  return <button onClick={ toggleIsWebServerRunning }>{ (isWebServerRunning ? 'Stop' : 'Start') +
+    ' web server' }</button>
 }
 
 describe('Admin', () => {
@@ -39,7 +41,7 @@ describe('Admin', () => {
     const onStartWebServer = jest.fn()
     const onStopWebServer = jest.fn()
     act(() => {
-      render(<Admin onStartWebServer={onStartWebServer} onStopWebServer={onStopWebServer} />, container)
+      render(<Admin onStartWebServer={ onStartWebServer } onStopWebServer={ onStopWebServer } />, container)
     })
 
     const button = container.querySelector('button') as HTMLButtonElement

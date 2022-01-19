@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { trade } from './trade.js'
 import { Trader } from './Trader.js'
 

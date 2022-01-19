@@ -1,0 +1,1 @@
+{"version":3,"file":"extensionToContentType.js","sourceRoot":"","sources":["../src/loose_coupling/extensionToContentType.ts"],"names":[],"mappings":"AAEA,MAAM,UAAU,sBAAsB,CAAC,SAAiB;IACtD,QAAQ,SAAS,EAAE;QACjB,KAAK,OAAO;YACV,OAAO,WAAW,CAAA;QACpB;YACE,OAAO,YAAY,CAAA;KACtB;AACH,CAAC"}

@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { packageNameToFolderName } from './packageNameToFolderName.js'
 
 describe('packageNameToFolderName', () => {

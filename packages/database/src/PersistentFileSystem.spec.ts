@@ -1,3 +1,4 @@
+import { describe, expect, it, jest } from '@jest/globals'
 import type { PathLike } from 'fs'
 import { promises as fs } from 'fs'
 import type { FileHandle } from 'fs/promises'

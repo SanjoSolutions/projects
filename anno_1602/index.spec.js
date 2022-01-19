@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals'
 import { sum, times } from './index.js'
 
 describe('sum', () => {

@@ -1,3 +1,4 @@
+import { describe, expect, jest, test } from '@jest/globals'
 import { a } from './a.js'
 import * as moduleB from './b.js'
 

@@ -1,3 +1,4 @@
+import { test, expect } from '@jest/globals'
 import { scalarProduct } from './scalarProduct.js'
 
 test('scalar product', () => {

@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals';
 import { difference } from './difference.js';
 test('difference', () => {
     const a = new Set([1, 2]);

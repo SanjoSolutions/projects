@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals'
 import { humanToCamelCase } from './humanToCamelCase.js'
 
 describe('humanToCamelCase', () => {

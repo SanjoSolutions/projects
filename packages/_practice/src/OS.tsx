@@ -1,5 +1,9 @@
 import React from 'react'
 
 export function OS() {
-  return 'Welcome'
+  return (
+    <div>
+      Welcome
+    </div>
+  )
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"readFiles.d.ts","sourceRoot":"","sources":["../src/loose_coupling/readFiles.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAA;AAIxC,wBAAsB,SAAS,CAAC,oBAAoB,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,EAAE,CAAC,CAc7E;AAED,MAAM,WAAW,IAAI;IACnB,QAAQ,EAAE,MAAM,CAAA;IAChB,WAAW,EAAE,QAAQ,CAAA;IACrB,OAAO,EAAE,MAAM,CAAA;CAChB"}

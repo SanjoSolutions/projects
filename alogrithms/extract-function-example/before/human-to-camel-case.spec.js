@@ -1,3 +1,5 @@
+import { describe, it, expect } from '@jest/globals'
+
 function humanToCamelCase(string) {
   const words = string.split(' ')
   return (

@@ -1,7 +1,8 @@
 jest.mock('@sanjo/request')
 
-import { requestJSON } from './requestJSON.js'
+import { beforeEach, describe, expect, it, jest, test } from '@jest/globals'
 import request from '@sanjo/request'
+import { requestJSON } from './requestJSON.js'
 
 describe('requestJSON', () => {
   beforeEach(function () {

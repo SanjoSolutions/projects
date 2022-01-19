@@ -18,6 +18,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@sanjo/array": "^1.0.0",
     "@sanjo/fs": "^1.0.0",
     "@sanjo/random": "^2.0.0",
     "@types/react-dom": "^16.9.8",

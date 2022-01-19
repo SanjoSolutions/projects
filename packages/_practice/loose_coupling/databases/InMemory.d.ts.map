@@ -1,0 +1,1 @@
+{"version":3,"file":"InMemory.d.ts","sourceRoot":"","sources":["../../src/loose_coupling/databases/InMemory.ts"],"names":[],"mappings":"AAAA,qBAAa,QAAQ;IACnB,OAAO,CAAC,WAAW,CAAY;IAE/B,IAAI,CAAC,KAAK,EAAE,GAAG,GAAG,IAAI;IAItB,IAAI,IAAI,GAAG,EAAE;CAGd"}

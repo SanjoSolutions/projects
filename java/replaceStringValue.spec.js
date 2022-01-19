@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals'
 import { StringValueNotFoundError } from '../StringValueNotFoundError.js'
 import { replaceStringValue } from './replaceStringValue.js'
 

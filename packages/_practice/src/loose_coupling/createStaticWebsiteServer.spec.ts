@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import { removeRecursively } from '@sanjo/fs'
 import makeTemporaryDirectory from '@sanjo/make-temporary-directory'
 import { generateRandomInteger } from '@sanjo/random'
@@ -56,7 +57,7 @@ describe('createStaticWebsiteServer', () => {
 
   it('serves the up-to-date version of the content in the file', async () => {
     const fsWatch = fs.watch
-    const fsWatchListener = jest.fn()
+    const fsWatchListener = jest.fn<fs.FSWatcher, any>()
     jest.spyOn(fs, 'watch').mockImplementation((filename: PathLike, options: any, listener?: any) => {
       return fsWatch(filename, options, function (eventType, fileName) {
         fsWatchListener(eventType, fileName)

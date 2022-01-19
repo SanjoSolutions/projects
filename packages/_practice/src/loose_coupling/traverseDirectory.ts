@@ -8,7 +8,10 @@ import path from 'path'
  * @param processFile {function} Function to call for each file found.
  * @returns {Promise<void>}
  */
-export async function traverseDirectory(directoryPath, processFile) {
+export async function traverseDirectory(
+  directoryPath: string,
+  processFile: (entryPath: string) => Promise<void>
+): Promise<void> {
   let directoryPaths = [directoryPath]
   let nextDirectoryPaths = []
   while (directoryPaths.length >= 1) {

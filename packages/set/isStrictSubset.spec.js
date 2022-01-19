@@ -1,3 +1,4 @@
+import { describe, expect, test } from '@jest/globals';
 import { isStrictSubset } from './isStrictSubset.js';
 describe('isStrictSubset', () => {
     test('{ 1 } is a strict subset of { 1, 2 }', () => {

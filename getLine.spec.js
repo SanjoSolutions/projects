@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals'
 import { getLine } from './getLine.js'
 
 describe('getLine', () => {

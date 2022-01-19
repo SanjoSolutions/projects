@@ -1,0 +1,9 @@
+import { describe, expect, it } from '@jest/globals';
+import { generateRandomInteger } from './generateRandomInteger.js';
+describe('generateRandomInteger', () => {
+    it('returns a random integer', () => {
+        const randomInteger = generateRandomInteger(0, 1);
+        expect(randomInteger).toEqual(0);
+    });
+});
+//# sourceMappingURL=generateRandomInteger.spec.js.map

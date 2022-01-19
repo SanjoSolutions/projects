@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { binarySearch } from './binarySearch.js'
 import { numberCompareFn } from './numberCompareFn.js'
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { dashToCamelCase } from './dashToCamelCase.js'
 
 describe('dashToCamelCase', () => {

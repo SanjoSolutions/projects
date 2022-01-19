@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { getRank } from './getRank.js'
 
 describe('getRank', () => {

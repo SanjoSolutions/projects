@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals'
 import { OrePlacer, OresMap } from './index.js'
 
 describe('OrePlacer', () => {

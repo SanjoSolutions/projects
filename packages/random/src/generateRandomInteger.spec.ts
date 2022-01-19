@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { generateRandomInteger } from './generateRandomInteger.js'
 
 describe('generateRandomInteger', () => {

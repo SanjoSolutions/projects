@@ -1,4 +1,4 @@
-export {}
+import { describe, it, expect } from '@jest/globals'
 
 describe('CPU', () => {
   it('can add', () => {

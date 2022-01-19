@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { camelCaseToUnderscore } from './camelCaseToUnderscore.js'
 
 describe('camelCaseToUnderscore', () => {

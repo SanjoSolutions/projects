@@ -1,3 +1,5 @@
+import { describe, test, expect } from '@jest/globals'
+
 describe('nullish coalescing operator', () => {
   test('', () => {
     const value = null
@@ -11,6 +13,6 @@ describe('nullish coalescing operator', () => {
   })
 })
 
-function isNullish(value) {
+function isNullish(value: any): boolean {
   return value === null || value === undefined
 }

@@ -1,0 +1,1 @@
+{"version":3,"file":"writeFile.js","sourceRoot":"","sources":["../src/loose_coupling/writeFile.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,aAAa,CAAA;AAE5B;;;;;GAKG;AACH,MAAM,CAAC,KAAK,UAAU,SAAS,CAAC,QAAkC,EAAE,OAAe;IACjF,MAAM,EAAE,CAAC,SAAS,CAAC,QAAQ,EAAE,OAAO,EAAE,EAAE,QAAQ,EAAE,OAAO,EAAE,CAAC,CAAA;AAC9D,CAAC"}

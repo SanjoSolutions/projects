@@ -1,3 +1,4 @@
+import { test, expect } from '@jest/globals'
 import { dotProduct } from './dotProduct.js'
 
 test('dot product', () => {

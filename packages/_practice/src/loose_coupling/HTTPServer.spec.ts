@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals'
 import request from '@sanjo/request'
 import type { Server } from 'http'
 import http from 'http'
@@ -11,11 +12,11 @@ describe('HTTP server', () => {
         on: jest.fn(),
         once: jest.fn().mockImplementation((eventName, listener) => {
           if (eventName === 'listening') {
-            listeningListeners.push(listener)
+            listeningListeners.push(listener as () => void)
           }
         }),
         off: jest.fn(),
-        listen: jest.fn().mockImplementation((port: number) => {
+        listen: jest.fn().mockImplementation(() => {
           listeningListeners.forEach(listener => listener())
         }),
         close: jest.fn(),

@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
+import { beforeEach, afterEach, describe, expect, it } from '@jest/globals'
 import React from 'react'
-import { render } from 'react-dom'
+import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 import { createContainer } from './createContainer'
 import { Page } from './Page'
@@ -23,18 +24,18 @@ function PageTransition({ children }: { children?: any } = {}) {
         duration: 1500,
         easing: 'linear',
         fill: 'forwards',
-      }
+      },
     )
     // animation.onfinish = () => console.log('FINISHED')
   }, [...pages])
 
   return (
     <div className="page-transition">
-      <div className="page" ref={pages[0]}>
-        {children[0]}
+      <div className="page" ref={ pages[0] }>
+        { children[0] }
       </div>
-      <div className="page" ref={pages[1]}>
-        {children[1]}
+      <div className="page" ref={ pages[1] }>
+        { children[1] }
       </div>
     </div>
   )
@@ -47,10 +48,15 @@ describe('PageTransition', () => {
     container = createContainer()
   })
 
+  afterEach(function () {
+    unmountComponentAtNode(container)
+    container.remove()
+  })
+
   it.skip('transitions from one page to another', () => {
-    const page1 = <Page key={1}></Page>
-    const page2 = <Page key={2}></Page>
-    const pageTransition = <PageTransition>{[page1, page2]}</PageTransition>
+    const page1 = <Page key={ 1 }></Page>
+    const page2 = <Page key={ 2 }></Page>
+    const pageTransition = <PageTransition>{ [page1, page2] }</PageTransition>
     act(() => {
       render(pageTransition, container)
     })

@@ -1,3 +1,5 @@
+import { describe, it, expect } from '@jest/globals'
+
 function formatArray(array) {
   const formattedArray = '[' + array.map(formatValue).join(', ') + ']'
   if (formattedArray.length > 120) {

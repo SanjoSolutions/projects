@@ -1,9 +1,11 @@
 jest.mock('http')
 jest.mock('https')
 
-import { request } from './request.js'
+import { beforeEach, describe, expect, it, jest } from '@jest/globals'
 import * as http from 'http'
 import * as https from 'https'
+import { request } from './request.js'
+import { setImmediate } from 'timers'
 
 describe('request', () => {
   beforeEach(function () {
@@ -19,7 +21,7 @@ describe('request', () => {
             on: jest.fn(),
             once: jest.fn().mockImplementation((eventName, callback) => {
               if (eventName === 'end') {
-                setImmediate(callback)
+                setImmediate(callback as (...args: any[]) => void)
               }
             }),
           }

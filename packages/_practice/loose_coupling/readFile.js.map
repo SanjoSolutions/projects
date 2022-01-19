@@ -1,0 +1,1 @@
+{"version":3,"file":"readFile.js","sourceRoot":"","sources":["../src/loose_coupling/readFile.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,aAAa,CAAA;AAE5B;;;;GAIG;AACH,MAAM,CAAC,KAAK,UAAU,QAAQ,CAAC,QAAkC;IAC/D,OAAO,MAAM,EAAE,CAAC,QAAQ,CAAC,QAAQ,EAAE,EAAE,QAAQ,EAAE,OAAO,EAAE,CAAC,CAAA;AAC3D,CAAC"}

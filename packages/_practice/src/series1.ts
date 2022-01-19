@@ -1,4 +1,6 @@
-function series1(to) {
+export {}
+
+function series1(to: number): number[] {
   const numbers = new Array(to)
   let index = 0
   let number = 1

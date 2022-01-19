@@ -1,3 +1,4 @@
+import { describe, expect, test } from '@jest/globals'
 import { getMatchingSubsequences } from './getMatchingSubsequences.js'
 
 describe('getMatchingSubsequences', () => {

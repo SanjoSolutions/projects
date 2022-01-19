@@ -1,5 +1,5 @@
 export class PostgreSQL {
   find() {}
 
-  save(data) {}
+  save(data: any) {}
 }

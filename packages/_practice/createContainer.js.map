@@ -1,0 +1,1 @@
+{"version":3,"file":"createContainer.js","sourceRoot":"","sources":["src/createContainer.ts"],"names":[],"mappings":"AAGA,MAAM,UAAU,eAAe;IAC7B,MAAM,SAAS,GAAG,QAAQ,CAAC,aAAa,CAAC,KAAK,CAAC,CAAA;IAC/C,QAAQ,CAAC,IAAI,CAAC,WAAW,CAAC,SAAS,CAAC,CAAA;IAEpC,OAAO,SAAS,CAAA;AAClB,CAAC"}

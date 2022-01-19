@@ -1,3 +1,4 @@
+import { describe, expect, test } from '@jest/globals'
 import { applyDiff } from './applyDiff.js'
 import { ObjectDiff } from './objectDiff.js'
 

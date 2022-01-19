@@ -9,6 +9,9 @@
   "include": ["./src/**/*"],
   "references": [
     {
+      "path": "../array"
+    },
+    {
       "path": "../fs"
     },
     {

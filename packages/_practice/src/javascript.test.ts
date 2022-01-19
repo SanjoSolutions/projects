@@ -1,4 +1,4 @@
-export {}
+import { describe, test, expect } from '@jest/globals'
 
 test('JavaScript', () => {
   let array = []

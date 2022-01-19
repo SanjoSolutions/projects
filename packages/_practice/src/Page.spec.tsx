@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals'
 import React from 'react'
-import { render } from 'react-dom'
+import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 import { createContainer } from './createContainer'
 import { Page } from './Page'
@@ -13,6 +14,11 @@ describe('Page', () => {
 
   beforeEach(function () {
     container = createContainer()
+  })
+
+  afterEach(function () {
+    unmountComponentAtNode(container)
+    container.remove()
   })
 
   it('renders children inside', () => {

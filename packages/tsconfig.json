@@ -3,7 +3,13 @@
   "include": [],
   "references": [
     {
+      "path": "./_practice/tsconfig-build.json"
+    },
+    {
       "path": "./animate/tsconfig-build.json"
+    },
+    {
+      "path": "./array/tsconfig-build.json"
     },
     {
       "path": "./binary-search/tsconfig-build.json"

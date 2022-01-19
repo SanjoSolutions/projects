@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals';
 import { union } from './union.js';
 test('union', () => {
     const a = new Set([1]);

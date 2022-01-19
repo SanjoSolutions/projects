@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals'
 import { output as expectedOutput } from './expected/index.js'
 import { format } from './format.js'
 import { input } from './input/index.js'

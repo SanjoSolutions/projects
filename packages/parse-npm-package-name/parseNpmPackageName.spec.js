@@ -1,3 +1,4 @@
+import { describe, expect, it } from '@jest/globals';
 import { parseNpmPackageName } from './parseNpmPackageName.js';
 describe('parseNpmPackageName', () => {
     it('parses npm package names with scope', () => {
