@@ -1710,19 +1710,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/arithmetic@^0.1.0, @sanjo/arithmetic@workspace:packages/arithmetic":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/arithmetic@workspace:packages/arithmetic"
-  languageName: unknown
-  linkType: soft
-
 "@sanjo/array@workspace:packages/array":
   version: 0.0.0-use.local
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
-    "@sanjo/arithmetic": ^0.1.0
     "@sanjo/comparison": ^0.1.0
     "@sanjo/identity": ^1.0.0
+    "@sanjo/mathematics": ^0.2.0
   languageName: unknown
   linkType: soft
 
@@ -1899,7 +1893,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/mathematics@workspace:packages/mathematics":
+"@sanjo/mathematics@^0.2.0, @sanjo/mathematics@workspace:packages/mathematics":
   version: 0.0.0-use.local
   resolution: "@sanjo/mathematics@workspace:packages/mathematics"
   languageName: unknown
