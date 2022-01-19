@@ -13,9 +13,9 @@ npm install --save '@sanjo/random'
 ## How to use
 
 ```js
-import { randomFloat, randomInteger, randomValue } from '@sanjo/random'
+import { generateRandomFloat, generateRandomInteger, getRandomValue } from '@sanjo/random'
 
 const randomFloat = generateRandomFloat(0, 1)
 const randomInteger = generateRandomInteger(0, 5)
-const randomValue = generateRandomValue([0, 1, 2])
+const randomValue = getRandomValue([0, 1, 2])
 ```
