@@ -1741,7 +1741,7 @@ __metadata:
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
     "@sanjo/comparison": ^0.1.0
-    "@sanjo/identity": ^1.0.0
+    "@sanjo/identity": ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -1912,7 +1912,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/identity@^1.0.0, @sanjo/identity@workspace:packages/identity":
+"@sanjo/identity@^2.0.0, @sanjo/identity@workspace:packages/identity":
   version: 0.0.0-use.local
   resolution: "@sanjo/identity@workspace:packages/identity"
   languageName: unknown
