@@ -1,8 +1,8 @@
 {
   "name": "@sanjo/identity",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "type": "module",
-  "description": "identity",
+  "description": "Identity function",
   "keywords": [
     "identity",
     "identity function"
