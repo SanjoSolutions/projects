@@ -27,6 +27,8 @@ module.exports = () => ({
     '!packages/card-game/src/**/*.spec.ts',
     'packages/mathematics/src/**/*.ts',
     '!packages/mathematics/src/**/*.spec.ts',
+    'packages/create-package/src/**/*.ts',
+    '!packages/create-package/src/**/*.spec.ts',
     'packages/create-browser-package/src/**/*.ts',
     '!packages/create-browser-package/src/**/*.spec.ts',
   ],
@@ -45,6 +47,7 @@ module.exports = () => ({
     'packages/planning/src/**/*.spec.ts',
     'packages/card-game/src/**/*.spec.ts',
     'packages/mathematics/src/**/*.spec.ts',
+    'packages/create-package/src/**/*.spec.ts',
     'packages/create-browser-package/src/**/*.spec.ts'
   ],
 })
