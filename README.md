@@ -17,7 +17,7 @@ npm init @sanjo/package '<PACKAGE_NAME>' '<PACKAGE_DESCRIPTION>'
 E.g.
 
 ```sh
-npm init @sanjo/package '@sanjo/arithmetic' 'Arithmetic'
+npm init @sanjo/package '@sanjo/mathematics' 'Mathematics'
 ```
 
 ## Publishing a package
@@ -29,5 +29,5 @@ yarn workspace <PACKAGE_NAME> npm publish
 E.g.
 
 ```sh
-yarn workspace @sanjo/arithmetic npm publish
+yarn workspace @sanjo/mathematics npm publish
 ```

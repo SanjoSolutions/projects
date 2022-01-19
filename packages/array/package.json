@@ -7,9 +7,9 @@
   "main": "./index.js",
   "types": "./index.d.js",
   "dependencies": {
-    "@sanjo/arithmetic": "^0.1.0",
     "@sanjo/comparison": "^0.1.0",
-    "@sanjo/identity": "^1.0.0"
+    "@sanjo/identity": "^1.0.0",
+    "@sanjo/mathematics": "^0.2.0"
   },
   "publishConfig": {
     "access": "public"

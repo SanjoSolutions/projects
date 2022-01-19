@@ -1,4 +1,4 @@
-import { multiply } from './packages/arithmetic/multiply.js'
+import { multiply } from './packages/mathematics/arithmetic/multiply.js'
 
 export class Grid {
   #values

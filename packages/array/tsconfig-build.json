@@ -7,5 +7,15 @@
     "tsBuildInfoFile": "tsconfig.tsbuildinfo"
   },
   "include": ["./src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../comparison"
+    },
+    {
+      "path": "../identity"
+    },
+    {
+      "path": "../mathematics"
+    }
+  ]
 }
