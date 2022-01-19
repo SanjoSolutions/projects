@@ -10,6 +10,9 @@
   "references": [
     {
       "path": "../exec"
+    },
+    {
+      "path": "../parse-npm-package-name"
     }
   ]
 }

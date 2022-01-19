@@ -7,6 +7,6 @@ import writeFile from '@sanjo/write-file'
  * @returns {Promise<void>}
  */
 export async function writeJSON(filePath: string, content: any): Promise<void> {
-  const json = JSON.stringify(content, null, 2)
+  const json = JSON.stringify(content, null, 2) + '\n'
   await writeFile(filePath, json)
 }

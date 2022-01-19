@@ -32,7 +32,7 @@ export function testCreatePackage(
     })
 
     it('creates a package', async () => {
-      const expectedPath = path.join(createPackagePackagePath, 'src/expected')
+      const expectedPath = path.join(createPackagePackagePath, 'expected')
       await testNpmInit(rootPath, createPackagePackageName, createPackagePackageArguments, expectedPath)
     })
   })

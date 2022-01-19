@@ -1,6 +1,8 @@
 # @sanjo/test-package
 
-Description of test package.
+This work is devoted to God.
+
+Description of test package
 
 ## How to install
 

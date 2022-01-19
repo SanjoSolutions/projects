@@ -31,6 +31,8 @@ module.exports = () => ({
     '!packages/create-package/src/**/*.spec.ts',
     'packages/create-browser-package/src/**/*.ts',
     '!packages/create-browser-package/src/**/*.spec.ts',
+    'packages/parse-npm-package-name/src/**/*.ts',
+    '!packages/parse-npm-package-name/src/**/*.spec.ts',
   ],
 
   tests: [
@@ -48,6 +50,7 @@ module.exports = () => ({
     'packages/card-game/src/**/*.spec.ts',
     'packages/mathematics/src/**/*.spec.ts',
     'packages/create-package/src/**/*.spec.ts',
-    'packages/create-browser-package/src/**/*.spec.ts'
+    'packages/create-browser-package/src/**/*.spec.ts',
+    'packages/parse-npm-package-name/src/**/*.spec.ts'
   ],
 })

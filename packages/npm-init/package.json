@@ -7,7 +7,8 @@
   "main": "./index.js",
   "types": "./index.d.js",
   "dependencies": {
-    "@sanjo/exec": "^1.0.0"
+    "@sanjo/exec": "^1.0.0",
+    "@sanjo/parse-npm-package-name": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

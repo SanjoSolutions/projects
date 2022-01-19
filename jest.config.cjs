@@ -103,7 +103,7 @@ module.exports = {
   // resetModules: false,
 
   // A path to a custom resolver
-  resolver: 'jest-ts-webcompat-resolver',
+  resolver: 'ts-jest-resolver',
 
   // Automatically restore mock state between every test
   restoreMocks: true,

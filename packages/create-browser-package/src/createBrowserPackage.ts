@@ -10,22 +10,26 @@ export async function createBrowserPackage() {
 }
 
 async function adjustPackageJSON(packagePath: string): Promise<void> {
-  console.log('adjustPackageJSON', packagePath)
   const packageJSONPath = path.join(packagePath, 'package.json')
   const packageJSON = await readJSON(packageJSONPath)
-  if (!packageJSON.hasOwnProperty('scripts')) {
-    packageJSON.scripts = {}
+  const packageJSONEntries = Object.entries(packageJSON)
+  const scripts = {
+    build: 'webpack',
+    'build:watch': 'webpack-dev-server --open',
   }
-  packageJSON.scripts['build'] = 'webpack'
-  packageJSON.scripts['build:watch'] = 'webpack-dev-server --open'
-  await writeJSON(packageJSONPath, packageJSON)
+  const repositoryEntryIndex = packageJSONEntries.findIndex(entry => entry[0] === 'repository')
+  packageJSONEntries.splice(repositoryEntryIndex + 1, 0, ['scripts', scripts])
+  const modifiedPackageJSON = Object.fromEntries(packageJSONEntries)
+  await writeJSON(packageJSONPath, modifiedPackageJSON)
 }
 
 async function adjustTsconfigJSON(packagePath: string): Promise<void> {
-  console.log('adjustTsconfigJSON', packagePath)
-  const tsconfigJSONPath = path.join(packagePath, 'tsconfig.json')
-  const tsconfigJSON = await readJSON(tsconfigJSONPath)
-  tsconfigJSON.compilerOptions.module = 'ES2020'
-  tsconfigJSON.compilerOptions.lib.push('DOM')
-  await writeJSON(tsconfigJSONPath, tsconfigJSON)
+  const fileNames = ['tsconfig.json', 'tsconfig-build.json']
+  for (const fileName of fileNames) {
+    const tsconfigJSONPath = path.join(packagePath, fileName)
+    const tsconfigJSON = await readJSON(tsconfigJSONPath)
+    tsconfigJSON.compilerOptions.module = 'ES2020'
+    tsconfigJSON.compilerOptions.lib.push('DOM')
+    await writeJSON(tsconfigJSONPath, tsconfigJSON)
+  }
 }

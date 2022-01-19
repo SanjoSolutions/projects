@@ -24,7 +24,7 @@ export function testCreatePackage(createPackagePackageName, createPackagePackage
             await fs.rm(rootPath, { recursive: true });
         });
         it('creates a package', async () => {
-            const expectedPath = path.join(createPackagePackagePath, 'src/expected');
+            const expectedPath = path.join(createPackagePackagePath, 'expected');
             await testNpmInit(rootPath, createPackagePackageName, createPackagePackageArguments, expectedPath);
         });
     });

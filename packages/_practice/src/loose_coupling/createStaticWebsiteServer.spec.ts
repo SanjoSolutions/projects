@@ -1,4 +1,5 @@
 import makeTemporaryDirectory from '@sanjo/make-temporary-directory'
+import { generateRandomInteger } from '@sanjo/random'
 import request from '@sanjo/request'
 import type { ChildProcess } from 'child_process'
 import type { PathLike } from 'fs'
@@ -10,23 +11,26 @@ import { waitForMockFunctionToHaveBeenCalled } from './waitForMockFunctionToHave
 import { waitForUrl } from './waitForUrl.js'
 import { writeFile } from './writeFile.js'
 
-async function createStaticWebSite(directory: string): void {
+async function createStaticWebSite(directory: string): Promise<void> {
   await removeStaticWebSite(directory)
   await fs.promises.mkdir(directory, { recursive: true })
   await writeFile(path.join(directory, 'index.html'), 'Welcome')
 }
 
-async function removeStaticWebSite(directory: string): void {
-  await fs.promises.rmdir(directory, { recursive: true })
+async function removeStaticWebSite(directory: string): Promise<void> {
+  await fs.promises.rm(directory, { recursive: true })
 }
 
 describe('createStaticWebsiteServer', () => {
   let directoryToServeFrom: string
-  const port = 8085
+  let port: number
   let server: StaticHTTPServer
+
+  jest.setTimeout(10000)
 
   beforeEach(async function () {
     directoryToServeFrom = await makeTemporaryDirectory()
+    port = generateRandomInteger(8085, 8999 + 1)
     await createStaticWebSite(directoryToServeFrom)
   })
 

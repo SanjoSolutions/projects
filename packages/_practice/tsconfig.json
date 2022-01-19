@@ -12,6 +12,9 @@
       "path": "../make-temporary-directory"
     },
     {
+      "path": "../random"
+    },
+    {
       "path": "../request"
     }
   ]

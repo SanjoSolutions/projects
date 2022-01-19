@@ -1,6 +1,6 @@
 import { parseNpmPackageName } from './parseNpmPackageName.js'
 
-describe.skip('parseNpmPackageName', () => {
+describe('parseNpmPackageName', () => {
   it('parses npm package names with scope', () => {
     const result = parseNpmPackageName('@example/test-package')
     expect(result).toEqual({ scope: '@example', name: 'test-package' })

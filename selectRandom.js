@@ -1,4 +1,4 @@
-import { sum } from './package/mathematics/arithmetic/sum.js'
+import { sum } from './packages/mathematics/arithmetic/sum.js'
 
 export function selectRandom(optionProbabilities) {
   if (sum(optionProbabilities.values()) !== 1) {

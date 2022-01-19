@@ -4,7 +4,7 @@ import path from 'path';
 export async function createNPMPackage(packagePath, packageJSON) {
     const packageJSONContent = {
         private: true,
-        packageJSON,
+        ...packageJSON,
     };
     await writeJSON(path.join(packagePath, 'package.json'), packageJSONContent);
     await exec('npm install', { cwd: packagePath });

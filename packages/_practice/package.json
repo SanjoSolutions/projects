@@ -18,6 +18,7 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@sanjo/random": "^2.0.0",
     "@types/react-dom": "^16.9.8",
     "cucumber": "^6.0.5"
   },

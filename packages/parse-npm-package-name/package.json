@@ -3,7 +3,7 @@
   "type": "module",
   "description": "Parses NPM package name",
   "license": "Unlicense",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "main": "./index.js",
   "types": "./index.d.js",
   "publishConfig": {

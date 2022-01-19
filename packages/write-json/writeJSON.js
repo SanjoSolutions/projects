@@ -6,7 +6,7 @@ import writeFile from '@sanjo/write-file';
  * @returns {Promise<void>}
  */
 export async function writeJSON(filePath, content) {
-    const json = JSON.stringify(content, null, 2);
+    const json = JSON.stringify(content, null, 2) + '\n';
     await writeFile(filePath, json);
 }
 //# sourceMappingURL=writeJSON.js.map
