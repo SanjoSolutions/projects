@@ -1736,7 +1736,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/array@^1.0.0, @sanjo/array@workspace:packages/array":
+"@sanjo/array@^1.0.0, @sanjo/array@^1.0.4, @sanjo/array@workspace:packages/array":
   version: 0.0.0-use.local
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
@@ -2038,6 +2038,8 @@ __metadata:
 "@sanjo/set@^1.0.0, @sanjo/set@workspace:packages/set":
   version: 0.0.0-use.local
   resolution: "@sanjo/set@workspace:packages/set"
+  dependencies:
+    "@sanjo/array": ^1.0.4
   languageName: unknown
   linkType: soft
 
