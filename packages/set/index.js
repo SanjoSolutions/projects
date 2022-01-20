@@ -7,4 +7,5 @@ export { isSubset } from './isSubset.js';
 export { powerSet } from './powerSet.js';
 export { symmetricDifference } from './symmetricDifference.js';
 export { union } from './union.js';
+export { without } from './without.js';
 //# sourceMappingURL=index.js.map

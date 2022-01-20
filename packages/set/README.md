@@ -22,7 +22,8 @@ import {
   cartesianProduct,
   powerSet,
   isStrictSubset,
-  isSubset
+  isSubset,
+  without
 } from "@sanjo/set";
 ```
 
