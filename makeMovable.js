@@ -44,9 +44,11 @@ export function makeMovable(
     }
   })
   window.addEventListener('pointerup', function (event) {
-    onPointerUp(event)
-    isMousePressed = false
-    pointerClickOffsetToWindow = null
+    if (isMousePressed) {
+      onPointerUp(event)
+      isMousePressed = false
+      pointerClickOffsetToWindow = null
+    }
   })
 
   return element
