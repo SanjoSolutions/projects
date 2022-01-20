@@ -12,20 +12,7 @@ npm install --save '@sanjo/set'
 
 ## How to use
 
-```js
-import {
-  includes,
-  union,
-  intersection,
-  difference,
-  symmetricDifference,
-  cartesianProduct,
-  powerSet,
-  isStrictSubset,
-  isSubset,
-  without
-} from "@sanjo/set";
-```
+Please see [specifications](./src/).
 
 ## References
 

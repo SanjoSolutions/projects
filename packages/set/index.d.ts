@@ -4,6 +4,8 @@ export { includes } from './includes.js';
 export { intersection } from './intersection.js';
 export { isStrictSubset } from './isStrictSubset.js';
 export { isSubset } from './isSubset.js';
+export { nOutOf } from './nOutOf.js';
+export { nOutOfWithDuplicates } from './nOutOfWithDuplicates.js';
 export { powerSet } from './powerSet.js';
 export { symmetricDifference } from './symmetricDifference.js';
 export { union } from './union.js';
