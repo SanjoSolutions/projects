@@ -1995,6 +1995,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/range@workspace:packages/range":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/range@workspace:packages/range"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/read-file@^1.0.0, @sanjo/read-file@workspace:packages/read-file":
   version: 0.0.0-use.local
   resolution: "@sanjo/read-file@workspace:packages/read-file"

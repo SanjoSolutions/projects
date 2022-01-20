@@ -96,6 +96,9 @@
       "path": "./random/tsconfig-build.json"
     },
     {
+      "path": "./range"
+    },
+    {
       "path": "./read-file/tsconfig-build.json"
     },
     {

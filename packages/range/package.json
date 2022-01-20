@@ -1,0 +1,21 @@
+{
+  "name": "@sanjo/range",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Range",
+  "keywords": [
+    "range"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/range",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/range"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
