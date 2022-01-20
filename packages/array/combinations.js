@@ -7,7 +7,7 @@ export function combinations(setOrArray) {
         indexSubSequences = combinations.indexSubSequencesCache.get(length);
     }
     else {
-        indexSubSequences = getIndexSubSequences(array.length);
+        indexSubSequences = getIndexSubSequences(length);
         combinations.indexSubSequencesCache.set(length, indexSubSequences);
     }
     const subSequences = indexSubSequences.map(indexSubSequence => indexSubSequence.map(index => array[index]));
