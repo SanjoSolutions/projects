@@ -1,20 +1,21 @@
-import { NOutOfCache } from './NOutOfCache.js'
+import { Cache } from '@sanjo/cache'
 
 export function nOutOfBase<T>(
   n: number,
   set: Set<T>,
-  cache: NOutOfCache,
+  cache: Cache<number[][]>,
   getNextSubSequenceElementStartValue: (subSequence: number[]) => number
 ): Set<Set<T>> {
   const elements = [...set]
 
   let indexSubSequences
   const length = elements.length
-  if (cache.has(length, n)) {
-    indexSubSequences = cache.get(length, n)!
+  const key = { length, n }
+  if (cache.has(key)) {
+    indexSubSequences = cache.get(key)!
   } else {
     indexSubSequences = getIndexSubSequences(length, n, getNextSubSequenceElementStartValue)
-    cache.set(length, n, indexSubSequences)
+    cache.set(key, indexSubSequences)
   }
 
   return new Set(indexSubSequences.map(indexSubSequence => new Set(indexSubSequence.map(index => elements[index]))))

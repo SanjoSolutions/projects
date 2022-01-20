@@ -2048,6 +2048,7 @@ __metadata:
   resolution: "@sanjo/set@workspace:packages/set"
   dependencies:
     "@sanjo/array": ^1.0.4
+    "@sanjo/cache": ^1.0.0
   languageName: unknown
   linkType: soft
 

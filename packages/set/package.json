@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/set",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "type": "module",
   "description": "Set",
   "keywords": [
@@ -15,7 +15,8 @@
     "directory": "packages/set"
   },
   "dependencies": {
-    "@sanjo/array": "^1.0.4"
+    "@sanjo/array": "^1.0.4",
+    "@sanjo/cache": "^1.0.0"
   },
   "types": "./index.d.ts",
   "publishConfig": {

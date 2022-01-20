@@ -2,12 +2,13 @@ export function nOutOfBase(n, set, cache, getNextSubSequenceElementStartValue) {
     const elements = [...set];
     let indexSubSequences;
     const length = elements.length;
-    if (cache.has(length, n)) {
-        indexSubSequences = cache.get(length, n);
+    const key = { length, n };
+    if (cache.has(key)) {
+        indexSubSequences = cache.get(key);
     }
     else {
         indexSubSequences = getIndexSubSequences(length, n, getNextSubSequenceElementStartValue);
-        cache.set(length, n, indexSubSequences);
+        cache.set(key, indexSubSequences);
     }
     return new Set(indexSubSequences.map(indexSubSequence => new Set(indexSubSequence.map(index => elements[index]))));
 }
