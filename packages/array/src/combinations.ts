@@ -8,7 +8,7 @@ export function combinations<T>(setOrArray: Set<T> | T[]): T[][] {
   if (combinations.indexSubSequencesCache.has(length)) {
     indexSubSequences = combinations.indexSubSequencesCache.get(length)!
   } else {
-    indexSubSequences = getIndexSubSequences(array.length)
+    indexSubSequences = getIndexSubSequences(length)
     combinations.indexSubSequencesCache.set(length, indexSubSequences)
   }
 
