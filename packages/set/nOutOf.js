@@ -46,7 +46,6 @@ class Cache {
 }
 nOutOf.indexSubSequencesCache = new Cache();
 function getIndexSubSequences(length, n) {
-    console.log(length);
     const result = [];
     let subSequences = [[]];
     for (let iteration = 1; iteration <= length; iteration++) {

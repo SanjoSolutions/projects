@@ -5,11 +5,7 @@ describe('nOutOf', () => {
         expect(nOutOf(2, new Set([1, 2]))).toEqual(new Set([new Set([1, 2])]));
     });
     it('returns a set of set, every one with n unique elements out of a set (2)', () => {
-        expect(nOutOf(2, new Set([1, 2, 3]))).toEqual(new Set([
-            new Set([1, 2]),
-            new Set([1, 3]),
-            new Set([2, 3])
-        ]));
+        expect(nOutOf(2, new Set([1, 2, 3]))).toEqual(new Set([new Set([1, 2]), new Set([1, 3]), new Set([2, 3])]));
     });
 });
 //# sourceMappingURL=nOutOf.spec.js.map
