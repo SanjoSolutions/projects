@@ -1740,7 +1740,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
-    "@sanjo/comparison": ^0.1.0
+    "@sanjo/comparison": ^1.0.0
     "@sanjo/identity": ^2.0.0
   languageName: unknown
   linkType: soft
@@ -1757,7 +1757,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/comparison@^0.1.0, @sanjo/comparison@workspace:packages/comparison":
+"@sanjo/comparison@^1.0.0, @sanjo/comparison@workspace:packages/comparison":
   version: 0.0.0-use.local
   resolution: "@sanjo/comparison@workspace:packages/comparison"
   languageName: unknown

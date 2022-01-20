@@ -1,11 +1,20 @@
 {
   "name": "@sanjo/comparison",
+  "version": "1.0.0",
   "type": "module",
-  "description": "comparison",
+  "description": "Comparison",
+  "keywords": [
+    "comparison"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/comparison",
   "license": "Unlicense",
-  "version": "0.1.0",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/comparison"
+  },
+  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }
