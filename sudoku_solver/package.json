@@ -1,6 +1,6 @@
 {
   "type": "module",
   "scripts": {
-    "build": "rollup sudoku_solver.js --file built/bundle.js --format es --plugin commonjs --plugin node-polyfills"
+    "build": "rollup sudoku_solver.js --file built/bundle.js --format es --plugin commonjs --plugin node-polyfills --plugin node-resolve"
   }
 }
