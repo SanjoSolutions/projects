@@ -1,3 +1,3 @@
-export function multiply(values: number[]): number {
-  return values.length === 0 ? 0 : values.reduce((result, value) => result * value)
+export function multiply(a: number, b: number): number {
+  return a * b
 }

@@ -1,4 +1,4 @@
-export function multiply(values) {
-    return values.length === 0 ? 0 : values.reduce((result, value) => result * value);
+export function multiply(a, b) {
+    return a * b;
 }
 //# sourceMappingURL=multiply.js.map

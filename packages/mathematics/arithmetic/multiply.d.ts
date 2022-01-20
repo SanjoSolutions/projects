@@ -1,2 +1,2 @@
-export declare function multiply(values: number[]): number;
+export declare function multiply(a: number, b: number): number;
 //# sourceMappingURL=multiply.d.ts.map

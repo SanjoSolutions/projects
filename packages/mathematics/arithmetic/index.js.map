@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/arithmetic/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAA;AACxC,OAAO,EAAE,IAAI,EAAE,MAAM,WAAW,CAAA;AAChC,OAAO,EAAE,GAAG,EAAE,MAAM,UAAU,CAAA"}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/arithmetic/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAA;AACxC,OAAO,EAAE,IAAI,EAAE,MAAM,WAAW,CAAA;AAChC,OAAO,EAAE,GAAG,EAAE,MAAM,UAAU,CAAA;AAC9B,OAAO,EAAE,OAAO,EAAE,MAAM,cAAc,CAAA"}
