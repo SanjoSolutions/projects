@@ -1,0 +1,22 @@
+{
+  "name": "@sanjo/cache",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A cache with objects as keys",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/cache",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/cache"
+  },
+  "dependencies": {
+    "@sanjo/array": "^1.0.4"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
