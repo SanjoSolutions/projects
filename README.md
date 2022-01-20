@@ -1,8 +1,8 @@
 This work is devoted to God.
 
-## Demos
+## Projects
 
-[Demos](https://sanjosolutions.github.io/unnamed/)
+[Projects](https://sanjosolutions.github.io/unnamed/)
 
 ## Package manager
 
