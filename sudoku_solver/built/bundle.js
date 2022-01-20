@@ -57,6 +57,16 @@ function union(setA, setB) {
     return unionSet;
 }
 
+function without(set, ...otherSets) {
+    const result = new Set(set);
+    for (const otherSet of otherSets) {
+        for (const element of otherSet) {
+            result.delete(element);
+        }
+    }
+    return result;
+}
+
 const sudoku = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -380,8 +390,7 @@ function bruteForce(sudoku) {
   const possibleNumbers = getPossibleNumbers(sudoku);
   console.log('number of combinations:', determineNumberOfCombinations(possibleNumbers));
   if (canSudokuBeSolved(sudoku, possibleNumbers)) {
-    const sudokuCopy = copySudoku(sudoku);
-    return solveSub(sudokuCopy, sudoku, possibleNumbers, 0, 0)
+    return solveSub(sudoku, possibleNumbers, 0, 0)
   }
 
   return null
@@ -396,26 +405,42 @@ function determineNumberOfCombinations(possibleNumbers) {
   )
 }
 
-function solveSub(candidate, sudoku, possibleNumbers, rowIndex, columnIndex) {
+function solveSub(sudoku, possibleNumbers, rowIndex, columnIndex) {
+  const candidate = copySudoku(sudoku);
   const nextCell = determineNextCell(rowIndex, columnIndex);
   if (sudoku[rowIndex][columnIndex]) {
     if (nextCell) {
-      const solution = solveSub(candidate, sudoku, possibleNumbers, nextCell.row, nextCell.column);
+      const solution = solveSub(candidate, possibleNumbers, nextCell.row, nextCell.column);
       if (solution) {
         return solution
       }
     }
   } else {
-    for (const number of possibleNumbers[rowIndex][columnIndex]) {
-      candidate[rowIndex][columnIndex] = number;
+    const remainingPossibleNumbers = without(
+      new Set(possibleNumbers[rowIndex][columnIndex]),
+      getRow(candidate, rowIndex),
+      getColumn(candidate, columnIndex),
+      getBlock(candidate, rowIndex, columnIndex)
+    );
+    if (remainingPossibleNumbers.size >= 1) {
+      for (const number of remainingPossibleNumbers) {
+        candidate[rowIndex][columnIndex] = number;
+        if (nextCell) {
+          const solution = solveSub(candidate, possibleNumbers, nextCell.row, nextCell.column);
+          if (solution) {
+            return solution
+          }
+        } else {
+          if (isSolution(candidate)) {
+            return candidate
+          }
+        }
+      }
+    } else {
       if (nextCell) {
-        const solution = solveSub(candidate, sudoku, possibleNumbers, nextCell.row, nextCell.column);
+        const solution = solveSub(candidate, possibleNumbers, nextCell.row, nextCell.column);
         if (solution) {
           return solution
-        }
-      } else {
-        if (isSolution(candidate)) {
-          return candidate
         }
       }
     }
