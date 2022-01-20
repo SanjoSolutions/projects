@@ -12,4 +12,4 @@ npm install --save '@sanjo/range'
 
 ## How to use
 
-Please see [specifications](./src/range.spec.ts)
+Please see specifications ([range](./src/range.spec.ts), [generateTuplesInRange](./src/generateTuplesInRange.spec.ts)).
