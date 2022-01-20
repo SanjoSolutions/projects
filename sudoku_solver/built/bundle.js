@@ -381,7 +381,7 @@ function bruteForce(sudoku) {
     if (!sudoku[0][0]) {
       nextCell = {
         row: 0,
-        column: 0
+        column: 0,
       };
     } else {
       nextCell = determineNextCell(sudoku, 0, 0);
