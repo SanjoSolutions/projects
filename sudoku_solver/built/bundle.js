@@ -2,6 +2,28 @@ function concat(...arrays) {
     return [].concat(...arrays);
 }
 
+function* range(from, to, interval = 1) {
+    for (let i = from; i <= to; i += interval) {
+        yield i;
+    }
+}
+
+function generateTuplesInRange(ranges) {
+    let tuples = [[]];
+    for (const range of ranges) {
+        const nextTuples = [];
+        for (const tuple of tuples) {
+            const [from, to, interval] = range;
+            for (let i = from; i <= to; i += interval) {
+                const nextTuple = [...tuple, i];
+                nextTuples.push(nextTuple);
+            }
+        }
+        tuples = nextTuples;
+    }
+    return tuples;
+}
+
 function difference(setA, setB) {
     const differenceSet = new Set();
     for (const value of setA) {
@@ -21,6 +43,16 @@ function union(setA, setB) {
         unionSet.add(value);
     }
     return unionSet;
+}
+
+function without(set, ...otherSets) {
+    const result = new Set(set);
+    for (const otherSet of otherSets) {
+        for (const element of otherSet) {
+            result.delete(element);
+        }
+    }
+    return result;
 }
 
 const sudoku = [
@@ -136,7 +168,7 @@ function renderPossibleNumbersAToHTML(possibleNumbersA) {
 // console.log(renderPossibleNumbers(possibleNumbers(sudoku)))
 // console.log(solve(possibleNumbers(sudoku)))
 
-function possibleNumbers(sudoku) {
+function getPossibleNumbers(sudoku) {
   const possibleNumbers = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -338,4 +370,136 @@ function isInSameBlock(cellA, cellB) {
   )
 }
 
-export { fillSolutions, getSudokuFromSudokuInput, possibleNumbers, renderPossibleNumbersToHTML, renderSudokuInputToHTML, renderSudokuToHTML, solve, sudoku };
+function bruteForce(sudoku) {
+  if (isSolution(sudoku)) {
+    return sudoku
+  }
+
+  const possibleNumbers = getPossibleNumbers(sudoku);
+  if (canSudokuBeSolved(sudoku, possibleNumbers)) {
+    let nextCell;
+    if (!sudoku[0][0]) {
+      nextCell = {
+        row: 0,
+        column: 0,
+      };
+    } else {
+      nextCell = determineNextCell(sudoku, 0, 0);
+    }
+    const candidate = copySudoku(sudoku);
+    return solveSub(sudoku, candidate, possibleNumbers, nextCell.row, nextCell.column)
+  }
+
+  return null
+}
+
+function solveSub(sudoku, candidate, possibleNumbers, rowIndex, columnIndex) {
+  const remainingPossibleNumbers = without(
+    new Set(possibleNumbers[rowIndex][columnIndex]),
+    getRow(candidate, rowIndex),
+    getColumn(candidate, columnIndex),
+    getBlock(candidate, rowIndex, columnIndex)
+  );
+  if (remainingPossibleNumbers.size >= 1) {
+    const nextCell = determineNextCell(sudoku, rowIndex, columnIndex);
+    for (const number of remainingPossibleNumbers) {
+      candidate[rowIndex][columnIndex] = number;
+      if (nextCell) {
+        const solution = solveSub(sudoku, candidate, possibleNumbers, nextCell.row, nextCell.column);
+        if (solution) {
+          return solution
+        }
+      } else {
+        if (isSolution(candidate)) {
+          return candidate
+        }
+      }
+    }
+  }
+
+  candidate[rowIndex][columnIndex] = null;
+  return null
+}
+
+function determineNextCell(sudoku, row, column) {
+  const startIndex = rowAndColumnToIndex(row, column) + 1;
+  const length = 9 * 9;
+  for (let index = startIndex; index < length; index++) {
+    const { row, column } = indexToRowAndColumn(index);
+    if (!sudoku[row][column]) {
+      return { row, column }
+    }
+  }
+  return null
+}
+
+function rowAndColumnToIndex(row, column) {
+  return row * 9 + column
+}
+
+function indexToRowAndColumn(index) {
+  const row = Math.floor(index / 9);
+  const column = index % 9;
+  return { row, column }
+}
+
+function isSolution(sudoku) {
+  return (
+    getAllRows(sudoku).every(isValidRowFilling) &&
+    getAllColumns(sudoku).every(isValidColumnFilling) &&
+    getAllBlocks(sudoku).every(isValidBlockFilling)
+  )
+}
+
+function getAllRows(sudoku) {
+  return [...range(0, 8)].map(index => getRow(sudoku, index))
+}
+
+function getAllColumns(sudoku) {
+  return [...range(0, 8)].map(index => getColumn(sudoku, index))
+}
+
+function getAllBlocks(sudoku) {
+  return generateTuplesInRange([
+    [0, 8, 3],
+    [0, 8, 3],
+  ]).map(([rowIndex, columnIndex]) => getBlock(sudoku, rowIndex, columnIndex).flat())
+}
+
+function isValidRowFilling(row) {
+  return isValidFilling(row)
+}
+
+function isValidColumnFilling(column) {
+  return isValidFilling(column)
+}
+
+function isValidBlockFilling(block) {
+  return isValidFilling(block)
+}
+
+const validFilledValues = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+function isValidFilling(values) {
+  const set = new Set(values);
+  return set.size === 9 && values.every(value => validFilledValues.has(value))
+}
+
+function canSudokuBeSolved(sudoku, possibleNumbers) {
+  return generateTuplesInRange([
+    [0, 8, 1],
+    [0, 8, 1],
+  ]).every(([rowIndex, columnIndex]) => {
+    if (sudoku[rowIndex][columnIndex] || possibleNumbers[rowIndex][columnIndex]) {
+      return true
+    } else {
+      return false
+    }
+  })
+}
+
+function copySudoku(sudoku) {
+  return sudoku.map(row => Array.from(row))
+}
+
+export { bruteForce, determineNextCell, fillSolutions, getPossibleNumbers, getSudokuFromSudokuInput, isSolution, renderPossibleNumbersToHTML, renderSudokuInputToHTML, renderSudokuToHTML, solve, sudoku };
