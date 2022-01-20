@@ -71,7 +71,13 @@
   } from './built/bundle.js'
   import { renderSudokuInputToHTML } from './sudoku_solver.js'
 
-  let sudoku = [...initialSudoku]
+  let sudoku
+  const sudokuSavedSerialized = localStorage.getItem('sudoku')
+  if (sudokuSavedSerialized) {
+    sudoku = JSON.parse(sudokuSavedSerialized)
+  } else {
+    sudoku = [...initialSudoku]
+  }
   let possibleNumbers = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -138,5 +144,11 @@
     column2.appendChild(renderSudokuToHTML(solutions))
 
     column3.appendChild(renderPossibleNumbersToHTML(possibleNumbers))
+
+    document.addEventListener('keyup', function (event) {
+      if (event.target.tagName === 'INPUT') {
+        localStorage.setItem('sudoku', JSON.stringify(getSudokuFromSudokuInput(sudokuInput)))
+      }
+    })
   }
 </script>
