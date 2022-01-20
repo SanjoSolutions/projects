@@ -356,80 +356,71 @@ export function bruteForce(sudoku) {
   }
 
   const possibleNumbers = getPossibleNumbers(sudoku)
-  console.log('number of combinations:', determineNumberOfCombinations(possibleNumbers))
   if (canSudokuBeSolved(sudoku, possibleNumbers)) {
-    return solveSub(sudoku, possibleNumbers, 0, 0)
+    let nextCell
+    if (!sudoku[0][0]) {
+      nextCell = {
+        row: 0,
+        column: 0,
+      }
+    } else {
+      nextCell = determineNextCell(sudoku, 0, 0)
+    }
+    const candidate = copySudoku(sudoku)
+    return solveSub(sudoku, candidate, possibleNumbers, nextCell.row, nextCell.column)
   }
 
   return null
 }
 
-function determineNumberOfCombinations(possibleNumbers) {
-  return product(
-    possibleNumbers
-      .flat()
-      .filter(identity)
-      .map(array => array.length)
+function solveSub(sudoku, candidate, possibleNumbers, rowIndex, columnIndex) {
+  const remainingPossibleNumbers = without(
+    new Set(possibleNumbers[rowIndex][columnIndex]),
+    getRow(candidate, rowIndex),
+    getColumn(candidate, columnIndex),
+    getBlock(candidate, rowIndex, columnIndex)
   )
-}
-
-function solveSub(sudoku, possibleNumbers, rowIndex, columnIndex) {
-  const candidate = copySudoku(sudoku)
-  const nextCell = determineNextCell(rowIndex, columnIndex)
-  if (sudoku[rowIndex][columnIndex]) {
-    if (nextCell) {
-      const solution = solveSub(candidate, possibleNumbers, nextCell.row, nextCell.column)
-      if (solution) {
-        return solution
-      }
-    }
-  } else {
-    const remainingPossibleNumbers = without(
-      new Set(possibleNumbers[rowIndex][columnIndex]),
-      getRow(candidate, rowIndex),
-      getColumn(candidate, columnIndex),
-      getBlock(candidate, rowIndex, columnIndex)
-    )
-    if (remainingPossibleNumbers.size >= 1) {
-      for (const number of remainingPossibleNumbers) {
-        candidate[rowIndex][columnIndex] = number
-        if (nextCell) {
-          const solution = solveSub(candidate, possibleNumbers, nextCell.row, nextCell.column)
-          if (solution) {
-            return solution
-          }
-        } else {
-          if (isSolution(candidate)) {
-            return candidate
-          }
-        }
-      }
-    } else {
+  if (remainingPossibleNumbers.size >= 1) {
+    const nextCell = determineNextCell(sudoku, rowIndex, columnIndex)
+    for (const number of remainingPossibleNumbers) {
+      candidate[rowIndex][columnIndex] = number
       if (nextCell) {
-        const solution = solveSub(candidate, possibleNumbers, nextCell.row, nextCell.column)
+        const solution = solveSub(sudoku, candidate, possibleNumbers, nextCell.row, nextCell.column)
         if (solution) {
           return solution
         }
+      } else {
+        if (isSolution(candidate)) {
+          return candidate
+        }
       }
     }
   }
 
+  candidate[rowIndex][columnIndex] = null
   return null
 }
 
-export function determineNextCell(row, column) {
-  let nextColumn = column + 1
-  if (nextColumn > 8) {
-    nextColumn = 0
-    const nextRow = row + 1
-    if (nextRow <= 8) {
-      return { row: nextRow, column: nextColumn }
-    } else {
-      return null
+export function determineNextCell(sudoku, row, column) {
+  const startIndex = rowAndColumnToIndex(row, column) + 1
+  const length = 9 * 9
+  for (let index = startIndex; index < length; index++) {
+    const { row, column } = indexToRowAndColumn(index)
+    if (!sudoku[row][column]) {
+      return { row, column }
     }
-  } else {
-    return { row, column: nextColumn }
   }
+  return null
+}
+
+function rowAndColumnToIndex(row, column) {
+  return row * 9 + column
+}
+
+function indexToRowAndColumn(index) {
+  const row = Math.floor(index / 9)
+  const column = index % 9
+  return { row, column }
 }
 
 export function isSolution(sudoku) {

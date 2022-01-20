@@ -18,9 +18,3 @@ describe('isSolution', () => {
     ).toEqual(true)
   })
 })
-
-describe('determineNextCell', () => {
-  it('determineNextCell(0, 0) returns {row: 0, column: 1}', () => {
-    expect(determineNextCell(0, 0)).toEqual({ row: 0, column: 1 })
-  })
-})
