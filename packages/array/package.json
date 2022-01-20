@@ -3,11 +3,11 @@
   "type": "module",
   "description": "Array functions",
   "license": "Unlicense",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "./index.js",
   "types": "./index.d.js",
   "dependencies": {
-    "@sanjo/comparison": "^0.1.0",
+    "@sanjo/comparison": "^1.0.0",
     "@sanjo/identity": "^2.0.0"
   },
   "publishConfig": {
