@@ -141,6 +141,7 @@ module.exports = {
   testMatch: [
     '<rootDir>/packages/*/src/**/*.spec.ts',
     '<rootDir>/rgbToHsl.spec.js',
+    '<rootDir>/sudoku_solver/*.spec.js',
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped

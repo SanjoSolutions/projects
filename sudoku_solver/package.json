@@ -2,5 +2,11 @@
   "type": "module",
   "scripts": {
     "build": "rollup sudoku_solver.js --file built/bundle.js --format es --plugin commonjs --plugin node-polyfills --plugin node-resolve"
+  },
+  "dependencies": {
+    "@sanjo/array": "^1.0.4",
+    "@sanjo/identity": "^2.0.3",
+    "@sanjo/mathematics": "^0.3.0",
+    "@sanjo/range": "^1.0.1"
   }
 }

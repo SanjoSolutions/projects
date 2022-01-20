@@ -63,12 +63,13 @@
   import {
     sudoku as initialSudoku,
     renderSudokuToHTML,
-    possibleNumbers as getPossibleNumbers,
+    getPossibleNumbers,
     renderPossibleNumbersToHTML,
     solve,
     fillSolutions,
     getSudokuFromSudokuInput,
-    renderSudokuInputToHTML
+    renderSudokuInputToHTML,
+    bruteForce
   } from './built/bundle.js'
 
   let sudoku
@@ -132,6 +133,7 @@
 
     const button = document.createElement('button')
     button.innerText = 'Next'
+    button.style.marginRight = '0.5rem'
     button.addEventListener('click', () => {
       sudoku = getSudokuFromSudokuInput(sudokuInput)
       possibleNumbers = getPossibleNumbers(sudoku)
@@ -140,6 +142,13 @@
       render()
     })
     column1.appendChild(button)
+
+    const bruteForceButton = document.createElement('button')
+    bruteForceButton.innerText = 'Brute force'
+    bruteForceButton.addEventListener('click', () => {
+      console.log(bruteForce(sudoku))
+    })
+    column1.appendChild(bruteForceButton)
 
     column2.appendChild(renderSudokuToHTML(solutions))
 

@@ -1,5 +1,9 @@
+import { first } from '@sanjo/array'
+import { product } from '@sanjo/mathematics'
+import { generateTuplesInRange, range } from '@sanjo/range'
 import { concat } from '../packages/array/concat.js'
 import { difference, union } from '../packages/set/index.js'
+import { identity } from '@sanjo/identity'
 
 export const sudoku = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -114,7 +118,7 @@ function renderPossibleNumbersAToHTML(possibleNumbersA) {
 // console.log(renderPossibleNumbers(possibleNumbers(sudoku)))
 // console.log(solve(possibleNumbers(sudoku)))
 
-export function possibleNumbers(sudoku) {
+export function getPossibleNumbers(sudoku) {
   const possibleNumbers = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -343,4 +347,130 @@ function isInSameBlock(cellA, cellB) {
     getBlockStartRowIndex(rowIndex1) === getBlockStartRowIndex(rowIndex2) &&
     getBlockStartColumnIndex(columnIndex1) === getBlockStartColumnIndex(columnIndex2)
   )
+}
+
+export function bruteForce(sudoku) {
+  if (isSolution(sudoku)) {
+    return sudoku
+  }
+
+  const possibleNumbers = getPossibleNumbers(sudoku)
+  console.log('number of combinations:', determineNumberOfCombinations(possibleNumbers))
+  if (canSudokuBeSolved(sudoku, possibleNumbers)) {
+    const sudokuCopy = copySudoku(sudoku)
+    return solveSub(sudokuCopy, sudoku, possibleNumbers, 0, 0)
+  }
+
+  return null
+}
+
+function determineNumberOfCombinations(possibleNumbers) {
+  return product(
+    possibleNumbers
+      .flat()
+      .filter(identity)
+      .map(array => array.length)
+  )
+}
+
+function solveSub(candidate, sudoku, possibleNumbers, rowIndex, columnIndex) {
+  const nextCell = determineNextCell(rowIndex, columnIndex)
+  if (sudoku[rowIndex][columnIndex]) {
+    if (nextCell) {
+      const solution = solveSub(candidate, sudoku, possibleNumbers, nextCell.row, nextCell.column)
+      if (solution) {
+        return solution
+      }
+    }
+  } else {
+    for (const number of possibleNumbers[rowIndex][columnIndex]) {
+      candidate[rowIndex][columnIndex] = number
+      if (nextCell) {
+        const solution = solveSub(candidate, sudoku, possibleNumbers, nextCell.row, nextCell.column)
+        if (solution) {
+          return solution
+        }
+      } else {
+        if (isSolution(candidate)) {
+          return candidate
+        }
+      }
+    }
+  }
+
+  return null
+}
+
+export function determineNextCell(row, column) {
+  let nextColumn = column + 1
+  if (nextColumn > 8) {
+    nextColumn = 0
+    const nextRow = row + 1
+    if (nextRow <= 8) {
+      return { row: nextRow, column: nextColumn }
+    } else {
+      return null
+    }
+  } else {
+    return { row, column: nextColumn }
+  }
+}
+
+export function isSolution(sudoku) {
+  return (
+    getAllRows(sudoku).every(isValidRowFilling) &&
+    getAllColumns(sudoku).every(isValidColumnFilling) &&
+    getAllBlocks(sudoku).every(isValidBlockFilling)
+  )
+}
+
+function getAllRows(sudoku) {
+  return [...range(0, 8)].map(index => getRow(sudoku, index))
+}
+
+function getAllColumns(sudoku) {
+  return [...range(0, 8)].map(index => getColumn(sudoku, index))
+}
+
+function getAllBlocks(sudoku) {
+  return generateTuplesInRange([
+    [0, 8, 3],
+    [0, 8, 3],
+  ]).map(([rowIndex, columnIndex]) => getBlock(sudoku, rowIndex, columnIndex).flat())
+}
+
+function isValidRowFilling(row) {
+  return isValidFilling(row)
+}
+
+function isValidColumnFilling(column) {
+  return isValidFilling(column)
+}
+
+function isValidBlockFilling(block) {
+  return isValidFilling(block)
+}
+
+const validFilledValues = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
+
+function isValidFilling(values) {
+  const set = new Set(values)
+  return set.size === 9 && values.every(value => validFilledValues.has(value))
+}
+
+function canSudokuBeSolved(sudoku, possibleNumbers) {
+  return generateTuplesInRange([
+    [0, 8, 1],
+    [0, 8, 1],
+  ]).every(([rowIndex, columnIndex]) => {
+    if (sudoku[rowIndex][columnIndex] || possibleNumbers[rowIndex][columnIndex]) {
+      return true
+    } else {
+      return false
+    }
+  })
+}
+
+function copySudoku(sudoku) {
+  return sudoku.map(row => Array.from(row))
 }
