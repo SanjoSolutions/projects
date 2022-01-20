@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/multiset",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Multiset",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/multiset",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/multiset"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
