@@ -146,7 +146,14 @@
     const bruteForceButton = document.createElement('button')
     bruteForceButton.innerText = 'Brute force'
     bruteForceButton.addEventListener('click', () => {
-      console.log(bruteForce(sudoku))
+      const solution = bruteForce(sudoku)
+      if (solution) {
+        solutions = solution.map(
+          (row, rowIndex) => row.map((value, columnIndex) => sudoku[rowIndex][columnIndex] ? null : value)
+        )
+        sudoku = solution
+      }
+      render()
     })
     column1.appendChild(bruteForceButton)
 
