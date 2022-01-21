@@ -1,2 +1,2 @@
-export declare function powerSet<T>(set: Set<T>): Set<Set<T>>;
+export declare function powerSet<T>(set: Iterable<T>): Set<Set<T>>;
 //# sourceMappingURL=powerSet.d.ts.map

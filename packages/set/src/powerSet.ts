@@ -1,6 +1,9 @@
 import { getIndexSubSequences } from './getIndexSubSequences.js'
 
-export function powerSet<T>(set: Set<T>): Set<Set<T>> {
+/**
+ * @see https://en.wikipedia.org/wiki/Power_set
+ */
+export function powerSet<T>(set: Iterable<T>): Set<Set<T>> {
   const array = [...set]
   array.sort()
 
