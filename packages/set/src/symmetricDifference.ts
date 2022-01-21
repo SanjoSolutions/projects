@@ -3,5 +3,16 @@ import { intersection } from './intersection.js'
 import { union } from './union.js'
 
 export function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
-  return difference(union(setA, setB), intersection(setA, setB))
+  const result: Set<T> = new Set()
+  for (const element of setA) {
+    if (!setB.has(element)) {
+      result.add(element)
+    }
+  }
+  for (const element of setB) {
+    if (!setA.has(element)) {
+      result.add(element)
+    }
+  }
+  return result
 }
