@@ -1,1 +1,1 @@
-{"version":3,"file":"intersection.d.ts","sourceRoot":"","sources":["src/intersection.ts"],"names":[],"mappings":"AAAA,wBAAgB,YAAY,CAAC,CAAC,EAAE,IAAI,EAAE,GAAG,CAAC,CAAC,CAAC,EAAE,IAAI,EAAE,GAAG,CAAC,CAAC,CAAC,GAAG,GAAG,CAAC,CAAC,CAAC,CAElE"}
+{"version":3,"file":"intersection.d.ts","sourceRoot":"","sources":["src/intersection.ts"],"names":[],"mappings":"AAAA,wBAAgB,YAAY,CAAC,CAAC,EAAE,IAAI,EAAE,QAAQ,CAAC,CAAC,CAAC,EAAE,IAAI,EAAE,GAAG,CAAC,CAAC,CAAC,GAAG,GAAG,CAAC,CAAC,CAAC,CAEvE"}

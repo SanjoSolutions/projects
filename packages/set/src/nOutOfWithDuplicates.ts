@@ -2,7 +2,7 @@ import { last } from '@sanjo/array'
 import { nOutOfBase } from './nOutOfBase.js'
 import { Cache } from '@sanjo/cache'
 
-export function nOutOfWithDuplicates<T>(n: number, set: Set<T>): Set<Set<T>> {
+export function nOutOfWithDuplicates<T>(n: number, set: Iterable<T>): Set<Set<T>> {
   return nOutOfBase(n, set, nOutOfWithDuplicates.indexSubSequencesCache, getNextSubSequenceElementStartValue)
 }
 

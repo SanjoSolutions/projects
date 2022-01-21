@@ -4,12 +4,7 @@ describe('powerSet', () => {
     it('returns the power set', () => {
         const a = new Set([1, 2]);
         const result = powerSet(a);
-        expect(result).toEqual(new Set([
-            new Set(),
-            new Set([1]),
-            new Set([2]),
-            new Set([1, 2])
-        ]));
+        expect(result).toEqual(new Set([new Set(), new Set([1]), new Set([2]), new Set([1, 2])]));
     });
 });
 //# sourceMappingURL=powerSet.spec.js.map

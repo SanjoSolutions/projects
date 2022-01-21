@@ -1,4 +1,4 @@
-export function without<T>(set: Set<T>, ...otherSets: Set<T>[]): Set<T> {
+export function without<T>(set: Iterable<T>, ...otherSets: Iterable<T>[]): Set<T> {
   const result = new Set(set)
   for (const otherSet of otherSets) {
     for (const element of otherSet) {

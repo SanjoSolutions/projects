@@ -1,4 +1,7 @@
 import { getIndexSubSequences } from './getIndexSubSequences.js';
+/**
+ * @see https://en.wikipedia.org/wiki/Power_set
+ */
 export function powerSet(set) {
     const array = [...set];
     array.sort();

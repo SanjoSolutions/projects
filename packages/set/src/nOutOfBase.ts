@@ -2,7 +2,7 @@ import { Cache } from '@sanjo/cache'
 
 export function nOutOfBase<T>(
   n: number,
-  set: Set<T>,
+  set: Iterable<T>,
   cache: Cache<number[][]>,
   getNextSubSequenceElementStartValue: (subSequence: number[]) => number
 ): Set<Set<T>> {

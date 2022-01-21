@@ -1,5 +1,5 @@
 import { Cache } from '@sanjo/cache';
-export declare function nOutOf<T>(n: number, set: Set<T>): Set<Set<T>>;
+export declare function nOutOf<T>(n: number, set: Iterable<T>): Set<Set<T>>;
 export declare namespace nOutOf {
     var indexSubSequencesCache: Cache<number[][]>;
 }
