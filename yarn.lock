@@ -2064,6 +2064,7 @@ __metadata:
   resolution: "@sanjo/hearts@workspace:packages/hearts"
   dependencies:
     "@sanjo/canvas": ^0.1.0
+    "@sanjo/random": ^2.0.0
     "@sanjo/webpack": ^1.1.0
   languageName: unknown
   linkType: soft

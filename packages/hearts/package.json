@@ -17,7 +17,8 @@
     "build:watch": "webpack-dev-server --open --config webpack.dev.js"
   },
   "dependencies": {
-    "@sanjo/canvas": "^0.1.0"
+    "@sanjo/canvas": "^0.1.0",
+    "@sanjo/random": "^2.0.0"
   },
   "devDependencies": {
     "@sanjo/webpack": "^1.1.0"
