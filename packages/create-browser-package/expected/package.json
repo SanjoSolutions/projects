@@ -13,11 +13,13 @@
     "directory": "packages/test-package"
   },
   "scripts": {
-    "build": "webpack",
-    "build:watch": "webpack-dev-server --open"
+    "build": "webpack --config webpack.prod.js",
+    "build:watch": "webpack-dev-server --open --config webpack.dev.js"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@sanjo/webpack": "^1.1.0"
+  },
   "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"

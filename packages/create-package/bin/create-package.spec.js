@@ -1,8 +1,25 @@
-import testCreatePackage from '@sanjo/test-create-package';
+import { afterEach, beforeEach, describe, it } from '@jest/globals';
+import { removeRecursively } from '@sanjo/fs';
+import { createFiles } from '@sanjo/test-create-package';
+import testNpmInit from '@sanjo/test-npm-init';
 import path from 'path';
 // This uses the built version.
 const packageName = '@sanjo/test-package';
 const packageDescription = 'Description of test package';
-const expectedPath = path.resolve(__dirname, '../../expected');
-testCreatePackage('@sanjo/create-package', path.resolve(__dirname, '../..'), [packageName, packageDescription]);
+const createPackagePackageName = '@sanjo/create-package';
+const createPackagePackagePath = path.resolve(__dirname, '../..');
+const createPackagePackageArguments = [packageName, packageDescription];
+describe(createPackagePackageName, () => {
+    let rootPath;
+    beforeEach(async function () {
+        rootPath = await createFiles(createPackagePackageName, createPackagePackagePath);
+    });
+    afterEach(async function () {
+        await removeRecursively(rootPath);
+    });
+    it('creates a package', async () => {
+        const expectedPath = path.join(createPackagePackagePath, 'expected');
+        await testNpmInit(rootPath, createPackagePackageName, createPackagePackageArguments, expectedPath);
+    });
+});
 //# sourceMappingURL=create-package.spec.js.map

@@ -12,7 +12,15 @@ declare const _default: {
         extensions: string[];
     };
     module: {
-        rules: never[];
+        rules: ({
+            test: RegExp;
+            use: string[];
+            exclude?: undefined;
+        } | {
+            test: RegExp;
+            use: string;
+            exclude: RegExp;
+        })[];
     };
     experiments: {
         outputModule: boolean;

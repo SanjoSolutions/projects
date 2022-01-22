@@ -12,9 +12,6 @@
       "path": "../create-temporary-npm-package"
     },
     {
-      "path": "../fs"
-    },
-    {
       "path": "../test-npm-init"
     },
     {

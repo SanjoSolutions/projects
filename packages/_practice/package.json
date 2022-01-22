@@ -7,8 +7,8 @@
   "main": "./index.js",
   "types": "./index.d.js",
   "scripts": {
-    "build": "webpack",
-    "build:watch": "webpack-dev-server --open"
+    "build": "webpack --config webpack.prod.js",
+    "build:watch": "webpack-dev-server --open --config webpack.dev.js"
   },
   "dependencies": {
     "@sanjo/make-temporary-directory": "^1.0.0",
@@ -21,6 +21,7 @@
     "@sanjo/array": "^1.0.0",
     "@sanjo/fs": "^1.0.0",
     "@sanjo/random": "^2.0.0",
+    "@sanjo/webpack": "^1.1.0",
     "@types/react-dom": "^16.9.8",
     "cucumber": "^6.0.5"
   },

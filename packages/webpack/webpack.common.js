@@ -15,7 +15,17 @@ export default {
         extensions: ['.js'],
     },
     module: {
-        rules: [],
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.jsx?$/,
+                use: 'babel-loader',
+                exclude: /node_modules/,
+            },
+        ],
     },
     experiments: {
         outputModule: true,

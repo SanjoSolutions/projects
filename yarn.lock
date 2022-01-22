@@ -1912,10 +1912,13 @@ __metadata:
     "@sanjo/create-package": ^0.2.0
     "@sanjo/diff-folders": ^0.1.0
     "@sanjo/exec": ^1.0.0
+    "@sanjo/fs": ^1.0.0
     "@sanjo/make-temporary-directory": ^1.0.0
     "@sanjo/read-json": ^1.0.0
-    "@sanjo/test-create-package": ^0.1.0
+    "@sanjo/test-create-package": ^0.2.0
     "@sanjo/write-json": ^1.0.0
+    "@types/ncp": ^2.0.4
+    ncp: ^2.0.0
   bin:
     create-browser-package: ./bin/create-browser-package.js
   languageName: unknown
@@ -1947,9 +1950,10 @@ __metadata:
     "@sanjo/diff-folders": ^0.1.0
     "@sanjo/escape-for-reg-exp": ^1.0.0
     "@sanjo/exec": ^1.0.0
+    "@sanjo/fs": ^1.0.0
     "@sanjo/make-temporary-directory": ^1.0.0
     "@sanjo/read-file": ^1.0.0
-    "@sanjo/test-create-package": ^0.1.0
+    "@sanjo/test-create-package": ^0.2.0
     "@sanjo/write-file": ^1.0.0
     "@types/lodash.sortby": ^4.7.6
     "@types/lodash.sorteduniqby": ^4.7.6
@@ -2050,7 +2054,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/hearts@workspace:packages/hearts"
   dependencies:
-    "@sanjo/webpack": ^1.0.0
+    "@sanjo/webpack": ^1.1.0
   languageName: unknown
   linkType: soft
 
@@ -2192,12 +2196,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/test-create-package@^0.1.0, @sanjo/test-create-package@workspace:packages/test-create-package":
+"@sanjo/test-create-package@^0.2.0, @sanjo/test-create-package@workspace:packages/test-create-package":
   version: 0.0.0-use.local
   resolution: "@sanjo/test-create-package@workspace:packages/test-create-package"
   dependencies:
     "@sanjo/create-temporary-npm-package": ^0.1.0
-    "@sanjo/fs": ^1.0.0
     "@sanjo/test-npm-init": ^0.1.0
     "@sanjo/write-json": ^1.0.0
   languageName: unknown
@@ -2218,11 +2221,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/webpack@^1.0.0, @sanjo/webpack@workspace:packages/webpack":
+"@sanjo/webpack@^1.1.0, @sanjo/webpack@workspace:packages/webpack":
   version: 0.0.0-use.local
   resolution: "@sanjo/webpack@workspace:packages/webpack"
   dependencies:
+    babel-loader: ^8.2.3
+    css-loader: ^6.5.1
+    style-loader: ^3.3.1
     ts-loader: ^9.2.6
+    webpack: ^5.67.0
+    webpack-cli: ^4.9.1
+    webpack-dev-server: ^4.7.3
     webpack-merge: ^5.8.0
   languageName: unknown
   linkType: soft
@@ -6835,17 +6844,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "loader-utils@npm:2.0.2"
-  dependencies:
-    big.js: ^5.2.2
-    emojis-list: ^3.0.0
-    json5: ^2.1.2
-  checksum: 9078d1ed47cadc57f4c6ddbdb2add324ee7da544cea41de3b7f1128e8108fcd41cd3443a85b7ee8d7d8ac439148aa221922774efe4cf87506d4fb054d5889303
-  languageName: node
-  linkType: hard
-
 "locate-path@npm:^3.0.0":
   version: 3.0.0
   resolution: "locate-path@npm:3.0.0"
@@ -7802,17 +7800,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:^6.0.2":
-  version: 6.0.8
-  resolution: "postcss-selector-parser@npm:6.0.8"
-  dependencies:
-    cssesc: ^3.0.0
-    util-deprecate: ^1.0.2
-  checksum: 550351c8d04216106e259f7c433652aa6742dd7ddbedf7afdc313526963bb170589a6fefd1bc1fe6268a2cf9f5073d4ecb09bc7b5b4bef49edf80634300500af
-  languageName: node
-  linkType: hard
-
-"postcss-selector-parser@npm:^6.0.4":
+"postcss-selector-parser@npm:^6.0.2, postcss-selector-parser@npm:^6.0.4":
   version: 6.0.9
   resolution: "postcss-selector-parser@npm:6.0.9"
   dependencies:
@@ -7850,6 +7838,7 @@ __metadata:
     "@sanjo/mongodb-diff": ^0.3.0
     "@sanjo/random": ^2.0.0
     "@sanjo/request": ^0.3.0
+    "@sanjo/webpack": ^1.1.0
     "@types/react-dom": ^16.9.8
     cucumber: ^6.0.5
     react: ^16.13.1
@@ -8433,7 +8422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"schema-utils@npm:^2.6.5, schema-utils@npm:^2.7.0":
+"schema-utils@npm:^2.6.5":
   version: 2.7.1
   resolution: "schema-utils@npm:2.7.1"
   dependencies:
@@ -9056,15 +9045,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-loader@npm:^1.2.1":
-  version: 1.3.0
-  resolution: "style-loader@npm:1.3.0"
-  dependencies:
-    loader-utils: ^2.0.0
-    schema-utils: ^2.7.0
+"style-loader@npm:^3.3.1":
+  version: 3.3.1
+  resolution: "style-loader@npm:3.3.1"
   peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: 1be9e8705307f5b8eb89e80f3703fa27296dccec349d790eace7aabe212f08c7c8f3ea6b6cb97bc53e82fbebfb9aa0689259671a8315f4655e24a850781e062a
+    webpack: ^5.0.0
+  checksum: 470feef680f59e2fce4d6601b5c55b88c01ad8d1dd693c528ffd591ff5fd7c01a4eff3bdbe62f26f847d6bd2430c9ab594be23307cfe7a3446ab236683f0d066
   languageName: node
   linkType: hard
 
@@ -9578,21 +9564,13 @@ __metadata:
     "@types/jest": ^27.4.0
     "@types/node": ^17.0.10
     babel-jest: ^27.4.6
-    babel-loader: ^8.2.3
-    css-loader: ^6.5.1
     husky: ">=6"
     jest: ^27.4.7
     lint-staged: ">=10"
     prettier: 2.2.1
-    style-loader: ^1.2.1
     ts-jest: ^27.1.3
     ts-jest-resolver: ^2.0.0
-    ts-loader: ^9.2.6
     typescript: ^4.5.5
-    webpack: ^5.67.0
-    webpack-cli: ^4.9.1
-    webpack-dev-server: ^4.7.3
-    webpack-merge: ^5.8.0
   languageName: unknown
   linkType: soft
 

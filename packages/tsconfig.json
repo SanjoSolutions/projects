@@ -72,6 +72,9 @@
       "path": "./fs"
     },
     {
+      "path": "./hearts"
+    },
+    {
       "path": "./identity/tsconfig-build.json"
     },
     {

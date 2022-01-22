@@ -9,13 +9,16 @@
   "dependencies": {
     "@sanjo/create-package": "^0.2.0",
     "@sanjo/read-json": "^1.0.0",
-    "@sanjo/write-json": "^1.0.0"
+    "@sanjo/write-json": "^1.0.0",
+    "ncp": "^2.0.0"
   },
   "devDependencies": {
     "@sanjo/diff-folders": "^0.1.0",
     "@sanjo/exec": "^1.0.0",
+    "@sanjo/fs": "^1.0.0",
     "@sanjo/make-temporary-directory": "^1.0.0",
-    "@sanjo/test-create-package": "^0.1.0"
+    "@sanjo/test-create-package": "^0.2.0",
+    "@types/ncp": "^2.0.4"
   },
   "publishConfig": {
     "access": "public"

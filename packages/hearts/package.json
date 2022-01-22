@@ -1,0 +1,26 @@
+{
+  "name": "@sanjo/hearts",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Hearts",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/hearts",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/hearts"
+  },
+  "scripts": {
+    "build": "webpack --config webpack.prod.js",
+    "build:watch": "webpack-dev-server --open --config webpack.dev.js"
+  },
+  "devDependencies": {
+    "@sanjo/webpack": "^1.1.0"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","mappings":"AAEAA,QAAQC,IAAI","sources":["webpack://@sanjo/hearts/./src/index.ts"],"sourcesContent":["export {}\n\nconsole.log('hearts/index.js')\n"],"names":["console","log"],"sourceRoot":""}

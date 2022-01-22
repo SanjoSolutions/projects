@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig-base-build.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "module": "ES2020"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../webpack"
+    }
+  ]
+}

@@ -1,10 +1,17 @@
 import createPackage from '@sanjo/create-package'
+import { __dirname } from '@sanjo/create-package/__dirname.js'
 import readJSON from '@sanjo/read-json'
 import writeJSON from '@sanjo/write-json'
+import ncp from 'ncp'
 import path from 'path'
+import { promisify } from 'util'
+
+const copyRecursively = promisify(ncp)
 
 export async function createBrowserPackage() {
   const packagePath = await createPackage()
+  const templatePath = path.resolve(__dirname(import.meta.url), 'template/')
+  await copyRecursively(templatePath, packagePath)
   await adjustPackageJSON(packagePath)
   await adjustTsconfigJSON(packagePath)
 }
@@ -12,10 +19,11 @@ export async function createBrowserPackage() {
 async function adjustPackageJSON(packagePath: string): Promise<void> {
   const packageJSONPath = path.join(packagePath, 'package.json')
   const packageJSON = await readJSON(packageJSONPath)
+  packageJSON.devDependencies['@sanjo/webpack'] = '^1.1.0'
   const packageJSONEntries = Object.entries(packageJSON)
   const scripts = {
-    build: 'webpack',
-    'build:watch': 'webpack-dev-server --open',
+    build: 'webpack --config webpack.prod.js',
+    'build:watch': 'webpack-dev-server --open --config webpack.dev.js',
   }
   const repositoryEntryIndex = packageJSONEntries.findIndex(entry => entry[0] === 'repository')
   packageJSONEntries.splice(repositoryEntryIndex + 1, 0, ['scripts', scripts])

@@ -3,12 +3,11 @@
   "type": "module",
   "description": "Test create package",
   "license": "Unlicense",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "./index.js",
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-temporary-npm-package": "^0.1.0",
-    "@sanjo/fs": "^1.0.0",
     "@sanjo/test-npm-init": "^0.1.0",
     "@sanjo/write-json": "^1.0.0"
   },

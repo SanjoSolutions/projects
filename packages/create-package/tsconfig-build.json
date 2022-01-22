@@ -18,6 +18,9 @@
       "path": "../exec"
     },
     {
+      "path": "../fs"
+    },
+    {
       "path": "../make-temporary-directory"
     },
     {
