@@ -8242,6 +8242,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"resolve-typescript-plugin@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "resolve-typescript-plugin@npm:1.1.4"
+  dependencies:
+    tslib: 2.3.1
+  peerDependencies:
+    webpack: ^5.0.0
+  checksum: f92dcb89f79237585021c48cbe799a18d669cc02c436ded95c965ab3a6eeeaf665069a33c7d376911277b41fbb48e7548d13062c467ffb4ce52f63e5b1132716
+  languageName: node
+  linkType: hard
+
 "resolve.exports@npm:^1.1.0":
   version: 1.1.0
   resolution: "resolve.exports@npm:1.1.0"
@@ -9389,7 +9400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.1.0":
+"tslib@npm:2.3.1, tslib@npm:^2.1.0":
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9

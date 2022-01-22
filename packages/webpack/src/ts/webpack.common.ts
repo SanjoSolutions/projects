@@ -1,3 +1,4 @@
+import ResolveTypeScriptPlugin from 'resolve-typescript-plugin'
 import { merge } from 'webpack-merge'
 import common from '../webpack.common.js'
 
@@ -13,7 +14,7 @@ const config = merge(common, {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js'],
+    plugins: [new ResolveTypeScriptPlugin()],
   },
 } as any)
 

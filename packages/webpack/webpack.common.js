@@ -12,7 +12,7 @@ export default {
     },
     devtool: 'source-map',
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.js', '.jsx'],
     },
     module: {
         rules: [
