@@ -1,0 +1,21 @@
+{
+  "name": "@sanjo/noop",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Noop",
+  "keywords": [
+    "noop"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/noop",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/noop"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -2102,6 +2102,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/noop@workspace:packages/noop":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/noop@workspace:packages/noop"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/npm-init@^0.1.0, @sanjo/npm-init@workspace:packages/npm-init":
   version: 0.0.0-use.local
   resolution: "@sanjo/npm-init@workspace:packages/npm-init"

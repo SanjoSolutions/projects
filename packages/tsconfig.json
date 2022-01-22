@@ -87,6 +87,9 @@
       "path": "./multiset"
     },
     {
+      "path": "./noop"
+    },
+    {
       "path": "./npm-init/tsconfig-build.json"
     },
     {
