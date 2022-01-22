@@ -1885,6 +1885,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/canvas@^0.1.0, @sanjo/canvas@workspace:packages/canvas":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/canvas@workspace:packages/canvas"
+  dependencies:
+    "@sanjo/noop": ^1.0.0
+    lodash: ^4.17.21
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/card-game@workspace:packages/card-game":
   version: 0.0.0-use.local
   resolution: "@sanjo/card-game@workspace:packages/card-game"
@@ -2054,6 +2063,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/hearts@workspace:packages/hearts"
   dependencies:
+    "@sanjo/canvas": ^0.1.0
     "@sanjo/webpack": ^1.1.0
   languageName: unknown
   linkType: soft
@@ -2102,7 +2112,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/noop@workspace:packages/noop":
+"@sanjo/noop@^1.0.0, @sanjo/noop@workspace:packages/noop":
   version: 0.0.0-use.local
   resolution: "@sanjo/noop@workspace:packages/noop"
   languageName: unknown
@@ -2202,6 +2212,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/settling@workspace:packages/settling":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/settling@workspace:packages/settling"
+  dependencies:
+    "@sanjo/canvas": ^0.1.0
+    "@sanjo/webpack": ^1.1.0
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/test-create-package@^0.2.0, @sanjo/test-create-package@workspace:packages/test-create-package":
   version: 0.0.0-use.local
   resolution: "@sanjo/test-create-package@workspace:packages/test-create-package"
@@ -2233,6 +2252,7 @@ __metadata:
   dependencies:
     babel-loader: ^8.2.3
     css-loader: ^6.5.1
+    resolve-typescript-plugin: ^1.1.4
     style-loader: ^3.3.1
     ts-loader: ^9.2.6
     webpack: ^5.67.0
@@ -6897,7 +6917,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.0.0, lodash@npm:^4.17.10, lodash@npm:^4.17.14, lodash@npm:^4.7.0":
+"lodash@npm:^4.0.0, lodash@npm:^4.17.10, lodash@npm:^4.17.14, lodash@npm:^4.17.21, lodash@npm:^4.7.0":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7

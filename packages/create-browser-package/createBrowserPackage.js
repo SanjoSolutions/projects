@@ -35,7 +35,7 @@ async function adjustTsconfigJSON(packagePath) {
         tsconfigJSON.compilerOptions.module = 'ES2020';
         tsconfigJSON.compilerOptions.lib.push('DOM');
         tsconfigJSON.references.push({
-            path: '../webpack'
+            path: '../webpack',
         });
         await writeJSON(tsconfigJSONPath, tsconfigJSON);
     }

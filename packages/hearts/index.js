@@ -1,2 +1,2 @@
-console.log("hearts/index.js");
+var e={d:(t,n)=>{for(var o in n)e.o(n,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:n[o]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t)},t={};function n(){let e=0;const t=document.createElement("div");function n(){requestAnimationFrame(o)}function o(){e+=.125,t.style.top=`${e}px`,n()}t.textContent="❤",t.classList.add("heart"),document.body.appendChild(t),n()}e.d(t,{D:()=>n});var o=t.D;export{o as main};
 //# sourceMappingURL=index.js.map

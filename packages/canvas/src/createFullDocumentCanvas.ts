@@ -1,12 +1,18 @@
-import { addDevicePixelRatioChangeListener } from '../addDevicePixelRatioChangeListener.js'
-import { createCanvasCopy } from '../createCanvasCopy.js'
-import { noop } from '../noop.js'
-import { debounce } from '../debounce.js'
+import { noop } from '@sanjo/noop'
+import debounce from 'lodash/debounce.js'
+import { addDevicePixelRatioChangeListener } from './addDevicePixelRatioChangeListener.js'
+import { createCanvasCopy } from './createCanvasCopy.js'
 
 /**
  * @see createFullDocumentCanvas.css
  */
-export function createFullDocumentCanvas({ onDevicePixelRatioOrDocumentSizeChange, afterCanvasSizeAndScaleSet } = {}) {
+export function createFullDocumentCanvas({
+  onDevicePixelRatioOrDocumentSizeChange,
+  afterCanvasSizeAndScaleSet,
+}: {
+  onDevicePixelRatioOrDocumentSizeChange?: (event: Event) => void
+  afterCanvasSizeAndScaleSet?: () => void
+} = {}) {
   if (!onDevicePixelRatioOrDocumentSizeChange) {
     onDevicePixelRatioOrDocumentSizeChange = noop
   }
@@ -16,7 +22,7 @@ export function createFullDocumentCanvas({ onDevicePixelRatioOrDocumentSizeChang
   }
 
   const canvas = document.createElement('canvas')
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext('2d')!
 
   const documentWidth = window.innerWidth
   const documentHeight = window.innerHeight
@@ -58,7 +64,7 @@ export function createFullDocumentCanvas({ onDevicePixelRatioOrDocumentSizeChang
       context.putImageData(copyContext.getImageData(0, 0, canvasCopy.width, canvasCopy.height), 0, 0)
     }
 
-    afterCanvasSizeAndScaleSet()
+    afterCanvasSizeAndScaleSet!()
   }, 200)
 
   const removeDevicePixelRatioChangeListener = addDevicePixelRatioChangeListener(
@@ -66,9 +72,9 @@ export function createFullDocumentCanvas({ onDevicePixelRatioOrDocumentSizeChang
   )
   window.addEventListener('resize', _onDevicePixelRatioOrDocumentSizeChange)
 
-  function _onDevicePixelRatioOrDocumentSizeChange(event) {
+  function _onDevicePixelRatioOrDocumentSizeChange(event: Event) {
     setCanvasSizeAndScale()
-    onDevicePixelRatioOrDocumentSizeChange(event)
+    onDevicePixelRatioOrDocumentSizeChange!(event)
   }
 
   function removeEventListeners() {

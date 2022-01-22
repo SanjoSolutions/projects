@@ -1,0 +1,25 @@
+{
+  "name": "@sanjo/canvas",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Canvas",
+  "keywords": [
+    "canvas"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/canvas",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/canvas"
+  },
+  "dependencies": {
+    "@sanjo/noop": "^1.0.0",
+    "lodash": "^4.17.21"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

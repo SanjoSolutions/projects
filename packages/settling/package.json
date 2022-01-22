@@ -1,16 +1,16 @@
 {
-  "name": "@sanjo/hearts",
+  "name": "@sanjo/settling",
   "version": "0.0.0",
   "type": "module",
-  "description": "Hearts",
+  "description": "Settling",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/hearts",
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/settling",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
-    "directory": "packages/hearts"
+    "directory": "packages/settling"
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
