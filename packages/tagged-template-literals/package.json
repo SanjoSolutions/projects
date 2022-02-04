@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/tagged-template-literals",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Utility functions for tagged template literals",
   "keywords": ["tagged template literals"],
