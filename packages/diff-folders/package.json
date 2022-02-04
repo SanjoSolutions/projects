@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/diff-folders",
+  "version": "0.1.0",
   "type": "module",
   "description": "Diff folders",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/diff-folders",
   "license": "Unlicense",
-  "version": "0.1.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/diff-folders"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/read-file": "^1.0.0",

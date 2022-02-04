@@ -1,10 +1,18 @@
 {
   "name": "@sanjo/create-node-package",
+  "version": "0.1.0",
   "type": "module",
   "description": "Create Node.js package",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/create-node-package",
   "license": "Unlicense",
-  "version": "0.1.0",
+  "main": "./index.js",
   "bin": "./bin/create-node-package.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/create-node-package"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-package": "^0.2.0"

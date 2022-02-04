@@ -1,9 +1,11 @@
 {
   "name": "@sanjo/exec",
+  "version": "1.0.0",
   "type": "module",
   "description": "Exec",
+  "keywords": ["exec"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/exec",
   "license": "Unlicense",
-  "version": "1.0.0",
   "main": "./index.js",
   "types": "./index.d.js",
   "publishConfig": {

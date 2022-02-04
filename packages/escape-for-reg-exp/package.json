@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/escape-for-reg-exp",
+  "version": "1.0.0",
   "type": "module",
   "description": "Escape for RegExp",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/escape-for-reg-exp",
   "license": "Unlicense",
-  "version": "1.0.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/escape-for-reg-exp"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

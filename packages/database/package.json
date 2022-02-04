@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/database",
+  "version": "0.0.0",
   "type": "module",
   "description": "Database",
+  "keywords": ["database"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/database",
   "license": "Unlicense",
-  "version": "0.0.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/database"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

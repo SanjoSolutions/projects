@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/diff",
+  "version": "0.1.0",
   "type": "module",
   "description": "Diff",
+  "keywords": ["diff"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/diff",
   "license": "Unlicense",
-  "version": "0.1.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/diff"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/set": "^1.0.0"
