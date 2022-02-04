@@ -14,10 +14,10 @@
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/queue"
   },
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/binary-search": "^1.0.0"
   },
-  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }

@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/request",
+  "version": "0.3.0",
   "type": "module",
   "description": "Wrapper for `http.request` and `https.request` (Node.js APIs) with Promise API.",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/request",
   "license": "Unlicense",
-  "version": "0.3.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/request"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/request-json",
+  "version": "0.1.0",
   "type": "module",
   "description": "Request JSON",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/request-json",
   "license": "Unlicense",
-  "version": "0.1.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/request-json"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/request": "^0.3.0"

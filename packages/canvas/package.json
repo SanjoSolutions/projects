@@ -14,11 +14,11 @@
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/canvas"
   },
+  "types": "./index.d.ts",
   "dependencies": {
     "@sanjo/noop": "^1.0.0",
     "lodash": "^4.17.21"
   },
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

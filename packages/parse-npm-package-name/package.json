@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/parse-npm-package-name",
+  "version": "1.0.0",
   "type": "module",
   "description": "Parses NPM package name",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/parse-npm-package-name",
   "license": "Unlicense",
-  "version": "1.0.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/parse-npm-package-name"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

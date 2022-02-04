@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/write-file",
+  "version": "1.0.0",
   "type": "module",
   "description": "Write file",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/write-file",
   "license": "Unlicense",
-  "version": "1.0.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/write-file"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

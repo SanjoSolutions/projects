@@ -1,4 +1,12 @@
 {
+  "private": true,
   "name": "babel-plugin-transform-stub-svg",
-  "private": true
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/babel-plugin-transform-stub-svg",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/babel-plugin-transform-stub-svg"
+  }
 }

@@ -1,11 +1,18 @@
 {
+  "bin": "./bin/create-package.js",
   "name": "@sanjo/create-package",
+  "version": "0.2.0",
   "type": "module",
   "description": "Create package",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/create-package",
   "license": "Unlicense",
-  "version": "0.2.0",
   "main": "./index.js",
-  "bin": "./bin/create-package.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/create-package"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/escape-for-reg-exp": "^1.0.0",

@@ -1,10 +1,17 @@
 {
+  "bin": "./bin/create-browser-package.js",
   "name": "@sanjo/create-browser-package",
+  "version": "0.1.0",
   "type": "module",
   "description": "Create browser package",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/create-browser-package",
   "license": "Unlicense",
-  "version": "0.1.0",
-  "bin": "./bin/create-browser-package.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/create-browser-package"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-package": "^0.2.0",

@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/test-npm-init",
+  "version": "0.1.0",
   "type": "module",
   "description": "Test NPM init",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-npm-init",
   "license": "Unlicense",
-  "version": "0.1.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/test-npm-init"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/diff-folders": "^0.1.0",

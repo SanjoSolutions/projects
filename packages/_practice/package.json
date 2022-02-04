@@ -1,15 +1,22 @@
 {
   "name": "practice",
+  "version": "0.0.0",
   "type": "module",
   "description": "Practice",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/_practice",
   "license": "Unlicense",
-  "version": "0.0.0",
   "main": "./index.js",
-  "types": "./index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/_practice"
+  },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "build:watch": "webpack-dev-server --open --config webpack.dev.js"
   },
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/make-temporary-directory": "^1.0.0",
     "@sanjo/mongodb-diff": "^0.3.0",

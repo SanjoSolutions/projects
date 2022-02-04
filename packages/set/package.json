@@ -14,11 +14,11 @@
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/set"
   },
+  "types": "./index.d.ts",
   "dependencies": {
     "@sanjo/array": "^1.0.4",
     "@sanjo/cache": "^1.0.0"
   },
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

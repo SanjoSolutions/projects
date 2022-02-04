@@ -1,15 +1,22 @@
 {
   "name": "@sanjo/write-json",
+  "version": "1.0.0",
   "type": "module",
   "description": "Write JSON into file",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/write-json",
   "license": "Unlicense",
-  "version": "1.0.0",
   "main": "./index.js",
-  "types": "./index.d.js",
-  "publishConfig": {
-    "access": "public"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/write-json"
   },
+  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/write-file": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

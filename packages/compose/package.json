@@ -1,17 +1,18 @@
 {
-  "license": "SEE LICENSE IN LICENSE",
+  "bin": "index.js",
   "name": "@sanjo/compose",
   "version": "1.0.2",
   "type": "module",
-  "bin": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
-    "directory": "packages/compose"
-  },
   "keywords": [
     "build",
     "website builder",
     "page builder"
-  ]
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/compose",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/compose"
+  }
 }

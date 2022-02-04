@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/trade",
+  "version": "0.1.0",
   "type": "module",
   "description": "Trade",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/trade",
   "license": "Unlicense",
-  "version": "0.1.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/trade"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"

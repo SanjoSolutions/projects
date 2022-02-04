@@ -16,13 +16,13 @@
     "build": "webpack --config webpack.prod.js",
     "build:watch": "webpack-dev-server --open --config webpack.dev.js"
   },
+  "types": "./index.d.ts",
   "dependencies": {
     "@sanjo/canvas": "^0.1.0"
   },
   "devDependencies": {
     "@sanjo/webpack": "^1.1.0"
   },
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

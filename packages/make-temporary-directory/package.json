@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/make-temporary-directory",
+  "version": "1.0.0",
   "type": "module",
   "description": "Make temporary directory",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/make-temporary-directory",
   "license": "Unlicense",
-  "version": "1.0.0",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/make-temporary-directory"
+  },
   "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
