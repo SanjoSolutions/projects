@@ -132,6 +132,9 @@
       "path": "./settling"
     },
     {
+      "path": "./tagged-template-literals"
+    },
+    {
       "path": "./test-create-package/tsconfig-build.json"
     },
     {

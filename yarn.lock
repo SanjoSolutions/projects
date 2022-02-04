@@ -2222,6 +2222,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/tagged-template-literals@workspace:packages/tagged-template-literals":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/tagged-template-literals@workspace:packages/tagged-template-literals"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/test-create-package@^0.2.0, @sanjo/test-create-package@workspace:packages/test-create-package":
   version: 0.0.0-use.local
   resolution: "@sanjo/test-create-package@workspace:packages/test-create-package"
