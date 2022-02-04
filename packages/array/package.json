@@ -1,10 +1,17 @@
 {
   "name": "@sanjo/array",
+  "version": "1.0.5",
   "type": "module",
   "description": "Array functions",
+  "keywords": ["array"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/tagged-template-literals",
   "license": "Unlicense",
-  "version": "1.0.4",
   "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/array"
+  },
   "types": "./index.d.js",
   "dependencies": {
     "@sanjo/comparison": "^1.0.0",
