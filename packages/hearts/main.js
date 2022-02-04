@@ -30,7 +30,7 @@ class Heart {
          * d = ys
          * e = xs
          */
-        this.m = -(this.ys / ((this.xs - this.a) ** 2));
+        this.m = -(this.ys / (this.xs - this.a) ** 2);
     }
     f(x) {
         return this.m * (x - this.xs) ** 2 + this.ys;
