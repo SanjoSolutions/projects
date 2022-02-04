@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "type": "module",
   "description": "Utility functions for tagged template literals",
-  "keywords": ["tagged template literals"],
+  "keywords": [
+    "tagged template literals"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/tagged-template-literals",
   "license": "Unlicense",
   "main": "./index.js",

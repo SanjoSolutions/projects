@@ -1,6 +1,6 @@
 import escapeForRegExp from '@sanjo/escape-for-reg-exp'
 import readFile from '@sanjo/read-file'
-import writeFile from '@sanjo/write-file'
+import { writeFile } from '@sanjo/write-file'
 
 export async function replaceStringInFile(
   filePath: string,

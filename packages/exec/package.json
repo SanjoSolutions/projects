@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Exec",
-  "keywords": ["exec"],
+  "keywords": [
+    "exec"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/exec",
   "license": "Unlicense",
   "main": "./index.js",

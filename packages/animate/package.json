@@ -3,7 +3,9 @@
   "version": "1.0.1",
   "type": "module",
   "description": "Animate",
-  "keywords": ["animation"],
+  "keywords": [
+    "animation"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/animate",
   "license": "Unlicense",
   "main": "./index.js",

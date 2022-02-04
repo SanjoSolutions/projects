@@ -1,5 +1,5 @@
 import readFile from '@sanjo/read-file'
-import writeFile from '@sanjo/write-file'
+import { writeFile } from '@sanjo/write-file'
 import sortBy from 'lodash.sortby'
 import sortedUniqBy from 'lodash.sorteduniqby'
 import path from 'path'

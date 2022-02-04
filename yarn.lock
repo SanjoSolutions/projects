@@ -2084,6 +2084,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sanjo/lint-and-fix-package-json@workspace:packages/lint-and-fix-package-json":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/lint-and-fix-package-json@workspace:packages/lint-and-fix-package-json"
+  dependencies:
+    "@sanjo/read-file": ^1.2.0
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/make-temporary-directory@^1.0.0, @sanjo/make-temporary-directory@workspace:packages/make-temporary-directory":
   version: 0.0.0-use.local
   resolution: "@sanjo/make-temporary-directory@workspace:packages/make-temporary-directory"
@@ -2170,7 +2178,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/read-file@^1.0.0, @sanjo/read-file@workspace:packages/read-file":
+"@sanjo/read-file@^1.0.0, @sanjo/read-file@^1.2.0, @sanjo/read-file@workspace:packages/read-file":
   version: 0.0.0-use.local
   resolution: "@sanjo/read-file@workspace:packages/read-file"
   languageName: unknown

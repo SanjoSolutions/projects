@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "type": "module",
   "description": "Diff",
-  "keywords": ["diff"],
+  "keywords": [
+    "diff"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/diff",
   "license": "Unlicense",
   "main": "./index.js",

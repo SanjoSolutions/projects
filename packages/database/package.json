@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "description": "Database",
-  "keywords": ["database"],
+  "keywords": [
+    "database"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/database",
   "license": "Unlicense",
   "main": "./index.js",
