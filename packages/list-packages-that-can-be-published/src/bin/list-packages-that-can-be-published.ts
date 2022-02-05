@@ -5,7 +5,7 @@ import { readdir } from 'fs/promises'
 import { dirname, join, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import compare from 'semver-compare'
-import exec from '@sanjo/exec'
+import { exec } from '@sanjo/exec'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 

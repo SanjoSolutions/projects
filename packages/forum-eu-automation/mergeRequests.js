@@ -1,4 +1,4 @@
-import exec from '@sanjo/exec';
+import { exec } from '@sanjo/exec';
 import { readJSON } from '@sanjo/read-json';
 import puppeteer from 'puppeteer';
 import { GitLabAPI } from './GitLabAPI.js';

@@ -1,4 +1,4 @@
-import exec from '@sanjo/exec'
+import { exec } from '@sanjo/exec'
 import { parseNpmPackageName } from '@sanjo/parse-npm-package-name'
 
 export async function npmInit(rootPath: string, createPackageName: string, args: string[]): Promise<void> {
