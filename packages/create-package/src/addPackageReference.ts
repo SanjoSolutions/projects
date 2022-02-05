@@ -1,4 +1,4 @@
-import readFile from '@sanjo/read-file'
+import { readFile } from '@sanjo/read-file'
 import { writeFile } from '@sanjo/write-file'
 import sortBy from 'lodash.sortby'
 import sortedUniqBy from 'lodash.sorteduniqby'

@@ -1,4 +1,4 @@
-import readFile from '@sanjo/read-file';
+import { readFile } from '@sanjo/read-file';
 import { writeFile } from '@sanjo/write-file';
 import { replaceString } from './replaceString.js';
 export async function replaceStringsInFile(filePath, replacements) {

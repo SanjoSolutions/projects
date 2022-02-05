@@ -15,7 +15,7 @@
     "directory": "packages/list-packages-that-can-be-published"
   },
   "dependencies": {
-    "@sanjo/read-file": "^1.2.0",
+    "@sanjo/read-file": "^2.0.0",
     "semver-compare": "^1.0.0"
   },
   "devDependencies": {

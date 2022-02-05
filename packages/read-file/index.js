@@ -1,2 +1,2 @@
-export { readFile as default } from './readFile.js';
+export { readFile } from './readFile.js';
 //# sourceMappingURL=index.js.map

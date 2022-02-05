@@ -1,4 +1,4 @@
-import readFile from '@sanjo/read-file';
+import { readFile } from '@sanjo/read-file';
 import { compare as compareDir } from 'dir-compare';
 import path from 'path';
 // can also use traverseDirectory and then diffArray

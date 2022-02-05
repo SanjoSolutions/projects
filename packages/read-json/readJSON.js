@@ -1,4 +1,4 @@
-import readFile from '@sanjo/read-file';
+import { readFile } from '@sanjo/read-file';
 /**
  * Reads file with utf-8 encoding and parses it as JSON.
  * @param filePath {string} Path to file

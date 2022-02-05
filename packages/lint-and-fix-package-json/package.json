@@ -15,7 +15,7 @@
     "directory": "packages/lint-and-fix-package-json"
   },
   "dependencies": {
-    "@sanjo/read-file": "^1.2.0",
+    "@sanjo/read-file": "^2.0.0",
     "@sanjo/write-file": "^1.0.0"
   },
   "publishConfig": {

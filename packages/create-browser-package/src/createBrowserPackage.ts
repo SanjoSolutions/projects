@@ -1,6 +1,6 @@
 import createPackage from '@sanjo/create-package'
 import { __dirname } from '@sanjo/create-package/__dirname.js'
-import readJSON from '@sanjo/read-json'
+import { readJSON } from '@sanjo/read-json'
 import { writeJSON } from '@sanjo/write-json'
 import ncp from 'ncp'
 import path from 'path'

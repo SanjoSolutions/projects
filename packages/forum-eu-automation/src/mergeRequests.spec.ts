@@ -3,7 +3,7 @@ jest.mock('child_process')
 jest.mock('puppeteer')
 
 import { beforeEach, describe, expect, it, jest, test } from '@jest/globals'
-import readJSON from '@sanjo/read-json'
+import { readJSON } from '@sanjo/read-json'
 import type { ChildProcess, ExecException } from 'child_process'
 import child_process from 'child_process'
 import { GitLabAPI } from './GitLabAPI.js'

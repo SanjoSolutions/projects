@@ -5,7 +5,7 @@ import { readdir } from 'fs/promises'
 import { dirname, resolve, join } from 'path'
 import { fileURLToPath } from 'url'
 import { fix } from '../fix.js'
-import readFile from '@sanjo/read-file'
+import { readFile } from '@sanjo/read-file'
 import { writeFile } from '@sanjo/write-file'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))

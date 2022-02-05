@@ -1,4 +1,4 @@
-import readFile from '@sanjo/read-file'
+import { readFile } from '@sanjo/read-file'
 import type { Difference as DirCompareDifference } from 'dir-compare'
 import { compare as compareDir } from 'dir-compare'
 import path from 'path'

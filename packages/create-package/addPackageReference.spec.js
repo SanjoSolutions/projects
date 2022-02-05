@@ -1,7 +1,7 @@
 jest.mock('@sanjo/read-file');
 jest.mock('@sanjo/write-file');
 import { describe, expect, it, jest } from '@jest/globals';
-import readFile from '@sanjo/read-file';
+import { readFile } from '@sanjo/read-file';
 import { writeFile } from '@sanjo/write-file';
 import { addPackageReference } from './addPackageReference.js';
 describe('addPackageReference', () => {

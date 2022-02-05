@@ -1961,7 +1961,7 @@ __metadata:
     "@sanjo/exec": ^1.0.0
     "@sanjo/fs": ^1.0.0
     "@sanjo/make-temporary-directory": ^1.0.0
-    "@sanjo/read-file": ^1.0.0
+    "@sanjo/read-file": ^2.0.0
     "@sanjo/test-create-package": ^0.2.0
     "@sanjo/write-file": ^1.0.0
     "@types/lodash.sortby": ^4.7.6
@@ -2006,7 +2006,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/diff-folders@workspace:packages/diff-folders"
   dependencies:
-    "@sanjo/read-file": ^1.0.0
+    "@sanjo/read-file": ^2.0.0
     dir-compare: ^2.3.0
   languageName: unknown
   linkType: soft
@@ -2088,7 +2088,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/lint-and-fix-package-json@workspace:packages/lint-and-fix-package-json"
   dependencies:
-    "@sanjo/read-file": ^1.2.0
+    "@sanjo/read-file": ^2.0.0
     "@sanjo/write-file": ^1.0.0
   bin:
     lint-and-fix-package-json: ./bin/lint-and-fix-package-json.js
@@ -2099,7 +2099,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/list-packages-that-can-be-published@workspace:packages/list-packages-that-can-be-published"
   dependencies:
-    "@sanjo/read-file": ^1.2.0
+    "@sanjo/read-file": ^2.0.0
     "@types/semver-compare": ^1.0.1
     semver-compare: ^1.0.0
   bin:
@@ -2193,7 +2193,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/read-file@^1.0.0, @sanjo/read-file@^1.2.0, @sanjo/read-file@workspace:packages/read-file":
+"@sanjo/read-file@^2.0.0, @sanjo/read-file@workspace:packages/read-file":
   version: 0.0.0-use.local
   resolution: "@sanjo/read-file@workspace:packages/read-file"
   languageName: unknown
@@ -2203,7 +2203,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/read-json@workspace:packages/read-json"
   dependencies:
-    "@sanjo/read-file": ^1.0.0
+    "@sanjo/read-file": ^2.0.0
   languageName: unknown
   linkType: soft
 

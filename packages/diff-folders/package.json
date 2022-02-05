@@ -14,7 +14,7 @@
     "directory": "packages/diff-folders"
   },
   "dependencies": {
-    "@sanjo/read-file": "^1.0.0",
+    "@sanjo/read-file": "^2.0.0",
     "dir-compare": "^2.3.0"
   },
   "publishConfig": {

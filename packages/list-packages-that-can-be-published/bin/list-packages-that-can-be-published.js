@@ -1,4 +1,4 @@
-import readFile from '@sanjo/read-file';
+import { readFile } from '@sanjo/read-file';
 import { readdir } from 'fs/promises';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';

@@ -1,5 +1,5 @@
 import exec from '@sanjo/exec';
-import readJSON from '@sanjo/read-json';
+import { readJSON } from '@sanjo/read-json';
 import puppeteer from 'puppeteer';
 import { GitLabAPI } from './GitLabAPI.js';
 import { SlackChannelPage } from './SlackChannelPage.js';
