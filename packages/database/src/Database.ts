@@ -11,9 +11,10 @@ export class Database {
     this._collections = new Map()
   }
 
-  async createCollection(collectionName: string): Promise<void> {
+  async createCollection(collectionName: string): Promise<ICollection> {
     const collection = new Collection(collectionName, this._storage)
     this._collections.set(collectionName, collection)
+    return collection
   }
 
   async getCollections(): Promise<string[]> {

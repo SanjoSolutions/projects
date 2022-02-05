@@ -4,7 +4,7 @@ export declare class Database {
     _storage: IStorage;
     _collections: Map<string, ICollection>;
     constructor(storage: IStorage);
-    createCollection(collectionName: string): Promise<void>;
+    createCollection(collectionName: string): Promise<ICollection>;
     getCollections(): Promise<string[]>;
     getCollection(collectionName: string): Promise<ICollection | undefined>;
 }

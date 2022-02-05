@@ -9,6 +9,7 @@ export class Database {
     async createCollection(collectionName) {
         const collection = new Collection(collectionName, this._storage);
         this._collections.set(collectionName, collection);
+        return collection;
     }
     async getCollections() {
         return Array.from(this._collections.keys());

@@ -1,9 +1,9 @@
 export class MemoryStorage {
     _data = new Map();
-    get(key) {
+    async get(key) {
         return this._data.get(key);
     }
-    set(key, value) {
+    async set(key, value) {
         this._data.set(key, value);
     }
 }
