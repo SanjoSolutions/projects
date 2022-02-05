@@ -45,5 +45,6 @@ const sortOrder = [
 ]
 
 function determineSortValue(key: string): number {
-  return sortOrder.indexOf(key) ?? Number.MAX_SAFE_INTEGER
+  const index = sortOrder.indexOf(key)
+  return index === -1 ? Number.MAX_SAFE_INTEGER : index
 }

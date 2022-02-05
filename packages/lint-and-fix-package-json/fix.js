@@ -39,6 +39,7 @@ const sortOrder = [
     'publishConfig',
 ];
 function determineSortValue(key) {
-    return sortOrder.indexOf(key) ?? Number.MAX_SAFE_INTEGER;
+    const index = sortOrder.indexOf(key);
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index;
 }
 //# sourceMappingURL=fix.js.map
