@@ -2039,12 +2039,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/format@workspace:packages/format":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/format@workspace:packages/format"
-  languageName: unknown
-  linkType: soft
-
 "@sanjo/fs@^1.0.0, @sanjo/fs@workspace:packages/fs":
   version: 0.0.0-use.local
   resolution: "@sanjo/fs@workspace:packages/fs"

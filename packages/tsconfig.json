@@ -63,9 +63,6 @@
       "path": "./exec/tsconfig-build.json"
     },
     {
-      "path": "./format/tsconfig-build.json"
-    },
-    {
       "path": "./forum-eu-automation/tsconfig-build.json"
     },
     {
