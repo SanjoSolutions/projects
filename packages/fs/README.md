@@ -2,7 +2,7 @@
 
 This work is devoted to God.
 
-File system functions
+File system functions.
 
 ## How to install
 

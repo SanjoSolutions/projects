@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "description": "File system functions",
-  "keywords": [],
+  "keywords": [
+    "fs",
+    "file system",
+    "remove recursively"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/fs",
   "license": "Unlicense",
   "main": "./index.js",
