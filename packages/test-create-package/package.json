@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-create-package",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/test-create-package"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-temporary-npm-package": "^0.1.0",
     "@sanjo/test-npm-init": "^0.1.0",

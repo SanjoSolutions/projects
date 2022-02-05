@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/read-json",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/read-json"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/read-file": "^1.0.0"
   },

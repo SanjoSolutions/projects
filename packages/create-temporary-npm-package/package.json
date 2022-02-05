@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/create-temporary-npm-package",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/create-temporary-npm-package"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/create-npm-package": "^0.1.0",
     "@sanjo/make-temporary-directory": "^1.0.0"

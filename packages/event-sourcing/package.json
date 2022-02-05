@@ -9,12 +9,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/event-sourcing",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/event-sourcing"
   },
-  "types": "./index.d.ts",
   "devDependencies": {
     "@types/node": "^17.0.6"
   },

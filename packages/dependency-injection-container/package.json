@@ -11,12 +11,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/dependency-injection-container",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/dependency-injection-container"
   },
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

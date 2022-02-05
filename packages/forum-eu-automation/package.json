@@ -1,16 +1,15 @@
 {
-  "private": true,
   "type": "module",
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/forum-eu-automation",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/forum-eu-automation"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/exec": "^1.0.0",
     "@sanjo/puppeteer-helpers": "^0.1.0",
@@ -20,5 +19,6 @@
   },
   "devDependencies": {
     "@types/puppeteer": "^3.0.1"
-  }
+  },
+  "private": true
 }

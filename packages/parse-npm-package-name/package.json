@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/parse-npm-package-name",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/parse-npm-package-name"
   },
-  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }

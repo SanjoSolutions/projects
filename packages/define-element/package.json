@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/define-element",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/define-element"
   },
-  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }

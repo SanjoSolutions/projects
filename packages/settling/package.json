@@ -7,6 +7,7 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/settling",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
@@ -16,7 +17,6 @@
     "build": "webpack --config webpack.prod.js",
     "build:watch": "webpack-dev-server --open --config webpack.dev.js"
   },
-  "types": "./index.d.ts",
   "dependencies": {
     "@sanjo/canvas": "^0.1.0"
   },

@@ -9,12 +9,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/canvas",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/canvas"
   },
-  "types": "./index.d.ts",
   "dependencies": {
     "@sanjo/noop": "^1.0.0",
     "lodash": "^4.17.21"

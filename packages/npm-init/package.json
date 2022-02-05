@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/npm-init",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/npm-init"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/exec": "^1.0.0",
     "@sanjo/parse-npm-package-name": "^1.0.0"

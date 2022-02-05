@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-npm-init",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/test-npm-init"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/diff-folders": "^0.1.0",
     "@sanjo/npm-init": "^0.1.0"

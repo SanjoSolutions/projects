@@ -7,12 +7,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/multiset",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/multiset"
   },
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

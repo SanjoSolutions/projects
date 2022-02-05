@@ -81,6 +81,9 @@
       "path": "./lint-and-fix-package-json"
     },
     {
+      "path": "./list-unpublished-packages"
+    },
+    {
       "path": "./make-temporary-directory/tsconfig-build.json"
     },
     {

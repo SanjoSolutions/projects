@@ -9,12 +9,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/array",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/array"
   },
-  "types": "./index.d.js",
   "dependencies": {
     "@sanjo/comparison": "^1.0.0",
     "@sanjo/identity": "^2.0.0"

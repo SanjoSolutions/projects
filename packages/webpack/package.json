@@ -9,12 +9,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/webpack",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/webpack"
   },
-  "types": "./index.d.ts",
   "dependencies": {
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",

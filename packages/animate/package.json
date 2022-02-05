@@ -9,12 +9,12 @@
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/animate",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/animate"
   },
-  "types": "./index.d.js",
   "publishConfig": {
     "access": "public"
   }
