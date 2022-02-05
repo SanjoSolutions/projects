@@ -8,7 +8,9 @@
     "build": "cd packages && tsc --build",
     "build:watch": "cd packages && tsc --build --watch",
     "postinstall": "husky install",
-    "format": "lint-staged"
+    "format": "lint-staged",
+    "list-packages-that-can-be-published": "list-packages-that-can-be-published",
+    "lint-and-fix-package-json": "lint-and-fix-package-json"
   },
   "workspaces": [
     "packages/*",

@@ -8,6 +8,7 @@
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.ts",
+  "bin": "./bin/lint-and-fix-package-json.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",

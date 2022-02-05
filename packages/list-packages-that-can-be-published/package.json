@@ -1,0 +1,27 @@
+{
+  "name": "@sanjo/list-packages-that-can-be-published",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Lists packages that can be published.",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/list-packages-that-can-be-published",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "bin": "./bin/list-packages-that-can-be-published.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/list-packages-that-can-be-published"
+  },
+  "dependencies": {
+    "@sanjo/read-file": "^1.2.0",
+    "semver-compare": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/semver-compare": "^1.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

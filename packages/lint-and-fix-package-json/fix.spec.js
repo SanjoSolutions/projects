@@ -69,16 +69,16 @@ describe('fix', () => {
             homepage: 'https://github.com/SanjoSolutions/unnamed/tree/main/packages/tagged-template-literals',
             license: 'Unlicense',
             main: './index.js',
+            types: './index.d.ts',
+            bin: './bin/tagged-template-literals.js',
             repository: {
                 type: 'git',
                 url: 'https://github.com/SanjoSolutions/unnamed.git',
                 directory: 'packages/tagged-template-literals',
             },
-            types: './index.d.ts',
             publishConfig: {
                 access: 'public',
             },
-            bin: './bin/tagged-template-literals.js',
         }));
     });
 });

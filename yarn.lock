@@ -2089,6 +2089,21 @@ __metadata:
   resolution: "@sanjo/lint-and-fix-package-json@workspace:packages/lint-and-fix-package-json"
   dependencies:
     "@sanjo/read-file": ^1.2.0
+    "@sanjo/write-file": ^1.0.0
+  bin:
+    lint-and-fix-package-json: ./bin/lint-and-fix-package-json.js
+  languageName: unknown
+  linkType: soft
+
+"@sanjo/list-packages-that-can-be-published@workspace:packages/list-packages-that-can-be-published":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/list-packages-that-can-be-published@workspace:packages/list-packages-that-can-be-published"
+  dependencies:
+    "@sanjo/read-file": ^1.2.0
+    "@types/semver-compare": ^1.0.1
+    semver-compare: ^1.0.0
+  bin:
+    list-packages-that-can-be-published: ./bin/list-packages-that-can-be-published.js
   languageName: unknown
   linkType: soft
 
@@ -2635,6 +2650,13 @@ __metadata:
   version: 0.16.2
   resolution: "@types/scheduler@npm:0.16.2"
   checksum: b6b4dcfeae6deba2e06a70941860fb1435730576d3689225a421280b7742318d1548b3d22c1f66ab68e414f346a9542f29240bc955b6332c5b11e561077583bc
+  languageName: node
+  linkType: hard
+
+"@types/semver-compare@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@types/semver-compare@npm:1.0.1"
+  checksum: a144766e3bad1fc6e94df2f1964f3ce84cab27bff25e7175f31c5408190e49b17f407e82c6a814b6d7f0ad9f02e7355166bca67b5eb68bd3da116ee996f40c64
   languageName: node
   linkType: hard
 
@@ -8528,6 +8550,13 @@ __metadata:
   dependencies:
     node-forge: ^1.2.0
   checksum: 43fca39a5aded2a8e97c1756af74c049a9dde12d47d302820f7d507d25c2ad7da4b04bc439a36620d63b4c0149bcf34ae7a729f978bf3b1bf48859c36ae34cee
+  languageName: node
+  linkType: hard
+
+"semver-compare@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "semver-compare@npm:1.0.0"
+  checksum: dd1d7e2909744cf2cf71864ac718efc990297f9de2913b68e41a214319e70174b1d1793ac16e31183b128c2b9812541300cb324db8168e6cf6b570703b171c68
   languageName: node
   linkType: hard
 
