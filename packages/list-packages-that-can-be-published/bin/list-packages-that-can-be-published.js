@@ -31,7 +31,7 @@ const result = await Promise.allSettled(packageFolderNames.map(async (packageFol
                     throw error;
                 }
             }
-            canBePublished = (!lastPublishedVersion || compare(lastPublishedVersion, version) === -1);
+            canBePublished = !lastPublishedVersion || compare(lastPublishedVersion, version) === -1;
         }
     }
     catch (error) {
@@ -41,13 +41,11 @@ const result = await Promise.allSettled(packageFolderNames.map(async (packageFol
     }
     return {
         name,
-        canBePublished
+        canBePublished,
     };
 }));
-const packagesThatCanBePublished = result
-    .filter(result => result.status === 'fulfilled' && result.value.name && result.value.canBePublished);
-const packageNamesThatCanBePublished = packagesThatCanBePublished
-    .map(result => result.value.name);
+const packagesThatCanBePublished = result.filter(result => result.status === 'fulfilled' && result.value.name && result.value.canBePublished);
+const packageNamesThatCanBePublished = packagesThatCanBePublished.map(result => result.value.name);
 console.log('Packages that can be published:');
 for (const name of packageNamesThatCanBePublished) {
     console.log('  * ' + name);

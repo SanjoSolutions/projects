@@ -1,5 +1,5 @@
 import exec from '@sanjo/exec'
-import writeJSON from '@sanjo/write-json'
+import { writeJSON } from '@sanjo/write-json'
 import path from 'path'
 
 export async function createNPMPackage(packagePath: string, packageJSON: Object): Promise<void> {

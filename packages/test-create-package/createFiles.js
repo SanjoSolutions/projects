@@ -1,5 +1,5 @@
 import createTemporaryNPMPackage from '@sanjo/create-temporary-npm-package';
-import writeJSON from '@sanjo/write-json';
+import { writeJSON } from '@sanjo/write-json';
 import fs from 'fs/promises';
 import path from 'path';
 export async function createFiles(createPackagePackageName, createPackagePackagePath) {

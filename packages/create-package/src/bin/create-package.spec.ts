@@ -3,7 +3,7 @@ import createTemporaryNPMPackage from '@sanjo/create-temporary-npm-package'
 import { removeRecursively } from '@sanjo/fs'
 import { createFiles } from '@sanjo/test-create-package'
 import testNpmInit from '@sanjo/test-npm-init'
-import writeJSON from '@sanjo/write-json'
+import { writeJSON } from '@sanjo/write-json'
 import fs from 'fs/promises'
 import path from 'path'
 
