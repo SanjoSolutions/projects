@@ -56,7 +56,7 @@ describe('fix', () => {
             publishConfig: {
                 access: 'public',
             },
-            bin: './bin/tagged-template-literals.js'
+            bin: './bin/tagged-template-literals.js',
         };
         const packagePath = 'packages/tagged-template-literals';
         const fixedPackageJSON = fix(packageJSON, packagePath);
@@ -78,7 +78,7 @@ describe('fix', () => {
             publishConfig: {
                 access: 'public',
             },
-            bin: './bin/tagged-template-literals.js'
+            bin: './bin/tagged-template-literals.js',
         }));
     });
 });
