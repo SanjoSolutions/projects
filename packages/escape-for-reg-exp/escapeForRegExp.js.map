@@ -1,1 +1,1 @@
-{"version":3,"file":"escapeForRegExp.js","sourceRoot":"","sources":["src/escapeForRegExp.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,UAAU,eAAe,CAAC,IAAY;IAC1C,OAAO,IAAI,CAAC,OAAO,CAAC,iCAAiC,EAAE,MAAM,CAAC,CAAA;AAChE,CAAC"}
+{"version":3,"file":"escapeForRegExp.js","sourceRoot":"","sources":["src/escapeForRegExp.ts"],"names":[],"mappings":"AAAA;;GAEG;AACH,MAAM,UAAU,eAAe,CAAC,IAAY;IAC1C,OAAO,MAAM,CAAC,IAAI,CAAC,CAAC,OAAO,CAAC,qBAAqB,EAAE,MAAM,CAAC,CAAA;AAC5D,CAAC"}

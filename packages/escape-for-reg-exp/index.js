@@ -1,2 +1,2 @@
-export { escapeForRegExp as default } from './escapeForRegExp.js';
+export { escapeForRegExp } from './escapeForRegExp.js';
 //# sourceMappingURL=index.js.map

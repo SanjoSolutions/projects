@@ -3,7 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Escape for RegExp",
-  "keywords": [],
+  "keywords": [
+    "regular expression",
+    "escape",
+    "escape for regular expression",
+    "regular expressions"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/escape-for-reg-exp",
   "license": "Unlicense",
   "main": "./index.js",

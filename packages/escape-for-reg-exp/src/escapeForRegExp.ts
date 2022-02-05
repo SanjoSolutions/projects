@@ -1,6 +1,6 @@
 /**
- * Source: https://stackoverflow.com/a/9310752/759971
+ * @see https://github.com/tc39/proposal-regex-escaping/blob/ee2525eaa9746379d8efb70dda4fa18ccb2bfba8/polyfill.js
  */
 export function escapeForRegExp(text: string): string {
-  return text.replace(/[\^\$\\\.\*\+\?\(\)\[\]\{\}\|]/g, '\\$&')
+  return String(text).replace(/[\\^$*+?.()|[\]{}]/g, '\\$&')
 }

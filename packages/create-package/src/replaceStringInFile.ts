@@ -1,4 +1,4 @@
-import escapeForRegExp from '@sanjo/escape-for-reg-exp'
+import { escapeForRegExp } from '@sanjo/escape-for-reg-exp'
 import { readFile } from '@sanjo/read-file'
 import { writeFile } from '@sanjo/write-file'
 
