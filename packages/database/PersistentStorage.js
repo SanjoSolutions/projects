@@ -7,7 +7,7 @@ export class PersistentStorage {
         this._path = path;
     }
     async get(key) {
-        const content = (await this._fileSystem.getContent(this._generatePathForKey(key)));
+        const content = await this._fileSystem.getContent(this._generatePathForKey(key));
         const data = content === null ? [] : JSON.parse(content);
         return data;
     }

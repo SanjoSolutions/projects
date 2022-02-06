@@ -1,4 +1,4 @@
-import type { IPersistentStorage } from "./IPersistentStorage";
+import type { IPersistentStorage } from './IPersistentStorage';
 export declare class PersistentStorage implements IPersistentStorage {
     private _path;
     private _fileSystem;
