@@ -1,12 +1,17 @@
 export function navbarActive(compose, navbarItemPagePath) {
-  return navbarItemPagePath === compose.getPagePath() ? "active" : "";
+  return navbarItemPagePath === compose.getPagePath() ? 'active' : ''
 }
 
-export function setTitle(compose, title) {
-  compose.setVariable("title", title);
+export function setPageTitle(compose, pageTitle) {
+  compose.setVariable('pageTitle', pageTitle)
 }
 
 export function getTitle(compose) {
-  const title = compose.getVariable("title");
-  return title ? title + " | " : "";
+  let title = ''
+  const pageTitle = compose.getVariable('pageTitle')
+  if (pageTitle) {
+    title += pageTitle + ' | '
+  }
+  title += 'Example'
+  return title
 }
