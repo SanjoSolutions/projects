@@ -35,8 +35,6 @@ async function main() {
 
   const args = argumentParser.parse_args()
 
-  console.dir('args', args)
-
   const outputPath = args.output || rootPath
   if (args.watch) {
     await composePages(outputPath)
