@@ -21,7 +21,7 @@ node node_modules/@sanjo/compose/index.js
 ### Watch Build
 
 ```sh
-node node_modules/@sanjo/compose/index.js watch
+node node_modules/@sanjo/compose/index.js --watch
 ```
 
 ## User Functions
