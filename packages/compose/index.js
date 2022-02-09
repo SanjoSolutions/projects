@@ -43,12 +43,20 @@ async function main() {
       fileContentCache.delete(filePath)
       await composePages(outputPath)
     }
+    watchFile(path.join(rootPath, 'compose.user.js'), onWatchEvent)
     watchPath(path.join(rootPath, pagesPath), onWatchEvent)
     watchPath(path.join(rootPath, blocksPath), onWatchEvent)
     watchPath(path.join(rootPath, layoutsPath), onWatchEvent)
   } else {
     await composePages(outputPath)
   }
+}
+
+function watchFile(pathToWatch, onWatchEvent) {
+  const watchOptions = {}
+  watch(pathToWatch, watchOptions, (eventType, fileName) => {
+    onWatchEvent(eventType, pathToWatch)
+  })
 }
 
 function watchPath(pathToWatch, onWatchEvent) {
