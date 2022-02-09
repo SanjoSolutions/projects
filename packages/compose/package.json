@@ -14,5 +14,8 @@
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
     "directory": "packages/compose"
+  },
+  "dependencies": {
+    "argparse": "^2.0.1"
   }
 }

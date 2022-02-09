@@ -2,6 +2,7 @@ import { promises as fs, watch } from 'fs'
 import path from 'path'
 import { pathToFileURL } from 'url'
 import vm from 'vm'
+import { ArgumentParser } from 'argparse'
 
 // compose after file has changed (basic version done (recompile all pages when something changes), no recursive watch support for linux (therefore does probably not work on linux)):
 //   when page changed then compose page
@@ -23,19 +24,30 @@ const layoutsPath = 'layouts'
 run(main)
 
 async function main() {
-  const args = process.argv.slice(2)
-  if (args[0] === 'watch') {
-    await composePages()
+  const argumentParser = new ArgumentParser({
+    description: 'Compose'
+  })
+
+  argumentParser.add_argument('-w', '--watch', {help: 'Watch mode', action: 'store_true'})
+  argumentParser.add_argument('-o', '--output', {help: 'Output path'})
+
+  const args = argumentParser.parse_args()
+
+  console.dir('args', args)
+
+  const outputPath = args.output || rootPath
+  if (args.watch) {
+    await composePages(outputPath)
 
     const onWatchEvent = async function (eventType, filePath) {
       fileContentCache.delete(filePath)
-      await composePages()
+      await composePages(outputPath)
     }
     watchPath(path.join(rootPath, pagesPath), onWatchEvent)
     watchPath(path.join(rootPath, blocksPath), onWatchEvent)
     watchPath(path.join(rootPath, layoutsPath), onWatchEvent)
   } else {
-    await composePages()
+    await composePages(outputPath)
   }
 }
 
@@ -49,7 +61,7 @@ function watchPath(pathToWatch, onWatchEvent) {
   })
 }
 
-async function composePages() {
+async function composePages(outputPath) {
   let userFunctions = {}
   try {
     userFunctions = await import(pathToFileURL(path.join(rootPath, 'compose.user.js')))
@@ -78,7 +90,7 @@ async function composePages() {
         if (stats.isFile()) {
           const pagePath = path.relative(rootDirectoryPath, entryPath)
           console.log(`Composing page "${ pagePath }"...`)
-          await composePage(userFunctions, pagePath, entryPath)
+          await composePage(outputPath, userFunctions, pagePath, entryPath)
         } else if (stats.isDirectory()) {
           nextDirectoryPaths.push(entryPath)
         }
@@ -91,8 +103,8 @@ async function composePages() {
   console.log('Done composing pages.')
 }
 
-async function composePage(userFunctions, pagePath, pageSourcePath) {
-  const pageDestinationPath = path.join(rootPath, pagePath)
+async function composePage(outputPath, userFunctions, pagePath, pageSourcePath) {
+  const pageDestinationPath = path.join(outputPath, pagePath)
   const content = await fs.readFile(pageSourcePath, { encoding: 'utf8' })
   const blockInsertPointRegExp = new RegExp(
     `<!-- BLOCK: (.+?) -->${newLineExpression}?`,
