@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { promises as fs, watch } from 'fs'
 import path from 'path'
 import { pathToFileURL } from 'url'
