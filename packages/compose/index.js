@@ -1,6 +1,7 @@
 import { promises as fs, watch } from "fs";
 import path from "path";
 import vm from "vm";
+import { pathToFileURL } from 'url'
 
 // compose after file has changed (basic version done (recompile all pages when something changes), no recursive watch support for linux (therefore does probably not work on linux)):
 //   when page changed then compose page
@@ -51,7 +52,7 @@ function watchPath(pathToWatch, onWatchEvent) {
 async function composePages() {
   let userFunctions = {};
   try {
-    userFunctions = await import(path.join(rootPath, "compose.user.js"));
+    userFunctions = await import(pathToFileURL(path.join(rootPath, "compose.user.js")));
   } catch (error) {
     if (error.code !== "ERR_MODULE_NOT_FOUND") {
       throw error;
