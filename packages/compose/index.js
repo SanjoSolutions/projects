@@ -5,6 +5,7 @@ import path from 'path'
 import { pathToFileURL } from 'url'
 import vm from 'vm'
 import { ArgumentParser } from 'argparse'
+import { noop } from '@sanjo/noop'
 
 // compose after file has changed (basic version done (recompile all pages when something changes), no recursive watch support for linux (therefore does probably not work on linux)):
 //   when page changed then compose page
@@ -183,29 +184,20 @@ async function composePage(outputPath, userFunctions, pagePath, pageSourcePath) 
   )
   const context = { ...boundUserFunction }
   vm.createContext(context)
+  if (userFunctions.beforeRender) {
+    await runInVmContext('beforeRender()', context)
+  }
   const codeInsertPointRegExp = new RegExp(
     `<!-- CODE: (.+?) -->${newLineExpression}?`,
     'g',
   )
   while ((result = codeInsertPointRegExp.exec(composedContent)) !== null) {
     const code = result[1]
-    let codeResult = ''
-    try {
-      codeResult = vm.runInContext(code, context)
-      codeResult = typeof codeResult === 'undefined' ? '' : String(codeResult)
-    } catch (error) {
-      /*
-       const lineNumber = Array.from(composedContent.substring(0, result.index)
-       .matchAll(new RegExp(newLineExpression, 'g')))
-       .length + 1
-       console.error(`page: file://${pageSourcePath}, line number: ${lineNumber}`)
-       */
-      console.error(`Error: ${ error.message }`)
+    let codeResult = await runInVmContext(code, context, function () {
       console.error(`page: file://${ pageSourcePath }`)
       console.error(`markup: ${ result[0] }`)
-      console.error(`code: ${ code }`)
-      console.error(error.stack)
-    }
+    })
+    codeResult = typeof codeResult === 'undefined' ? '' : String(codeResult)
 
     composedContent =
       composedContent.substring(0, result.index) +
@@ -218,6 +210,24 @@ async function composePage(outputPath, userFunctions, pagePath, pageSourcePath) 
   await fs.writeFile(pageDestinationPath, composedContent, {
     encoding: 'utf8',
   })
+}
+
+async function runInVmContext(code, context, onError = noop) {
+  try {
+    return await vm.runInContext(code, context)
+  } catch (error) {
+    /*
+     const lineNumber = Array.from(composedContent.substring(0, result.index)
+     .matchAll(new RegExp(newLineExpression, 'g')))
+     .length + 1
+     console.error(`page: file://${pageSourcePath}, line number: ${lineNumber}`)
+     */
+    console.error(`Error: ${ error.message }`)
+    onError(error)
+    console.error(`code: ${ code }`)
+    console.error(error.stack)
+    return undefined
+  }
 }
 
 async function getFileContent(filePath) {
