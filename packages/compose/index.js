@@ -72,7 +72,9 @@ function watchPath(pathToWatch, onWatchEvent) {
 async function composePages(outputPath) {
   let userFunctions = {}
   try {
-    userFunctions = await import(pathToFileURL(path.join(rootPath, 'compose.user.js')))
+    const composeUserPath = pathToFileURL(path.join(rootPath, 'compose.user.js'))
+    composeUserPath.search = `?update=${Date.now()}`
+    userFunctions = await import(composeUserPath)
   } catch (error) {
     if (error.code !== 'ERR_MODULE_NOT_FOUND') {
       throw error
