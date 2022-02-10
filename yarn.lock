@@ -1909,8 +1909,11 @@ __metadata:
 "@sanjo/compose@workspace:packages/compose":
   version: 0.0.0-use.local
   resolution: "@sanjo/compose@workspace:packages/compose"
+  dependencies:
+    "@sanjo/noop": ^1.0.0
+    argparse: ^2.0.1
   bin:
-    compose: index.js
+    compose: ./index.js
   languageName: unknown
   linkType: soft
 
@@ -2207,7 +2210,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/request-json@^0.1.0, @sanjo/request-json@workspace:packages/request-json":
+"@sanjo/request-json@^1.0.0, @sanjo/request-json@workspace:packages/request-json":
   version: 0.0.0-use.local
   resolution: "@sanjo/request-json@workspace:packages/request-json"
   dependencies:
@@ -3195,6 +3198,13 @@ __metadata:
   dependencies:
     sprintf-js: ~1.0.2
   checksum: 7ca6e45583a28de7258e39e13d81e925cfa25d7d4aacbf806a382d3c02fcb13403a07fb8aeef949f10a7cfe4a62da0e2e807b348a5980554cc28ee573ef95945
+  languageName: node
+  linkType: hard
+
+"argparse@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "argparse@npm:2.0.1"
+  checksum: 83644b56493e89a254bae05702abf3a1101b4fa4d0ca31df1c9985275a5a5bd47b3c27b7fa0b71098d41114d8ca000e6ed90cad764b306f8a503665e4d517ced
   languageName: node
   linkType: hard
 
@@ -5198,7 +5208,7 @@ __metadata:
     "@sanjo/exec": ^1.0.0
     "@sanjo/puppeteer-helpers": ^0.1.0
     "@sanjo/read-json": ^1.0.0
-    "@sanjo/request-json": ^0.1.0
+    "@sanjo/request-json": ^1.0.0
     "@types/puppeteer": ^3.0.1
     puppeteer: ^5.0.0
   languageName: unknown

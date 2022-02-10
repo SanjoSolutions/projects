@@ -13,5 +13,5 @@ npm install --save '@sanjo/request-json'
 ## How to use
 
 ```js
-import requestJson from "@sanjo/request-json";
+import { requestJSON } from "@sanjo/request-json";
 ```

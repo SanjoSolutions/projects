@@ -1,2 +1,2 @@
-export { requestJSON as default } from './requestJSON.js';
+export { requestJSON } from './requestJSON.js';
 //# sourceMappingURL=index.d.ts.map

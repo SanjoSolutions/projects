@@ -1,4 +1,4 @@
-import requestJSON from '@sanjo/request-json'
+import { requestJSON } from '@sanjo/request-json'
 import { URL } from 'url'
 import { convertObjectPropertyNamesFromCamelCaseToUnderscore } from './convertObjectPropertyNamesFromCamelCaseToUnderscore.js'
 import type { MergeRequest } from './MergeRequest.js'

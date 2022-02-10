@@ -1,7 +1,7 @@
 jest.mock('@sanjo/request-json')
 
 import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import requestJSON from '@sanjo/request-json'
+import { requestJSON } from '@sanjo/request-json'
 import { GitLabAPI } from './GitLabAPI.js'
 import { createMergeRequest } from './testing/fixtures/gitLabAPI/gitlab/createMergeRequest.js'
 
