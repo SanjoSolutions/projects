@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Diff folders",
-  "keywords": ["diffing folders", "diff folders", "folder comparison"],
+  "keywords": [
+    "diffing folders",
+    "diff folders",
+    "folder comparison"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/diff-folders",
   "license": "Unlicense",
   "main": "./index.js",
