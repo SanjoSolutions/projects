@@ -1922,7 +1922,7 @@ __metadata:
   resolution: "@sanjo/create-browser-package@workspace:packages/create-browser-package"
   dependencies:
     "@sanjo/create-package": ^0.2.0
-    "@sanjo/diff-folders": ^0.1.0
+    "@sanjo/diff-folders": ^1.0.0
     "@sanjo/exec": ^1.0.0
     "@sanjo/fs": ^1.0.0
     "@sanjo/make-temporary-directory": ^1.0.0
@@ -1959,7 +1959,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/create-package@workspace:packages/create-package"
   dependencies:
-    "@sanjo/diff-folders": ^0.1.0
+    "@sanjo/diff-folders": ^1.0.0
     "@sanjo/escape-for-reg-exp": ^1.0.0
     "@sanjo/exec": ^1.0.0
     "@sanjo/fs": ^1.0.0
@@ -2005,7 +2005,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/diff-folders@^0.1.0, @sanjo/diff-folders@workspace:packages/diff-folders":
+"@sanjo/diff-folders@^1.0.0, @sanjo/diff-folders@workspace:packages/diff-folders":
   version: 0.0.0-use.local
   resolution: "@sanjo/diff-folders@workspace:packages/diff-folders"
   dependencies:
@@ -2262,7 +2262,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/test-npm-init@workspace:packages/test-npm-init"
   dependencies:
-    "@sanjo/diff-folders": ^0.1.0
+    "@sanjo/diff-folders": ^1.0.0
     "@sanjo/npm-init": ^0.1.0
   languageName: unknown
   linkType: soft

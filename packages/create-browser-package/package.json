@@ -20,7 +20,7 @@
     "ncp": "^2.0.0"
   },
   "devDependencies": {
-    "@sanjo/diff-folders": "^0.1.0",
+    "@sanjo/diff-folders": "^1.0.0",
     "@sanjo/exec": "^1.0.0",
     "@sanjo/fs": "^1.0.0",
     "@sanjo/make-temporary-directory": "^1.0.0",

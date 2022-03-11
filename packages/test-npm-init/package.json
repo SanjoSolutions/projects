@@ -14,7 +14,7 @@
     "directory": "packages/test-npm-init"
   },
   "dependencies": {
-    "@sanjo/diff-folders": "^0.1.0",
+    "@sanjo/diff-folders": "^1.0.0",
     "@sanjo/npm-init": "^0.1.0"
   },
   "publishConfig": {
