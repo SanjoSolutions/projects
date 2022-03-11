@@ -81,7 +81,8 @@
     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true,
     /* Disallow inconsistently-cased references to the same file. */
-    "newLine": "lf"
+    "newLine": "lf",
+    "importsNotUsedAsValues": "error"
   },
   "exclude": ["**/babel.config.js", "./X/text_file_compression/examples/*"]
 }
