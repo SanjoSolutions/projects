@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "es2022",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2022",
+    "moduleResolution": "node",
+    "importsNotUsedAsValues": "error",
+    "allowSyntheticDefaultImports": true
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}

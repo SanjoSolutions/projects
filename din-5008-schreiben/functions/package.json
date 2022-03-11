@@ -1,0 +1,31 @@
+{
+  "name": "functions",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "16"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@google-cloud/local-auth": "^1.0.1",
+    "@googleapis/gmail": "^0.3.1",
+    "@sanjo/array": "^1.0.6",
+    "@sanjo/read-json": "^1.0.0",
+    "firebase-admin": "^10.0.2",
+    "firebase-functions": "^3.18.1",
+    "google-auth-library": "^7.14.0",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.2.0",
+    "typescript": "^4.6.2"
+  },
+  "private": true
+}
