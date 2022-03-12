@@ -1,5 +1,5 @@
 import type { ICollection } from './ICollection.js';
-import { IStorage } from './IStorage.js';
+import type { IStorage } from './IStorage.js';
 export declare class Collection implements ICollection {
     _name: string;
     _storage: IStorage;

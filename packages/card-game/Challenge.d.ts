@@ -1,4 +1,4 @@
-import { Option } from './Option.js';
+import type { Option } from './Option.js';
 export declare class Challenge {
     solve(option: Option): boolean;
 }

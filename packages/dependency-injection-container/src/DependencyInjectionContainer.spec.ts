@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 import { DependencyInjectionContainer } from './DependencyInjectionContainer.js'
-import { DependingOn } from './DependingOn.js'
+import type { DependingOn } from './DependingOn.js'
 
 describe('DependencyInjectionContainer', () => {
   it('can instantiate a component with dependencies', () => {

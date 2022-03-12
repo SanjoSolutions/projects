@@ -1,1 +1,1 @@
-{"version":3,"file":"Subsequence.d.ts","sourceRoot":"","sources":["src/Subsequence.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,uBAAuB,CAAA;AAExD,oBAAY,WAAW,GAAG,CAAC,gBAAgB,EAAE,gBAAgB,CAAC,CAAA"}
+{"version":3,"file":"Subsequence.d.ts","sourceRoot":"","sources":["src/Subsequence.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,uBAAuB,CAAA;AAE7D,oBAAY,WAAW,GAAG,CAAC,gBAAgB,EAAE,gBAAgB,CAAC,CAAA"}

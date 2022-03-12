@@ -1,4 +1,4 @@
-import { DependingOn } from './DependingOn.js'
+import type { DependingOn } from './DependingOn.js'
 
 export class DependencyInjectionContainer {
   registry: Map<string, any>

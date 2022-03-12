@@ -1,4 +1,4 @@
-import { MIMEType } from './MIMEType.js';
+import type { MIMEType } from './MIMEType.js';
 export declare function readFiles(directoryToServeFrom: string): Promise<File[]>;
 export interface File {
     pathname: string;

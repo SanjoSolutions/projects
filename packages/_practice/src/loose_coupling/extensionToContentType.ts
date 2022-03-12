@@ -1,4 +1,4 @@
-import { MIMEType } from './MIMEType.js'
+import type { MIMEType } from './MIMEType.js'
 
 export function extensionToContentType(extension: string): MIMEType {
   switch (extension) {

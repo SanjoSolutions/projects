@@ -1,4 +1,4 @@
-import { ITrader } from './Trader.js'
+import type { ITrader } from './Trader.js'
 
 export function trade(
   traderA: ITrader,

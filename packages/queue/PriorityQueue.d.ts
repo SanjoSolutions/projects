@@ -1,4 +1,4 @@
-import { Task } from './Task.js';
+import type { Task } from './Task.js';
 export declare class PriorityQueue {
     #private;
     constructor();

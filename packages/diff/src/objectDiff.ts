@@ -1,8 +1,8 @@
 import { union } from '@sanjo/set'
 import { arrayDiff } from './arrayDiff.js'
 import { isObject } from './isObject.js'
-import { KeyPath } from './KeyPath.js'
-import { ObjectOperation } from './ObjectOperation.js'
+import type { KeyPath } from './KeyPath.js'
+import type { ObjectOperation } from './ObjectOperation.js'
 
 export type ObjectDiff = ObjectOperation[]
 

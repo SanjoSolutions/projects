@@ -1,7 +1,3 @@
-import { difference } from './difference.js'
-import { intersection } from './intersection.js'
-import { union } from './union.js'
-
 export function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
   const result: Set<T> = new Set()
   for (const element of setA) {

@@ -1,4 +1,4 @@
-import { Cache } from '@sanjo/cache'
+import type { Cache } from '@sanjo/cache'
 
 export function nOutOfBase<T>(
   n: number,

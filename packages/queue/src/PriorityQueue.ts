@@ -1,5 +1,5 @@
 import binarySearch from '@sanjo/binary-search'
-import { Task } from './Task.js'
+import type { Task } from './Task.js'
 import { taskInsertCompareFn } from './taskInsertCompareFn.js'
 
 export class PriorityQueue {

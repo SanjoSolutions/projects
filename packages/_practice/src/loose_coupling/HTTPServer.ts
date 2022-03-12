@@ -1,6 +1,5 @@
 import type { IncomingMessage, RequestListener, Server, ServerResponse } from 'http'
 import http from 'http'
-import { ListenOptions } from 'net'
 import { URL } from 'url'
 import { promisify } from 'util'
 

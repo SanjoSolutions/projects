@@ -1,6 +1,6 @@
 import { Collection } from './Collection.js'
 import type { ICollection } from './ICollection.js'
-import { IStorage } from './IStorage.js'
+import type { IStorage } from './IStorage.js'
 
 export class Database {
   _storage: IStorage

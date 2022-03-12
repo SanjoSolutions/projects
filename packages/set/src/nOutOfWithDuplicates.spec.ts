@@ -1,5 +1,4 @@
 import { describe, expect, it } from '@jest/globals'
-import { nOutOf } from './nOutOf.js'
 import { nOutOfWithDuplicates } from './nOutOfWithDuplicates.js'
 
 describe('nOutOfWithDuplicates', () => {

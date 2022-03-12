@@ -1,1 +1,1 @@
-{"version":3,"file":"resolveOrderCompare.d.ts","sourceRoot":"","sources":["src/resolveOrderCompare.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,WAAW,CAAA;AAEhC,wBAAgB,mBAAmB,CAAC,CAAC,EAAE,IAAI,EAAE,CAAC,EAAE,IAAI,GAAG,MAAM,CAE5D"}
+{"version":3,"file":"resolveOrderCompare.d.ts","sourceRoot":"","sources":["src/resolveOrderCompare.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,WAAW,CAAA;AAErC,wBAAgB,mBAAmB,CAAC,CAAC,EAAE,IAAI,EAAE,CAAC,EAAE,IAAI,GAAG,MAAM,CAE5D"}

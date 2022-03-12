@@ -1,8 +1,8 @@
 import { arrayDiff } from './arrayDiff.js'
-import { ArrayOperation } from './ArrayOperation.js'
+import type { ArrayOperation } from './ArrayOperation.js'
 import { isObject } from './isObject.js'
 import { objectDiff } from './objectDiff.js'
-import { ObjectOperation } from './ObjectOperation.js'
+import type { ObjectOperation } from './ObjectOperation.js'
 
 export function getOperationsForDiffSubsequence(
   fromArray: any[],

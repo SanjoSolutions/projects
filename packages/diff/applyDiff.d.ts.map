@@ -1,1 +1,1 @@
-{"version":3,"file":"applyDiff.d.ts","sourceRoot":"","sources":["src/applyDiff.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAA;AAG5C,wBAAgB,SAAS,CAAC,MAAM,EAAE,GAAG,EAAE,IAAI,EAAE,UAAU,OAEtD"}
+{"version":3,"file":"applyDiff.d.ts","sourceRoot":"","sources":["src/applyDiff.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAA;AAGjD,wBAAgB,SAAS,CAAC,MAAM,EAAE,GAAG,EAAE,IAAI,EAAE,UAAU,OAEtD"}

@@ -1,6 +1,5 @@
-import { fix } from '@sanjo/lint-and-fix-package-json/fix.js'
 import { readFile } from '@sanjo/read-file'
-import { PathLike } from 'fs'
+import type { PathLike } from 'fs'
 import { readdir } from 'fs/promises'
 import { dirname, join, resolve } from 'path'
 import { fileURLToPath } from 'url'

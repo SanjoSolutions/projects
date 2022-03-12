@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import { IFileSystem } from './IFileSystem.js'
+import type { IFileSystem } from './IFileSystem.js'
 import { mkdir } from 'fs/promises'
 import { dirname } from 'path'
 
