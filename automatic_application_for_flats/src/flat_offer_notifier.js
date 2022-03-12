@@ -15,7 +15,7 @@ export async function notify(flatOffer, contactData) {
   const mailOptions = {
     from: process.env.GMAIL_EMAIL,
     to: contactData.email,
-    subject: `New flat offer (${flatOffer.url})`,
+    subject: `Flat offer (${flatOffer.url})`,
     html: `<a href="${flatOffer.url}">${flatOffer.url}</a>`,
   }
 
