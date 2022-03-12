@@ -31,7 +31,7 @@ export async function hasFetchedFlatOffer(url) {
 
 export async function registerFlatOfferAsFetched(url, flatOffer) {
   const fetchedFlatOffers = await readFetchedFlatOffers()
-  fetchedFlatOffers[url] = flatOffer
+  fetchedFlatOffers[url] = true
   await writeFetchedFlatOffers(fetchedFlatOffers)
 }
 
