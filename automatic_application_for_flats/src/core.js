@@ -39,15 +39,9 @@ export function verifyContactData(contactData) {
   }
 }
 
-export function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
+export async function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
   console.log('Fetching flat offers...')
-  fetchFlatOffers(
-    getBrowser,
-    intervalBetweenProcessRuns,
-    flatOfferFetchers,
-    onFlatOffer.bind(null, getBrowser, contactData),
-    shouldStop
-  )
+  await fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer.bind(null, getBrowser, contactData))
 }
 
 async function onFlatOffer(getBrowser, contactData, flatOffer) {
@@ -87,9 +81,9 @@ export async function getFlatOfferFetchers() {
   return flatOfferFetchers
 }
 
-function fetchFlatOffers(getBrowser, intervalBetweenProcessRuns, flatOfferFetchers, onFlatOffer, shouldStop) {
+async function fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer) {
   for (const fetch of flatOfferFetchers) {
-    fetch(getBrowser, intervalBetweenProcessRuns, onFlatOffer, shouldStop)
+    await fetch(getBrowser, onFlatOffer)
   }
 }
 

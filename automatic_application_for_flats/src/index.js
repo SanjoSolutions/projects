@@ -38,9 +38,9 @@ async function main() {
     return !shouldRun()
   }
 
-  function runProcess() {
+  async function runProcess() {
     console.log('Starting.')
-    process(getBrowser, flatOfferFetchers, {
+    await process(getBrowser, flatOfferFetchers, {
       intervalBetweenProcessRuns,
       contactData,
       shouldStop,
