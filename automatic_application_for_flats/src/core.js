@@ -50,7 +50,7 @@ export function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessR
 }
 
 async function onFlatOffer(getBrowser, contactData, flatOffer) {
-  if (!haveAppliedForFlatOffer(flatOffer) && kommtInFrage(contactData, flatOffer)) {
+  if (!(await haveAppliedForFlatOffer(flatOffer)) && kommtInFrage(contactData, flatOffer)) {
     await apply(getBrowser, contactData, flatOffer)
   }
 }
