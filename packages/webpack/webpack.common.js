@@ -1,11 +1,9 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import * as process from 'process';
 export default {
     entry: './src/index.js',
     output: {
         filename: 'index.js',
-        path: __dirname,
+        path: process.cwd(),
         library: {
             type: 'module',
         },
