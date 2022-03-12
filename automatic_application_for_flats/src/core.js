@@ -68,7 +68,8 @@ export async function getFlatOfferFetchers() {
     if (
       isJavaScriptFile(filePath) &&
       !path.basename(fileName).startsWith('_') &&
-      !path.basename(fileName, path.extname(fileName)).endsWith('_test')
+      !path.basename(fileName, path.extname(fileName)).endsWith('_test') &&
+      fileName !== 'howoge'
     ) {
       if (stats.isFile()) {
         const module = await import('file:///' + filePath)
