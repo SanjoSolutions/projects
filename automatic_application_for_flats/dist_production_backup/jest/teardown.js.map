@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/jest/teardown.js"],"names":["module","exports","global","__WEB_SERVER__","kill"],"mappings":";;AAAAA,MAAM,CAACC,OAAP,GAAiB,kBAAkB;AACjCC,EAAAA,MAAM,CAACC,cAAP,CAAsBC,IAAtB;AACD,CAFD","sourcesContent":["module.exports = async function () {\n  global.__WEB_SERVER__.kill()\n}\n"],"file":"teardown.js"}

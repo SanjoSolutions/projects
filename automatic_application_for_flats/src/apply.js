@@ -2,6 +2,9 @@ import path from 'path'
 import puppeteer from 'puppeteer'
 import { contactData } from './config.js'
 import { registerFlatOfferAsAppliedTo } from './core.js'
+import { determineDirname } from './lib/determineDirname.js'
+
+const __dirname = determineDirname(import.meta.url)
 
 run(main)
 

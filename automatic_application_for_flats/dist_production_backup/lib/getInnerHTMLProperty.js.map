@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/lib/getInnerHTMLProperty.js"],"names":["getInnerHTMLProperty","node","innerHTML"],"mappings":";;;;;;;AAAO,SAASA,oBAAT,CAA+BC,IAA/B,EAAqC;AAC1C,SAAOA,IAAI,CAACC,SAAZ;AACD","sourcesContent":["export function getInnerHTMLProperty (node) {\n  return node.innerHTML\n}\n"],"file":"getInnerHTMLProperty.js"}

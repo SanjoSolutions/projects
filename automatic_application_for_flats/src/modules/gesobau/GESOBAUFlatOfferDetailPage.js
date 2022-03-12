@@ -92,7 +92,7 @@ export class GesobauFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getWbs() {
-    const wbsRequired = await this.getObjectDetail('WBS')
+    const wbsRequired = await this.getKeyFigure('WBS')
     return Boolean(wbsRequired && wbsRequired[1] === 'ja')
   }
 }

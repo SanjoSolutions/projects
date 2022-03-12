@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/lib/openPage.js"],"names":["openPage","getBrowser","newPage"],"mappings":";;;;;;;AAAO,eAAeA,QAAf,CAAyBC,UAAzB,EAAqC;AAC1C,SAAO,MAAM,CAAC,MAAMA,UAAU,EAAjB,EAAqBC,OAArB,EAAb;AACD","sourcesContent":["export async function openPage (getBrowser) {\n  return await (await getBrowser()).newPage()\n}\n"],"file":"openPage.js"}

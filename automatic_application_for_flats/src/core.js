@@ -1,11 +1,15 @@
 import { promises as fs } from 'fs'
 import path from 'path'
 import { notify } from './flat_offer_notifier.js'
+import { determineDirname } from './lib/determineDirname.js'
 import { getMissingFields } from './lib/getMissingFields.js'
 import { isBoolean } from './lib/isBoolean.js'
 import { isNumber } from './lib/isNumber.js'
+import { readJSON } from '@sanjo/read-json'
 
 const modulesDirectoryName = 'modules'
+
+const __dirname = determineDirname(import.meta.url)
 
 const modulesPath = path.join(__dirname, modulesDirectoryName)
 
@@ -66,7 +70,7 @@ export async function getFlatOfferFetchers() {
       !path.basename(fileName, path.extname(fileName)).endsWith('_test')
     ) {
       if (stats.isFile()) {
-        const module = require(filePath)
+        const module = await import('file:///' + filePath)
         const fetcher = module.fetch
         if (!fetcher) {
           throw new Error(`Module "${filePath}" has no expected export "fetch".`)
@@ -95,8 +99,8 @@ export function kommtInFrage(contactData, flatOffer) {
     (!flatOffer.wbs || contactData.wbs) &&
     totalRent(flatOffer) <= maxWarmRent &&
     forPeopleOfAge(flatOffer, 30) &&
-    // flatOffer.area <= 50 && // m ** 2
-    flatOffer.numberOfRooms <= 1.5 &&
+    flatOffer.area <= 50 && // m ** 2
+    flatOffer.numberOfRooms <= 2 &&
     (!flatOffer.url.includes('howoge') || monthlyIncome >= 3 * totalRent(flatOffer)) && // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
     (!isBoolean(flatOffer.selfRenovation) || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
   )
@@ -128,36 +132,29 @@ function isFlatOfferForSeniorsOnly(flatOffer) {
 }
 
 async function apply(getBrowser, contactData, flatOffer) {
-  if (typeof flatOffer.apply === 'function') {
-    console.log('Applying for flat offer: ', flatOffer)
-    await flatOffer.apply(getBrowser, contactData)
-  } else {
-    console.log('Sending notification for flat offer: ', flatOffer)
-    await notify(flatOffer, contactData)
-  }
-  /*
   console.log('Sending notification for flat offer: ', flatOffer)
   await notify(flatOffer, contactData)
-  */
   await registerFlatOfferAsAppliedTo(flatOffer)
 }
 
 // IMPROVEMENT: Structure code of haveAppliedForFlatOffer and registerFlatOfferAsAppliedTo like fetchedFlatOffers.js
 // IMPROVEMENT: Save flatOffer data for manual validation (like it is done for fetchedFlatOffers.json)
-function haveAppliedForFlatOffer(flatOffer) {
-  // FIXME: User readJSON instead of require
-  const flatOffersAppliedTo = require('../flatOffersAppliedTo.json')
+async function haveAppliedForFlatOffer(flatOffer) {
+  const flatOffersAppliedTo = await readFlatOffersAppliedTo()
   return flatOffersAppliedTo.includes(flatOffer.url)
 }
 
 async function registerFlatOfferAsAppliedTo(flatOffer) {
-  // FIXME: User readJSON instead of require
-  const flatOffersAppliedTo = require('../flatOffersAppliedTo.json')
+  const flatOffersAppliedTo = await readFlatOffersAppliedTo()
   flatOffersAppliedTo.push(flatOffer.url)
   await fs.writeFile(
     path.resolve(__dirname, '..', 'flatOffersAppliedTo.json'),
     JSON.stringify(flatOffersAppliedTo, null, 2)
   )
+}
+
+async function readFlatOffersAppliedTo() {
+  return await readJSON(path.resolve(__dirname, '../flatOffersAppliedTo.json'))
 }
 
 function isJavaScriptFile(filePath) {

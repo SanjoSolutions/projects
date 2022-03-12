@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/lib/__filename.js"],"names":["__filename","importUrl"],"mappings":";;;;;;;AAAA;;AAEO,SAASA,SAAT,CAAqBC,SAArB,EAAgC;AACrC,SAAO,wBAAcA,SAAd,CAAP;AACD","sourcesContent":["import { fileURLToPath } from 'url'\n\nexport function __filename (importUrl) {\n  return fileURLToPath(importUrl)\n}\n"],"file":"__filename.js"}

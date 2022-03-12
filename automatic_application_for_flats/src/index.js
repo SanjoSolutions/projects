@@ -25,8 +25,8 @@ async function main() {
   }
 
   // In UTC
-  const runFromHour = 7
-  const runToHour = 20
+  const runFromHour = 0
+  const runToHour = 24
 
   function shouldRun() {
     const now = new Date()

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/lib/mixin.test.js"],"names":["describe","it"],"mappings":";;AAAAA,QAAQ,CAAC,OAAD,EAAU,MAAM;AACtBC,EAAAA,EAAE,CAAC,2DAAD,EAA8D,MAAM,CAErE,CAFC,CAAF;AAGD,CAJO,CAAR","sourcesContent":["describe('mixin', () => {\n  it('adds methods of a class to the prototype of another class', () => {\n\n  })\n})\n"],"file":"mixin.test.js"}
