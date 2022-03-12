@@ -146,7 +146,6 @@ const colors = new Map([
   ['Iron', '#9c9895'],
 ])
 
-const defaultColor = 'white'
 const cellLength = 16
 
 export function visualizeMap(map) {
