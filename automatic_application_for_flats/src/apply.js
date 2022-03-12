@@ -1,7 +1,7 @@
 import path from 'path'
 import puppeteer from 'puppeteer'
 import { contactData } from './config.js'
-import { registerFlatOfferAsAppliedTo } from './core.js'
+import { registerFlatOfferAsAppliedTo, registerFlatOfferAsNotifiedOf } from './core.js'
 import { determineDirname } from './lib/determineDirname.js'
 
 const __dirname = determineDirname(import.meta.url)
@@ -45,8 +45,12 @@ async function main() {
   }
 
   const flatOffer = { url }
-  await applyForFlatOffer(getBrowser, flatOffer, contactData)
-  await registerFlatOfferAsAppliedTo(flatOffer)
+  if (haveAppliedForFlatOffer(flatOffer)) {
+    console.log('Have already applied for flat offer.')
+  } else {
+    await applyForFlatOffer(getBrowser, flatOffer, contactData)
+    await registerFlatOfferAsAppliedTo(flatOffer)
+  }
 }
 
 function run(fn) {

@@ -1,3 +1,5 @@
+import { readJSON } from '@sanjo/read-json'
+import { writeJSON } from '@sanjo/write-json'
 import { promises as fs } from 'fs'
 import path from 'path'
 import { notify } from './flat_offer_notifier.js'
@@ -5,7 +7,6 @@ import { determineDirname } from './lib/determineDirname.js'
 import { getMissingFields } from './lib/getMissingFields.js'
 import { isBoolean } from './lib/isBoolean.js'
 import { isNumber } from './lib/isNumber.js'
-import { readJSON } from '@sanjo/read-json'
 
 const modulesDirectoryName = 'modules'
 
@@ -50,8 +51,8 @@ export function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessR
 }
 
 async function onFlatOffer(getBrowser, contactData, flatOffer) {
-  if (!(await haveAppliedForFlatOffer(flatOffer)) && kommtInFrage(contactData, flatOffer)) {
-    await apply(getBrowser, contactData, flatOffer)
+  if (!(await haveNotifiedOfFlatOffer(flatOffer)) && kommtInFrage(contactData, flatOffer)) {
+    await notifyOf(getBrowser, contactData, flatOffer)
   }
 }
 
@@ -131,30 +132,48 @@ function isFlatOfferForSeniorsOnly(flatOffer) {
   return Boolean(flatOffer.seniorsOnly)
 }
 
-async function apply(getBrowser, contactData, flatOffer) {
+async function notifyOf(getBrowser, contactData, flatOffer) {
   console.log('Sending notification for flat offer: ', flatOffer)
   await notify(flatOffer, contactData)
-  await registerFlatOfferAsAppliedTo(flatOffer)
+  await registerFlatOfferAsNotifiedOf(flatOffer)
 }
 
-// IMPROVEMENT: Structure code of haveAppliedForFlatOffer and registerFlatOfferAsAppliedTo like fetchedFlatOffers.js
+// IMPROVEMENT: Structure code of haveNotifiedOfFlatOffer and registerFlatOfferAsNotifiedOf like fetchedFlatOffers.js
+// IMPROVEMENT: Save flatOffer data for manual validation (like it is done for fetchedFlatOffers.json)
+async function haveNotifiedOfFlatOffer(flatOffer) {
+  const flatOffersNotifiedOf = await readFlatOffersNotifiedOf()
+  return flatOffersNotifiedOf.includes(flatOffer.url)
+}
+
+const flatOffersNotifiedOfPath = path.resolve(__dirname, '..', 'flatOffersNotifiedOf.json')
+
+async function registerFlatOfferAsNotifiedOf(flatOffer) {
+  const flatOffersNotifiedOf = await readFlatOffersNotifiedOf()
+  flatOffersNotifiedOf.push(flatOffer.url)
+  await writeJSON(flatOffersNotifiedOfPath, flatOffersNotifiedOf)
+}
+
+async function readFlatOffersNotifiedOf() {
+  return await readJSON(flatOffersNotifiedOfPath)
+}
+
+// IMPROVEMENT: Structure code of haveNotifiedOfFlatOffer and registerFlatOfferAsNotifiedOf like fetchedFlatOffers.js
 // IMPROVEMENT: Save flatOffer data for manual validation (like it is done for fetchedFlatOffers.json)
 async function haveAppliedForFlatOffer(flatOffer) {
   const flatOffersAppliedTo = await readFlatOffersAppliedTo()
   return flatOffersAppliedTo.includes(flatOffer.url)
 }
 
-async function registerFlatOfferAsAppliedTo(flatOffer) {
+const flatOffersAppliedToPath = path.resolve(__dirname, '..', 'flatOffersAppliedTo.json')
+
+export async function registerFlatOfferAsAppliedTo(flatOffer) {
   const flatOffersAppliedTo = await readFlatOffersAppliedTo()
   flatOffersAppliedTo.push(flatOffer.url)
-  await fs.writeFile(
-    path.resolve(__dirname, '..', 'flatOffersAppliedTo.json'),
-    JSON.stringify(flatOffersAppliedTo, null, 2)
-  )
+  await writeJSON(flatOffersAppliedToPath, flatOffersAppliedTo)
 }
 
 async function readFlatOffersAppliedTo() {
-  return await readJSON(path.resolve(__dirname, '../flatOffersAppliedTo.json'))
+  return await readJSON(flatOffersAppliedToPath)
 }
 
 function isJavaScriptFile(filePath) {

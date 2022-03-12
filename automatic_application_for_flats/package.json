@@ -6,6 +6,7 @@
     "start": "cd src && node index.js"
   },
   "dependencies": {
+    "@sanjo/write-json": "^1.0.0",
     "nodemailer": "6.4.5",
     "puppeteer": "2.1.1"
   },
