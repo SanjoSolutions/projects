@@ -2,18 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "jest"
-  },
-  "jest": {
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/dist/"
-    ],
-    "globals": {
-      "__WEB_SERVER_PORT__": "8888"
-    },
-    "globalSetup": "./src/jest/setup.js",
-    "globalTeardown": "./src/jest/teardown.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
     "nodemailer": "6.4.5",
@@ -25,6 +14,6 @@
     "@babel/preset-env": "7.12.1",
     "babel-jest": "26.6.3",
     "babel-plugin-transform-default-import": "1.0.0",
-    "jest": "26.6.3"
+    "jest": "^27.5.1"
   }
 }

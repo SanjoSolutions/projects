@@ -1,6 +1,7 @@
 import path from 'path'
 import { readJSON } from '../readJSON.js'
+import jestConfig from '../../../jest.config.js'
 
 export async function getWebServerPort() {
-  return (await readJSON(path.resolve(__dirname, '../../../package.json'))).jest.globals.__WEB_SERVER_PORT__
+  return jestConfig.globals.__WEB_SERVER_PORT__
 }

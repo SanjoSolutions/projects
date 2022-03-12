@@ -22,7 +22,7 @@ describe('DegewoFlatOfferListElement', () => {
       const flatOfferElement = new DegewoFlatOfferListElement(await page.$('article'))
       const url = await flatOfferElement.getUrl()
 
-      expect(url).toEqual('http://0.0.0.0:8888/de/properties/1400-40137-0270')
+      expect(url).toEqual('http://127.0.0.1:8888/de/properties/1400-40137-0270')
     })
   })
 
