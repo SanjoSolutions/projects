@@ -1,6 +1,8 @@
 <script type="module">
-  import { displayMap, OresMap } from './index.js'
+  import { displayMap, visualizeMap, OresMap } from './index.js'
 
   const map = new OresMap(20, 24)
   displayMap(map)
+  const canvas = visualizeMap(map)
+  document.body.appendChild(canvas)
 </script>

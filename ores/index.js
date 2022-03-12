@@ -137,3 +137,34 @@ export function displayMap(map) {
   output = output.substr(0, output.length - 1)
   console.log(output)
 }
+
+const colors = new Map([
+  ['Coal', '#686866'],
+  ['Gold', 'gold'],
+  ['Silver', 'silver'],
+  ['Copper', '#b87d6c'],
+  ['Iron', '#9c9895'],
+])
+
+const defaultColor = 'white'
+const cellLength = 16
+
+export function visualizeMap(map) {
+  const grid = map.grid
+  const canvas = document.createElement('canvas')
+  canvas.width = grid.width * cellLength
+  canvas.height = grid.height * cellLength
+  const context = canvas.getContext('2d')
+  for (let y = 0; y < grid.height; y++) {
+    for (let x = 0; x < grid.width; x++) {
+      const cell = positionToCell({ x, y })
+      const ore = grid.get(cell)
+      if (ore) {
+        const oreColor = colors.get(ore)
+        context.fillStyle = oreColor
+        context.fillRect(x * cellLength, y * cellLength, cellLength, cellLength)
+      }
+    }
+  }
+  return canvas
+}
