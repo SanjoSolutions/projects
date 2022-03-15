@@ -7,4 +7,5 @@ export { last } from './last.js';
 export { max } from './max.js';
 export { min } from './min.js';
 export { unique } from './unique.js';
+export { nOutOfWithDuplicates } from './nOutOfWithDuplicates.js';
 //# sourceMappingURL=index.d.ts.map
