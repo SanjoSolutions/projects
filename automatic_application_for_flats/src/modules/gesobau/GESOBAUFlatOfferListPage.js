@@ -17,7 +17,7 @@ export class GESOBAUFlatOfferListPage extends FlatOfferListPage {
     const modal = await this.page.$('#cookieman-modal')
     if (await hasClass(modal, 'in')) {
       const selector = 'button[data-cookieman-save]'
-      await this.page.waitFor(selector, { visible: true })
+      await this.page.waitForSelector(selector, { visible: true })
       const button = await this.page.$(selector)
       await button.click()
     }

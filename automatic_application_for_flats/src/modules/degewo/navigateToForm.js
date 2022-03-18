@@ -5,7 +5,7 @@ export async function navigateToForm(page) {
   await contactButton.click()
 
   const formModalSelector = '.teaser-tileset__body--form'
-  await page.waitFor(formModalSelector, { visible: true })
+  await page.waitForSelector(formModalSelector, { visible: true })
 
   const formModal = await page.$(formModalSelector)
   const iframe = await formModal.$('iframe')

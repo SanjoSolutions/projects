@@ -1,3 +1,3 @@
 export async function verifyFormSubmissionSuccess({ form, page }) {
-  // TODO: await page.waitFor('…', { visible: true })
+  // TODO: await page.waitForSelector('…', { visible: true })
 }

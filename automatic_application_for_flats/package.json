@@ -8,7 +8,7 @@
   "dependencies": {
     "@sanjo/write-json": "^1.0.0",
     "nodemailer": "6.4.5",
-    "puppeteer": "2.1.1"
+    "puppeteer": "^13.5.1"
   },
   "devDependencies": {
     "jest": "^27.5.1"
