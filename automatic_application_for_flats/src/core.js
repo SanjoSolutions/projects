@@ -7,6 +7,7 @@ import { determineDirname } from './lib/determineDirname.js'
 import { getMissingFields } from './lib/getMissingFields.js'
 import { isBoolean } from './lib/isBoolean.js'
 import { isNumber } from './lib/isNumber.js'
+import { wait } from './lib/wait.js'
 
 const modulesDirectoryName = 'modules'
 
@@ -41,7 +42,10 @@ export function verifyContactData(contactData) {
 
 export async function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
   console.log('Fetching flat offers...')
-  await fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer.bind(null, getBrowser, contactData))
+  await fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer.bind(null, getBrowser, contactData), {
+    intervalBetweenProcessRuns,
+    shouldStop,
+  })
 }
 
 async function onFlatOffer(getBrowser, contactData, flatOffer) {
@@ -81,9 +85,12 @@ export async function getFlatOfferFetchers() {
   return flatOfferFetchers
 }
 
-async function fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer) {
-  for (const fetch of flatOfferFetchers) {
-    await fetch(getBrowser, onFlatOffer)
+async function fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer, { intervalBetweenProcessRuns, shouldStop }) {
+  while (!shouldStop()) {
+    for (const fetch of flatOfferFetchers) {
+      await fetch(getBrowser, onFlatOffer)
+    }
+    await wait(intervalBetweenProcessRuns)
   }
 }
 
