@@ -91,7 +91,10 @@ async function fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer, { int
     for (const fetch of flatOfferFetchers) {
       await fetch(getBrowser, onFlatOffer)
     }
-    await wait(intervalBetweenProcessRuns)
+    const lastFetched = new Date()
+    do {
+      await wait(60 * 1000)
+    } while (new Date() - lastFetched < intervalBetweenProcessRuns)
   }
 }
 
