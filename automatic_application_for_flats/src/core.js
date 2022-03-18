@@ -41,7 +41,6 @@ export function verifyContactData(contactData) {
 }
 
 export async function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
-  console.log('Fetching flat offers...')
   await fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer.bind(null, getBrowser, contactData), {
     intervalBetweenProcessRuns,
     shouldStop,
