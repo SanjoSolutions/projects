@@ -87,6 +87,7 @@ export async function getFlatOfferFetchers() {
 
 async function fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer, { intervalBetweenProcessRuns, shouldStop }) {
   while (!shouldStop()) {
+    console.log('Fetching flat offers.')
     for (const fetch of flatOfferFetchers) {
       await fetch(getBrowser, onFlatOffer)
     }
