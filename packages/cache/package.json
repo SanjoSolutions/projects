@@ -3,7 +3,10 @@
   "version": "2.0.0",
   "type": "module",
   "description": "Caches",
-  "keywords": ["caches", "caching"],
+  "keywords": [
+    "caches",
+    "caching"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/cache",
   "license": "Unlicense",
   "main": "./index.js",

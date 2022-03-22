@@ -1877,7 +1877,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/cache@^1.0.0, @sanjo/cache@workspace:packages/cache":
+"@sanjo/cache@^2.0.0, @sanjo/cache@workspace:packages/cache":
   version: 0.0.0-use.local
   resolution: "@sanjo/cache@workspace:packages/cache"
   dependencies:
@@ -2229,7 +2229,7 @@ __metadata:
   resolution: "@sanjo/set@workspace:packages/set"
   dependencies:
     "@sanjo/array": ^1.0.4
-    "@sanjo/cache": ^1.0.0
+    "@sanjo/cache": ^2.0.0
   languageName: unknown
   linkType: soft
 
