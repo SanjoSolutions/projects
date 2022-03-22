@@ -1,9 +1,9 @@
-import type { Cache } from '@sanjo/cache'
+import type { ObjectCache } from '@sanjo/cache'
 
 export function nOutOfBase<T>(
   n: number,
   set: Iterable<T>,
-  cache: Cache<number[][]>,
+  cache: ObjectCache<number[][]>,
   getNextSubSequenceElementStartValue: (subSequence: number[]) => number
 ): Set<Set<T>> {
   const elements = [...set]

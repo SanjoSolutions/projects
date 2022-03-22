@@ -1,58 +1,58 @@
 import { last } from '@sanjo/array';
+export const FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE = 'Failed to retrieve value.';
 export class Cache {
-    _cache = new Map();
-    has(key) {
-        const keyArray = this._convertKeyToArray(key);
-        let a = this._cache;
-        for (const keyArrayElement of keyArray.slice(0, keyArray.length - 1)) {
-            if (a.has(keyArrayElement)) {
-                a = a.get(keyArrayElement);
-            }
-            else {
-                return false;
-            }
-        }
-        return a.has(last(keyArray));
+    _cache;
+    constructor() {
+        this._cache = new Map();
     }
-    get(key) {
-        const keyArray = this._convertKeyToArray(key);
-        let a = this._cache;
-        for (const keyArrayElement of keyArray) {
-            if (a.has(keyArrayElement)) {
-                a = a.get(keyArrayElement);
-            }
-            else {
-                return null;
-            }
-        }
-        return a;
+    has(key) {
+        return Boolean(this._retrieveValue(key, () => false));
+    }
+    retrieve(key) {
+        return this._retrieveValue(key, () => {
+            throw new Error(FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE);
+        });
     }
     set(key, value) {
-        const keyArray = this._convertKeyToArray(key);
-        let a = this._cache;
-        for (const keyArrayElement of keyArray.slice(0, keyArray.length - 1)) {
-            let b;
-            if (a.has(keyArrayElement)) {
-                b = a.get(keyArrayElement);
+        key = this._convertKeyToArray(key);
+        let object = this._cache;
+        for (const keyPart of key.slice(0, key.length - 1)) {
+            if (object instanceof Map && object.has(keyPart)) {
+                object = object.get(keyPart);
             }
             else {
-                b = new Map();
-                a.set(keyArrayElement, b);
+                const newObject = new Map();
+                object.set(keyPart, newObject);
+                object = newObject;
             }
-            a = b;
         }
-        a.set(last(keyArray), value);
+        object.set(last(key), value);
     }
     clear() {
         this._cache = new Map();
     }
     _convertKeyToArray(key) {
-        return this._convertKeyObjectToArray(key);
+        let result;
+        if (Array.isArray(key)) {
+            result = key;
+        }
+        else {
+            result = [key];
+        }
+        return result;
     }
-    _convertKeyObjectToArray(key) {
-        const propertyNames = Object.keys(key);
-        propertyNames.sort();
-        return propertyNames.map(propertyName => key[propertyName]);
+    _retrieveValue(key, onMiss) {
+        key = this._convertKeyToArray(key);
+        let object = this._cache;
+        for (const keyPart of key) {
+            if (object instanceof Map && object.has(keyPart)) {
+                object = object.get(keyPart);
+            }
+            else {
+                return onMiss();
+            }
+        }
+        return object;
     }
 }
 //# sourceMappingURL=Cache.js.map

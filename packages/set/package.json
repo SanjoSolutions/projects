@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@sanjo/array": "^1.0.4",
-    "@sanjo/cache": "^1.0.0"
+    "@sanjo/cache": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"

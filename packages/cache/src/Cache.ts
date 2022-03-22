@@ -1,49 +1,37 @@
 import { last } from '@sanjo/array'
 
-export class Cache<T> {
-  private _cache = new Map()
+export const FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE = 'Failed to retrieve value.'
 
-  has(key: any): boolean {
-    const keyArray = this._convertKeyToArray(key)
-    let a = this._cache
-    for (const keyArrayElement of keyArray.slice(0, keyArray.length - 1)) {
-      if (a.has(keyArrayElement)) {
-        a = a.get(keyArrayElement)
-      } else {
-        return false
-      }
-    }
-    return a.has(last(keyArray))
+export class Cache<T = any> {
+  _cache: Map<any, any>
+
+  constructor() {
+    this._cache = new Map()
   }
 
-  get(key: any): T | null {
-    const keyArray = this._convertKeyToArray(key)
-    let a: any = this._cache
-    for (const keyArrayElement of keyArray) {
-      if (a.has(keyArrayElement)) {
-        a = a.get(keyArrayElement)
-      } else {
-        return null
-      }
-    }
-    return a as T
+  has(key: any): boolean {
+    return Boolean(this._retrieveValue(key, () => false))
+  }
+
+  retrieve(key: any): T {
+    return this._retrieveValue(key, () => {
+      throw new Error(FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE)
+    })
   }
 
   set(key: any, value: T): void {
-    const keyArray = this._convertKeyToArray(key)
-    let a = this._cache
-    for (const keyArrayElement of keyArray.slice(0, keyArray.length - 1)) {
-      let b
-      if (a.has(keyArrayElement)) {
-        b = a.get(keyArrayElement)
+    key = this._convertKeyToArray(key)
+    let object = this._cache
+    for (const keyPart of key.slice(0, key.length - 1)) {
+      if (object instanceof Map && object.has(keyPart)) {
+        object = object.get(keyPart)
       } else {
-        b = new Map<number, number[][]>()
-        a.set(keyArrayElement, b)
+        const newObject = new Map()
+        object.set(keyPart, newObject)
+        object = newObject
       }
-      a = b
     }
-
-    a.set(last(keyArray), value)
+    object.set(last(key), value)
   }
 
   clear(): void {
@@ -51,12 +39,25 @@ export class Cache<T> {
   }
 
   _convertKeyToArray(key: any): any[] {
-    return this._convertKeyObjectToArray(key)
+    let result
+    if (Array.isArray(key)) {
+      result = key
+    } else {
+      result = [key]
+    }
+    return result
   }
 
-  _convertKeyObjectToArray(key: any): any[] {
-    const propertyNames = Object.keys(key)
-    propertyNames.sort()
-    return propertyNames.map(propertyName => key[propertyName])
+  _retrieveValue(key: any, onMiss: () => any): any {
+    key = this._convertKeyToArray(key)
+    let object = this._cache
+    for (const keyPart of key) {
+      if (object instanceof Map && object.has(keyPart)) {
+        object = object.get(keyPart)
+      } else {
+        return onMiss()
+      }
+    }
+    return object
   }
 }
