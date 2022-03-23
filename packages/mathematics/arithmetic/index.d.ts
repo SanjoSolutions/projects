@@ -1,5 +1,5 @@
 export { multiply } from './multiply.js';
-export { plus } from './plus.js';
+export { add } from './add.js';
 export { sum } from './sum.js';
 export { product } from './product.js';
 //# sourceMappingURL=index.d.ts.map

@@ -1,5 +1,5 @@
 import { describe, it, expect, jest } from '@jest/globals';
-import { plus as add } from '@sanjo/mathematics';
+import { add } from '@sanjo/mathematics';
 import { createCachingFunction } from './createCachingFunction.js';
 import { identity } from '@sanjo/identity';
 describe('createCachingFunction', () => {

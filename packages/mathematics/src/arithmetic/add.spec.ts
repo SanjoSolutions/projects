@@ -1,8 +1,8 @@
 import { describe, expect, it } from '@jest/globals'
-import { plus } from './plus.js'
+import { add } from './add.js'
 
-describe('plus', () => {
+describe('add', () => {
   it('adds two numbers', () => {
-    expect(plus(1, 2)).toEqual(3)
+    expect(add(1, 2)).toEqual(3)
   })
 })

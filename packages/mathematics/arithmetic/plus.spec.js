@@ -1,8 +1,0 @@
-import { describe, expect, it } from '@jest/globals';
-import { plus } from './plus.js';
-describe('plus', () => {
-    it('adds two numbers', () => {
-        expect(plus(1, 2)).toEqual(3);
-    });
-});
-//# sourceMappingURL=plus.spec.js.map

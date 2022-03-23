@@ -1,5 +1,5 @@
-import { plus } from './plus.js'
+import { add } from './add.js'
 
 export function sum(array: number[]) {
-  return Array.from(array).reduce(plus)
+  return Array.from(array).reduce(add)
 }
