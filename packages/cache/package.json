@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/cache",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "type": "module",
   "description": "Caches",
   "keywords": [
@@ -18,6 +18,10 @@
   },
   "dependencies": {
     "@sanjo/array": "^1.0.4"
+  },
+  "devDependencies": {
+    "@sanjo/identity": "^2.0.3",
+    "@sanjo/mathematics": "^0.3.0"
   },
   "publishConfig": {
     "access": "public"

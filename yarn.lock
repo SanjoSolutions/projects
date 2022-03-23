@@ -1882,6 +1882,8 @@ __metadata:
   resolution: "@sanjo/cache@workspace:packages/cache"
   dependencies:
     "@sanjo/array": ^1.0.4
+    "@sanjo/identity": ^2.0.3
+    "@sanjo/mathematics": ^0.3.0
   languageName: unknown
   linkType: soft
 
@@ -2066,7 +2068,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/identity@^2.0.0, @sanjo/identity@workspace:packages/identity":
+"@sanjo/identity@^2.0.0, @sanjo/identity@^2.0.3, @sanjo/identity@workspace:packages/identity":
   version: 0.0.0-use.local
   resolution: "@sanjo/identity@workspace:packages/identity"
   languageName: unknown
@@ -2110,7 +2112,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/mathematics@workspace:packages/mathematics":
+"@sanjo/mathematics@^0.3.0, @sanjo/mathematics@workspace:packages/mathematics":
   version: 0.0.0-use.local
   resolution: "@sanjo/mathematics@workspace:packages/mathematics"
   languageName: unknown

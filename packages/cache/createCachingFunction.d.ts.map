@@ -1,0 +1,1 @@
+{"version":3,"file":"createCachingFunction.d.ts","sourceRoot":"","sources":["src/createCachingFunction.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,SAAS,CAAA;AAE/B,wBAAgB,qBAAqB,CAAC,CAAC,SAAS,QAAQ,EAAE,EAAE,EAAE,CAAC,GAAG;IAAE,CAAC,GAAG,IAAI,EAAE,GAAG,EAAE,GAAG,GAAG,CAAC;IAAC,KAAK,EAAE,KAAK,CAAA;CAAE,CAcxG"}
