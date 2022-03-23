@@ -25,7 +25,13 @@ describe('requestJSON', () => {
             id: 1,
         };
         await requestJSON(url, { ...options }, data);
-        expect(request).toHaveBeenCalledWith(url, options, '{"id":1}');
+        expect(request).toHaveBeenCalledWith(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+        }, '{"id":1}');
     });
 });
 //# sourceMappingURL=requestJSON.spec.js.map
