@@ -21,7 +21,7 @@ Add to your `package.json`:
     "build:watch": "webpack serve --open --config node_modules/@sanjo/webpack/webpack.dev.js"
   },
   "devDependencies": {
-    "@sanjo/webpack": "^1.0.0",
+    "@sanjo/webpack": "^1.2.1",
     "@webpack-cli/serve": "^1.6.0",
     "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1",
