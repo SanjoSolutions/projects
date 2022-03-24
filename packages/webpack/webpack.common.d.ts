@@ -7,6 +7,11 @@ declare const _default: {
             type: string;
         };
     };
+    devServer: {
+        static: {
+            directory: string;
+        };
+    };
     devtool: string;
     resolve: {
         extensions: string[];

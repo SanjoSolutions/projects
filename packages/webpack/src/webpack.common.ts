@@ -1,12 +1,19 @@
 import * as process from 'process'
 
+const path = process.cwd()
+
 export default {
   entry: './src/index.js',
   output: {
     filename: 'index.js',
-    path: process.cwd(),
+    path,
     library: {
       type: 'module',
+    },
+  },
+  devServer: {
+    static: {
+      directory: path,
     },
   },
   devtool: 'source-map',
