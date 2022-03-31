@@ -12,7 +12,7 @@ export default {
     devServer: {
         static: {
             directory: path,
-        }
+        },
     },
     devtool: 'source-map',
     resolve: {
