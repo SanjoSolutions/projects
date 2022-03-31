@@ -1,1 +1,1 @@
-{"version":3,"file":"sum.js","sourceRoot":"","sources":["../src/arithmetic/sum.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,UAAU,CAAA;AAE9B,MAAM,UAAU,GAAG,CAAC,KAAe;IACjC,OAAO,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,GAAG,CAAC,CAAA;AACtC,CAAC"}
+{"version":3,"file":"sum.js","sourceRoot":"","sources":["../src/arithmetic/sum.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,GAAG,EAAE,MAAM,UAAU,CAAA;AAE9B,MAAM,UAAU,GAAG,CAAC,KAAe;IACjC,OAAO,KAAK,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC,MAAM,CAAC,GAAG,EAAE,CAAC,CAAC,CAAA;AACzC,CAAC"}
