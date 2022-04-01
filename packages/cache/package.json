@@ -20,7 +20,7 @@
     "@sanjo/array": "^1.0.4"
   },
   "devDependencies": {
-    "@sanjo/identity": "^2.0.3",
+    "@sanjo/identity": "^2.0.4",
     "@sanjo/mathematics": "^0.4.0"
   },
   "publishConfig": {

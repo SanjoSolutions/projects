@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@sanjo/comparison": "^1.0.0",
-    "@sanjo/identity": "^2.0.0"
+    "@sanjo/identity": "^2.0.4"
   },
   "publishConfig": {
     "access": "public"
