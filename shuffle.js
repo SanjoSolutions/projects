@@ -1,3 +1,5 @@
+import { randomInteger } from './randomInteger.js'
+
 export function shuffle(values) {
   const shuffledValues = []
   for (const value of values) {
