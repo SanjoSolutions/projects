@@ -363,6 +363,46 @@ export function main() {
 
     return circles
   }
+
+  function spawnCircles(element, { rows, columns, colors }) {
+    for (let column = 0; column < columns; column++) {
+      const $column = document.createElement('div')
+      $column.classList.add('circles-column')
+      element.appendChild($column)
+
+      for (let row = 0; row < rows; row++) {
+        const colorCandidates = new Set(colors)
+        if (column >= 2) {
+          const circlesToTheLeft = [
+            retrieveCircleAtPosition({
+              row: numberOfRows - 1 - row,
+              column: column - 1,
+            }),
+            retrieveCircleAtPosition({
+              row: numberOfRows - 1 - row,
+              column: column - 2,
+            }),
+          ]
+          if (areAllEqual(circlesToTheLeft.map(circle => determineCircleColor(circle)))) {
+            const color = determineCircleColor(circlesToTheLeft[0])
+            colorCandidates.delete(color)
+          }
+        }
+        if (row >= 2) {
+          const circlesBelow = [
+            $column.children[$column.children.length - 1],
+            $column.children[$column.children.length - 2],
+          ]
+          if (areAllEqual(circlesBelow.map(circle => determineCircleColor(circle)))) {
+            const color = determineCircleColor(circlesBelow[0])
+            colorCandidates.delete(color)
+          }
+        }
+        const circle = createCircleWithRandomColor(Array.from(colorCandidates))
+        $column.appendChild(circle)
+      }
+    }
+  }
 }
 
 function canBeConnected(circleA, circleB) {
@@ -427,16 +467,8 @@ function calculateElementCenter(element) {
   }
 }
 
-function spawnCircles(element, { rows, columns, colors }) {
-  for (let column = 0; column < columns; column++) {
-    const $column = document.createElement('div')
-    $column.classList.add('circles-column')
-    element.appendChild($column)
-    for (let row = 0; row < rows; row++) {
-      const circle = createCircleWithRandomColor(colors)
-      $column.appendChild(circle)
-    }
-  }
+function areAllEqual(elements) {
+  return new Set(elements).size === 1
 }
 
 function createCircleWithRandomColor(colors) {
