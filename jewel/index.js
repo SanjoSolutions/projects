@@ -6,15 +6,17 @@ const CIRCLE_LENGTH = 32 // 2rem with 1rem = 16px
 const CIRCLE_WIDTH = CIRCLE_LENGTH
 const CIRCLE_HEIGHT = CIRCLE_LENGTH
 const CIRCLE_BORDER = 1 // px
-const DISTANCE_THRESHOLD = 0.5 * (CIRCLE_LENGTH + SPACE_BETWEEN_CIRCLES) // px
+const MAXIMUM_MOVE_DISTANCE = CIRCLE_LENGTH + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES
+const DISTANCE_THRESHOLD = 0.5 * (CIRCLE_LENGTH + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES) // px
 const MINIMUM_AMOUNT_OF_CIRCLES_ON_SAME_LINE_FOR_REMOVAL = 3
+const ANIMATION_DURATION = 400
 
 export function main() {
-  const rows = 20
-  const columns = 20
+  const numberOfRows = 20
+  const numberOfColumns = 20
   const colors = ['red', 'green', 'yellow', 'blue']
   const circleGrid = document.querySelector('.circle-grid')
-  spawnCircles(circleGrid, { rows, columns, colors })
+  spawnCircles(circleGrid, { rows: numberOfRows, columns: numberOfColumns, colors })
 
   const connectionLineCanvas = document.querySelector('.connection-line-canvas')
   connectionLineCanvas.width = circleGrid.clientWidth
@@ -77,7 +79,7 @@ export function main() {
   window.addEventListener('pointerup', function () {
     if (isSelectingCircles()) {
       if (selectedCircles.size >= 2) {
-        if (hasSquareBeenSelected(selectedCircles, columns)) {
+        if (hasSquareBeenSelected(selectedCircles, numberOfColumns)) {
           const circles = circleGrid.querySelectorAll('.circle')
           for (const circle of circles) {
             if (determineCircleColor(circle) === selectedColor) {
@@ -90,15 +92,16 @@ export function main() {
       }
 
       if (lastCircleThatTheSelectedCircleWasMovingTowards) {
-        const { x: offsetX, y: offsetY } = determineNormalizedCircleOffset(selectedCircleOffset)
+        const { x: offsetX, y: offsetY } = determineSelectedCircleOffset()
         const distanceMoved = Math.abs(offsetX + offsetY)
         if (distanceMoved > DISTANCE_THRESHOLD) {
           swapCircles(firstSelectedCircle, lastCircleThatTheSelectedCircleWasMovingTowards)
 
+          let circlesToRemove = new Set()
           for (const circle of new Set([firstSelectedCircle, lastCircleThatTheSelectedCircleWasMovingTowards])) {
+            let circlesToRemovePart = new Set()
             const color = determineCircleColor(circle)
             const startPosition = determinePosition(circle)
-            let circlesToRemove = new Set()
             const horizontalOffsets = new Set([
               { row: 0, column: -1 },
               { row: 0, column: 1 },
@@ -118,14 +121,16 @@ export function main() {
               }
               console.log(circlesWithSameColor.size)
               if (circlesWithSameColor.size >= MINIMUM_AMOUNT_OF_CIRCLES_ON_SAME_LINE_FOR_REMOVAL - 1) {
-                circlesToRemove = union(circlesToRemove, circlesWithSameColor)
+                circlesToRemovePart = union(circlesToRemovePart, circlesWithSameColor)
               }
             }
-
-            for (const circle of circlesToRemove) {
-              removeCircle(circle)
+            if (circlesToRemovePart.size >= 1) {
+              circlesToRemovePart.add(circle)
             }
+            circlesToRemove = union(circlesToRemove, circlesToRemovePart)
           }
+
+          removeCircles(circlesToRemove)
         }
       }
 
@@ -149,16 +154,20 @@ export function main() {
   }
 
   function updateSelectedCircleOffset() {
-    const { x: translateX, y: translateY } = determineNormalizedCircleOffset(selectedCircleOffset)
+    const { x: translateX, y: translateY } = determineSelectedCircleOffset()
     firstSelectedCircle.style.transform = `translate(${translateX}px, ${translateY}px)`
+  }
+
+  function determineSelectedCircleOffset() {
+    return determineNormalizedCircleOffset(selectedCircleOffset)
   }
 
   function determineNormalizedCircleOffset(offset) {
     const { x, y } = offset
     const absoluteX = Math.abs(x)
     const absoluteY = Math.abs(y)
-    const normalizedX = absoluteX > absoluteY ? x : 0
-    const normalizedY = absoluteY > absoluteX ? y : 0
+    const normalizedX = absoluteX > absoluteY ? Math.sign(x) * Math.min(Math.abs(x), MAXIMUM_MOVE_DISTANCE) : 0
+    const normalizedY = absoluteY > absoluteX ? Math.sign(y) * Math.min(Math.abs(y), MAXIMUM_MOVE_DISTANCE) : 0
     return {
       x: normalizedX,
       y: normalizedY,
@@ -171,11 +180,9 @@ export function main() {
       removeLastCircleThatTheSelectedCircleWasMovingTowardsOffset()
     }
     if (circle) {
-      const { x, y } = selectedCircleOffset
-      const absoluteX = Math.abs(x)
-      const absoluteY = Math.abs(y)
-      const translateX = absoluteX > absoluteY ? -x : 0
-      const translateY = absoluteY > absoluteX ? -y : 0
+      const selectedCircleOffset = determineSelectedCircleOffset()
+      const translateX = -selectedCircleOffset.x
+      const translateY = -selectedCircleOffset.y
       circle.style.transform = `translate(${translateX}px, ${translateY}px)`
     }
     lastCircleThatTheSelectedCircleWasMovingTowards = circle
@@ -213,6 +220,84 @@ export function main() {
     circle.style.transform = null
   }
 
+  function removeCircles(circles) {
+    for (const circle of circles) {
+      circle.style.visibility = 'hidden'
+
+      const column = circle.parentElement
+      const newCircle = createCircleWithRandomColor(colors)
+      column.appendChild(newCircle)
+    }
+    const columns = groupCirclesIntoColumns(circles)
+    const maximumFallOffset =
+      Math.max(...Array.from(columns).map(column => column.size)) *
+      (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
+    circleGrid.style.top = `${-maximumFallOffset}px`
+    for (let index = 0; index < columns.length; index++) {
+      const column = columns[index]
+      if (column.size >= 1) {
+        animateCircleFallInColumn(index, column)
+      }
+    }
+    setTimeout(() => {
+      circleGrid.style.top = '0px'
+    }, ANIMATION_DURATION)
+  }
+
+  function groupCirclesIntoColumns(circles) {
+    const columns = new Array(numberOfColumns)
+    for (let index = 0; index < columns.length; index++) {
+      columns[index] = new Set()
+    }
+    for (const circle of circles) {
+      const { column } = determinePosition(circle)
+      columns[column].add(circle)
+    }
+    return columns
+  }
+
+  function animateCircleFallInColumn(column, circlesThatAreRemovedInColumn) {
+    const circlesThatFallInColumn = determineCirclesThatFallInColumn(column, circlesThatAreRemovedInColumn)
+
+    for (const circleThatFallsInColumn of circlesThatFallInColumn) {
+      circleThatFallsInColumn.classList.add('circle--falling')
+    }
+
+    const fallOffset = circlesThatAreRemovedInColumn.size * (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
+    requestAnimationFrame(() => {
+      for (const circleThatFallsInColumn of circlesThatFallInColumn) {
+        circleThatFallsInColumn.style.top = `${fallOffset}px`
+      }
+
+      setTimeout(() => {
+        for (const circle of circlesThatAreRemovedInColumn) {
+          circle.remove()
+        }
+        for (const circleThatFallsInColumn of circlesThatFallInColumn) {
+          circleThatFallsInColumn.classList.remove('circle--falling')
+        }
+      }, ANIMATION_DURATION)
+    })
+  }
+
+  function determineCirclesThatFallInColumn(column, circlesThatAreRemovedInColumn) {
+    const circlesThatFall = new Set()
+    let smallestRowOfCirclesThatFall = Math.min(
+      ...Array.from(circlesThatAreRemovedInColumn).map(circle => determinePosition(circle).row)
+    )
+    console.log('a', smallestRowOfCirclesThatFall)
+    let row = 0
+    while (row < smallestRowOfCirclesThatFall) {
+      const circleThatFalls = retrieveCircleAtPosition({
+        row,
+        column,
+      })
+      circlesThatFall.add(circleThatFalls)
+      row++
+    }
+    return circlesThatFall
+  }
+
   function removeCircle(circle) {
     const column = circle.parentElement
     circle.remove()
@@ -241,7 +326,7 @@ export function main() {
 
   function retrieveCircleAtPosition(position) {
     const { row, column } = position
-    if (row < rows && column < columns) {
+    if (row < numberOfRows && column < numberOfColumns) {
       const allCirclesColumns = circleGrid.querySelectorAll('.circles-column')
       const circlesColumn = allCirclesColumns[column]
       const circlesInColumn = circlesColumn.children
@@ -264,7 +349,7 @@ export function main() {
   function determineCirclesWithSameColorInDirection(color, startPosition, offset) {
     const circles = new Set()
     let position = determinePositionRelativeTo(startPosition, offset)
-    while (position.row < rows && position.column < columns) {
+    while (position.row < numberOfRows && position.column < numberOfColumns) {
       const circle = retrieveCircleAtPosition(position)
       const hasCircleSameColor = determineCircleColor(circle) === color
       if (hasCircleSameColor) {

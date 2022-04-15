@@ -37,6 +37,7 @@
         border: 1px solid black;
         width: 2rem;
         height: 2rem;
+        cursor: grab;
       }
 
       .circles-column {
@@ -78,6 +79,13 @@
 
       .circle--dragged {
         z-index: 9999;
+        cursor: grabbing;
+      }
+
+      .circle--falling {
+        position: relative;
+        transition: top 400ms linear;
+        top: 0px;
       }
 
       .circle-grid .circle {
