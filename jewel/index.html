@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Jewel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      canvas {
+        display: block;
+      }
+
+      .container {
+        position: relative;
+      }
+
+      .circle-grid {
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: calc(20 * (2rem + 2 * 1px + 0.5rem));
+      }
+
+      .circle {
+        border-radius: 50%;
+        background-color: yellow;
+        border: 1px solid black;
+        width: 2rem;
+        height: 2rem;
+      }
+
+      .circles-column {
+        display: flex;
+        flex-direction: column-reverse;
+      }
+
+      .circle--red {
+        background-color: red;
+      }
+
+      .circle--green {
+        background-color: green;
+      }
+
+      .circle--yellow {
+        background-color: yellow;
+      }
+
+      .circle--blue {
+        background-color: blue;
+      }
+
+      .circle--red:hover {
+        background-color: hsl(0deg 100% 70%);
+      }
+
+      .circle--green:hover {
+        background-color: hsl(120deg 100% 65%);
+      }
+
+      .circle--yellow:hover {
+        background-color: hsl(60deg 100% 78%);
+      }
+
+      .circle--blue:hover {
+        background-color: hsl(240deg 100% 65%);
+      }
+
+      .circle--dragged {
+        z-index: 9999;
+      }
+
+      .circle-grid .circle {
+        flex: 0 0 auto;
+        margin: 0.25rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <canvas class="connection-line-canvas"></canvas>
+      <div class="circle-grid"></div>
+    </div>
+    <script type="module">
+      import { main } from './index.js'
+
+      main()
+    </script>
+  </body>
+</html>
