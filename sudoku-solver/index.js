@@ -108,7 +108,18 @@ function o(...l) {
   return n
 }
 new r(), new r()
-function c(l) {
+const c = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
+function s(l) {
   const n = l.querySelectorAll('input'),
     u = new Array()
   for (let l = 0; l < 9; l++) {
@@ -122,7 +133,7 @@ function c(l) {
   }
   return u
 }
-function s(l) {
+function a(l) {
   const n = document.createElement('table'),
     u = document.createElement('tbody')
   n.appendChild(u)
@@ -137,7 +148,7 @@ function s(l) {
   }
   return n
 }
-function a(n) {
+function i(n) {
   const u = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -155,7 +166,7 @@ function a(n) {
         (u[t][r] = [
           ...e(
             new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]),
-            o(o(new Set(h(n, t)), new Set(m(n, r))), new Set(l(...p(n, t, r))))
+            o(o(new Set(m(n, t)), new Set(p(n, r))), new Set(l(...y(n, t, r))))
           ),
         ])
   for (let l = 0; l < u.length; l++)
@@ -168,8 +179,8 @@ function a(n) {
             const t = u[l][n]
             t && t !== r && t !== c && (u[l][n] = Array.from(e(t, new Set(r))))
           }
-          if (g({ rowIndex: l, columnIndex: n }, { rowIndex: l, columnIndex: t })) {
-            const o = y(l),
+          if (v({ rowIndex: l, columnIndex: n }, { rowIndex: l, columnIndex: t })) {
+            const o = g(l),
               c = w(n)
             for (let s = 0; s < 3; s++)
               for (let a = 0; a < 3; a++) {
@@ -195,29 +206,29 @@ function a(n) {
       }
   return u
 }
-function i(l, n, u) {
-  const e = [...h(l, n)]
+function d(l, n, u) {
+  const e = [...m(l, n)]
   return e.splice(u, 1), e
 }
-function d(l, n, u) {
-  const e = [...m(l, u)]
+function f(l, n, u) {
+  const e = [...p(l, u)]
   return e.splice(n, 1), e
 }
-function f(l, n, u) {
-  const e = p(l, n, u)
+function h(l, n, u) {
+  const e = y(l, n, u)
   return (e[n % 3] = [...e[n % 3]]), e[n % 3].splice(u % 3, 1, null), e
 }
-function h(l, n) {
+function m(l, n) {
   return l[n]
 }
-function m(l, n) {
+function p(l, n) {
   const u = l.length,
     e = new Array(u)
   for (let t = 0; t < u; t++) e[t] = l[t][n]
   return e
 }
-function p(l, n, u) {
-  ;(n = y(n)), (u = w(u))
+function y(l, n, u) {
+  ;(n = g(n)), (u = w(u))
   const e = new Array(3)
   for (let t = 0; t < 3; t++) {
     e[t] = new Array(3)
@@ -225,20 +236,20 @@ function p(l, n, u) {
   }
   return e
 }
-function y(l) {
+function g(l) {
   return 3 * Math.floor(l / 3)
 }
 function w(l) {
   return 3 * Math.floor(l / 3)
 }
-function g(l, n) {
+function v(l, n) {
   const { rowIndex: u, columnIndex: e } = l,
     { rowIndex: t, columnIndex: r } = n
-  return y(u) === y(t) && w(e) === w(r)
+  return g(u) === g(t) && w(e) === w(r)
 }
-function v(l) {
+function E(l) {
   if (_(l)) return l
-  const n = a(l)
+  const n = i(l)
   if (
     (function (l, n) {
       return u([
@@ -248,31 +259,31 @@ function v(l) {
     })(l, n)
   ) {
     let u
-    u = l[0][0] ? C(l, 0, 0) : { row: 0, column: 0 }
+    u = l[0][0] ? b(l, 0, 0) : { row: 0, column: 0 }
     const e = (function (l) {
       return l.map(l => Array.from(l))
     })(l)
-    return E(l, e, n, u.row, u.column)
+    return C(l, e, n, u.row, u.column)
   }
   return null
 }
-function E(l, n, u, e, t) {
+function C(l, n, u, e, t) {
   const r = (function (...l) {
     const n = new Set(l[0])
     for (const u of l.slice(1)) for (const l of u) n.delete(l)
     return n
-  })(new Set(u[e][t]), h(n, e), m(n, t), p(n, e, t))
+  })(new Set(u[e][t]), m(n, e), p(n, t), y(n, e, t))
   if (r.size >= 1) {
-    const o = C(l, e, t)
+    const o = b(l, e, t)
     for (const c of r)
       if (((n[e][t] = c), o)) {
-        const e = E(l, n, u, o.row, o.column)
+        const e = C(l, n, u, o.row, o.column)
         if (e) return e
       } else if (_(n)) return n
   }
   return (n[e][t] = null), null
 }
-function C(l, n, u) {
+function b(l, n, u) {
   const e =
     (function (l, n) {
       return 9 * l + n
@@ -289,48 +300,36 @@ function S(l) {
 function _(l) {
   return (
     (function (l) {
-      return [...n(0, 8)].map(n => h(l, n))
-    })(l).every(b) &&
-    (function (l) {
       return [...n(0, 8)].map(n => m(l, n))
     })(l).every(A) &&
+    (function (l) {
+      return [...n(0, 8)].map(n => p(l, n))
+    })(l).every(L) &&
     (function (l) {
       return u([
         [0, 8, 3],
         [0, 8, 3],
-      ]).map(([n, u]) => p(l, n, u).flat())
-    })(l).every(L)
+      ]).map(([n, u]) => y(l, n, u).flat())
+    })(l).every(T)
   )
 }
-function b(l) {
-  return x(l)
-}
 function A(l) {
-  return x(l)
+  return M(l)
 }
 function L(l) {
-  return x(l)
+  return M(l)
 }
-const T = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
-function x(l) {
-  return 9 === new Set(l).size && l.every(l => T.has(l))
+function T(l) {
+  return M(l)
 }
-let M
-const I = localStorage.getItem('sudoku')
-M = I
-  ? JSON.parse(I)
-  : [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ]
-let k = [
+const x = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
+function M(l) {
+  return 9 === new Set(l).size && l.every(l => x.has(l))
+}
+let I
+const k = localStorage.getItem('sudoku')
+I = k ? JSON.parse(k) : [...c]
+let K = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -341,7 +340,7 @@ let k = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
   ],
-  K = [
+  N = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -352,7 +351,7 @@ let k = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
   ]
-function N() {
+function O() {
   document.body.innerHTML = ''
   const n = document.createElement('div')
   n.classList.add('row')
@@ -379,15 +378,15 @@ function N() {
       u.appendChild(e)
     }
     return n
-  })(M)
+  })(I)
   ;(r.querySelector('input').autofocus = !0), u.appendChild(r), u.appendChild(document.createElement('br'))
   const o = document.createElement('button')
   ;(o.innerText = 'Next'),
     (o.style.marginRight = '0.5rem'),
     o.addEventListener('click', () => {
-      ;(M = c(r)),
-        (k = a(M)),
-        (K = (function (n) {
+      ;(I = s(r)),
+        (K = i(I)),
+        (N = (function (n) {
           const u = [
             [null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null],
@@ -406,30 +405,37 @@ function N() {
                 let o
                 if (1 === r.length) o = r[0]
                 else {
-                  const u = new Set(l(...i(n, e, t))),
-                    c = new Set(l(...d(n, e, t))),
-                    s = new Set(l(...l(...f(n, e, t))))
+                  const u = new Set(l(...d(n, e, t))),
+                    c = new Set(l(...f(n, e, t))),
+                    s = new Set(l(...l(...h(n, e, t))))
                   o = r.find(l => !u.has(l) || !c.has(l) || !s.has(l))
                 }
                 o && (u[e][t] = o)
               }
           return u
-        })(k)),
-        (M = (function (l, n) {
+        })(K)),
+        (I = (function (l, n) {
           l = [...l]
           for (let u = 0; u < l.length; u++) for (let e = 0; e < l[u].length; e++) n[u][e] && (l[u][e] = n[u][e])
           return l
-        })(M, K)),
-        N()
+        })(I, N)),
+        O()
     }),
     u.appendChild(o)
-  const h = document.createElement('button')
-  ;(h.innerText = 'Brute force'),
-    h.addEventListener('click', () => {
-      const l = v(M)
-      l && ((K = l.map((l, n) => l.map((l, u) => (M[n][u] ? null : l)))), (M = l)), N()
+  const m = document.createElement('button')
+  ;(m.innerText = 'Brute force'),
+    (m.style.marginRight = '0.5rem'),
+    m.addEventListener('click', () => {
+      const l = E(I)
+      l && ((N = l.map((l, n) => l.map((l, u) => (I[n][u] ? null : l)))), (I = l)), O()
     }),
-    u.appendChild(h),
+    u.appendChild(m)
+  const p = document.createElement('button')
+  ;(p.innerText = 'Reset'),
+    p.addEventListener('click', () => {
+      ;(I = [...c]), O()
+    }),
+    u.appendChild(p),
     e.appendChild(
       (function (l) {
         const n = document.createElement('table')
@@ -446,7 +452,7 @@ function N() {
           u.appendChild(e)
         }
         return n
-      })(K)
+      })(N)
     ),
     t.appendChild(
       (function (l) {
@@ -458,18 +464,18 @@ function N() {
           const e = document.createElement('tr')
           for (let u = 0; u < l[n].length; u++) {
             const t = document.createElement('td')
-            t.appendChild(s(l[n][u])), e.appendChild(t)
+            t.appendChild(a(l[n][u])), e.appendChild(t)
           }
           u.appendChild(e)
         }
         return n
-      })(k)
+      })(K)
     ),
     document.addEventListener('keyup', function (l) {
-      'INPUT' === l.target.tagName && localStorage.setItem('sudoku', JSON.stringify(c(r)))
+      'INPUT' === l.target.tagName && localStorage.setItem('sudoku', JSON.stringify(s(r)))
     })
 }
 document.addEventListener('DOMContentLoaded', () => {
-  N()
+  O()
 })
 //# sourceMappingURL=index.js.map

@@ -83,6 +83,7 @@ function render() {
 
   const bruteForceButton = document.createElement('button')
   bruteForceButton.innerText = 'Brute force'
+  bruteForceButton.style.marginRight = '0.5rem'
   bruteForceButton.addEventListener('click', () => {
     const solution = bruteForce(sudoku)
     if (solution) {
@@ -94,6 +95,14 @@ function render() {
     render()
   })
   column1.appendChild(bruteForceButton)
+
+  const resetButton = document.createElement('button')
+  resetButton.innerText = 'Reset'
+  resetButton.addEventListener('click', () => {
+    sudoku = [...initialSudoku]
+    render()
+  })
+  column1.appendChild(resetButton)
 
   column2.appendChild(renderSudokuToHTML(solutions))
 
