@@ -1,24 +1,10 @@
-# @sanjo/webpack
-
-This work is devoted to God.
-
-Webpack configurations.
-
-## How to install
-
-```
-npm install --save-dev '@sanjo/webpack'
-```
-
-## How to use
-
-Add to your `package.json`:
-
-```json
 {
   "scripts": {
     "build": "webpack --config node_modules/@sanjo/webpack/webpack.prod.js",
     "build:watch": "webpack serve --open --config node_modules/@sanjo/webpack/webpack.dev.js"
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
     "@sanjo/webpack": "^1.2.2",
@@ -28,4 +14,3 @@ Add to your `package.json`:
     "webpack-dev-server": "^4.7.2"
   }
 }
-```

@@ -1,501 +1,441 @@
-import { selectRandomUniform } from '../selectRandomUniform.js'
-
-const CIRCLE_MARGIN = 4 // 0.25rem with 1rem = 16px
-const SPACE_BETWEEN_CIRCLES = 2 * CIRCLE_MARGIN
-const CIRCLE_LENGTH = 32 // 2rem with 1rem = 16px
-const CIRCLE_WIDTH = CIRCLE_LENGTH
-const CIRCLE_HEIGHT = CIRCLE_LENGTH
-const CIRCLE_BORDER = 1 // px
-const MAXIMUM_MOVE_DISTANCE = CIRCLE_LENGTH + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES
-const DISTANCE_THRESHOLD = 0.5 * (CIRCLE_LENGTH + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES) // px
-const MINIMUM_AMOUNT_OF_CIRCLES_ON_SAME_LINE_FOR_REMOVAL = 3
-const ANIMATION_DURATION = 400
-
-export function main() {
-  const numberOfRows = 20
-  const numberOfColumns = 20
-  const colors = ['red', 'green', 'yellow', 'blue']
-  const circleGrid = document.querySelector('.circle-grid')
-  spawnCircles(circleGrid, { rows: numberOfRows, columns: numberOfColumns, colors })
-
-  const connectionLineCanvas = document.querySelector('.connection-line-canvas')
-  connectionLineCanvas.width = circleGrid.clientWidth
-  connectionLineCanvas.height = circleGrid.clientHeight
-  const context = connectionLineCanvas.getContext('2d')
-
-  let selectedCircles = new Set()
-  let firstSelectedCircle = null
-  let selectedColor = null
-  let lastSelectedCircle = null
-  let selectedCircleOffset = null
-  let lastCircleThatTheSelectedCircleWasMovingTowards = null
-
-  function isSelectingCircles() {
-    return lastSelectedCircle !== null
-  }
-
-  circleGrid.addEventListener('pointerdown', function (event) {
-    const target = event.target
-    if (target.classList.contains('circle')) {
-      event.preventDefault()
-      const circle = target
-      selectedCircles.add(circle)
-      firstSelectedCircle = circle
-      selectedColor = determineCircleColor(firstSelectedCircle)
-      lastSelectedCircle = circle
-      selectedCircleOffset = {
-        x: 0,
-        y: 0,
+var n = {
+    296: (n, t, o) => {
+      var e = /^\s+|\s+$/g,
+        r = /^[-+]0x[0-9a-f]+$/i,
+        c = /^0b[01]+$/i,
+        i = /^0o[0-7]+$/i,
+        s = parseInt,
+        l = 'object' == typeof o.g && o.g && o.g.Object === Object && o.g,
+        u = 'object' == typeof self && self && self.Object === Object && self,
+        f = l || u || Function('return this')(),
+        a = Object.prototype.toString,
+        d = Math.max,
+        m = Math.min,
+        p = function () {
+          return f.Date.now()
+        }
+      function h(n) {
+        var t = typeof n
+        return !!n && ('object' == t || 'function' == t)
       }
-      firstSelectedCircle.classList.add('circle--dragged')
-      updateCircleOffsets()
-    }
-  })
-
-  circleGrid.addEventListener('pointermove', function (event) {
-    if (isSelectingCircles()) {
-      const target = event.target
-      if (target.classList.contains('circle')) {
-        const circle = target
-        const circleColor = determineCircleColor(circle)
+      function w(n) {
+        if ('number' == typeof n) return n
         if (
-          circleColor === selectedColor &&
-          (!selectedCircles.has(circle) || (selectedCircles.size >= 3 && circle === firstSelectedCircle)) &&
-          canBeConnected(circle, lastSelectedCircle)
-        ) {
-          drawConnectionLine(circle, lastSelectedCircle)
-          selectedCircles.add(circle)
-          lastSelectedCircle = circle
+          (function (n) {
+            return (
+              'symbol' == typeof n ||
+              ((function (n) {
+                return !!n && 'object' == typeof n
+              })(n) &&
+                '[object Symbol]' == a.call(n))
+            )
+          })(n)
+        )
+          return NaN
+        if (h(n)) {
+          var t = 'function' == typeof n.valueOf ? n.valueOf() : n
+          n = h(t) ? t + '' : t
         }
+        if ('string' != typeof n) return 0 === n ? n : +n
+        n = n.replace(e, '')
+        var o = c.test(n)
+        return o || i.test(n) ? s(n.slice(2), o ? 2 : 8) : r.test(n) ? NaN : +n
       }
-      selectedCircleOffset = {
-        x: selectedCircleOffset.x + event.movementX,
-        y: selectedCircleOffset.y + event.movementY,
+      n.exports = function (n, t, o) {
+        var e,
+          r,
+          c,
+          i,
+          s,
+          l,
+          u = 0,
+          f = !1,
+          a = !1,
+          v = !0
+        if ('function' != typeof n) throw new TypeError('Expected a function')
+        function y(t) {
+          var o = e,
+            c = r
+          return (e = r = void 0), (u = t), (i = n.apply(c, o))
+        }
+        function g(n) {
+          return (u = n), (s = setTimeout(x, t)), f ? y(n) : i
+        }
+        function b(n) {
+          var o = n - l
+          return void 0 === l || o >= t || o < 0 || (a && n - u >= c)
+        }
+        function x() {
+          var n = p()
+          if (b(n)) return L(n)
+          s = setTimeout(
+            x,
+            (function (n) {
+              var o = t - (n - l)
+              return a ? m(o, c - (n - u)) : o
+            })(n)
+          )
+        }
+        function L(n) {
+          return (s = void 0), v && e ? y(n) : ((e = r = void 0), i)
+        }
+        function M() {
+          var n = p(),
+            o = b(n)
+          if (((e = arguments), (r = this), (l = n), o)) {
+            if (void 0 === s) return g(l)
+            if (a) return (s = setTimeout(x, t)), y(l)
+          }
+          return void 0 === s && (s = setTimeout(x, t)), i
+        }
+        return (
+          (t = w(t) || 0),
+          h(o) &&
+            ((f = !!o.leading),
+            (c = (a = 'maxWait' in o) ? d(w(o.maxWait) || 0, t) : c),
+            (v = 'trailing' in o ? !!o.trailing : v)),
+          (M.cancel = function () {
+            void 0 !== s && clearTimeout(s), (u = 0), (e = l = r = s = void 0)
+          }),
+          (M.flush = function () {
+            return void 0 === s ? i : L(p())
+          }),
+          M
+        )
       }
-      updateCircleOffsets()
+    },
+  },
+  t = {}
+function o(e) {
+  var r = t[e]
+  if (void 0 !== r) return r.exports
+  var c = (t[e] = { exports: {} })
+  return n[e](c, c.exports, o), c.exports
+}
+;(o.n = n => {
+  var t = n && n.__esModule ? () => n.default : () => n
+  return o.d(t, { a: t }), t
+}),
+  (o.d = (n, t) => {
+    for (var e in t) o.o(t, e) && !o.o(n, e) && Object.defineProperty(n, e, { enumerable: !0, get: t[e] })
+  }),
+  (o.g = (function () {
+    if ('object' == typeof globalThis) return globalThis
+    try {
+      return this || new Function('return this')()
+    } catch (n) {
+      if ('object' == typeof window) return window
     }
-  })
-
-  window.addEventListener('pointerup', function () {
-    if (isSelectingCircles()) {
-      if (selectedCircles.size >= 2) {
-        if (hasSquareBeenSelected(selectedCircles, numberOfColumns)) {
-          const circles = circleGrid.querySelectorAll('.circle')
-          for (const circle of circles) {
-            if (determineCircleColor(circle) === selectedColor) {
-              removeCircle(circle)
+  })()),
+  (o.o = (n, t) => Object.prototype.hasOwnProperty.call(n, t))
+var e = {}
+;(() => {
+  o.d(e, { D: () => r })
+  var n = o(296),
+    t = o.n(n)
+  function r() {
+    const n = ['red', 'green', 'yellow', 'blue'],
+      o = document.querySelector('.circle-grid')
+    !(function (n, { rows: t, columns: o, colors: e }) {
+      for (let r = 0; r < o; r++) {
+        const o = document.createElement('div')
+        o.classList.add('circles-column'), n.appendChild(o)
+        for (let n = 0; n < t; n++) {
+          const t = new Set(e)
+          if (r >= 2) {
+            const o = [T({ row: 19 - n, column: r - 1 }), T({ row: 19 - n, column: r - 2 })]
+            if (a(o.map(n => s(n)))) {
+              const n = s(o[0])
+              t.delete(n)
             }
           }
-        } else {
-          selectedCircles.forEach(removeCircle)
-        }
-      }
-
-      if (lastCircleThatTheSelectedCircleWasMovingTowards) {
-        const { x: offsetX, y: offsetY } = determineSelectedCircleOffset()
-        const distanceMoved = Math.abs(offsetX + offsetY)
-        if (distanceMoved > DISTANCE_THRESHOLD) {
-          swapCircles(firstSelectedCircle, lastCircleThatTheSelectedCircleWasMovingTowards)
-
-          let circlesToRemove = new Set()
-          for (const circle of new Set([firstSelectedCircle, lastCircleThatTheSelectedCircleWasMovingTowards])) {
-            let circlesToRemovePart = new Set()
-            const color = determineCircleColor(circle)
-            const startPosition = determinePosition(circle)
-            const horizontalOffsets = new Set([
-              { row: 0, column: -1 },
-              { row: 0, column: 1 },
-            ])
-            const verticalOffsets = new Set([
-              { row: -1, column: 0 },
-              { row: 1, column: 0 },
-            ])
-            const offsetSets = new Set([horizontalOffsets, verticalOffsets])
-            for (const offsetSet of offsetSets) {
-              let circlesWithSameColor = new Set()
-              for (const offset of offsetSet) {
-                circlesWithSameColor = union(
-                  circlesWithSameColor,
-                  determineCirclesWithSameColorInDirection(color, startPosition, offset)
-                )
-              }
-              console.log(circlesWithSameColor.size)
-              if (circlesWithSameColor.size >= MINIMUM_AMOUNT_OF_CIRCLES_ON_SAME_LINE_FOR_REMOVAL - 1) {
-                circlesToRemovePart = union(circlesToRemovePart, circlesWithSameColor)
-              }
+          if (n >= 2) {
+            const n = [o.children[o.children.length - 1], o.children[o.children.length - 2]]
+            if (a(n.map(n => s(n)))) {
+              const o = s(n[0])
+              t.delete(o)
             }
-            if (circlesToRemovePart.size >= 1) {
-              circlesToRemovePart.add(circle)
-            }
-            circlesToRemove = union(circlesToRemove, circlesToRemovePart)
           }
-
-          removeCircles(circlesToRemove)
+          const c = d(Array.from(t))
+          o.appendChild(c)
         }
       }
-
-      firstSelectedCircle.classList.remove('circle--dragged')
-      removeSelectedCircleOffset()
-      removeLastCircleThatTheSelectedCircleWasMovingTowardsOffset()
-
-      selectedCircles = new Set()
-      firstSelectedCircle = null
-      selectedColor = null
-      lastSelectedCircle = null
-      selectedCircleOffset = null
-      lastCircleThatTheSelectedCircleWasMovingTowards = null
-      context.clearRect(0, 0, connectionLineCanvas.width, connectionLineCanvas.height)
+    })(o, { rows: 20, columns: 20, colors: n })
+    const e = document.querySelector('.connection-line-canvas')
+    ;(e.width = o.clientWidth), (e.height = o.clientHeight)
+    const r = e.getContext('2d')
+    let p = new Set(),
+      h = null,
+      w = null,
+      v = null,
+      y = null,
+      g = null
+    function b() {
+      return null !== v
     }
-  })
-
-  function updateCircleOffsets() {
-    updateSelectedCircleOffset()
-    updateCircleOffsetThatTheSelectedCircleIsMovingTowards()
-  }
-
-  function updateSelectedCircleOffset() {
-    const { x: translateX, y: translateY } = determineSelectedCircleOffset()
-    firstSelectedCircle.style.transform = `translate(${translateX}px, ${translateY}px)`
-  }
-
-  function determineSelectedCircleOffset() {
-    return determineNormalizedCircleOffset(selectedCircleOffset)
-  }
-
-  function determineNormalizedCircleOffset(offset) {
-    const { x, y } = offset
-    const absoluteX = Math.abs(x)
-    const absoluteY = Math.abs(y)
-    const normalizedX = absoluteX > absoluteY ? Math.sign(x) * Math.min(Math.abs(x), MAXIMUM_MOVE_DISTANCE) : 0
-    const normalizedY = absoluteY > absoluteX ? Math.sign(y) * Math.min(Math.abs(y), MAXIMUM_MOVE_DISTANCE) : 0
-    return {
-      x: normalizedX,
-      y: normalizedY,
+    function x() {
+      !(function () {
+        const { x: n, y: t } = L()
+        h.style.transform = `translate(${n}px, ${t}px)`
+      })(),
+        (function () {
+          const n = (function () {
+            const { x: n, y: t } = y
+            if (0 !== n || 0 !== t) {
+              const o = Math.abs(n),
+                e = Math.abs(t)
+              return (function (n, t) {
+                const o = c(n)
+                return T({ row: o.row + t.row, column: o.column + t.column })
+              })(h, { row: e > o ? (t > 0 ? 1 : -1) : 0, column: o > e ? (n > 0 ? 1 : -1) : 0 })
+            }
+            return null
+          })()
+          if ((g && n !== g && M(), n)) {
+            const t = L(),
+              o = -t.x,
+              e = -t.y
+            n.style.transform = `translate(${o}px, ${e}px)`
+          }
+          g = n
+        })()
     }
-  }
-
-  function updateCircleOffsetThatTheSelectedCircleIsMovingTowards() {
-    const circle = retrieveCircleThatTheSelectedCircleIsMovingTowards()
-    if (lastCircleThatTheSelectedCircleWasMovingTowards && circle !== lastCircleThatTheSelectedCircleWasMovingTowards) {
-      removeLastCircleThatTheSelectedCircleWasMovingTowardsOffset()
-    }
-    if (circle) {
-      const selectedCircleOffset = determineSelectedCircleOffset()
-      const translateX = -selectedCircleOffset.x
-      const translateY = -selectedCircleOffset.y
-      circle.style.transform = `translate(${translateX}px, ${translateY}px)`
-    }
-    lastCircleThatTheSelectedCircleWasMovingTowards = circle
-  }
-
-  function retrieveCircleThatTheSelectedCircleIsMovingTowards() {
-    const { x, y } = selectedCircleOffset
-    if (x !== 0 || y !== 0) {
-      const absoluteX = Math.abs(x)
-      const absoluteY = Math.abs(y)
-      const rowOffset = absoluteY > absoluteX ? (y > 0 ? 1 : -1) : 0
-      const columnOffset = absoluteX > absoluteY ? (x > 0 ? 1 : -1) : 0
-      const offset = {
-        row: rowOffset,
-        column: columnOffset,
-      }
-      const circle = retrieveCircleWithOffsetToOtherCircle(firstSelectedCircle, offset)
-      return circle
-    } else {
-      return null
-    }
-  }
-
-  function removeSelectedCircleOffset() {
-    removeCircleOffset(firstSelectedCircle)
-  }
-
-  function removeLastCircleThatTheSelectedCircleWasMovingTowardsOffset() {
-    if (lastCircleThatTheSelectedCircleWasMovingTowards) {
-      removeCircleOffset(lastCircleThatTheSelectedCircleWasMovingTowards)
-    }
-  }
-
-  function removeCircleOffset(circle) {
-    circle.style.transform = null
-  }
-
-  function removeCircles(circles) {
-    for (const circle of circles) {
-      circle.style.visibility = 'hidden'
-
-      const column = circle.parentElement
-      const newCircle = createCircleWithRandomColor(colors)
-      column.appendChild(newCircle)
-    }
-    const columns = groupCirclesIntoColumns(circles)
-    const maximumFallOffset =
-      Math.max(...Array.from(columns).map(column => column.size)) *
-      (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
-    circleGrid.style.top = `${-maximumFallOffset}px`
-    for (let index = 0; index < columns.length; index++) {
-      const column = columns[index]
-      if (column.size >= 1) {
-        animateCircleFallInColumn(index, column)
-      }
-    }
-    setTimeout(() => {
-      circleGrid.style.top = '0px'
-    }, ANIMATION_DURATION)
-  }
-
-  function groupCirclesIntoColumns(circles) {
-    const columns = new Array(numberOfColumns)
-    for (let index = 0; index < columns.length; index++) {
-      columns[index] = new Set()
-    }
-    for (const circle of circles) {
-      const { column } = determinePosition(circle)
-      columns[column].add(circle)
-    }
-    return columns
-  }
-
-  function animateCircleFallInColumn(column, circlesThatAreRemovedInColumn) {
-    const circlesThatFallInColumn = determineCirclesThatFallInColumn(column, circlesThatAreRemovedInColumn)
-
-    for (const circleThatFallsInColumn of circlesThatFallInColumn) {
-      circleThatFallsInColumn.classList.add('circle--falling')
-    }
-
-    const fallOffset = circlesThatAreRemovedInColumn.size * (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
-    requestAnimationFrame(() => {
-      for (const circleThatFallsInColumn of circlesThatFallInColumn) {
-        circleThatFallsInColumn.style.top = `${fallOffset}px`
-      }
-
-      setTimeout(() => {
-        for (const circle of circlesThatAreRemovedInColumn) {
-          circle.remove()
+    function L() {
+      return (function (n) {
+        const { x: t, y: o } = n,
+          e = Math.abs(t),
+          r = Math.abs(o)
+        return {
+          x: e > r ? Math.sign(t) * Math.min(Math.abs(t), 42) : 0,
+          y: r > e ? Math.sign(o) * Math.min(Math.abs(o), 42) : 0,
         }
-        for (const circleThatFallsInColumn of circlesThatFallInColumn) {
-          circleThatFallsInColumn.classList.remove('circle--falling')
+      })(y)
+    }
+    function M() {
+      g && S(g)
+    }
+    function S(n) {
+      n.style.transform = null
+    }
+    function j(n, e) {
+      const r = (function (n, t) {
+        const o = new Set()
+        let e = Math.min(...Array.from(t).map(n => c(n).row)),
+          r = 0
+        for (; r < e; ) {
+          const t = T({ row: r, column: n })
+          o.add(t), r++
         }
-      }, ANIMATION_DURATION)
-    })
-  }
-
-  function determineCirclesThatFallInColumn(column, circlesThatAreRemovedInColumn) {
-    const circlesThatFall = new Set()
-    let smallestRowOfCirclesThatFall = Math.min(
-      ...Array.from(circlesThatAreRemovedInColumn).map(circle => determinePosition(circle).row)
-    )
-    console.log('a', smallestRowOfCirclesThatFall)
-    let row = 0
-    while (row < smallestRowOfCirclesThatFall) {
-      const circleThatFalls = retrieveCircleAtPosition({
-        row,
-        column,
+        return o
+      })(n, e)
+      for (const n of r) n.classList.add('circle--falling')
+      const i = 42 * e.size
+      requestAnimationFrame(() => {
+        for (const n of r) n.style.top = `${i}px`
+        const n = t()(function () {
+          for (const n of e) n.remove()
+          for (const n of r) n.classList.remove('circle--falling')
+          o.removeEventListener('transitionend', n)
+        })
+        o.addEventListener('transitionend', n)
       })
-      circlesThatFall.add(circleThatFalls)
-      row++
     }
-    return circlesThatFall
-  }
-
-  function removeCircle(circle) {
-    const column = circle.parentElement
-    circle.remove()
-    const newCircle = createCircleWithRandomColor(colors)
-    column.appendChild(newCircle)
-  }
-
-  function drawConnectionLine(circleA, circleB) {
-    context.beginPath()
-    const { x: x1, y: y1 } = calculateElementCenter(circleA)
-    context.moveTo(x1, y1)
-    const { x: x2, y: y2 } = calculateElementCenter(circleB)
-    context.lineTo(x2, y2)
-    context.stroke()
-  }
-
-  function retrieveCircleWithOffsetToOtherCircle(otherCircle, offset) {
-    const otherCirclePosition = determinePosition(otherCircle)
-    const circlePosition = {
-      row: otherCirclePosition.row + offset.row,
-      column: otherCirclePosition.column + offset.column,
+    function E(t) {
+      const o = t.parentElement
+      t.remove()
+      const e = d(n)
+      o.appendChild(e)
     }
-    const circle = retrieveCircleAtPosition(circlePosition)
-    return circle
-  }
-
-  function retrieveCircleAtPosition(position) {
-    const { row, column } = position
-    if (row < numberOfRows && column < numberOfColumns) {
-      const allCirclesColumns = circleGrid.querySelectorAll('.circles-column')
-      const circlesColumn = allCirclesColumns[column]
-      const circlesInColumn = circlesColumn.children
-      const circle = circlesInColumn[circlesInColumn.length - 1 - row]
-      return circle
-    } else {
+    function T(n) {
+      const { row: t, column: e } = n
+      if (t < 20 && e < 20) {
+        const n = o.querySelectorAll('.circles-column')[e].children
+        return n[n.length - 1 - t]
+      }
       return null
     }
-  }
-
-  function swapCircles(circleA, circleB) {
-    const circleAColorClass = determineCircleColorClass(circleA)
-    const circleBColorClass = determineCircleColorClass(circleB)
-    circleA.classList.remove(circleAColorClass)
-    circleB.classList.remove(circleBColorClass)
-    circleA.classList.add(circleBColorClass)
-    circleB.classList.add(circleAColorClass)
-  }
-
-  function determineCirclesWithSameColorInDirection(color, startPosition, offset) {
-    const circles = new Set()
-    let position = determinePositionRelativeTo(startPosition, offset)
-    while (position.row < numberOfRows && position.column < numberOfColumns) {
-      const circle = retrieveCircleAtPosition(position)
-      const hasCircleSameColor = determineCircleColor(circle) === color
-      if (hasCircleSameColor) {
-        circles.add(circle)
-      } else {
-        break
+    function O(n, t, o) {
+      const e = new Set()
+      let r = i(t, o)
+      for (; r.row < 20 && r.column < 20; ) {
+        const t = T(r)
+        if (s(t) !== n) break
+        e.add(t), (r = i(r, o))
       }
-
-      position = determinePositionRelativeTo(position, offset)
+      return e
     }
-
-    return circles
-  }
-
-  function spawnCircles(element, { rows, columns, colors }) {
-    for (let column = 0; column < columns; column++) {
-      const $column = document.createElement('div')
-      $column.classList.add('circles-column')
-      element.appendChild($column)
-
-      for (let row = 0; row < rows; row++) {
-        const colorCandidates = new Set(colors)
-        if (column >= 2) {
-          const circlesToTheLeft = [
-            retrieveCircleAtPosition({
-              row: numberOfRows - 1 - row,
-              column: column - 1,
-            }),
-            retrieveCircleAtPosition({
-              row: numberOfRows - 1 - row,
-              column: column - 2,
-            }),
-          ]
-          if (areAllEqual(circlesToTheLeft.map(circle => determineCircleColor(circle)))) {
-            const color = determineCircleColor(circlesToTheLeft[0])
-            colorCandidates.delete(color)
-          }
-        }
-        if (row >= 2) {
-          const circlesBelow = [
-            $column.children[$column.children.length - 1],
-            $column.children[$column.children.length - 2],
-          ]
-          if (areAllEqual(circlesBelow.map(circle => determineCircleColor(circle)))) {
-            const color = determineCircleColor(circlesBelow[0])
-            colorCandidates.delete(color)
-          }
-        }
-        const circle = createCircleWithRandomColor(Array.from(colorCandidates))
-        $column.appendChild(circle)
+    o.addEventListener('pointerdown', function (n) {
+      const t = n.target
+      if (t.classList.contains('circle')) {
+        n.preventDefault()
+        const o = t
+        p.add(o), (h = o), (w = s(h)), (v = o), (y = { x: 0, y: 0 }), h.classList.add('circle--dragged'), x()
       }
-    }
+    }),
+      o.addEventListener('pointermove', function (n) {
+        if (b()) {
+          const t = n.target
+          if (t.classList.contains('circle')) {
+            const n = t
+            s(n) === w &&
+              (!p.has(n) || (p.size >= 3 && n === h)) &&
+              (function (n, t) {
+                const o = c(n),
+                  e = c(t),
+                  r = Math.abs(o.row - e.row),
+                  i = Math.abs(o.column - e.column)
+                return (0 === r && 1 === i) || (0 === i && 1 === r)
+              })(n, v) &&
+              ((function (n, t) {
+                r.beginPath()
+                const { x: o, y: e } = f(n)
+                r.moveTo(o, e)
+                const { x: c, y: i } = f(t)
+                r.lineTo(c, i), r.stroke()
+              })(n, v),
+              p.add(n),
+              (v = n))
+          }
+          ;(y = { x: y.x + n.movementX, y: y.y + n.movementY }), x()
+        }
+      }),
+      window.addEventListener('pointerup', function () {
+        if (b()) {
+          if (p.size >= 2)
+            if (
+              (function (n, t) {
+                if (4 === n.size) {
+                  const t = Array.from(n).map(c)
+                  return (
+                    t.sort((n, t) => u(n, 20) - u(t, 20)),
+                    t[0].row === t[1].row &&
+                      t[0].column === t[1].column - 1 &&
+                      t[2].row === t[3].row &&
+                      t[2].column === t[3].column - 1 &&
+                      t[0].row === t[2].row - 1
+                  )
+                }
+                return !1
+              })(p)
+            ) {
+              const n = o.querySelectorAll('.circle')
+              for (const t of n) s(t) === w && E(t)
+            } else p.forEach(E)
+          if (g) {
+            const { x: e, y: r } = L()
+            if (Math.abs(e + r) > 21) {
+              !(function (n, t) {
+                const o = l(n),
+                  e = l(t)
+                n.classList.remove(o), t.classList.remove(e), n.classList.add(e), t.classList.add(o)
+              })(h, g)
+              let e = new Set()
+              for (const n of new Set([h, g])) {
+                let t = new Set()
+                const o = s(n),
+                  r = c(n),
+                  i = new Set([
+                    { row: 0, column: -1 },
+                    { row: 0, column: 1 },
+                  ]),
+                  l = new Set([
+                    { row: -1, column: 0 },
+                    { row: 1, column: 0 },
+                  ]),
+                  u = new Set([i, l])
+                for (const n of u) {
+                  let e = new Set()
+                  for (const t of n) e = m(e, O(o, r, t))
+                  e.size >= 2 && (t = m(t, e))
+                }
+                t.size >= 1 && t.add(n), (e = m(e, t))
+              }
+              !(function (e) {
+                for (const t of e) {
+                  t.style.visibility = 'hidden'
+                  const o = t.parentElement,
+                    e = d(n)
+                  o.appendChild(e)
+                }
+                const r = (function (n) {
+                    const t = new Array(20)
+                    for (let n = 0; n < t.length; n++) t[n] = new Set()
+                    for (const o of n) {
+                      const { column: n } = c(o)
+                      t[n].add(o)
+                    }
+                    return t
+                  })(e),
+                  i = 42 * Math.max(...Array.from(r).map(n => n.size))
+                o.style.top = -i + 'px'
+                for (let n = 0; n < r.length; n++) {
+                  const t = r[n]
+                  t.size >= 1 && j(n, t)
+                }
+                const s = t()(function () {
+                  ;(o.style.top = '0px'), o.removeEventListener('transitionend', s)
+                })
+                o.addEventListener('transitionend', s)
+              })(e)
+            }
+          }
+          h.classList.remove('circle--dragged'),
+            S(h),
+            M(),
+            (p = new Set()),
+            (h = null),
+            (w = null),
+            (v = null),
+            (y = null),
+            (g = null),
+            r.clearRect(0, 0, e.width, e.height)
+        }
+      })
   }
-}
-
-function canBeConnected(circleA, circleB) {
-  const positionA = determinePosition(circleA)
-  const positionB = determinePosition(circleB)
-  const rowDifference = Math.abs(positionA.row - positionB.row)
-  const columnDifference = Math.abs(positionA.column - positionB.column)
-  return (rowDifference === 0 && columnDifference === 1) || (columnDifference === 0 && rowDifference === 1)
-}
-
-function determinePosition(circle) {
-  return {
-    row: (circle.offsetTop - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_HEIGHT + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
-    column:
-      (circle.offsetLeft - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_WIDTH + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
+  function c(n) {
+    return { row: (n.offsetTop - 4) / 42, column: (n.offsetLeft - 4) / 42 }
   }
-}
-
-function determinePositionRelativeTo(position, offset) {
-  return {
-    row: position.row + offset.row,
-    column: position.column + offset.column,
+  function i(n, t) {
+    return { row: n.row + t.row, column: n.column + t.column }
   }
-}
-
-function determineCircleColor(circle) {
-  return extractColorName(determineCircleColorClass(circle))
-}
-
-function determineCircleColorClass(circle) {
-  return Array.from(circle.classList).find(className => className.includes('--'))
-}
-
-function extractColorName(colorClass) {
-  return colorClass.split('--')[1]
-}
-
-function hasSquareBeenSelected(selectedCircles, numberOfColumns) {
-  if (selectedCircles.size === 4) {
-    const positions = Array.from(selectedCircles).map(determinePosition)
-    positions.sort((a, b) => calculateIndex(a, numberOfColumns) - calculateIndex(b, numberOfColumns))
-    return (
-      positions[0].row === positions[1].row &&
-      positions[0].column === positions[1].column - 1 &&
-      positions[2].row === positions[3].row &&
-      positions[2].column === positions[3].column - 1 &&
-      positions[0].row === positions[2].row - 1
-    )
-  } else {
-    return false
+  function s(n) {
+    return l(n).split('--')[1]
   }
-}
-
-function calculateIndex(position, numberOfColumns) {
-  return position.row * numberOfColumns + position.column
-}
-
-function calculateElementCenter(element) {
-  return {
-    x: element.offsetLeft + 0.5 * element.clientWidth,
-    y: element.offsetTop + 0.5 * element.clientHeight,
+  function l(n) {
+    return Array.from(n.classList).find(n => n.includes('--'))
   }
-}
-
-function areAllEqual(elements) {
-  return new Set(elements).size === 1
-}
-
-function createCircleWithRandomColor(colors) {
-  const color = generateRandomColor(colors)
-  const circle = createCircle({ color })
-  return circle
-}
-
-function createCircle({ color }) {
-  const circle = document.createElement('div')
-  circle.classList.add('circle')
-  circle.classList.add(`circle--${color}`)
-  return circle
-}
-
-function generateRandomColor(colors) {
-  return selectRandomUniform(colors)
-}
-
-function union(...sets) {
-  const unionSet = new Set()
-
-  for (const set of sets) {
-    for (const value of set) {
-      unionSet.add(value)
-    }
+  function u(n, t) {
+    return n.row * t + n.column
   }
-
-  return unionSet
-}
+  function f(n) {
+    return { x: n.offsetLeft + 0.5 * n.clientWidth, y: n.offsetTop + 0.5 * n.clientHeight }
+  }
+  function a(n) {
+    return 1 === new Set(n).size
+  }
+  function d(n) {
+    const t = (function (n) {
+        return (t = n)[
+          ((o = 0),
+          (e = t.length - 1),
+          (o = Math.floor(o)),
+          (e = Math.floor(e)),
+          o + Math.floor(Math.random() * (e - o + 1)))
+        ]
+        var t, o, e
+      })(n),
+      o = (function ({ color: n }) {
+        const t = document.createElement('div')
+        return t.classList.add('circle'), t.classList.add(`circle--${n}`), t
+      })({ color: t })
+    return o
+  }
+  function m(...n) {
+    const t = new Set()
+    for (const o of n) for (const n of o) t.add(n)
+    return t
+  }
+})()
+var r = e.D
+export { r as main }
+//# sourceMappingURL=index.js.map
