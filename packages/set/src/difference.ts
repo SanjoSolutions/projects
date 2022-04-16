@@ -1,8 +1,8 @@
-export function difference<T>(setA: Iterable<T>, setB: Set<T>): Set<T> {
-  const differenceSet = new Set<T>()
-  for (const value of setA) {
-    if (!setB.has(value)) {
-      differenceSet.add(value)
+export function difference<T>(firstSet: Iterable<T>, ...otherSets: Set<T>[]): Set<T> {
+  const differenceSet = new Set(firstSet)
+  for (const set of otherSets) {
+    for (const element of set) {
+      differenceSet.delete(element)
     }
   }
   return differenceSet
