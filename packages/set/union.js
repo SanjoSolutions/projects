@@ -1,10 +1,9 @@
-export function union(setA, setB) {
+export function union(...sets) {
     const unionSet = new Set();
-    for (const value of setA) {
-        unionSet.add(value);
-    }
-    for (const value of setB) {
-        unionSet.add(value);
+    for (const set of sets) {
+        for (const element of set) {
+            unionSet.add(element);
+        }
     }
     return unionSet;
 }

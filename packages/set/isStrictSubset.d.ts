@@ -1,2 +1,2 @@
-export declare function isStrictSubset<T>(a: Set<T>, b: Set<T>): boolean;
+export declare function isStrictSubset<T>(a: Iterable<T>, b: Iterable<T>): boolean;
 //# sourceMappingURL=isStrictSubset.d.ts.map

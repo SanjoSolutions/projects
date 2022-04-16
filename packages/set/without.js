@@ -1,6 +1,6 @@
-export function without(set, ...otherSets) {
-    const result = new Set(set);
-    for (const otherSet of otherSets) {
+export function without(...sets) {
+    const result = new Set(sets[0]);
+    for (const otherSet of sets.slice(1)) {
         for (const element of otherSet) {
             result.delete(element);
         }

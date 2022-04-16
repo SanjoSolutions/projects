@@ -1,8 +1,8 @@
-export function difference(setA, setB) {
-    const differenceSet = new Set();
-    for (const value of setA) {
-        if (!setB.has(value)) {
-            differenceSet.add(value);
+export function difference(firstSet, ...otherSets) {
+    const differenceSet = new Set(firstSet);
+    for (const set of otherSets) {
+        for (const element of set) {
+            differenceSet.delete(element);
         }
     }
     return differenceSet;

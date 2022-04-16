@@ -1,1 +1,1 @@
-{"version":3,"file":"isStrictSubset.d.ts","sourceRoot":"","sources":["src/isStrictSubset.ts"],"names":[],"mappings":"AAEA,wBAAgB,cAAc,CAAC,CAAC,EAAE,CAAC,EAAE,GAAG,CAAC,CAAC,CAAC,EAAE,CAAC,EAAE,GAAG,CAAC,CAAC,CAAC,GAAG,OAAO,CAE/D"}
+{"version":3,"file":"isStrictSubset.d.ts","sourceRoot":"","sources":["src/isStrictSubset.ts"],"names":[],"mappings":"AAEA,wBAAgB,cAAc,CAAC,CAAC,EAAE,CAAC,EAAE,QAAQ,CAAC,CAAC,CAAC,EAAE,CAAC,EAAE,QAAQ,CAAC,CAAC,CAAC,GAAG,OAAO,CAIzE"}

@@ -1,2 +1,2 @@
-export declare function union<T>(setA: Iterable<T>, setB: Iterable<T>): Set<T>;
+export declare function union<T>(...sets: Iterable<T>[]): Set<T>;
 //# sourceMappingURL=union.d.ts.map

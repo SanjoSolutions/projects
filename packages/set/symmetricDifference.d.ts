@@ -1,2 +1,2 @@
-export declare function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T>;
+export declare function symmetricDifference<T>(...sets: Iterable<T>[]): Set<T>;
 //# sourceMappingURL=symmetricDifference.d.ts.map

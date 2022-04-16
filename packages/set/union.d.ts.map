@@ -1,1 +1,1 @@
-{"version":3,"file":"union.d.ts","sourceRoot":"","sources":["src/union.ts"],"names":[],"mappings":"AAAA,wBAAgB,KAAK,CAAC,CAAC,EAAE,IAAI,EAAE,QAAQ,CAAC,CAAC,CAAC,EAAE,IAAI,EAAE,QAAQ,CAAC,CAAC,CAAC,GAAG,GAAG,CAAC,CAAC,CAAC,CASrE"}
+{"version":3,"file":"union.d.ts","sourceRoot":"","sources":["src/union.ts"],"names":[],"mappings":"AAAA,wBAAgB,KAAK,CAAC,CAAC,EAAE,GAAG,IAAI,EAAE,QAAQ,CAAC,CAAC,CAAC,EAAE,GAAG,GAAG,CAAC,CAAC,CAAC,CASvD"}

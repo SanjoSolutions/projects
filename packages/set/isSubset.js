@@ -1,4 +1,5 @@
 export function isSubset(a, b) {
-    return [...a].every(element => b.has(element));
+    const bSet = new Set(b);
+    return [...a].every(element => bSet.has(element));
 }
 //# sourceMappingURL=isSubset.js.map

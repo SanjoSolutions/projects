@@ -1,2 +1,2 @@
-export declare function without<T>(set: Iterable<T>, ...otherSets: Iterable<T>[]): Set<T>;
+export declare function without<T>(...sets: Iterable<T>[]): Set<T>;
 //# sourceMappingURL=without.d.ts.map

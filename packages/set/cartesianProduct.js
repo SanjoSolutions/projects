@@ -3,7 +3,11 @@
  */
 export function cartesianProduct(setA, setB) {
     const result = new Set();
-    setA.forEach(valueA => setB.forEach(valueB => result.add([valueA, valueB])));
+    for (const elementA of setA) {
+        for (const elementB of setB) {
+            result.add([elementA, elementB]);
+        }
+    }
     return result;
 }
 //# sourceMappingURL=cartesianProduct.js.map
