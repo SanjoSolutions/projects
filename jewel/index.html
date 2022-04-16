@@ -79,9 +79,13 @@
         background-color: hsl(240deg 100% 65%);
       }
 
+      .swapping-enabled .circle {
+        cursor: grab;
+      }
+
       .circle--dragged {
         z-index: 9999;
-        cursor: grabbing;
+        cursor: grabbing !important;
       }
 
       .circle--hidden {
@@ -95,10 +99,6 @@
       .circle-grid .circle {
         flex: 0 0 auto;
         margin: 0.25rem;
-      }
-
-      .swapping-enabled .circle {
-        cursor: grab;
       }
     </style>
   </head>
