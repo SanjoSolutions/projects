@@ -1,13 +1,16 @@
-export function symmetricDifference<T>(setA: Set<T>, setB: Set<T>): Set<T> {
-  const result: Set<T> = new Set()
-  for (const element of setA) {
-    if (!setB.has(element)) {
-      result.add(element)
-    }
-  }
-  for (const element of setB) {
-    if (!setA.has(element)) {
-      result.add(element)
+export function symmetricDifference<T>(...sets: Set<T>[]): Set<T> {
+  let result = new Set(sets[0])
+  const elementsThatAreInMultipleSets = new Set()
+  for (const set of sets.slice(1)) {
+    for (const element of set) {
+      if (!elementsThatAreInMultipleSets.has(element)) {
+        if (result.has(element)) {
+          elementsThatAreInMultipleSets.add(element)
+          result.delete(element)
+        } else {
+          result.add(element)
+        }
+      }
     }
   }
   return result
