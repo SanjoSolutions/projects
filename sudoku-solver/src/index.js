@@ -138,6 +138,13 @@ function render() {
     }
   })
 
+  document.addEventListener('focusin', function (event) {
+    const { target } = event
+    if (target.tagName === 'INPUT') {
+      target.select()
+    }
+  })
+
   function findNextInput(input) {
     const inputs = Array.from(sudokuInput.querySelectorAll('input'))
     const inputIndex = inputs.indexOf(input)
