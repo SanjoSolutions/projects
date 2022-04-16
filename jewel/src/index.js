@@ -1,6 +1,7 @@
 import debounce from 'lodash.debounce'
 import once from 'lodash.once'
 import { selectRandomUniform } from '../../selectRandomUniform.js'
+import { union } from '@sanjo/set'
 
 const CIRCLE_MARGIN = 4 // 0.25rem with 1rem = 16px
 const SPACE_BETWEEN_CIRCLES = 2 * CIRCLE_MARGIN
@@ -591,16 +592,4 @@ function createCircle({ color }) {
 
 function generateRandomColor(colors) {
   return selectRandomUniform(colors)
-}
-
-function union(...sets) {
-  const unionSet = new Set()
-
-  for (const set of sets) {
-    for (const value of set) {
-      unionSet.add(value)
-    }
-  }
-
-  return unionSet
 }
