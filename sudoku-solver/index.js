@@ -248,7 +248,7 @@ function v(l, n) {
   return g(e) === g(t) && w(u) === w(r)
 }
 function E(l) {
-  if (b(l)) return l
+  if (C(l)) return l
   const n = i(l)
   if (
     (function (l, n) {
@@ -259,7 +259,7 @@ function E(l) {
     })(l, n)
   ) {
     let e
-    e = l[0][0] ? A(l, 0, 0) : { row: 0, column: 0 }
+    e = l[0][0] ? b(l, 0, 0) : { row: 0, column: 0 }
     const u = (function (l) {
       return l.map(l => Array.from(l))
     })(l)
@@ -274,30 +274,30 @@ function S(l, n, e, u, t) {
     return n
   })(new Set(e[u][t]), m(n, u), p(n, t), y(n, u, t))
   if (r.size >= 1) {
-    const o = A(l, u, t)
+    const o = b(l, u, t)
     for (const c of r)
       if (((n[u][t] = c), o)) {
         const u = S(l, n, e, o.row, o.column)
         if (u) return u
-      } else if (b(n)) return n
+      } else if (C(n)) return n
   }
   return (n[u][t] = null), null
 }
-function A(l, n, e) {
+function b(l, n, e) {
   const u =
     (function (l, n) {
       return 9 * l + n
     })(n, e) + 1
   for (let n = u; n < 81; n++) {
-    const { row: e, column: u } = C(n)
+    const { row: e, column: u } = A(n)
     if (!l[e][u]) return { row: e, column: u }
   }
   return null
 }
-function C(l) {
+function A(l) {
   return { row: Math.floor(l / 9), column: l % 9 }
 }
-function b(l) {
+function C(l) {
   return (
     (function (l) {
       return [...n(0, 8)].map(n => m(l, n))
@@ -314,21 +314,21 @@ function b(l) {
   )
 }
 function _(l) {
-  return M(l)
+  return k(l)
 }
 function L(l) {
-  return M(l)
+  return k(l)
 }
 function T(l) {
-  return M(l)
+  return k(l)
 }
 const x = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
-function M(l) {
+function k(l) {
   return 9 === new Set(l).size && l.every(l => x.has(l))
 }
-let k
+let M
 const I = localStorage.getItem('sudoku')
-k = I ? JSON.parse(I) : [...c]
+M = I ? JSON.parse(I) : [...c]
 let K = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -378,15 +378,15 @@ function O() {
         e.appendChild(u)
       }
       return n
-    })(k),
-    o = r.querySelector('input')
-  ;(o.autofocus = !0), e.appendChild(r), o.select(), e.appendChild(document.createElement('br'))
-  const m = document.createElement('button')
-  ;(m.innerText = 'Next'),
-    (m.style.marginRight = '0.5rem'),
-    m.addEventListener('click', () => {
-      ;(k = s(r)),
-        (K = i(k)),
+    })(M),
+    m = r.querySelector('input')
+  ;(m.autofocus = !0), e.appendChild(r), m.select(), e.appendChild(document.createElement('br'))
+  const p = document.createElement('button')
+  ;(p.innerText = 'Next'),
+    (p.style.marginRight = '0.5rem'),
+    p.addEventListener('click', () => {
+      ;(M = s(r)),
+        (K = i(M)),
         (N = (function (n) {
           const e = [
             [null, null, null, null, null, null, null, null, null],
@@ -415,28 +415,28 @@ function O() {
               }
           return e
         })(K)),
-        (k = (function (l, n) {
+        (M = (function (l, n) {
           l = [...l]
           for (let e = 0; e < l.length; e++) for (let u = 0; u < l[e].length; u++) n[e][u] && (l[e][u] = n[e][u])
           return l
-        })(k, N)),
+        })(M, N)),
         O()
-    }),
-    e.appendChild(m)
-  const p = document.createElement('button')
-  ;(p.innerText = 'Brute force'),
-    (p.style.marginRight = '0.5rem'),
-    p.addEventListener('click', () => {
-      const l = E(k)
-      l && ((N = l.map((l, n) => l.map((l, e) => (k[n][e] ? null : l)))), (k = l)), O()
     }),
     e.appendChild(p)
   const y = document.createElement('button')
-  ;(y.innerText = 'Reset'),
+  ;(y.innerText = 'Brute force'),
+    (y.style.marginRight = '0.5rem'),
     y.addEventListener('click', () => {
-      ;(k = [...c]), O()
+      const l = E(M)
+      l && ((N = l.map((l, n) => l.map((l, e) => (M[n][e] ? null : l)))), (M = l)), O()
     }),
-    e.appendChild(y),
+    e.appendChild(y)
+  const g = document.createElement('button')
+  ;(g.innerText = 'Reset'),
+    g.addEventListener('click', () => {
+      ;(M = [...c]), O()
+    }),
+    e.appendChild(g),
     u.appendChild(
       (function (l) {
         const n = document.createElement('table')
@@ -472,16 +472,20 @@ function O() {
         return n
       })(K)
     )
-  const g = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+  const w = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9']),
+    v = o(w, new Set(['Backspace', 'Tab', 'Delete'])),
+    S = o(w, new Set(['Enter']))
   document.addEventListener('keydown', function (l) {
+    console.log(l)
     const { target: n } = l
-    'INPUT' !== n.tagName || g.has(l.key) || l.preventDefault()
+    'INPUT' !== n.tagName || v.has(l.key) || l.preventDefault()
   }),
     document.addEventListener('keyup', function (l) {
+      console.log('a', l)
       const { target: n } = l
-      if ('INPUT' === n.tagName && g.has(l.key)) {
-        const l = parseInt(n.value, 10)
-        if (l >= 1 && l <= 9) {
+      if ('INPUT' === n.tagName && S.has(l.key)) {
+        const e = parseInt(n.value, 10)
+        if ((e >= 1 && e <= 9) || 'Enter' === l.key) {
           const l = (function (l) {
             const n = Array.from(r.querySelectorAll('input')),
               e = n.indexOf(l)

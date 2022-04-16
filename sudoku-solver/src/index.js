@@ -9,6 +9,7 @@ import {
   solve,
   sudoku as initialSudoku,
 } from './lib.js'
+import { union } from '@sanjo/set'
 
 let sudoku
 const sudokuSavedSerialized = localStorage.getItem('sudoku')
@@ -110,20 +111,22 @@ function render() {
 
   column3.appendChild(renderPossibleNumbersToHTML(possibleNumbers))
 
-  const keysForWhichToDoSomething = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+  const digitKeys = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+  const keysForWhichToDoTheDefaultOfKeyDown = union(digitKeys, new Set(['Backspace', 'Tab', 'Delete']))
+  const keyForWhichToGoToTheNextInput = union(digitKeys, new Set(['Enter']))
 
   document.addEventListener('keydown', function (event) {
     const { target } = event
-    if (target.tagName === 'INPUT' && !keysForWhichToDoSomething.has(event.key)) {
+    if (target.tagName === 'INPUT' && !keysForWhichToDoTheDefaultOfKeyDown.has(event.key)) {
       event.preventDefault()
     }
   })
 
   document.addEventListener('keyup', function (event) {
     const { target } = event
-    if (target.tagName === 'INPUT' && keysForWhichToDoSomething.has(event.key)) {
+    if (target.tagName === 'INPUT' && keyForWhichToGoToTheNextInput.has(event.key)) {
       const inputValue = parseInt(target.value, 10)
-      if (inputValue >= 1 && inputValue <= 9) {
+      if ((inputValue >= 1 && inputValue <= 9) || event.key === 'Enter') {
         const nextInput = findNextInput(target)
         if (nextInput) {
           nextInput.focus()
