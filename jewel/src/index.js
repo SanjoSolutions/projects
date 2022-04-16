@@ -515,8 +515,6 @@ export function main() {
       column: columnIndex,
     }
   }
-
-  window.removeConnectedCircles = removeConnectedCircles
 }
 
 function canBeConnected(circleA, circleB) {

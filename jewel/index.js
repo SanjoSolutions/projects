@@ -337,7 +337,7 @@ var o = {}
               const e = Math.abs(t),
                 o = Math.abs(n)
               return (function (t, n) {
-                const e = C(t)
+                const e = k(t)
                 return K({ row: e.row + n.row, column: e.column + n.column })
               })(a, { row: o > e ? (n > 0 ? 1 : -1) : 0, column: e > o ? (t > 0 ? 1 : -1) : 0 })
             }
@@ -371,7 +371,7 @@ var o = {}
       const n = o.querySelectorAll('.circle')
       for (const e of n) {
         const n = m(e),
-          o = C(e),
+          o = k(e),
           r = new Set([
             { row: 0, column: 1 },
             { row: 1, column: 0 },
@@ -395,7 +395,7 @@ var o = {}
             const e = new Array(t)
             for (let t = 0; t < e.length; t++) e[t] = new Set()
             for (const t of n) {
-              const { column: n } = C(t)
+              const { column: n } = k(t)
               e[n].add(t)
             }
             return e
@@ -432,9 +432,9 @@ var o = {}
             for (let n = 0; n < t; n++) {
               const t = u[n]
               for (const e of t) {
-                const t = C(e).row,
+                const t = k(e).row,
                   o = s[n],
-                  r = 42 * Array.from(o).filter(n => C(n).row > t).length
+                  r = 42 * Array.from(o).filter(n => k(n).row > t).length
                 e.style.top = `${r}px`
               }
             }
@@ -444,7 +444,7 @@ var o = {}
     }
     function $(t, n) {
       const e = new Set()
-      let o = Math.max(...Array.from(n).map(t => C(t).row)),
+      let o = Math.max(...Array.from(n).map(t => k(t).row)),
         r = 0
       for (; r < o; ) {
         const o = K({ row: r, column: t })
@@ -488,7 +488,7 @@ var o = {}
       }
       return r
     }
-    function C(t) {
+    function k(t) {
       const n = t.parentElement,
         e = Array.from(o.children).indexOf(n),
         r = Array.from(n.children)
@@ -545,7 +545,7 @@ var o = {}
               for (const n of new Set([a, x])) {
                 let e = new Set()
                 const o = m(n),
-                  r = C(n),
+                  r = k(n),
                   c = new Set([
                     { row: 0, column: -1 },
                     { row: 0, column: 1 },
@@ -576,8 +576,7 @@ var o = {}
             (x = null),
             i.clearRect(0, 0, r.width, r.height)
         }
-      }),
-      (window.removeConnectedCircles = T)
+      })
   }
   function f(t, n) {
     const e = determinePosition(t),
