@@ -1,5 +1,7 @@
 import { isSubset } from './isSubset.js'
 
-export function isStrictSubset<T>(a: Set<T>, b: Set<T>): boolean {
-  return b.size > a.size && isSubset(a, b)
+export function isStrictSubset<T>(a: Iterable<T>, b: Iterable<T>): boolean {
+  const aSet = new Set(a)
+  const bSet = new Set(b)
+  return bSet.size > aSet.size && isSubset(a, b)
 }
