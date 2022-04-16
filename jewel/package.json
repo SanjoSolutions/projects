@@ -4,7 +4,8 @@
     "build:watch": "webpack serve --open --config node_modules/@sanjo/webpack/webpack.dev.js"
   },
   "dependencies": {
-    "lodash.debounce": "^4.0.8"
+    "lodash.debounce": "^4.0.8",
+    "lodash.once": "^4.1.1"
   },
   "devDependencies": {
     "@sanjo/webpack": "^1.2.2",

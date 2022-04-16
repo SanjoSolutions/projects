@@ -1,5 +1,6 @@
-import { selectRandomUniform } from '../../selectRandomUniform.js'
 import debounce from 'lodash.debounce'
+import once from 'lodash.once'
+import { selectRandomUniform } from '../../selectRandomUniform.js'
 
 const CIRCLE_MARGIN = 4 // 0.25rem with 1rem = 16px
 const SPACE_BETWEEN_CIRCLES = 2 * CIRCLE_MARGIN
@@ -10,7 +11,6 @@ const CIRCLE_BORDER = 1 // px
 const MAXIMUM_MOVE_DISTANCE = CIRCLE_LENGTH + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES
 const DISTANCE_THRESHOLD = 0.5 * (CIRCLE_LENGTH + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES) // px
 const MINIMUM_AMOUNT_OF_CIRCLES_ON_SAME_LINE_FOR_REMOVAL = 3
-const ANIMATION_DURATION = 400
 
 export function main() {
   const numberOfRows = 20
@@ -216,60 +216,109 @@ export function main() {
     }
   }
 
+  function removeConnectedCircles() {
+    let circlesToRemove = new Set()
+    const circles = circleGrid.querySelectorAll('.circle')
+    for (const circle of circles) {
+      const color = determineCircleColor(circle)
+      const startPosition = determinePosition(circle)
+      const offsets = new Set([
+        { row: 0, column: 1 },
+        { row: 1, column: 0 },
+      ])
+      for (const offset of offsets) {
+        const circlesWithSameColorOnLine = determineCirclesWithSameColorInDirectionIncludingTheStartPosition(
+          color,
+          startPosition,
+          offset
+        )
+        if (circlesWithSameColorOnLine.size >= MINIMUM_AMOUNT_OF_CIRCLES_ON_SAME_LINE_FOR_REMOVAL) {
+          circlesToRemove = union(circlesToRemove, circlesWithSameColorOnLine)
+        }
+      }
+    }
+
+    removeCircles(circlesToRemove)
+  }
+
   function removeCircleOffset(circle) {
     circle.style.transform = null
   }
 
-  function removeCircles(circles) {
-    for (const circle of circles) {
-      circle.style.visibility = 'hidden'
-
-      const column = circle.parentElement
-      const newCircle = createCircleWithRandomColor(colors)
-      column.appendChild(newCircle)
-    }
-    const columns = groupCirclesIntoColumns(circles)
-    const maximumFallOffset =
-      Math.max(...Array.from(columns).map(column => column.size)) *
-      (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
-    circleGrid.style.top = `${-maximumFallOffset}px`
-    for (let index = 0; index < columns.length; index++) {
-      const column = columns[index]
-      if (column.size >= 1) {
-        animateCircleFallInColumn(index, column)
+  function removeCircles(circlesToRemove) {
+    if (circlesToRemove.size >= 1) {
+      let circlesThatFall = new Set()
+      for (const circle of circlesToRemove) {
+        circle.classList.add('circle--hidden')
       }
-    }
-    const onTransitionEnd = debounce(function () {
-      circleGrid.style.top = '0px'
-      circleGrid.removeEventListener('transitionend', onTransitionEnd)
-    })
-    circleGrid.addEventListener('transitionend', onTransitionEnd)
-  }
+      const circlesThatAreRemovedGroupedByColumn = groupCirclesIntoColumns(circlesToRemove)
+      const maximumFallOffset =
+        Math.max(...Array.from(circlesThatAreRemovedGroupedByColumn).map(column => column.size)) *
+        (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
+      circleGrid.style.top = `${-maximumFallOffset}px`
+      const circlesThatFallGroupedByColumn = new Array(numberOfColumns)
+      for (let columnIndex = 0; columnIndex < circlesThatAreRemovedGroupedByColumn.length; columnIndex++) {
+        const circlesThatAreRemovedInColumn = circlesThatAreRemovedGroupedByColumn[columnIndex]
+        if (circlesThatAreRemovedInColumn.size >= 1) {
+          const circlesThatFallInColumn = determineCirclesThatFallInColumn(columnIndex, circlesThatAreRemovedInColumn)
+          circlesThatFall = union(circlesThatFall, circlesThatFallInColumn)
 
-  function animateCircleFallInColumn(column, circlesThatAreRemovedInColumn) {
-    const circlesThatFallInColumn = determineCirclesThatFallInColumn(column, circlesThatAreRemovedInColumn)
+          const columns = circleGrid.children
+          const column = columns[columnIndex]
+          const numberOfCirclesToAddToColumn = circlesThatAreRemovedInColumn.size
+          for (let i = 1; i <= numberOfCirclesToAddToColumn; i++) {
+            const newCircle = createCircleWithRandomColor(colors)
+            column.appendChild(newCircle)
+            circlesThatFallInColumn.add(newCircle)
+            circlesThatFall.add(newCircle)
+          }
 
-    for (const circleThatFallsInColumn of circlesThatFallInColumn) {
-      circleThatFallsInColumn.classList.add('circle--falling')
-    }
-
-    const fallOffset = circlesThatAreRemovedInColumn.size * (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
-    requestAnimationFrame(() => {
-      for (const circleThatFallsInColumn of circlesThatFallInColumn) {
-        circleThatFallsInColumn.style.top = `${fallOffset}px`
+          circlesThatFallGroupedByColumn[columnIndex] = circlesThatFallInColumn
+        } else {
+          circlesThatFallGroupedByColumn[columnIndex] = new Set()
+        }
       }
 
-      const onTransitionEnd = debounce(function () {
-        for (const circle of circlesThatAreRemovedInColumn) {
-          circle.remove()
+      requestAnimationFrame(() => {
+        for (const circle of circlesThatFall) {
+          circle.classList.add('circle--falling')
         }
-        for (const circleThatFallsInColumn of circlesThatFallInColumn) {
-          circleThatFallsInColumn.classList.remove('circle--falling')
-        }
-        circleGrid.removeEventListener('transitionend', onTransitionEnd)
+        requestAnimationFrame(() => {
+          const onTransitionEnd = debounce(
+            once(function onTransitionEnd() {
+              circleGrid.style.top = '0px'
+              circleGrid.removeEventListener('transitionend', onTransitionEnd)
+
+              for (const circle of circlesToRemove) {
+                circle.remove()
+              }
+
+              for (const circle of circlesThatFall) {
+                circle.classList.remove('circle--falling')
+                circle.style.top = null
+              }
+
+              requestAnimationFrame(removeConnectedCircles)
+            })
+          )
+          circleGrid.addEventListener('transitionend', onTransitionEnd)
+
+          for (let columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
+            const circlesThatFallInColumn = circlesThatFallGroupedByColumn[columnIndex]
+            for (const circleThatFallsInColumn of circlesThatFallInColumn) {
+              const circleThatFallsInColumnRow = determinePosition(circleThatFallsInColumn).row
+              const circlesThatAreRemovedInColumn = circlesThatAreRemovedGroupedByColumn[columnIndex]
+              const numberOfCirclesThatAreRemovedBelowCircle = Array.from(circlesThatAreRemovedInColumn).filter(
+                circle => determinePosition(circle).row > circleThatFallsInColumnRow
+              ).length
+              const fallOffset =
+                numberOfCirclesThatAreRemovedBelowCircle * (CIRCLE_HEIGHT + 2 * CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES)
+              circleThatFallsInColumn.style.top = `${fallOffset}px`
+            }
+          }
+        })
       })
-      circleGrid.addEventListener('transitionend', onTransitionEnd)
-    })
+    }
   }
 
   function groupCirclesIntoColumns(circles) {
@@ -286,16 +335,18 @@ export function main() {
 
   function determineCirclesThatFallInColumn(column, circlesThatAreRemovedInColumn) {
     const circlesThatFall = new Set()
-    let smallestRowOfCirclesThatFall = Math.min(
+    let biggestRowOfCirclesThatFall = Math.max(
       ...Array.from(circlesThatAreRemovedInColumn).map(circle => determinePosition(circle).row)
     )
     let row = 0
-    while (row < smallestRowOfCirclesThatFall) {
-      const circleThatFalls = retrieveCircleAtPosition({
+    while (row < biggestRowOfCirclesThatFall) {
+      const circle = retrieveCircleAtPosition({
         row,
         column,
       })
-      circlesThatFall.add(circleThatFalls)
+      if (circle && !circlesThatAreRemovedInColumn.has(circle)) {
+        circlesThatFall.add(circle)
+      }
       row++
     }
     return circlesThatFall
@@ -329,7 +380,7 @@ export function main() {
 
   function retrieveCircleAtPosition(position) {
     const { row, column } = position
-    if (row < numberOfRows && column < numberOfColumns) {
+    if (row >= 0 && row < numberOfRows && column >= 0 && column < numberOfColumns) {
       const allCirclesColumns = circleGrid.querySelectorAll('.circles-column')
       const circlesColumn = allCirclesColumns[column]
       const circlesInColumn = circlesColumn.children
@@ -354,9 +405,35 @@ export function main() {
     let position = determinePositionRelativeTo(startPosition, offset)
     while (position.row < numberOfRows && position.column < numberOfColumns) {
       const circle = retrieveCircleAtPosition(position)
-      const hasCircleSameColor = determineCircleColor(circle) === color
-      if (hasCircleSameColor) {
-        circles.add(circle)
+      if (circle) {
+        const hasCircleSameColor = determineCircleColor(circle) === color
+        if (hasCircleSameColor) {
+          circles.add(circle)
+        } else {
+          break
+        }
+      } else {
+        break
+      }
+
+      position = determinePositionRelativeTo(position, offset)
+    }
+
+    return circles
+  }
+
+  function determineCirclesWithSameColorInDirectionIncludingTheStartPosition(color, startPosition, offset) {
+    const circles = new Set()
+    let position = startPosition
+    while (position.row < numberOfRows && position.column < numberOfColumns) {
+      const circle = retrieveCircleAtPosition(position)
+      if (circle) {
+        const hasCircleSameColor = determineCircleColor(circle) === color
+        if (hasCircleSameColor) {
+          circles.add(circle)
+        } else {
+          break
+        }
       } else {
         break
       }
@@ -406,6 +483,21 @@ export function main() {
       }
     }
   }
+
+  function determinePosition(circle) {
+    const column = circle.parentElement
+    const columns = Array.from(circleGrid.children)
+    const columnIndex = columns.indexOf(column)
+    const circlesInColumn = Array.from(column.children)
+    const rowIndex = circlesInColumn.length - 1 - circlesInColumn.indexOf(circle)
+
+    return {
+      row: rowIndex,
+      column: columnIndex,
+    }
+  }
+
+  window.removeConnectedCircles = removeConnectedCircles
 }
 
 function canBeConnected(circleA, circleB) {
@@ -414,14 +506,6 @@ function canBeConnected(circleA, circleB) {
   const rowDifference = Math.abs(positionA.row - positionB.row)
   const columnDifference = Math.abs(positionA.column - positionB.column)
   return (rowDifference === 0 && columnDifference === 1) || (columnDifference === 0 && rowDifference === 1)
-}
-
-function determinePosition(circle) {
-  return {
-    row: (circle.offsetTop - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_HEIGHT + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
-    column:
-      (circle.offsetLeft - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_WIDTH + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
-  }
 }
 
 function determinePositionRelativeTo(position, offset) {
