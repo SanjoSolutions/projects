@@ -1,13 +1,13 @@
 import {
-  sudoku as initialSudoku,
-  renderSudokuToHTML,
-  getPossibleNumbers,
-  renderPossibleNumbersToHTML,
-  solve,
-  fillSolutions,
-  getSudokuFromSudokuInput,
-  renderSudokuInputToHTML,
   bruteForce,
+  fillSolutions,
+  getPossibleNumbers,
+  getSudokuFromSudokuInput,
+  renderPossibleNumbersToHTML,
+  renderSudokuInputToHTML,
+  renderSudokuToHTML,
+  solve,
+  sudoku as initialSudoku,
 } from './lib.js'
 
 let sudoku
@@ -64,8 +64,10 @@ function render() {
   document.body.appendChild(row)
 
   const sudokuInput = renderSudokuInputToHTML(sudoku)
-  sudokuInput.querySelector('input').autofocus = true
+  const firstInput = sudokuInput.querySelector('input')
+  firstInput.autofocus = true
   column1.appendChild(sudokuInput)
+  firstInput.select()
 
   column1.appendChild(document.createElement('br'))
 
@@ -108,9 +110,41 @@ function render() {
 
   column3.appendChild(renderPossibleNumbersToHTML(possibleNumbers))
 
+  const keysForWhichToDoSomething = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9'])
+
+  document.addEventListener('keydown', function (event) {
+    const { target } = event
+    if (target.tagName === 'INPUT' && !keysForWhichToDoSomething.has(event.key)) {
+      event.preventDefault()
+    }
+  })
+
   document.addEventListener('keyup', function (event) {
-    if (event.target.tagName === 'INPUT') {
+    const { target } = event
+    if (target.tagName === 'INPUT' && keysForWhichToDoSomething.has(event.key)) {
+      const inputValue = parseInt(target.value, 10)
+      if (inputValue >= 1 && inputValue <= 9) {
+        const nextInput = findNextInput(target)
+        if (nextInput) {
+          nextInput.focus()
+          nextInput.select()
+        }
+      }
+
       localStorage.setItem('sudoku', JSON.stringify(getSudokuFromSudokuInput(sudokuInput)))
     }
   })
+
+  function findNextInput(input) {
+    const inputs = Array.from(sudokuInput.querySelectorAll('input'))
+    const inputIndex = inputs.indexOf(input)
+    if (inputIndex !== -1) {
+      const nextInputIndex = inputIndex + 1
+      if (nextInputIndex < inputs.length) {
+        const nextInput = inputs[nextInputIndex]
+        return nextInput
+      }
+    }
+    return null
+  }
 }

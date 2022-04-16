@@ -43,6 +43,9 @@ export function renderSudokuInputToHTML(sudoku) {
     for (let columnIndex = 0; columnIndex < sudoku[rowIndex].length; columnIndex++) {
       const td = document.createElement('td')
       const input = document.createElement('input')
+      input.type = 'text'
+      input.inputMode = 'numeric'
+      input.pattern = '[1-9]'
       input.maxLength = 1
       const value = sudoku[rowIndex][columnIndex]
       if (value !== 0) {
