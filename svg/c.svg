@@ -4,13 +4,4 @@
     Q 309,-80 618,100
     Q 809,240 1000,100
   "></path>
-  <circle cx="0" cy="100" r="3"></circle>
-  <circle cx="309" cy="-80" r="3"></circle>
-  <circle cx="618" cy="100" r="3"></circle>
-  <circle cx="809" cy="240" r="3"></circle>
-  <circle cx="1000" cy="100" r="3"></circle>
-  <line x1="0" y1="100" x2="309" y2="-80" stroke="black"></line>
-  <line x1="309" y1="-80" x2="618" y2="100" stroke="black"></line>
-  <line x1="618" y1="100" x2="809" y2="240" stroke="black"></line>
-  <line x1="809" y1="240" x2="1000" y2="100" stroke="black"></line>
 </svg>
