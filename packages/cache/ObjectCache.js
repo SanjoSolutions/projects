@@ -1,4 +1,4 @@
-import { Cache, FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE } from './Cache';
+import { Cache, FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE } from './Cache.js';
 export class ObjectCache {
     _cache = new Cache();
     has(key) {

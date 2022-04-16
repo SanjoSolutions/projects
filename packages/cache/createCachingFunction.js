@@ -1,4 +1,4 @@
-import { Cache } from './Cache';
+import { Cache } from './Cache.js';
 export function createCachingFunction(fn) {
     const cache = new Cache();
     const cachingFunction = function (...args) {
