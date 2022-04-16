@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals'
-import { bruteForce, determineNextCell, getPossibleNumbers, isSolution } from './sudoku_solver.js'
+import { bruteForce, determineNextCell, getPossibleNumbers, isSolution } from './lib.js'
 
 describe('isSolution', () => {
   it('returns true when the sudoku is solved', () => {

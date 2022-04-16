@@ -4,7 +4,7 @@ node_modules
 .yarn
 tsconfig.tsbuildinfo
 built
-!/sudoku_solver/built
+!/sudoku-solver/built
 dist
 .history
 .DS_Store

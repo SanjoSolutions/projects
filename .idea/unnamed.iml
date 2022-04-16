@@ -46,7 +46,6 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/automation-banking" />
       <excludeFolder url="file://$MODULE_DIR$/packages/backup" />
       <excludeFolder url="file://$MODULE_DIR$/packages/define" />
-      <excludeFolder url="file://$MODULE_DIR$/sudoku_solver/built" />
       <excludeFolder url="file://$MODULE_DIR$/automatic_application_for_flats/dist_production" />
       <excludeFolder url="file://$MODULE_DIR$/automatic_application_for_flats/dist_production_backup" />
       <excludeFolder url="file://$MODULE_DIR$/din-5008-schreiben/functions/lib" />
