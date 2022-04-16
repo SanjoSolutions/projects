@@ -326,10 +326,10 @@ const x = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
 function k(l) {
   return 9 === new Set(l).size && l.every(l => x.has(l))
 }
-let M
-const I = localStorage.getItem('sudoku')
-M = I ? JSON.parse(I) : [...c]
-let K = [
+let I
+const M = localStorage.getItem('sudoku')
+I = M ? JSON.parse(M) : [...c]
+let N = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -340,7 +340,7 @@ let K = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
   ],
-  N = [
+  K = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -378,16 +378,16 @@ function O() {
         e.appendChild(u)
       }
       return n
-    })(M),
+    })(I),
     m = r.querySelector('input')
   ;(m.autofocus = !0), e.appendChild(r), m.select(), e.appendChild(document.createElement('br'))
   const p = document.createElement('button')
   ;(p.innerText = 'Next'),
     (p.style.marginRight = '0.5rem'),
     p.addEventListener('click', () => {
-      ;(M = s(r)),
-        (K = i(M)),
-        (N = (function (n) {
+      ;(I = s(r)),
+        (N = i(I)),
+        (K = (function (n) {
           const e = [
             [null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null],
@@ -414,12 +414,12 @@ function O() {
                 o && (e[u][t] = o)
               }
           return e
-        })(K)),
-        (M = (function (l, n) {
+        })(N)),
+        (I = (function (l, n) {
           l = [...l]
           for (let e = 0; e < l.length; e++) for (let u = 0; u < l[e].length; u++) n[e][u] && (l[e][u] = n[e][u])
           return l
-        })(M, N)),
+        })(I, K)),
         O()
     }),
     e.appendChild(p)
@@ -427,14 +427,14 @@ function O() {
   ;(y.innerText = 'Brute force'),
     (y.style.marginRight = '0.5rem'),
     y.addEventListener('click', () => {
-      const l = E(M)
-      l && ((N = l.map((l, n) => l.map((l, e) => (M[n][e] ? null : l)))), (M = l)), O()
+      const l = E(I)
+      l && ((K = l.map((l, n) => l.map((l, e) => (I[n][e] ? null : l)))), (I = l)), O()
     }),
     e.appendChild(y)
   const g = document.createElement('button')
   ;(g.innerText = 'Reset'),
     g.addEventListener('click', () => {
-      ;(M = [...c]), O()
+      ;(I = [...c]), O()
     }),
     e.appendChild(g),
     u.appendChild(
@@ -453,7 +453,7 @@ function O() {
           e.appendChild(u)
         }
         return n
-      })(N)
+      })(K)
     ),
     t.appendChild(
       (function (l) {
@@ -470,18 +470,16 @@ function O() {
           e.appendChild(u)
         }
         return n
-      })(K)
+      })(N)
     )
   const w = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9']),
     v = o(w, new Set(['Backspace', 'Tab', 'Delete'])),
     S = o(w, new Set(['Enter']))
   document.addEventListener('keydown', function (l) {
-    console.log(l)
     const { target: n } = l
     'INPUT' !== n.tagName || v.has(l.key) || l.preventDefault()
   }),
     document.addEventListener('keyup', function (l) {
-      console.log('a', l)
       const { target: n } = l
       if ('INPUT' === n.tagName && S.has(l.key)) {
         const e = parseInt(n.value, 10)
@@ -499,6 +497,10 @@ function O() {
         }
         localStorage.setItem('sudoku', JSON.stringify(s(r)))
       }
+    }),
+    document.addEventListener('focusin', function (l) {
+      const { target: n } = l
+      'INPUT' === n.tagName && n.select()
     })
 }
 document.addEventListener('DOMContentLoaded', () => {
