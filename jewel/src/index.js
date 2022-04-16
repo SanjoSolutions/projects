@@ -30,26 +30,41 @@ export function main() {
   let lastSelectedCircle = null
   let selectedCircleOffset = null
   let lastCircleThatTheSelectedCircleWasMovingTowards = null
+  let isSwappingEnabled = false
+
+  function enableSwapping() {
+    isSwappingEnabled = true
+    document.body.classList.add('swapping-enabled')
+  }
+
+  function disableSwapping() {
+    isSwappingEnabled = false
+    document.body.classList.remove('swapping-enabled')
+  }
+
+  enableSwapping()
 
   function isSelectingCircles() {
     return lastSelectedCircle !== null
   }
 
   circleGrid.addEventListener('pointerdown', function (event) {
-    const target = event.target
-    if (target.classList.contains('circle')) {
-      event.preventDefault()
-      const circle = target
-      selectedCircles.add(circle)
-      firstSelectedCircle = circle
-      selectedColor = determineCircleColor(firstSelectedCircle)
-      lastSelectedCircle = circle
-      selectedCircleOffset = {
-        x: 0,
-        y: 0,
+    if (isSwappingEnabled) {
+      const target = event.target
+      if (target.classList.contains('circle')) {
+        event.preventDefault()
+        const circle = target
+        selectedCircles.add(circle)
+        firstSelectedCircle = circle
+        selectedColor = determineCircleColor(firstSelectedCircle)
+        lastSelectedCircle = circle
+        selectedCircleOffset = {
+          x: 0,
+          y: 0,
+        }
+        firstSelectedCircle.classList.add('circle--dragged')
+        updateCircleOffsets()
       }
-      firstSelectedCircle.classList.add('circle--dragged')
-      updateCircleOffsets()
     }
   })
 
@@ -247,6 +262,7 @@ export function main() {
 
   function removeCircles(circlesToRemove) {
     if (circlesToRemove.size >= 1) {
+      disableSwapping()
       let circlesThatFall = new Set()
       for (const circle of circlesToRemove) {
         circle.classList.add('circle--hidden')
@@ -318,6 +334,8 @@ export function main() {
           }
         })
       })
+    } else {
+      enableSwapping()
     }
   }
 
