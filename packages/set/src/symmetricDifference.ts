@@ -1,4 +1,4 @@
-export function symmetricDifference<T>(...sets: Set<T>[]): Set<T> {
+export function symmetricDifference<T>(...sets: Iterable<T>[]): Set<T> {
   let result = new Set(sets[0])
   const elementsThatAreInMultipleSets = new Set()
   for (const set of sets.slice(1)) {
