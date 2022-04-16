@@ -1,2 +1,2 @@
-export { animate as default } from './animate.js';
+export { animate } from './animate.js';
 //# sourceMappingURL=index.d.ts.map
