@@ -8,3 +8,4 @@ built
 dist
 .history
 .DS_Store
+*.hot-update.*

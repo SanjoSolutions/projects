@@ -1,9 +1,9 @@
-import { colorToString } from '../../colorToString.js'
-import { createFullDocumentCanvas } from '@sanjo/canvas'
-import { getCenter } from '../../getCenter.js'
 import animate from '@sanjo/animate'
-import { polarCoordinatesToCartesianCoordinates } from '../../polarCoordinatesToCartesianCoordinates.js'
+import { createFullDocumentCanvas } from '@sanjo/canvas'
+import { colorToString } from '../../colorToString.js'
 import { convertRadiansToDegrees } from '../../convertRadiansToDegrees.js'
+import { getCenter } from '../../getCenter.js'
+import { polarCoordinatesToCartesianCoordinates } from '../../polarCoordinatesToCartesianCoordinates.js'
 
 const { canvas, context } = createFullDocumentCanvas()
 document.body.appendChild(canvas)
@@ -14,18 +14,46 @@ let radius = maxRadius
 let radiusDelta = -1
 let angle = 0
 let angleDelta = 0.5 * ((2 * Math.PI) / 360)
-const points = []
-animate(() => {
-  points.push({ radius, angle })
+let previousPoint = { radius, angle }
 
-  drawTacka(canvas, context, { radius, angle, minRadius, maxRadius, points })
+const drawCanvas = document.createElement('canvas')
+drawCanvas.width = 2 * maxRadius + 2 * 1
+drawCanvas.height = drawCanvas.width
+const drawContext = drawCanvas.getContext('2d')
+drawContext.lineWidth = 1
+
+const origin = {
+  x: drawCanvas.width / 2,
+  y: drawCanvas.height / 2,
+}
+
+animate(() => {
+  drawContext.beginPath()
+  const { x: previousX, y: previousY } = polarCoordinatesToCartesianCoordinates({
+    ...previousPoint,
+    origin,
+  })
+  drawContext.moveTo(previousX, previousY)
+  const point = { radius, angle }
+  const color = {
+    hue: Math.round(convertRadiansToDegrees((previousPoint.angle + point.angle) / 2)),
+    saturation: 1,
+    lightness: 0.5,
+  }
+  drawContext.strokeStyle = colorToString(color)
+  const { x, y } = polarCoordinatesToCartesianCoordinates({
+    ...point,
+    origin,
+  })
+  drawContext.lineTo(x, y)
+  drawContext.stroke()
+  previousPoint = point
+
+  drawTacka(canvas, context, drawCanvas, { radius, angle, minRadius, maxRadius })
 
   angle = (angle + angleDelta) % (4 * 2 * Math.PI)
   if (Math.abs(angle) < angleDelta) {
     angleDelta /= 2
-    // FIXME: Seems to only half the first time.
-    // FIXME: Seems to slow down to half of the speed.
-    //        Same speed as initially please.
   }
   radius += radiusDelta
   if (radius <= minRadius) {
@@ -35,7 +63,7 @@ animate(() => {
   }
 })
 
-function drawTacka(canvas, context, { radius, angle, minRadius, maxRadius, points }) {
+function drawTacka(canvas, context, drawCanvas, { radius, angle, minRadius, maxRadius }) {
   const center = getCenter()
   context.save()
 
@@ -54,7 +82,11 @@ function drawTacka(canvas, context, { radius, angle, minRadius, maxRadius, point
   context.fill()
   context.stroke()
 
-  drawPointsLine(canvas, context, points, { minRadius })
+  context.drawImage(
+    drawCanvas,
+    0.5 * canvas.width - 0.5 * drawCanvas.width,
+    0.5 * canvas.height - 0.5 * drawCanvas.height
+  )
 
   context.beginPath()
   context.moveTo(center.x, center.y)
@@ -62,75 +94,4 @@ function drawTacka(canvas, context, { radius, angle, minRadius, maxRadius, point
   context.stroke()
 
   context.restore()
-}
-
-function drawPointsLine(canvas, context, points) {
-  if (points.length >= 1) {
-    const origin = getCenter()
-
-    context.save()
-
-    context.lineWidth = 1
-
-    let lastPoint = points[0]
-    let { x: previousX, y: previousY } = polarCoordinatesToCartesianCoordinates({
-      ...lastPoint,
-      origin,
-    })
-    points.forEach(point => {
-      context.beginPath()
-      context.moveTo(previousX, previousY)
-      const color = {
-        hue: Math.round(convertRadiansToDegrees((lastPoint.angle + point.angle) / 2)),
-        saturation: 1,
-        lightness: 0.5,
-      }
-      context.strokeStyle = colorToString(color)
-      const { x, y } = polarCoordinatesToCartesianCoordinates({
-        ...point,
-        origin,
-      })
-      context.lineTo(x, y)
-      context.stroke()
-      lastPoint = point
-      previousX = x
-      previousY = y
-    })
-
-    context.restore()
-  }
-}
-
-function drawPointsFilled(canvas, context, points, { minRadius }) {
-  if (points.length >= 1) {
-    const origin = getCenter()
-
-    context.save()
-
-    context.lineWidth = 1
-
-    points.forEach(point => {
-      context.beginPath()
-      const color = {
-        hue: Math.round(convertRadiansToDegrees(point.angle)),
-        saturation: 1,
-        lightness: 0.5,
-      }
-      context.strokeStyle = colorToString(color)
-      const { x: startX, y: startY } = polarCoordinatesToCartesianCoordinates({
-        ...point,
-        radius: minRadius,
-        origin,
-      })
-      context.moveTo(startX, startY)
-      const { x, y } = polarCoordinatesToCartesianCoordinates({
-        ...point,
-        origin,
-      })
-      context.lineTo(x, y)
-      context.stroke()
-    })
-
-    context.restore()
-  }
 }
