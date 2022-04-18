@@ -13,6 +13,9 @@ export default {
         static: {
             directory: path,
         },
+        devMiddleware: {
+            writeToDisk: true
+        }
     },
     devtool: 'source-map',
     resolve: {

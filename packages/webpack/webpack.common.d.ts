@@ -11,6 +11,9 @@ declare const _default: {
         static: {
             directory: string;
         };
+        devMiddleware: {
+            writeToDisk: boolean;
+        };
     };
     devtool: string;
     resolve: {
