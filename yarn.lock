@@ -1856,7 +1856,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanjo/animate@^1.0.0, @sanjo/animate@workspace:packages/animate":
+"@sanjo/animate@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@sanjo/animate@npm:1.0.1"
+  checksum: c9e533d555c873b51238228d0938cfcd31930f5eaeee4633ece5561eca34339d734ef0bb2fafda4689222dd271b3b68cfea2ef1eea55c6095512e5cb484ff840
+  languageName: node
+  linkType: hard
+
+"@sanjo/animate@workspace:packages/animate":
   version: 0.0.0-use.local
   resolution: "@sanjo/animate@workspace:packages/animate"
   languageName: unknown
@@ -1867,7 +1874,7 @@ __metadata:
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
     "@sanjo/comparison": ^1.0.0
-    "@sanjo/identity": ^2.0.0
+    "@sanjo/identity": ^2.0.4
   languageName: unknown
   linkType: soft
 
@@ -1882,7 +1889,7 @@ __metadata:
   resolution: "@sanjo/cache@workspace:packages/cache"
   dependencies:
     "@sanjo/array": ^1.0.4
-    "@sanjo/identity": ^2.0.3
+    "@sanjo/identity": ^2.0.4
     "@sanjo/mathematics": ^0.4.0
   languageName: unknown
   linkType: soft
@@ -2068,7 +2075,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/identity@^2.0.0, @sanjo/identity@^2.0.3, @sanjo/identity@workspace:packages/identity":
+"@sanjo/identity@^2.0.4, @sanjo/identity@workspace:packages/identity":
   version: 0.0.0-use.local
   resolution: "@sanjo/identity@workspace:packages/identity"
   languageName: unknown
@@ -2275,7 +2282,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/webpack@^1.1.0, @sanjo/webpack@workspace:packages/webpack":
+"@sanjo/webpack@npm:^1.1.0":
+  version: 1.2.2
+  resolution: "@sanjo/webpack@npm:1.2.2"
+  dependencies:
+    babel-loader: ^8.2.3
+    css-loader: ^6.5.1
+    resolve-typescript-plugin: ^1.1.4
+    style-loader: ^3.3.1
+    ts-loader: ^9.2.6
+    webpack: ^5.67.0
+    webpack-cli: ^4.9.1
+    webpack-dev-server: ^4.7.3
+    webpack-merge: ^5.8.0
+  checksum: 548783e02e6dba1d05afe9374d7be1b75613d298987a050e53ad2e899b9278da8290119e55324db8d6c517b6e60c56db9fa827780a9470716a9032c821285fc0
+  languageName: node
+  linkType: hard
+
+"@sanjo/webpack@workspace:packages/webpack":
   version: 0.0.0-use.local
   resolution: "@sanjo/webpack@workspace:packages/webpack"
   dependencies:
