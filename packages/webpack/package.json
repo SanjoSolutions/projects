@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/webpack",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "type": "module",
   "description": "Webpack configurations",
   "keywords": [
@@ -16,6 +16,7 @@
     "directory": "packages/webpack"
   },
   "dependencies": {
+    "@sanjo/escape-for-reg-exp": "^1.0.0",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
     "resolve-typescript-plugin": "^1.1.4",

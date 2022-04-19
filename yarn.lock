@@ -2303,6 +2303,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/webpack@workspace:packages/webpack"
   dependencies:
+    "@sanjo/escape-for-reg-exp": ^1.0.0
     babel-loader: ^8.2.3
     css-loader: ^6.5.1
     resolve-typescript-plugin: ^1.1.4

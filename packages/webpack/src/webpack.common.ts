@@ -1,11 +1,15 @@
+import { escapeForRegExp } from '@sanjo/escape-for-reg-exp'
 import * as process from 'process'
 
 const path = process.cwd()
 
+const outputFileName = 'index.js'
+const writeToDiskRegExp = new RegExp(`${escapeForRegExp(outputFileName)}$`)
+
 export default {
   entry: './src/index.js',
   output: {
-    filename: 'index.js',
+    filename: outputFileName,
     path,
     library: {
       type: 'module',
@@ -16,7 +20,9 @@ export default {
       directory: path,
     },
     devMiddleware: {
-      writeToDisk: true,
+      writeToDisk(filePath: string) {
+        return writeToDiskRegExp.test(filePath)
+      },
     },
   },
   devtool: 'source-map',

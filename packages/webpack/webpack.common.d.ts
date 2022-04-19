@@ -12,7 +12,7 @@ declare const _default: {
             directory: string;
         };
         devMiddleware: {
-            writeToDisk: boolean;
+            writeToDisk(filePath: string): boolean;
         };
     };
     devtool: string;
