@@ -123,6 +123,9 @@
       "path": "./refactor-extract-function-as-package/tsconfig-build.json"
     },
     {
+      "path": "./remove-unused-exports"
+    },
+    {
       "path": "./request-json/tsconfig-build.json"
     },
     {

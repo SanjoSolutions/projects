@@ -1,0 +1,32 @@
+{
+  "name": "@sanjo/remove-unused-exports",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Removes unused exports",
+  "keywords": ["remove unused exports"],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/remove-unused-exports",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "bin": "./bin/remove-unused-exports.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/remove-unused-exports"
+  },
+  "dependencies": {
+    "@babel/types": "^7.17.0",
+    "@sanjo/read-file": "^2.0.0",
+    "@sanjo/write-file": "^1.0.0",
+    "babylon": "^7.0.0-beta.47",
+    "lodash.groupby": "^4.6.0",
+    "recast": "^0.20.5",
+    "ts-prune": "^0.10.3"
+  },
+  "devDependencies": {
+    "@types/lodash.groupby": "^4.6.7"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
