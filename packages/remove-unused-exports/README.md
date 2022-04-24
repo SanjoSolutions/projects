@@ -7,7 +7,7 @@ Removes unused exports. This potentially changes files, so make sure that you ha
 ## How to install
 
 ```
-npm install --save '@sanjo/remove-unused-exports'
+npm install --save-dev '@sanjo/remove-unused-exports'
 ```
 
 ## How to use

@@ -24,9 +24,20 @@ import { readFile } from '@sanjo/read-file'
 import { writeFile } from '@sanjo/write-file'
 import groupBy from 'lodash.groupby'
 import { parse, print } from 'recast'
-import * as typeScriptParser from 'recast/parsers/typescript.js'
-import { getConfig } from 'ts-prune/lib/configurator'
-import { run } from 'ts-prune/lib/runner'
+import babelOptions, { Overrides } from 'recast/parsers/_babel_options.js'
+const { default: getBabelOptions } = babelOptions as any
+import { getConfig } from 'ts-prune/lib/configurator.js'
+import { run } from 'ts-prune/lib/runner.js'
+import { parser as baseParser } from 'recast/parsers/babel.js'
+
+const parser = {
+  parse(source: string, options: Overrides) {
+    const babelOptions = getBabelOptions(options)
+    babelOptions.plugins.push('typescript')
+    babelOptions.plugins.push('jsx')
+    return baseParser.parse(source, babelOptions)
+  },
+}
 
 export async function removeExports() {
   const config = getConfig()
@@ -47,58 +58,63 @@ async function removeExportsFromOutput(output: string[]) {
   const groups = groupByFilePath(entries)
 
   for (const [filePath, entries] of groups) {
-    const ast = parse(await readFile(filePath), {
-      parser: typeScriptParser,
-    })
+    try {
+      const ast = parse(await readFile(filePath), {
+        parser,
+      })
 
-    const symbolNamesToRemove = entries.map(({ symbolName }) => symbolName)
+      const symbolNamesToRemove = entries.map(({ symbolName }) => symbolName)
 
-    function isIdentifierWhichMatchesASymbolNameToRemove(identifier: Identifier): boolean {
-      const symbolName = identifier.name
-      return Boolean(symbolName && symbolNamesToRemove.includes(symbolName))
-    }
+      function isIdentifierWhichMatchesASymbolNameToRemove(identifier: Identifier): boolean {
+        const symbolName = identifier.name
+        return Boolean(symbolName && symbolNamesToRemove.includes(symbolName))
+      }
 
-    for (const node of ast.program.body) {
-      if (isExportNamedDeclaration(node)) {
-        if (node.declaration) {
-          const { declaration } = node
-          if (
-            isFunctionDeclaration(declaration) ||
-            isClassDeclaration(declaration) ||
-            isDeclareClass(declaration) ||
-            isDeclareFunction(declaration) ||
-            isDeclareInterface(declaration) ||
-            isDeclareTypeAlias(declaration) ||
-            isDeclareOpaqueType(declaration) ||
-            isDeclareVariable(declaration) ||
-            isInterfaceDeclaration(declaration) ||
-            isOpaqueType(declaration) ||
-            isTypeAlias(declaration) ||
-            isEnumDeclaration(declaration) ||
-            isTSDeclareFunction(declaration) ||
-            isTSInterfaceDeclaration(declaration) ||
-            isTSTypeAliasDeclaration(declaration) ||
-            isTSEnumDeclaration(declaration)
-          ) {
-            const identifier = declaration.id
-            if (identifier && isIdentifierWhichMatchesASymbolNameToRemove(identifier)) {
-              remove(ast.program.body, node)
-            }
-          } else if (isVariableDeclaration(declaration)) {
-            for (const declaration2 of declaration.declarations) {
-              if (isIdentifier(declaration2.id) && isIdentifierWhichMatchesASymbolNameToRemove(declaration2.id)) {
-                remove(declaration.declarations, declaration2)
+      for (const node of ast.program.body) {
+        if (isExportNamedDeclaration(node)) {
+          if (node.declaration) {
+            const { declaration } = node
+            if (
+              isFunctionDeclaration(declaration) ||
+              isClassDeclaration(declaration) ||
+              isDeclareClass(declaration) ||
+              isDeclareFunction(declaration) ||
+              isDeclareInterface(declaration) ||
+              isDeclareTypeAlias(declaration) ||
+              isDeclareOpaqueType(declaration) ||
+              isDeclareVariable(declaration) ||
+              isInterfaceDeclaration(declaration) ||
+              isOpaqueType(declaration) ||
+              isTypeAlias(declaration) ||
+              isEnumDeclaration(declaration) ||
+              isTSDeclareFunction(declaration) ||
+              isTSInterfaceDeclaration(declaration) ||
+              isTSTypeAliasDeclaration(declaration) ||
+              isTSEnumDeclaration(declaration)
+            ) {
+              const identifier = declaration.id
+              if (identifier && isIdentifierWhichMatchesASymbolNameToRemove(identifier)) {
+                remove(ast.program.body, node)
               }
-            }
-            if (declaration.declarations.length === 0) {
-              remove(ast.program.body, node)
+            } else if (isVariableDeclaration(declaration)) {
+              for (const declaration2 of declaration.declarations) {
+                if (isIdentifier(declaration2.id) && isIdentifierWhichMatchesASymbolNameToRemove(declaration2.id)) {
+                  remove(declaration.declarations, declaration2)
+                }
+              }
+              if (declaration.declarations.length === 0) {
+                remove(ast.program.body, node)
+              }
             }
           }
         }
       }
-    }
 
-    await writeFile(filePath, print(ast).code)
+      await writeFile(filePath, print(ast).code)
+    } catch (error: any) {
+      console.error('File path: ' + filePath)
+      throw error
+    }
   }
 }
 

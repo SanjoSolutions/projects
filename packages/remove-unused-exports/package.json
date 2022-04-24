@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Removes unused exports",
-  "keywords": ["remove unused exports"],
+  "keywords": [
+    "remove unused exports"
+  ],
   "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/remove-unused-exports",
   "license": "Unlicense",
   "main": "./index.js",

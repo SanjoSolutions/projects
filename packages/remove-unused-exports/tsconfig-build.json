@@ -9,10 +9,10 @@
   "include": ["./src/**/*"],
   "references": [
     {
-      path: "../read-file"
+      "path": "../read-file"
     },
     {
-      path: "../write-file"
+      "path": "../write-file"
     }
   ]
 }
