@@ -1,6 +1,7 @@
 node_modules
 *-debug.log
 /yarn-error.log
+.yarn
 tsconfig.tsbuildinfo
 built
 !/sudoku-solver/built

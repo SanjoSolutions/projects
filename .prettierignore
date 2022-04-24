@@ -1,8 +1,6 @@
 node_modules
 /yarn-error.log
 .yarn
-.pnp.cjs
-.pnp.loader.mjs
 tsconfig.tsbuildinfo
 built
 dist
