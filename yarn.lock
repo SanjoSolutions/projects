@@ -2235,10 +2235,13 @@ __metadata:
   dependencies:
     "@babel/types": ^7.17.0
     "@sanjo/read-file": ^2.0.0
+    "@sanjo/set": ^1.10.0
     "@sanjo/write-file": ^1.0.0
     "@types/lodash.groupby": ^4.6.7
+    "@types/lodash.partial": ^4.2.7
     babylon: ^7.0.0-beta.47
     lodash.groupby: ^4.6.0
+    lodash.partial: ^4.2.1
     recast: ^0.20.5
     ts-prune: ^0.10.3
   bin:
@@ -2260,7 +2263,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/set@^1.0.0, @sanjo/set@workspace:packages/set":
+"@sanjo/set@^1.0.0, @sanjo/set@^1.10.0, @sanjo/set@workspace:packages/set":
   version: 0.0.0-use.local
   resolution: "@sanjo/set@workspace:packages/set"
   dependencies:
@@ -2596,6 +2599,15 @@ __metadata:
   dependencies:
     "@types/lodash": "*"
   checksum: 2dd7f5c43ca4e2202c73a1217ea550fd54746909c19ef38ababe1a3c851c40b1ba66c027397551f9a6f7acf7217507496e316e6de38f3208f4a1f4548b81933b
+  languageName: node
+  linkType: hard
+
+"@types/lodash.partial@npm:^4.2.7":
+  version: 4.2.7
+  resolution: "@types/lodash.partial@npm:4.2.7"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 0b22c92667a294f4530e942fd67719cab81d8ace4c75ac3f6bd58bd28813b6ed8ca3a6ce9ebe7adf561e8fa1e5f2b316bd2ebe2665b91131b19c85af15107929
   languageName: node
   linkType: hard
 
@@ -7126,6 +7138,13 @@ __metadata:
   version: 4.1.2
   resolution: "lodash.memoize@npm:4.1.2"
   checksum: 9ff3942feeccffa4f1fafa88d32f0d24fdc62fd15ded5a74a5f950ff5f0c6f61916157246744c620173dddf38d37095a92327d5fd3861e2063e736a5c207d089
+  languageName: node
+  linkType: hard
+
+"lodash.partial@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "lodash.partial@npm:4.2.1"
+  checksum: 8b33ebec840176c9a00a451693e67d1099196d4068b0b821d6ca1ab20172c069404e5263274bc67022d0fc2cd2d17df17dbf1f6b074473155c9a1ad046993c3b
   languageName: node
   linkType: hard
 
