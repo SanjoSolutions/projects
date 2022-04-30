@@ -13,7 +13,7 @@ npm install --save '@sanjo/fs'
 ## How to use
 
 ```js
-import { removeRecursively } from '@sanjo/fs'
+import { removeFile, removeRecursively } from '@sanjo/fs'
 ```
 
 Please also see [specifications](./src/).
