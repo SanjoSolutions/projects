@@ -16,19 +16,21 @@
     "directory": "packages/remove-unused-exports"
   },
   "dependencies": {
+    "@babel/traverse": "^7.17.10",
     "@babel/types": "^7.17.0",
+    "@sanjo/fs": "^1.1.0",
     "@sanjo/read-file": "^2.0.0",
     "@sanjo/set": "^1.10.0",
     "@sanjo/write-file": "^1.0.0",
     "babylon": "^7.0.0-beta.47",
-    "lodash.groupby": "^4.6.0",
-    "lodash.partial": "^4.2.1",
+    "glob": "^8.0.1",
+    "lodash": "^4.17.21",
     "recast": "^0.20.5",
     "ts-prune": "^0.10.3"
   },
   "devDependencies": {
-    "@types/lodash.groupby": "^4.6.7",
-    "@types/lodash.partial": "^4.2.7"
+    "@types/glob": "^7.2.0",
+    "@types/lodash": "^4.14.182"
   },
   "types": "./index.d.ts",
   "publishConfig": {

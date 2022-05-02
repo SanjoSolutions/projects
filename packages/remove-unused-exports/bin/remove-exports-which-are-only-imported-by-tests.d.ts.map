@@ -1,0 +1,1 @@
+{"version":3,"file":"remove-exports-which-are-only-imported-by-tests.d.ts","sourceRoot":"","sources":["../src/bin/remove-exports-which-are-only-imported-by-tests.ts"],"names":[],"mappings":""}

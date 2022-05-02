@@ -150,6 +150,9 @@
       "path": "./trade/tsconfig-build.json"
     },
     {
+      "path": "./traverse-directory"
+    },
+    {
       "path": "./webpack/tsconfig-build.json"
     },
     {
