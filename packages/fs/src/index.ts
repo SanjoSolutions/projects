@@ -1,1 +1,2 @@
-export { removeRecursively } from './removeRecursively.js'
+export { removeFile } from "./removeFile.js";
+export { removeRecursively } from "./removeRecursively.js";

@@ -1,20 +1,21 @@
-import { isClassDeclaration, isDeclareClass, isDeclareFunction, isDeclareInterface, isDeclareOpaqueType, isDeclareTypeAlias, isDeclareVariable, isEnumDeclaration, isExportNamedDeclaration, isFunctionDeclaration, isIdentifier, isInterfaceDeclaration, isOpaqueType, isTSDeclareFunction, isTSEnumDeclaration, isTSInterfaceDeclaration, isTSTypeAliasDeclaration, isTypeAlias, isVariableDeclaration, } from '@babel/types';
-import { readFile } from '@sanjo/read-file';
-import { writeFile } from '@sanjo/write-file';
-import groupBy from 'lodash.groupby';
-import { parse, print } from 'recast';
-import babelOptions from 'recast/parsers/_babel_options.js';
+import { isClassDeclaration, isDeclareClass, isDeclareFunction, isDeclareInterface, isDeclareOpaqueType, isDeclareTypeAlias, isDeclareVariable, isEnumDeclaration, isExportNamedDeclaration, isFunctionDeclaration, isIdentifier, isInterfaceDeclaration, isOpaqueType, isTSDeclareFunction, isTSEnumDeclaration, isTSInterfaceDeclaration, isTSTypeAliasDeclaration, isTypeAlias, isVariableDeclaration, } from "@babel/types";
+import { readFile } from "@sanjo/read-file";
+import { writeFile } from "@sanjo/write-file";
+import lodash from "lodash";
+import { parse, print } from "recast";
+import babelOptions from "recast/parsers/_babel_options.js";
+import { parser as baseParser } from "recast/parsers/babel.js";
+import { getConfig } from "ts-prune/lib/configurator.js";
+import { run } from "ts-prune/lib/runner.js";
+const { groupBy } = lodash;
 const { default: getBabelOptions } = babelOptions;
-import { getConfig } from 'ts-prune/lib/configurator.js';
-import { run } from 'ts-prune/lib/runner.js';
-import { parser as baseParser } from 'recast/parsers/babel.js';
 const parser = {
     parse(source, options) {
         const babelOptions = getBabelOptions(options);
-        babelOptions.plugins.push('typescript');
-        babelOptions.plugins.push('jsx');
+        babelOptions.plugins.push("typescript");
+        babelOptions.plugins.push("jsx");
         return baseParser.parse(source, babelOptions);
-    }
+    },
 };
 export async function removeExports() {
     const config = getConfig();
@@ -60,13 +61,15 @@ async function removeExportsFromOutput(output) {
                             isTSTypeAliasDeclaration(declaration) ||
                             isTSEnumDeclaration(declaration)) {
                             const identifier = declaration.id;
-                            if (identifier && isIdentifierWhichMatchesASymbolNameToRemove(identifier)) {
+                            if (identifier &&
+                                isIdentifierWhichMatchesASymbolNameToRemove(identifier)) {
                                 remove(ast.program.body, node);
                             }
                         }
                         else if (isVariableDeclaration(declaration)) {
                             for (const declaration2 of declaration.declarations) {
-                                if (isIdentifier(declaration2.id) && isIdentifierWhichMatchesASymbolNameToRemove(declaration2.id)) {
+                                if (isIdentifier(declaration2.id) &&
+                                    isIdentifierWhichMatchesASymbolNameToRemove(declaration2.id)) {
                                     remove(declaration.declarations, declaration2);
                                 }
                             }
@@ -80,7 +83,7 @@ async function removeExportsFromOutput(output) {
             await writeFile(filePath, print(ast).code);
         }
         catch (error) {
-            console.error('File path: ' + filePath);
+            console.error("File path: " + filePath);
             throw error;
         }
     }
@@ -99,7 +102,10 @@ function parseEntry(entry) {
     const match = regExp.exec(entry);
     if (match) {
         return {
-            filePath: match[1], line: parseInt(match[2], 10), symbolName: match[3], isUsedInModule: Boolean(match[4]),
+            filePath: match[1],
+            line: parseInt(match[2], 10),
+            symbolName: match[3],
+            isUsedInModule: Boolean(match[4]),
         };
     }
     else {
@@ -107,6 +113,6 @@ function parseEntry(entry) {
     }
 }
 function groupByFilePath(entries) {
-    return new Map(Object.entries(groupBy(entries, 'filePath')));
+    return new Map(Object.entries(groupBy(entries, "filePath")));
 }
 //# sourceMappingURL=index.js.map

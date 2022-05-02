@@ -1,0 +1,21 @@
+{
+  "name": "@sanjo/traverse-directory",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Recursive directory traversing",
+  "keywords": [
+    "recursive directory traversing"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/traverse-directory",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/traverse-directory"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

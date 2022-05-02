@@ -9,7 +9,13 @@
   "include": ["./src/**/*"],
   "references": [
     {
+      "path": "../fs"
+    },
+    {
       "path": "../read-file"
+    },
+    {
+      "path": "../set"
     },
     {
       "path": "../write-file"
