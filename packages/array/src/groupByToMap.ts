@@ -1,3 +1,5 @@
+import { ensureEntryInMap } from "@sanjo/ensure-entry-in-map";
+
 export function groupByToMap<T, GroupingType>(
   array: T[],
   predicate: (element: T) => GroupingType
@@ -11,14 +13,4 @@ export function groupByToMap<T, GroupingType>(
     group.push(element);
   }
   return groups;
-}
-
-function ensureEntryInMap<Key, Value>(
-  map: Map<Key, Value>,
-  key: Key,
-  createDefaultValue: () => Value
-): void {
-  if (!map.has(key)) {
-    map.set(key, createDefaultValue());
-  }
 }

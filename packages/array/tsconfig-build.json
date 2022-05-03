@@ -12,6 +12,9 @@
       "path": "../comparison"
     },
     {
+      "path": "../ensure-entry-in-map"
+    },
+    {
       "path": "../identity"
     }
   ]

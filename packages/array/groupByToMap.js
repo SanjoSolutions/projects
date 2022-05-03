@@ -1,3 +1,4 @@
+import { ensureEntryInMap } from "@sanjo/ensure-entry-in-map";
 export function groupByToMap(array, predicate) {
     const groups = new Map();
     const createDefaultValue = () => [];
@@ -8,10 +9,5 @@ export function groupByToMap(array, predicate) {
         group.push(element);
     }
     return groups;
-}
-function ensureEntryInMap(map, key, createDefaultValue) {
-    if (!map.has(key)) {
-        map.set(key, createDefaultValue());
-    }
 }
 //# sourceMappingURL=groupByToMap.js.map
