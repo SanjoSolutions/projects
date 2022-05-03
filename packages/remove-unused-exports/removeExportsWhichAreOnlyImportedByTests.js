@@ -1,8 +1,9 @@
 import traverse from "@babel/traverse";
 import { isArrayPattern, isArrowFunctionExpression, isBlockStatement, isCallExpression, isClassDeclaration, isExportAllDeclaration, isExportDeclaration, isExportDefaultDeclaration, isExportNamedDeclaration, isExportNamespaceSpecifier, isExportSpecifier, isExpressionStatement, isFunctionDeclaration, isFunctionExpression, isIdentifier, isImportDeclaration, isImportDefaultSpecifier, isImportNamespaceSpecifier, isImportSpecifier, isObjectPattern, isObjectProperty, isRestElement, isStringLiteral, isVariableDeclaration, } from "@babel/types";
+import { ensureEntryInMap } from "@sanjo/ensure-entry-in-map";
 import { removeFile } from "@sanjo/fs";
 import { readFile as readFileBase } from "@sanjo/read-file";
-import { isSubset, union } from "@sanjo/set";
+import { groupByToMap, isSubset, union } from "@sanjo/set";
 import { writeFile as writeFileBase } from "@sanjo/write-file";
 import globWithCallback from "glob";
 import lodash from "lodash";
@@ -615,27 +616,12 @@ function generateParsedFilesLookup(parsedFiles) {
     return new Map(parsedFiles.map((parsedFile) => [parsedFile.path, parsedFile]));
 }
 function groupExportsToRemoveByFile(exportsToRemove) {
-    return groupBy(exportsToRemove, retrieveFilePath);
+    return groupByToMap(new Set(exportsToRemove), retrieveFilePath);
 }
 function groupImportsToRemoveByFile(importsToRemove) {
-    return groupBy(importsToRemove, retrieveFilePath);
+    return groupByToMap(new Set(importsToRemove), retrieveFilePath);
 }
 function retrieveFilePath(thing) {
     return thing.filePath;
-}
-function groupBy(things, retrieveGroupedByThing) {
-    const groups = new Map();
-    for (const thing of things) {
-        const thingGroupedBy = retrieveGroupedByThing(thing);
-        ensureEntryInMap(groups, thingGroupedBy, () => new Set());
-        const group = groups.get(thingGroupedBy);
-        group.add(thing);
-    }
-    return groups;
-}
-function ensureEntryInMap(map, key, createDefaultValue) {
-    if (!map.has(key)) {
-        map.set(key, createDefaultValue());
-    }
 }
 //# sourceMappingURL=removeExportsWhichAreOnlyImportedByTests.js.map

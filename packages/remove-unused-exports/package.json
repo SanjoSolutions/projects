@@ -18,9 +18,10 @@
   "dependencies": {
     "@babel/traverse": "^7.17.10",
     "@babel/types": "^7.17.0",
+    "@sanjo/ensure-entry-in-map": "^1.0.0",
     "@sanjo/fs": "^1.1.0",
     "@sanjo/read-file": "^2.0.0",
-    "@sanjo/set": "^1.10.0",
+    "@sanjo/set": "^1.13.0",
     "@sanjo/write-file": "^1.0.0",
     "babylon": "^7.0.0-beta.47",
     "glob": "^8.0.1",

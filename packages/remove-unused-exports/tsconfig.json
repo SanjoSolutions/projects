@@ -9,6 +9,9 @@
   "include": ["./src/**/*"],
   "references": [
     {
+      "path": "../ensure-entry-in-map"
+    },
+    {
       "path": "../fs"
     },
     {

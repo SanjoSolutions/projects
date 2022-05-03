@@ -1823,6 +1823,7 @@ __metadata:
   resolution: "@sanjo/array@workspace:packages/array"
   dependencies:
     "@sanjo/comparison": ^1.0.0
+    "@sanjo/ensure-entry-in-map": ^1.0.0
     "@sanjo/identity": ^2.0.4
   languageName: unknown
   linkType: soft
@@ -1980,7 +1981,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/ensure-entry-in-map@workspace:packages/ensure-entry-in-map":
+"@sanjo/ensure-entry-in-map@^1.0.0, @sanjo/ensure-entry-in-map@workspace:packages/ensure-entry-in-map":
   version: 0.0.0-use.local
   resolution: "@sanjo/ensure-entry-in-map@workspace:packages/ensure-entry-in-map"
   languageName: unknown
@@ -2180,6 +2181,7 @@ __metadata:
   dependencies:
     "@babel/traverse": ^7.17.10
     "@babel/types": ^7.17.0
+    "@sanjo/ensure-entry-in-map": ^1.0.0
     "@sanjo/fs": ^1.1.0
     "@sanjo/read-file": ^2.0.0
     "@sanjo/set": ^1.13.0

@@ -46,9 +46,10 @@ import {
   isStringLiteral,
   isVariableDeclaration,
 } from "@babel/types";
+import { ensureEntryInMap } from "@sanjo/ensure-entry-in-map";
 import { removeFile } from "@sanjo/fs";
 import { readFile as readFileBase } from "@sanjo/read-file";
-import { isSubset, union } from "@sanjo/set";
+import { groupByToMap, isSubset, union } from "@sanjo/set";
 import { writeFile as writeFileBase } from "@sanjo/write-file";
 import globWithCallback from "glob";
 import lodash from "lodash";
@@ -1031,39 +1032,15 @@ function generateParsedFilesLookup(
 function groupExportsToRemoveByFile(
   exportsToRemove: Export[]
 ): Map<FilePath, Set<Export>> {
-  return groupBy(exportsToRemove, retrieveFilePath);
+  return groupByToMap(new Set(exportsToRemove), retrieveFilePath);
 }
 
 function groupImportsToRemoveByFile(
   importsToRemove: ImportWithWhatSymbolIsImported[]
 ): Map<FilePath, Set<ImportWithWhatSymbolIsImported>> {
-  return groupBy(importsToRemove, retrieveFilePath);
+  return groupByToMap(new Set(importsToRemove), retrieveFilePath);
 }
 
 function retrieveFilePath(thing: { filePath: string }): string {
   return thing.filePath;
-}
-
-function groupBy<Thing, ThingGroupedBy>(
-  things: Iterable<Thing>,
-  retrieveGroupedByThing: (thing: Thing) => ThingGroupedBy
-): Map<ThingGroupedBy, Set<Thing>> {
-  const groups = new Map<ThingGroupedBy, Set<Thing>>();
-  for (const thing of things) {
-    const thingGroupedBy = retrieveGroupedByThing(thing);
-    ensureEntryInMap(groups, thingGroupedBy, () => new Set<Thing>());
-    const group = groups.get(thingGroupedBy)!;
-    group.add(thing);
-  }
-  return groups;
-}
-
-function ensureEntryInMap<Key, Value>(
-  map: Map<Key, Value>,
-  key: Key,
-  createDefaultValue: () => Value
-): void {
-  if (!map.has(key)) {
-    map.set(key, createDefaultValue());
-  }
 }
