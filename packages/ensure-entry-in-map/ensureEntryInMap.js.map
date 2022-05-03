@@ -1,0 +1,1 @@
+{"version":3,"file":"ensureEntryInMap.js","sourceRoot":"","sources":["src/ensureEntryInMap.ts"],"names":[],"mappings":"AAAA,MAAM,UAAU,gBAAgB,CAC9B,GAAoB,EACpB,GAAQ,EACR,kBAA+B;IAE/B,IAAI,CAAC,GAAG,CAAC,GAAG,CAAC,GAAG,CAAC,EAAE;QACjB,GAAG,CAAC,GAAG,CAAC,GAAG,EAAE,kBAAkB,EAAE,CAAC,CAAC;KACpC;AACH,CAAC"}

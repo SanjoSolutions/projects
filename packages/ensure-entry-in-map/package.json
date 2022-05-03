@@ -1,0 +1,21 @@
+{
+  "name": "@sanjo/ensure-entry-in-map",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A function for ensuring an entry in a map",
+  "keywords": [
+    "ensure entry in map"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/ensure-entry-in-map",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/ensure-entry-in-map"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

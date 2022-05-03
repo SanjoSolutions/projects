@@ -54,6 +54,9 @@
       "path": "./diff/tsconfig-build.json"
     },
     {
+      "path": "./ensure-entry-in-map"
+    },
+    {
       "path": "./escape-for-reg-exp/tsconfig-build.json"
     },
     {
