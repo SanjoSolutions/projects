@@ -3,9 +3,10 @@ export function groupByToMap<T, GroupingType>(
   predicate: (element: T) => GroupingType
 ): Map<GroupingType, Set<T>> {
   const groups = new Map<GroupingType, Set<T>>();
+  const createDefaultValue = () => new Set<T>();
   for (const element of set) {
     const groupValue = predicate(element);
-    ensureEntryInMap(groups, groupValue, () => new Set<T>());
+    ensureEntryInMap(groups, groupValue, createDefaultValue);
     const group = groups.get(groupValue)!;
     group.add(element);
   }
