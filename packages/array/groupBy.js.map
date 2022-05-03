@@ -1,0 +1,1 @@
+{"version":3,"file":"groupBy.js","sourceRoot":"","sources":["src/groupBy.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,mBAAmB,CAAC;AAEjD,MAAM,UAAU,OAAO,CACrB,KAAU,EACV,SAAuC;IAEvC,OAAO,MAAM,CAAC,WAAW,CAAC,YAAY,CAAC,KAAK,EAAE,SAAS,CAAC,CAAC,OAAO,EAAE,CAAC,CAAC;AACtE,CAAC"}
