@@ -2218,6 +2218,7 @@ __metadata:
   dependencies:
     "@sanjo/array": ^1.0.4
     "@sanjo/cache": ^2.0.0
+    "@sanjo/ensure-entry-in-map": ^1.0.0
   languageName: unknown
   linkType: soft
 

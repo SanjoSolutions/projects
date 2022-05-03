@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/set",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "type": "module",
   "description": "Set",
   "keywords": [
@@ -19,7 +19,8 @@
   },
   "dependencies": {
     "@sanjo/array": "^1.0.4",
-    "@sanjo/cache": "^2.0.0"
+    "@sanjo/cache": "^2.0.0",
+    "@sanjo/ensure-entry-in-map": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

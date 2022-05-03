@@ -12,6 +12,9 @@
       "path": "../array"
     },
     {
+      "path": "../ensure-entry-in-map"
+    },
+    {
       "path": "../cache"
     }
   ]
