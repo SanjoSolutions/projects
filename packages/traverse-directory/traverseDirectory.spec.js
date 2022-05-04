@@ -59,7 +59,7 @@ describe("traverseDirectory", () => {
             }
             return Promise.resolve(directoryEntries);
         });
-        const processFile = jest.fn().mockResolvedValue();
+        const processFile = jest.fn().mockReturnValue();
         const directoryPath = "test";
         await traverseDirectory(directoryPath, processFile);
         expect(processFile).toHaveBeenCalledTimes(3);
