@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Computer interface with language input</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      form {
+        width: 38rem;
+      }
+
+      textarea {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <div style="margin-bottom: 0.5rem">
+        <textarea rows="10" autofocus></textarea>
+      </div>
+      <div style="text-align: right">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+
+    <script>
+      const form = document.querySelector("form");
+      const textarea = document.querySelector("textarea");
+
+      form.addEventListener("submit", function onSubmit(event) {
+        event.preventDefault();
+
+        eval(textarea.value);
+      });
+    </script>
+  </body>
+</html>
