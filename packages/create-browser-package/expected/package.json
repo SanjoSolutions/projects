@@ -1,5 +1,5 @@
 {
-  "name": "@sanjo/test-package",
+  "name": "@sanjo/test-package-for-create-browser-package",
   "version": "0.0.0",
   "type": "module",
   "description": "Description of test package",
