@@ -4,13 +4,13 @@
   "type": "module",
   "description": "Description of test package",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-package",
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-package-for-create-browser-package",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/unnamed.git",
-    "directory": "packages/test-package"
+    "directory": "packages/test-package-for-create-browser-package"
   },
   "scripts": {
     "build": "webpack --config webpack.prod.js",
