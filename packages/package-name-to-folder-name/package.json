@@ -1,0 +1,21 @@
+{
+  "name": "@sanjo/package-name-to-folder-name",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Conversion of a package name to a folder name",
+  "keywords": [
+    "package name to folder name"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/package-name-to-folder-name",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/package-name-to-folder-name"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
