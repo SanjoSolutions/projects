@@ -53,7 +53,7 @@ import { groupByToMap, isSubset, union } from "@sanjo/set";
 import { writeFile as writeFileBase } from "@sanjo/write-file";
 import globWithCallback from "glob";
 import lodash from "lodash";
-import path from "path/posix";
+import path from "path";
 import { parse, print } from "recast";
 import type { Overrides } from "recast/parsers/_babel_options.js";
 import babelOptions from "recast/parsers/_babel_options.js";
@@ -129,8 +129,8 @@ export interface File {
 }
 
 export enum OutputFileType {
-  Delete,
-  Write,
+  Delete = "delete",
+  Write = "write",
 }
 
 export type OutputFile = FileToDelete | FileToWrite;
@@ -556,7 +556,6 @@ function isImportingDefaultExport(anExport: Export, anImport: Import): boolean {
 }
 
 function isImportingNamedExport(anExport: Export, anImport: Import): boolean {
-  convertToAbsolutePath(anImport.filePath, anImport.statement.source.value);
   return (
     anImport.statement.specifiers.some(
       (specifier) =>
@@ -791,7 +790,9 @@ function removeThingsInFile(job: ThingsToRemoveInFileJob): OutputFile {
 
   updateImportAndExportStatements(ast, thingsToRemove);
 
-  const content = print(ast).code;
+  const content = print(ast, {
+    lineTerminator: "\n",
+  }).code;
   let file: OutputFile;
   if (content.trim() === "") {
     file = {
