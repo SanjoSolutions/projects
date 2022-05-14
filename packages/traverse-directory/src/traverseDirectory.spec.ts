@@ -13,7 +13,6 @@ describe("traverseDirectory", () => {
     jest.spyOn(path, "resolve").mockReturnValue(basePath);
     jest.spyOn(fs, "readdir").mockImplementation((directoryPath: PathLike) => {
       let directoryEntries: Dirent[];
-      console.log(directoryPath);
       if (directoryPath === basePath) {
         directoryEntries = [
           {

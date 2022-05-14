@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@sanjo/diff-folders": "^1.0.0",
-    "@sanjo/npm-init": "^0.1.0"
+    "@sanjo/npm-init": "^0.1.0",
+    "@sanjo/package-package-name-to-folder-name": "^1.0.0"
   },
   "publishConfig": {
     "access": "public"

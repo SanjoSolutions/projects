@@ -7,7 +7,7 @@ import { groupByToMap, isSubset, union } from "@sanjo/set";
 import { writeFile as writeFileBase } from "@sanjo/write-file";
 import globWithCallback from "glob";
 import lodash from "lodash";
-import path from "path/posix";
+import path from "path";
 import { parse, print } from "recast";
 import babelOptions from "recast/parsers/_babel_options.js";
 import { parser as baseParser } from "recast/parsers/babel.js";
@@ -64,8 +64,8 @@ function isFileToWrite(file) {
 }
 export var OutputFileType;
 (function (OutputFileType) {
-    OutputFileType[OutputFileType["Delete"] = 0] = "Delete";
-    OutputFileType[OutputFileType["Write"] = 1] = "Write";
+    OutputFileType["Delete"] = "delete";
+    OutputFileType["Write"] = "write";
 })(OutputFileType || (OutputFileType = {}));
 export function removeExportsWhichAreOnlyImportedByTests2(files) {
     const parsedFiles = parseFiles(files);
@@ -319,7 +319,6 @@ function isImportingDefaultExport(anExport, anImport) {
         convertToAbsolutePath(anImport.filePath, anImport.statement.source.value) === anExport.filePath);
 }
 function isImportingNamedExport(anExport, anImport) {
-    convertToAbsolutePath(anImport.filePath, anImport.statement.source.value);
     return (anImport.statement.specifiers.some((specifier) => isImportSpecifier(specifier) &&
         isExportingName(anExport.statement, retrieveName(specifier.imported))) &&
         convertToAbsolutePath(anImport.filePath, anImport.statement.source.value) === anExport.filePath);
@@ -456,7 +455,9 @@ function removeThingsInFile(job) {
         },
     });
     updateImportAndExportStatements(ast, thingsToRemove);
-    const content = print(ast).code;
+    const content = print(ast, {
+        lineTerminator: "\n",
+    }).code;
     let file;
     if (content.trim() === "") {
         file = {

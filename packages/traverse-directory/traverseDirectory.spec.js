@@ -1,13 +1,16 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { promises as fs } from "fs";
 import path from "path";
+import process from "process";
 import { traverseDirectory } from "./traverseDirectory.js";
 describe("traverseDirectory", () => {
     it("traverses a directory recursively", async () => {
-        jest.spyOn(path, "resolve").mockReturnValue("/test");
+        const directoryPath = "test";
+        const basePath = (process.platform === "win32" ? "C:\\" : "/") + directoryPath;
+        jest.spyOn(path, "resolve").mockReturnValue(basePath);
         jest.spyOn(fs, "readdir").mockImplementation((directoryPath) => {
             let directoryEntries;
-            if (directoryPath === "/test") {
+            if (directoryPath === basePath) {
                 directoryEntries = [
                     {
                         name: "1.js",
@@ -41,7 +44,7 @@ describe("traverseDirectory", () => {
                     },
                 ];
             }
-            else if (directoryPath === "/test/folder1") {
+            else if (directoryPath === path.join(basePath, "folder1")) {
                 directoryEntries = [
                     {
                         name: "3.js",
@@ -60,12 +63,11 @@ describe("traverseDirectory", () => {
             return Promise.resolve(directoryEntries);
         });
         const processFile = jest.fn().mockReturnValue();
-        const directoryPath = "test";
         await traverseDirectory(directoryPath, processFile);
         expect(processFile).toHaveBeenCalledTimes(3);
-        expect(processFile).toHaveBeenNthCalledWith(1, "/test/1.js");
-        expect(processFile).toHaveBeenNthCalledWith(2, "/test/2.js");
-        expect(processFile).toHaveBeenNthCalledWith(3, "/test/folder1/3.js");
+        expect(processFile).toHaveBeenNthCalledWith(1, path.join(basePath, "1.js"));
+        expect(processFile).toHaveBeenNthCalledWith(2, path.join(basePath, "2.js"));
+        expect(processFile).toHaveBeenNthCalledWith(3, path.join(basePath, "folder1", "3.js"));
     });
 });
 //# sourceMappingURL=traverseDirectory.spec.js.map

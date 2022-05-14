@@ -24,6 +24,9 @@
       "path": "../make-temporary-directory"
     },
     {
+      "path": "../package-name-to-folder-name"
+    },
+    {
       "path": "../read-file"
     },
     {

@@ -2119,6 +2119,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/package-name-to-folder-name@workspace:packages/package-name-to-folder-name":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/package-name-to-folder-name@workspace:packages/package-name-to-folder-name"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/parse-npm-package-name@^1.0.0, @sanjo/parse-npm-package-name@workspace:packages/parse-npm-package-name":
   version: 0.0.0-use.local
   resolution: "@sanjo/parse-npm-package-name@workspace:packages/parse-npm-package-name"

@@ -6,8 +6,8 @@ export interface File {
     content: string;
 }
 export declare enum OutputFileType {
-    Delete = 0,
-    Write = 1
+    Delete = "delete",
+    Write = "write"
 }
 export declare type OutputFile = FileToDelete | FileToWrite;
 interface BaseOutputFile {

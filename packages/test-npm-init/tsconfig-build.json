@@ -13,6 +13,9 @@
     },
     {
       "path": "../npm-init"
+    },
+    {
+      "path": "../package-name-to-folder-name"
     }
   ]
 }

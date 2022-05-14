@@ -102,6 +102,9 @@
       "path": "./npm-init/tsconfig-build.json"
     },
     {
+      "path": "./package-name-to-folder-name"
+    },
+    {
       "path": "./parse-npm-package-name/tsconfig-build.json"
     },
     {

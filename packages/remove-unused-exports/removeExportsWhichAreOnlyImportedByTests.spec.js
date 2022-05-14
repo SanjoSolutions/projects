@@ -120,16 +120,34 @@ describe("isSpecifierExportingName", () => {
     });
 });
 describe("convertToAbsolutePath", () => {
-    it("converts a relative file path to an absolute path", () => {
-        const filePath = "/home/test/file.js";
-        const relativeImportPath = "./file2.js";
-        expect(convertToAbsolutePath(filePath, relativeImportPath)).toEqual("/home/test/file2.js");
-    });
-    it("keeps an absolute path an absolute path", () => {
-        const filePath = "/home/test/file.js";
-        const absolutePath = "/home/test2/file2.js";
-        expect(convertToAbsolutePath(filePath, absolutePath)).toEqual(absolutePath);
-    });
+    if (process.platform === "win32") {
+        describe("on Windows", () => {
+            it("converts a relative path to an absolute path", () => {
+                const filePath = "C:\\Users\\test\\test.spec.js";
+                const relativeImportPath = "./test.js";
+                expect(convertToAbsolutePath(filePath, relativeImportPath)).toEqual("C:\\Users\\test\\test.js");
+            });
+            it("keeps an absolute path an absolute path", () => {
+                const filePath = "C:\\Users\\test\\test.spec.js";
+                const absolutePath = "C:\\Users\\test\\test.js";
+                expect(convertToAbsolutePath(filePath, absolutePath)).toEqual(absolutePath);
+            });
+        });
+    }
+    else {
+        describe("on other platforms than Windows", () => {
+            it("converts a relative file path to an absolute path", () => {
+                const filePath = "/home/test/file.js";
+                const relativeImportPath = "./file2.js";
+                expect(convertToAbsolutePath(filePath, relativeImportPath)).toEqual("/home/test/file2.js");
+            });
+            it("keeps an absolute path an absolute path", () => {
+                const filePath = "/home/test/file.js";
+                const absolutePath = "/home/test2/file2.js";
+                expect(convertToAbsolutePath(filePath, absolutePath)).toEqual(absolutePath);
+            });
+        });
+    }
 });
 describe("seemsToBeEmptyDescribeBlockForSymbol", () => {
     test("", () => {
