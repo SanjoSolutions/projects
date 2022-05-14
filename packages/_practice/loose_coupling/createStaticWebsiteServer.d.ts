@@ -1,4 +1,4 @@
-import { HTTPServer } from './HTTPServer.js';
+import { HTTPServer } from "./HTTPServer.js";
 export declare class StaticHTTPServer extends HTTPServer {
     private _fileWatcher;
     constructor(directoryToServeFrom: string, port: number);
