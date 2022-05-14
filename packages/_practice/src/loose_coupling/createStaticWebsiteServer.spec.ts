@@ -67,6 +67,8 @@ describe("createStaticWebsiteServer", () => {
   });
 
   it("serves the up-to-date version of the content in the file", async () => {
+    // FIXME: This test seems to be flaky.
+
     const onChangeSpy = mockChokidarOnChange();
 
     server = await createStaticWebsiteServer(directoryToServeFrom, port);
