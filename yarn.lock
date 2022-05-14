@@ -2007,6 +2007,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/feature-flags@workspace:packages/feature-flags":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/feature-flags@workspace:packages/feature-flags"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/fs@^1.0.0, @sanjo/fs@^1.1.0, @sanjo/fs@workspace:packages/fs":
   version: 0.0.0-use.local
   resolution: "@sanjo/fs@workspace:packages/fs"
@@ -7147,6 +7153,7 @@ __metadata:
   dependencies:
     "@sanjo/jasmine-expect": ^1.0.1
     "@types/cucumber": ^6.0.0
+    chokidar: ^3.5.3
     cucumber: ^5.1.0
     react: ^16.13.1
     react-dom: ^16.13.1

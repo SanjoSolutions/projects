@@ -66,6 +66,9 @@
       "path": "./exec/tsconfig-build.json"
     },
     {
+      "path": "./feature-flags"
+    },
+    {
       "path": "./forum-eu-automation/tsconfig-build.json"
     },
     {

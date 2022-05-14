@@ -1,0 +1,21 @@
+{
+  "name": "@sanjo/feature-flags",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Feature flags",
+  "keywords": [
+    "feature flags"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/feature-flags",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/feature-flags"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}
