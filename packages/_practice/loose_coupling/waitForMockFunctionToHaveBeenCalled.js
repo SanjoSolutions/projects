@@ -1,6 +1,6 @@
-import { waitFor } from './waitFor.js';
+import { waitFor } from "./waitFor.js";
 export async function waitForMockFunctionToHaveBeenCalled(mockFn) {
-    const condition = async () => {
+    const condition = () => {
         return mockFn.mock.calls.length >= 1;
     };
     await waitFor(condition);
