@@ -1923,6 +1923,7 @@ __metadata:
     "@sanjo/exec": ^1.0.0
     "@sanjo/fs": ^1.0.0
     "@sanjo/make-temporary-directory": ^1.0.0
+    "@sanjo/package-name-to-folder-name": ^1.0.0
     "@sanjo/read-file": ^2.0.0
     "@sanjo/test-create-package": ^0.2.0
     "@sanjo/write-file": ^1.0.0
@@ -2119,7 +2120,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/package-name-to-folder-name@workspace:packages/package-name-to-folder-name":
+"@sanjo/package-name-to-folder-name@^1.0.0, @sanjo/package-name-to-folder-name@workspace:packages/package-name-to-folder-name":
   version: 0.0.0-use.local
   resolution: "@sanjo/package-name-to-folder-name@workspace:packages/package-name-to-folder-name"
   languageName: unknown
@@ -2280,6 +2281,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/webpack@^2.1.0, @sanjo/webpack@workspace:packages/webpack":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/webpack@workspace:packages/webpack"
+  dependencies:
+    "@sanjo/escape-for-reg-exp": ^1.0.0
+    babel-loader: ^8.2.3
+    css-loader: ^6.5.1
+    resolve-typescript-plugin: ^1.1.4
+    style-loader: ^3.3.1
+    ts-loader: ^9.2.6
+    webpack: ^5.67.0
+    webpack-cli: ^4.9.1
+    webpack-dev-server: ^4.7.3
+    webpack-merge: ^5.8.0
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/webpack@npm:^1.1.0":
   version: 1.2.2
   resolution: "@sanjo/webpack@npm:1.2.2"
@@ -2296,23 +2314,6 @@ __metadata:
   checksum: 548783e02e6dba1d05afe9374d7be1b75613d298987a050e53ad2e899b9278da8290119e55324db8d6c517b6e60c56db9fa827780a9470716a9032c821285fc0
   languageName: node
   linkType: hard
-
-"@sanjo/webpack@workspace:packages/webpack":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/webpack@workspace:packages/webpack"
-  dependencies:
-    "@sanjo/escape-for-reg-exp": ^1.0.0
-    babel-loader: ^8.2.3
-    css-loader: ^6.5.1
-    resolve-typescript-plugin: ^1.1.4
-    style-loader: ^3.3.1
-    ts-loader: ^9.2.6
-    webpack: ^5.67.0
-    webpack-cli: ^4.9.1
-    webpack-dev-server: ^4.7.3
-    webpack-merge: ^5.8.0
-  languageName: unknown
-  linkType: soft
 
 "@sanjo/write-file@^1.0.0, @sanjo/write-file@workspace:packages/write-file":
   version: 0.0.0-use.local
@@ -2745,7 +2746,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/serve-static@npm:*":
+"@types/serve-static@npm:*, @types/serve-static@npm:^1.13.10":
   version: 1.13.10
   resolution: "@types/serve-static@npm:1.13.10"
   dependencies:
@@ -2993,7 +2994,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@webpack-cli/serve@npm:^1.6.1":
+"@webpack-cli/serve@npm:^1.6.0, @webpack-cli/serve@npm:^1.6.1":
   version: 1.6.1
   resolution: "@webpack-cli/serve@npm:1.6.1"
   peerDependencies:
@@ -4765,7 +4766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.0.0, enhanced-resolve@npm:^5.9.2":
+"enhanced-resolve@npm:^5.0.0, enhanced-resolve@npm:^5.9.2, enhanced-resolve@npm:^5.9.3":
   version: 5.9.3
   resolution: "enhanced-resolve@npm:5.9.3"
   dependencies:
@@ -5391,6 +5392,19 @@ __metadata:
   checksum: b32fbaebb3f8ec4969f033073b43f5c8befbb58f1a79e12f1d7490358150359ebd92f49e72ff0144f65f2c48ea2a605bff2d07965f548f6474fd8efd95bf361a
   languageName: node
   linkType: hard
+
+"game_engine-9d77e4@workspace:packages/game_engine":
+  version: 0.0.0-use.local
+  resolution: "game_engine-9d77e4@workspace:packages/game_engine"
+  dependencies:
+    "@sanjo/canvas": ^0.1.0
+    "@sanjo/webpack": ^2.1.0
+    "@webpack-cli/serve": ^1.6.0
+    webpack: ^5.65.0
+    webpack-cli: ^4.9.1
+    webpack-dev-server: ^4.7.2
+  languageName: unknown
+  linkType: soft
 
 "gauge@npm:^4.0.3":
   version: 4.0.4
@@ -6929,7 +6943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-parse-even-better-errors@npm:^2.3.0":
+"json-parse-even-better-errors@npm:^2.3.0, json-parse-even-better-errors@npm:^2.3.1":
   version: 2.3.1
   resolution: "json-parse-even-better-errors@npm:2.3.1"
   checksum: 798ed4cf3354a2d9ccd78e86d2169515a0097a5c133337807cdf7f1fc32e1391d207ccfc276518cc1d7d8d4db93288b8a50ba4293d212ad1336e52a8ec0a941f
@@ -9015,7 +9029,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sockjs@npm:^0.3.21":
+"sockjs@npm:^0.3.21, sockjs@npm:^0.3.24":
   version: 0.3.24
   resolution: "sockjs@npm:0.3.24"
   dependencies:
@@ -10120,6 +10134,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"webpack-dev-server@npm:^4.7.2":
+  version: 4.9.2
+  resolution: "webpack-dev-server@npm:4.9.2"
+  dependencies:
+    "@types/bonjour": ^3.5.9
+    "@types/connect-history-api-fallback": ^1.3.5
+    "@types/express": ^4.17.13
+    "@types/serve-index": ^1.9.1
+    "@types/serve-static": ^1.13.10
+    "@types/sockjs": ^0.3.33
+    "@types/ws": ^8.5.1
+    ansi-html-community: ^0.0.8
+    bonjour-service: ^1.0.11
+    chokidar: ^3.5.3
+    colorette: ^2.0.10
+    compression: ^1.7.4
+    connect-history-api-fallback: ^1.6.0
+    default-gateway: ^6.0.3
+    express: ^4.17.3
+    graceful-fs: ^4.2.6
+    html-entities: ^2.3.2
+    http-proxy-middleware: ^2.0.3
+    ipaddr.js: ^2.0.1
+    open: ^8.0.9
+    p-retry: ^4.5.0
+    rimraf: ^3.0.2
+    schema-utils: ^4.0.0
+    selfsigned: ^2.0.1
+    serve-index: ^1.9.1
+    sockjs: ^0.3.24
+    spdy: ^4.0.2
+    webpack-dev-middleware: ^5.3.1
+    ws: ^8.4.2
+  peerDependencies:
+    webpack: ^4.37.0 || ^5.0.0
+  peerDependenciesMeta:
+    webpack-cli:
+      optional: true
+  bin:
+    webpack-dev-server: bin/webpack-dev-server.js
+  checksum: 201e28445f59df55a31728885defe5bf5ae7880fa1dd563f370131794f8c02fd63fcd51bbca67a34f0df232e83b5f883d452d2b0ed1954eb257d574c0c76b46d
+  languageName: node
+  linkType: hard
+
 "webpack-dev-server@npm:^4.7.3":
   version: 4.8.1
   resolution: "webpack-dev-server@npm:4.8.1"
@@ -10178,6 +10236,43 @@ __metadata:
   version: 3.2.3
   resolution: "webpack-sources@npm:3.2.3"
   checksum: 989e401b9fe3536529e2a99dac8c1bdc50e3a0a2c8669cbafad31271eadd994bc9405f88a3039cd2e29db5e6d9d0926ceb7a1a4e7409ece021fe79c37d9c4607
+  languageName: node
+  linkType: hard
+
+"webpack@npm:^5.65.0":
+  version: 5.73.0
+  resolution: "webpack@npm:5.73.0"
+  dependencies:
+    "@types/eslint-scope": ^3.7.3
+    "@types/estree": ^0.0.51
+    "@webassemblyjs/ast": 1.11.1
+    "@webassemblyjs/wasm-edit": 1.11.1
+    "@webassemblyjs/wasm-parser": 1.11.1
+    acorn: ^8.4.1
+    acorn-import-assertions: ^1.7.6
+    browserslist: ^4.14.5
+    chrome-trace-event: ^1.0.2
+    enhanced-resolve: ^5.9.3
+    es-module-lexer: ^0.9.0
+    eslint-scope: 5.1.1
+    events: ^3.2.0
+    glob-to-regexp: ^0.4.1
+    graceful-fs: ^4.2.9
+    json-parse-even-better-errors: ^2.3.1
+    loader-runner: ^4.2.0
+    mime-types: ^2.1.27
+    neo-async: ^2.6.2
+    schema-utils: ^3.1.0
+    tapable: ^2.1.1
+    terser-webpack-plugin: ^5.1.3
+    watchpack: ^2.3.1
+    webpack-sources: ^3.2.3
+  peerDependenciesMeta:
+    webpack-cli:
+      optional: true
+  bin:
+    webpack: bin/webpack.js
+  checksum: aa434a241bad6176b68e1bf0feb1972da4dcbf27cb3d94ae24f6eb31acc37dceb9c4aae55e068edca75817bfe91f13cd20b023ac55d9b1b2f8b66a4037c9468f
   languageName: node
   linkType: hard
 

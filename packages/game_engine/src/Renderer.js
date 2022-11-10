@@ -1,5 +1,6 @@
-import { createFullDocumentCanvas } from "../../createFullDocumentCanvas/createFullDocumentCanvas.js";
-import { loadImage } from "../../loadImage.js";
+import { createFullDocumentCanvas } from "@sanjo/canvas";
+import { loadImage } from "../../../loadImage.js";
+import { Origin } from "./Origin.js";
 
 export class Renderer {
   constructor(root, map) {
@@ -77,13 +78,31 @@ export class Renderer {
   async _renderGameObject(object) {
     if (this._isGameObjectInMap(object)) {
       const image = await this._loadImage(object.sprite.path);
+      const originOffset = this._determineOriginOffset(object.origin, image);
       this.context.drawImage(
         image,
-        object.boundingBox.x,
-        object.boundingBox.y,
-        object.boundingBox.width,
-        object.boundingBox.height
+        object.x * this.map.tileWidth - originOffset.x,
+        object.y * this.map.tileHeight - originOffset.y
       );
+    }
+  }
+
+  /**
+   * @param {Origin} origin
+   * @param {HTMLImageElement} image
+   */
+  _determineOriginOffset(origin, image) {
+    switch (origin) {
+      case Origin.TopLeft:
+        return {
+          x: 0,
+          y: 0,
+        };
+      case Origin.BottomCenter:
+        return {
+          x: 0.5 * image.naturalWidth,
+          y: image.naturalHeight,
+        };
     }
   }
 

@@ -9,7 +9,7 @@ import {
 import { removeRecursively } from "@sanjo/fs";
 import makeTemporaryDirectory from "@sanjo/make-temporary-directory";
 import { generateRandomInteger } from "@sanjo/random";
-import request from "@sanjo/request";
+import { request } from "@sanjo/request";
 import type { ChildProcess } from "child_process";
 import chokidar from "chokidar";
 import fs from "fs";
@@ -60,8 +60,10 @@ describe("createStaticWebsiteServer", () => {
     const response = await request(`http://localhost:${port}/`);
 
     expect(response).toMatchObject({
-      status: 200,
-      contentType: "text/html",
+      statusCode: 200,
+      headers: expect.objectContaining({
+        "content-type": "text/html",
+      }),
       body: expect.stringContaining("Welcome"),
     });
   });
@@ -76,8 +78,10 @@ describe("createStaticWebsiteServer", () => {
     const response = await request(`http://localhost:${port}/`);
 
     expect(response).toMatchObject({
-      status: 200,
-      contentType: "text/html",
+      statusCode: 200,
+      headers: expect.objectContaining({
+        "content-type": "text/html",
+      }),
       body: "Welcome",
     });
 
@@ -93,8 +97,10 @@ describe("createStaticWebsiteServer", () => {
     const response2 = await request(`http://localhost:${port}/`);
 
     expect(response2).toMatchObject({
-      status: 200,
-      contentType: "text/html",
+      statusCode: 200,
+      headers: expect.objectContaining({
+        "content-type": "text/html",
+      }),
       body: "Welcome world!",
     });
   }, 30000);

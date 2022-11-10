@@ -1,25 +1,21 @@
-import http from 'http';
-import https from 'https';
-import { URL } from 'url';
+import http from "http";
+import https from "https";
+import { URL } from "url";
 export function request(url, options = {}, data) {
     return new Promise((resolve, reject) => {
         const request = getRequestFunction(url)(url, options, response => {
-            let body = '';
-            response.setEncoding('utf-8');
-            response.on('data', chunk => {
+            let body = "";
+            response.setEncoding("utf-8");
+            response.on("data", chunk => {
                 body += chunk;
             });
-            response.once('end', () => {
-                const customResponse = {
-                    status: response.statusCode,
-                    contentType: response.headers['content-type'],
-                    body,
-                };
-                resolve(customResponse);
+            response.once("end", () => {
+                response.body = body;
+                resolve(response);
             });
         });
-        request.once('error', reject);
-        if (typeof data === 'undefined') {
+        request.once("error", reject);
+        if (typeof data === "undefined") {
             request.end();
         }
         else {
@@ -32,10 +28,10 @@ function getRequestFunction(url) {
     const protocol = url_.protocol;
     let requestFunction;
     switch (protocol) {
-        case 'http:':
+        case "http:":
             requestFunction = http.request;
             break;
-        case 'https:':
+        case "https:":
             requestFunction = https.request;
             break;
         default:

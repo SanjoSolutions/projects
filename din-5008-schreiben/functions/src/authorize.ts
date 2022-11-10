@@ -7,9 +7,7 @@ async function main() {
   const auth = await authenticate();
   const credentials = auth.credentials;
 
-  const serviceAccount = await readJSON(
-    "din-5008-schreiben-firebase-adminsdk-bctqd-ebe4a9ee76.json"
-  );
+  const serviceAccount = await readJSON("din-5008-schreiben-5b8d87b0b839.json");
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://din-5008-schreiben.firebaseio.com",

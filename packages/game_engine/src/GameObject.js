@@ -1,6 +1,10 @@
+import { Origin } from "./Origin.js";
+
 export class GameObject {
   constructor(boundingBox, sprite) {
-    this.origin = { x: 0, y: 0 };
+    this.x = 0;
+    this.y = 0;
+    this.origin = Origin.TopLeft;
     this.boundingBox = boundingBox;
     this.sprite = sprite;
   }

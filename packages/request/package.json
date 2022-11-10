@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/request",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "module",
   "description": "Wrapper for `http.request` and `https.request` (Node.js APIs) with Promise API.",
   "keywords": [],

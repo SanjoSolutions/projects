@@ -11,6 +11,8 @@ export class Game {
     this.character = new Character(this.map);
     this.map.addObject(this.character);
     this.house = new House();
+    this.house.x = this.map.width / 2;
+    this.house.y = this.map.height / 2 + 1;
     this.map.addObject(this.house);
     this.renderer = new Renderer(root, this.map);
     this.mouse = new Mouse();
@@ -33,6 +35,7 @@ export class Game {
   _onFrame() {
     if (this._isRunning) {
       this.character.moveForOneFrame();
+      this._checkForTeleportations();
       this.renderer.render();
 
       window.requestAnimationFrame(this._onFrame);
@@ -40,15 +43,44 @@ export class Game {
   }
 
   _onPrimaryClick(event) {
-    this._moveCharacter({ x: event.pageX, y: event.pageY });
+    this._moveCharacter({
+      x: event.pageX / this.map.tileWidth,
+      y: event.pageY / this.map.tileHeight,
+    });
   }
 
   _moveCharacter({ x, y }) {
-    const waypoint = {
-      x: x - this.character.origin.x,
-      y: y - this.character.origin.y,
-    };
+    const waypoint = { x, y };
     this.character.waypoints.push(waypoint);
+  }
+
+  _checkForTeleportations() {
+    const teleportationAreaThatCharacterIsIn = this._findTeleportationAreaThatTheCharacterIsIn();
+    if (teleportationAreaThatCharacterIsIn) {
+      this._teleportCharacterToTeleportationAreaTarget(
+        teleportationAreaThatCharacterIsIn
+      );
+    }
+  }
+
+  _findTeleportationAreaThatTheCharacterIsIn() {
+    return this.map.teleportationAreas.find((teleportationArea) =>
+      teleportationArea.isGameObjectInside(this.character)
+    );
+  }
+
+  /**
+   * @param {TeleportationArea} teleportationArea
+   */
+  _teleportCharacterToTeleportationAreaTarget(teleportationArea) {
+    this.character.waypoints = [];
+    this.map.removeObject(this.character);
+    const targetMap = teleportationArea.target.map;
+    targetMap.addObjectOnTop(this.character);
+    this.map = targetMap;
+    this.renderer.map = targetMap;
+    this.character.x = teleportationArea.target.position.x;
+    this.character.y = teleportationArea.target.position.y;
   }
 
   async initialize() {

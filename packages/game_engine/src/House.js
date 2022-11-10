@@ -1,5 +1,6 @@
 import { TILE_HEIGHT, TILE_WIDTH } from "./config.js";
 import { GameObject } from "./GameObject.js";
+import { Origin } from "./Origin.js";
 import { Sprite } from "./Sprite.js";
 
 export class House extends GameObject {
@@ -15,5 +16,6 @@ export class House extends GameObject {
       },
       new Sprite("images/sprites/house.png")
     );
+    this.origin = Origin.BottomCenter;
   }
 }
