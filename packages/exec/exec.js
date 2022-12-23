@@ -48,4 +48,31 @@ export async function execWithBash(command, options = {}) {
         return await exec(command, options);
     }
 }
+const baseOptions = {
+    encoding: 'utf-8',
+    stdio: 'inherit',
+};
+export function execSync(command) {
+    child_process.execSync(command, baseOptions);
+}
+export function execWithBashSync(command) {
+    if (process.platform === 'win32') {
+        // @ts-ignore
+        delete process.platform;
+        // @ts-ignore
+        process.platform = 'linux';
+        child_process.execSync(command, {
+            ...baseOptions,
+            shell: 'C:/Program Files/Git/usr/bin/bash.exe',
+            env: {
+                PATH: '/c/Program Files/Git/usr/bin:/c/Program Files/Git/bin',
+            },
+        });
+        // @ts-ignore
+        process.platform = 'win32';
+    }
+    else {
+        exec(command);
+    }
+}
 //# sourceMappingURL=exec.js.map
