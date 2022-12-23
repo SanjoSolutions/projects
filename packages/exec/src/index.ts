@@ -1,1 +1,1 @@
-export { exec } from './exec.js'
+export { exec, execWithBash } from "./exec.js";
