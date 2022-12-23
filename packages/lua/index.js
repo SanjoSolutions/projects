@@ -1,5 +1,7 @@
 import { readFile } from '@sanjo/read-file'
 import { writeFile } from '@sanjo/write-file'
+import fs from 'fs/promises'
+import path from 'path'
 
 export async function addIncludeFileAtTheTop(includeFile, tocFilePath) {
   const content = await readFile(tocFilePath)
@@ -65,3 +67,67 @@ export function last(array) {
   return array[array.length - 1]
 }
 
+export const tocFileNameGenerators = [
+  generateFallbackTOCFileName,
+  generateMainlineTOCFileName,
+  generateWrathTOCFileName,
+  generateTBCTOCFileName,
+  generateVanillaTOCFileName,
+]
+
+export function generateTOCFilePath(addOnPath, tocFileNameGenerator) {
+  const addOnName = determineAddOnName(addOnPath)
+  const tocFileName = tocFileNameGenerator(addOnName)
+  return path.join(addOnPath, tocFileName)
+}
+
+export async function retrieveTOCFilePaths(addOnPath) {
+  const tocFilePaths = tocFileNameGenerators.map(tocFileNameGenerator => generateTOCFilePath(
+    addOnPath,
+    tocFileNameGenerator,
+  ))
+  return await filterAsync(tocFilePaths, doesFileExists)
+}
+
+export async function filterAsync(array, predicate) {
+  const result = []
+  for (const entry of array) {
+    if (await predicate(entry)) {
+      result.push(entry)
+    }
+  }
+  return result
+}
+
+function generateFallbackTOCFileName(addOnName) {
+  return `${ addOnName }.toc`
+}
+
+function generateMainlineTOCFileName(addOnName) {
+  return `${ addOnName }_Mainline.toc`
+}
+
+function generateWrathTOCFileName(addOnName) {
+  return `${ addOnName }_Wrath.toc`
+}
+
+function generateTBCTOCFileName(addOnName) {
+  return `${ addOnName }_TBC.toc`
+}
+
+function generateVanillaTOCFileName(addOnName) {
+  return `${ addOnName }_Vanilla.toc`
+}
+
+export function determineAddOnName(addOnPath) {
+  return path.basename(addOnPath)
+}
+
+export async function doesFileExists(filePath) {
+  try {
+    await fs.access(filePath)
+    return true
+  } catch (error) {
+    return false
+  }
+}
