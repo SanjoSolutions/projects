@@ -3,10 +3,10 @@ import https from "https";
 import { URL } from "url";
 export function request(url, options = {}, data) {
     return new Promise((resolve, reject) => {
-        const request = getRequestFunction(url)(url, options, response => {
+        const request = getRequestFunction(url)(url, options, (response) => {
             let body = "";
             response.setEncoding("utf-8");
-            response.on("data", chunk => {
+            response.on("data", (chunk) => {
                 body += chunk;
             });
             response.once("end", () => {

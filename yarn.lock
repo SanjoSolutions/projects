@@ -2002,11 +2002,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sanjo/exec@1.0.0, @sanjo/exec@^1.0.0, @sanjo/exec@workspace:packages/exec":
+"@sanjo/exec@^1.0.0, @sanjo/exec@workspace:packages/exec":
   version: 0.0.0-use.local
   resolution: "@sanjo/exec@workspace:packages/exec"
   languageName: unknown
   linkType: soft
+
+"@sanjo/exec@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@sanjo/exec@npm:1.0.0"
+  checksum: 384b40eed9fc8c33ac3c6699a1c2dd04557b763ca2e7fb3afd9c0194ce9dfc5c9676f11dcb8a65f54073cb694ddeb95fc094ca4dda06720314e5b88e2def1440
+  languageName: node
+  linkType: hard
 
 "@sanjo/feature-flags@workspace:packages/feature-flags":
   version: 0.0.0-use.local
@@ -2215,11 +2222,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/request-json@workspace:packages/request-json"
   dependencies:
-    "@sanjo/request": ^0.3.0
+    "@sanjo/request": ^0.4.0
   languageName: unknown
   linkType: soft
 
-"@sanjo/request@^0.3.0, @sanjo/request@workspace:packages/request":
+"@sanjo/request@^0.4.0, @sanjo/request@workspace:packages/request":
   version: 0.0.0-use.local
   resolution: "@sanjo/request@workspace:packages/request"
   languageName: unknown
@@ -8134,7 +8141,7 @@ __metadata:
     "@sanjo/make-temporary-directory": ^1.0.0
     "@sanjo/mongodb-diff": ^0.3.0
     "@sanjo/random": ^2.0.0
-    "@sanjo/request": ^0.3.0
+    "@sanjo/request": ^0.4.0
     "@sanjo/webpack": ^1.1.0
     "@types/react-dom": ^16.9.8
     cucumber: ^6.0.5

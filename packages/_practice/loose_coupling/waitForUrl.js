@@ -1,5 +1,5 @@
-import { request } from '@sanjo/request';
-import { waitFor } from './waitFor.js';
+import { request } from "@sanjo/request";
+import { waitFor } from "./waitFor.js";
 export async function waitForUrl(url) {
     const condition = async () => {
         try {
