@@ -3,5 +3,5 @@ export function indent(text) {
 }
 
 function indentLine(line) {
-  return `  ${line}`
+  return line == '' ? line : `  ${line}`
 }
