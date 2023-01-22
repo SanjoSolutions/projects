@@ -1,9 +1,9 @@
-import moment from 'moment'
+import moment from "moment";
 
 export function createEmail({ to }: { to: string }): string {
   return `MIME-Version: 1.0
-Date: ${moment().format('ddd, D MMM YYYY HH:mm:ss ZZ')}
-Subject: =?UTF-8?B?UmU6IFNoYXJlIHJlcXVlc3QgZm9yIOKAmERJTi01MDA4IFRlbXBsYXRl4oCZ?=
+Date: ${moment().format("ddd, D MMM YYYY HH:mm:ss ZZ")}
+Subject: Re: Share request for "DIN-5008 Template"
 From: Jonas Aschenbrenner <jonas.aschenbrenner@gmail.com>
 To: ${to}
 Content-Type: multipart/alternative; boundary="0000000000009cccc905d9e2b418"
@@ -36,5 +36,5 @@ ate Kopie des Dokuments beliebig bearbeiten</div><div>und der Zustand des g=
 eteilten Dokuments bleibt erhalten.</div><div><br></div><div>Mit freundlich=
 en Gr=C3=BC=C3=9Fen</div>Jonas<br></div>
 
---0000000000009cccc905d9e2b418--`
+--0000000000009cccc905d9e2b418--`;
 }
