@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/toc",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Functions to work with TOC files.",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/toc",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "directory": "packages/toc"
+  },
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -2276,6 +2276,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/toc@workspace:packages/toc":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/toc@workspace:packages/toc"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/trade@workspace:packages/trade":
   version: 0.0.0-use.local
   resolution: "@sanjo/trade@workspace:packages/trade"
@@ -7209,6 +7215,15 @@ __metadata:
   checksum: c91a293a103d11ea4f07de4122ba4f73d8203d0de51852fb612b1764296aebf623a3e11dddef1b3aefdc8d71af97d52b222dad5459dcb967713bbab9a19fed7d
   languageName: node
   linkType: hard
+
+"lua-33f6f7@workspace:packages/lua":
+  version: 0.0.0-use.local
+  resolution: "lua-33f6f7@workspace:packages/lua"
+  dependencies:
+    "@sanjo/read-file": ^2.0.0
+    "@sanjo/write-file": ^1.0.0
+  languageName: unknown
+  linkType: soft
 
 "make-dir@npm:^2.0.0, make-dir@npm:^2.1.0":
   version: 2.1.0
