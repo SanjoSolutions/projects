@@ -15,5 +15,8 @@
   "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@sanjo/read-file": "^2.0.0"
   }
 }
