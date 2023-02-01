@@ -2279,6 +2279,8 @@ __metadata:
 "@sanjo/toc@workspace:packages/toc":
   version: 0.0.0-use.local
   resolution: "@sanjo/toc@workspace:packages/toc"
+  dependencies:
+    "@sanjo/read-file": ^2.0.0
   languageName: unknown
   linkType: soft
 
