@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/toc",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Functions to work with TOC files.",
   "keywords": [],
