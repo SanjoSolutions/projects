@@ -1,9 +1,12 @@
 import { readFile } from "@sanjo/read-file";
-export const dependenciesRegExp = /^## (Dep\w*|RequiredDeps|OptionalDeps): *(.+) *$/m;
 export async function retrieveDependencies(tocFilePath) {
     const content = await readFile(tocFilePath);
-    const match = dependenciesRegExp.exec(content);
-    const dependencies = match ? match[2].split(", ") : [];
+    const dependenciesRegExp = /^## (Dep\w*|RequiredDeps|OptionalDeps): *(.+) *$/gm;
+    let match;
+    let dependencies = [];
+    while (match = dependenciesRegExp.exec(content)) {
+        dependencies = dependencies.concat(match ? match[2].split(", ") : []);
+    }
     return dependencies;
 }
 export const versionRegExp = /## Version: (\d+\.\d+\.\d+)/;
