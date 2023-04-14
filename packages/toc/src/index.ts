@@ -1,6 +1,6 @@
 import { readFile } from "@sanjo/read-file";
 
-export const dependenciesRegExp = /^## (Dep\w*|RequireDeps): *(.+) *$/m;
+export const dependenciesRegExp = /^## (Dep\w*|RequiredDeps|OptionalDeps): *(.+) *$/m;
 
 export async function retrieveDependencies(tocFilePath: string) {
   const content = await readFile(tocFilePath);
