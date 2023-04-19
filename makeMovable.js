@@ -29,13 +29,15 @@ export function makeMovable(
   let pointerClickOffsetToWindow = null;
 
   function onPointerDownHandler(event) {
-    onPointerDown(event);
-    isMousePressed = true;
-    pointerClickOffsetToWindow = {
-      x: event.clientX - element.offsetLeft,
-      y: event.clientY - element.offsetTop,
-    };
-    event.preventDefault();
+    if (event.button === 0) {
+      onPointerDown(event);
+      isMousePressed = true;
+      pointerClickOffsetToWindow = {
+        x: event.clientX - element.offsetLeft,
+        y: event.clientY - element.offsetTop,
+      };
+      event.preventDefault();
+    }
   }
 
   elementWithWhichTheElementCanBeMovedWith.addEventListener(
@@ -57,10 +59,12 @@ export function makeMovable(
   window.addEventListener("pointermove", onPointerMove);
 
   function onPointerUpHandler(event) {
-    if (isMousePressed) {
-      onPointerUp(event);
-      isMousePressed = false;
-      pointerClickOffsetToWindow = null;
+    if (event.button === 0) {
+      if (isMousePressed) {
+        onPointerUp(event);
+        isMousePressed = false;
+        pointerClickOffsetToWindow = null;
+      }
     }
   }
 
