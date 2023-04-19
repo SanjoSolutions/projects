@@ -21,10 +21,9 @@ export function makeMovable(
   if (!isMoving) {
     isMoving = () => true;
   }
-  const { x, y } = element.getBoundingClientRect();
   element.style.position = "absolute";
-  element.style.left = x + "px";
-  element.style.top = y + "px";
+  element.style.left = element.offsetLeft + "px";
+  element.style.top = element.offsetTop + "px";
 
   let isMousePressed = false;
   let pointerClickOffsetToWindow = null;
