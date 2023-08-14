@@ -1,10 +1,12 @@
-import { readFile } from "@sanjo/read-file";
+import { readFile } from '@sanjo/read-file';
+import { writeFile } from '@sanjo/write-file';
+import * as path from 'node:path';
 export async function retrieveDependencies(tocFilePath) {
     const content = await readFile(tocFilePath);
     const dependenciesRegExp = /^## (Dep\w*|RequiredDeps|OptionalDeps): *(.+) *$/gm;
     let match;
     let dependencies = [];
-    while (match = dependenciesRegExp.exec(content)) {
+    while ((match = dependenciesRegExp.exec(content))) {
         dependencies = dependencies.concat(match ? match[2].split(", ") : []);
     }
     return dependencies;
@@ -14,5 +16,73 @@ export async function retrieveVersion(tocFilePath) {
     const content = await readFile(tocFilePath);
     const match = versionRegExp.exec(content);
     return match ? match[1] : null;
+}
+export async function extractListedFiles(tocFilePath) {
+    const content = await readFile(tocFilePath);
+    const lines = content.split(/(?:\n|\r\n|\r)/);
+    const loadFileLines = lines.filter(isLoadFileLine);
+    const loadedFiles = loadFileLines.map(line => line.trim());
+    return loadedFiles;
+}
+function isLoadFileLine(line) {
+    const trimmedLine = line.trim();
+    return trimmedLine.length >= 1 && !isCommentLine(trimmedLine);
+}
+const COMMENT_LINE_REGEXP = /^##/;
+function isCommentLine(line) {
+    return COMMENT_LINE_REGEXP.test(line);
+}
+var GameVersion;
+(function (GameVersion) {
+    GameVersion["default"] = "default";
+    GameVersion["vanilla"] = "vanilla";
+    GameVersion["wrath"] = "wrath";
+})(GameVersion || (GameVersion = {}));
+async function resolveDependencies(addOn) {
+    const dependencies = new Map();
+    const loadOrder = [];
+    const alreadyLoadedAddOns = new Set();
+    const resolvedAddOns = new Set();
+    function addAddOnToLoadOrder(addOn) {
+        loadOrder.push(addOn);
+        alreadyLoadedAddOns.add(addOn);
+    }
+    resolvedAddOns.add(addOn);
+    const content = await readTOCFile(addOn);
+    const dependenciesRegExp = /^## (?:Dep\w*|RequireDeps): *(.+) *$/m;
+    const match = dependenciesRegExp.exec(content);
+    const addOnDependencies = match ? match[1].split(', ') : [];
+    dependencies.set(addOn, addOnDependencies);
+    for (const addOnDependencyName of addOnDependencies) {
+        if (!resolvedAddOns.has(addOnDependencyName)) {
+            await resolveDependencies(addOnDependencyName);
+        }
+    }
+    const addOnsStillToLoad = addOnDependencies.filter(addOn => !alreadyLoadedAddOns.has(addOn));
+    addOnsStillToLoad.forEach(addAddOnToLoadOrder);
+    if (!alreadyLoadedAddOns.has(addOn)) {
+        addAddOnToLoadOrder(addOn);
+    }
+    return dependencies;
+}
+async function readTOCFile(tocFilePath) {
+    return await readFile(tocFilePath);
+}
+export function retrieveAddOnTOCFilePath(addOnPath) {
+    const addOnName = retrieveAddOnName(addOnPath);
+    const addOnTocFilePath = path.join(addOnPath, `${addOnName}.toc`);
+    return addOnTocFilePath;
+}
+export function retrieveAddOnName(addOnPath) {
+    return path.basename(addOnPath);
+}
+export async function prependFilesToLoad(addOnTocFilePath, filesToLoad) {
+    let content = await readFile(addOnTocFilePath);
+    const lines = content.split(/(?:\n|\r\n|\r)/);
+    let firstLoadFileLineIndex = lines.findIndex(isLoadFileLine);
+    const indexToInsert = firstLoadFileLineIndex !== -1 ? firstLoadFileLineIndex : lines.length;
+    lines.splice(indexToInsert, 0, ...filesToLoad);
+    content = lines.join('\n');
+    await writeFile(addOnTocFilePath, content);
 }
 //# sourceMappingURL=index.js.map
