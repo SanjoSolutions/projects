@@ -8,5 +8,15 @@ built
 !/sudoku-solver/built
 dist
 .history
+/packages/**/*.js
+/packages/**/*.d.ts
+/packages/**/*.d.ts.map
+/packages/**/*.js.map
+!/packages/*/src/**/*.js
+!/packages/*/src/**.d.ts
+!/packages/animate/*.js
+!/packages/animate/*.d.ts
+!/packages/animate/*.d.ts.map
+!/packages/animate/*.js.map
 .DS_Store
 *.hot-update.*
