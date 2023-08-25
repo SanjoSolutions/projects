@@ -1,5 +1,5 @@
 import { createFullDocumentCanvas } from "@sanjo/canvas";
-import { loadImage } from "../../../loadImage.js";
+import { loadImage } from "./libs/loadImage.js";
 import { Origin } from "./Origin.js";
 
 export class Renderer {

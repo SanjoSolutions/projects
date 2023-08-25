@@ -4,6 +4,8 @@ import { Origin } from "./Origin.js";
 import { Sprite } from "./Sprite.js";
 
 export class House extends GameObject {
+  origin: Origin;
+
   constructor() {
     const width = 3 * TILE_WIDTH;
     const height = 3 * TILE_HEIGHT;
