@@ -1,10 +1,22 @@
+import type { CartesianCoordinates2D } from './CartesianCoordinates2D.js'
 import { Character } from "./Character.js";
 import { House } from "./House.js";
+import type { Map } from './Map.js'
 import { Mouse } from "./Mouse.js";
 import { Renderer } from "./Renderer.js";
+import type { TeleportationArea } from './TeleportationArea.js'
 
 export class Game {
-  constructor(root, maps) {
+  root: HTMLElement
+  maps: Map[]
+  map: Map
+  character: Character
+  house: House
+  renderer: Renderer
+  mouse: Mouse
+  _isRunning: boolean
+
+  constructor(root: HTMLElement, maps: Map[]) {
     this.root = root;
     this.maps = maps;
     this.map = this.maps[0];
@@ -42,15 +54,15 @@ export class Game {
     }
   }
 
-  _onPrimaryClick(event) {
+  _onPrimaryClick(event: MouseEvent) {
     this._moveCharacter({
       x: event.pageX / this.map.tileWidth,
       y: event.pageY / this.map.tileHeight,
     });
   }
 
-  _moveCharacter({ x, y }) {
-    const waypoint = { x, y };
+  _moveCharacter(coordinates: CartesianCoordinates2D) {
+    const waypoint = coordinates;
     this.character.waypoints.push(waypoint);
   }
 
@@ -72,7 +84,7 @@ export class Game {
   /**
    * @param {TeleportationArea} teleportationArea
    */
-  _teleportCharacterToTeleportationAreaTarget(teleportationArea) {
+  _teleportCharacterToTeleportationAreaTarget(teleportationArea: TeleportationArea) {
     this.character.waypoints = [];
     this.map.removeObject(this.character);
     const targetMap = teleportationArea.target.map;
