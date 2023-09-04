@@ -1,3 +1,0 @@
-- It serves the highest good to publish with NPM packages. (untrue) (untrue)
-- In the name of the highest good, it serves the highest good, to publish code. (true)
-- In the name of the highest good, it serves the highest good, to publish code with Git repository. (true)
