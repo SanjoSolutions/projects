@@ -4,12 +4,12 @@
   "type": "module",
   "description": "Description of test package",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/test-package-for-create-browser-package",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/test-package-for-create-browser-package",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/test-package-for-create-browser-package"
   },
   "scripts": {

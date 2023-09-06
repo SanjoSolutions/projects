@@ -4,13 +4,13 @@
   "type": "module",
   "description": "Settling",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/settling",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/settling",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/settling"
   },
   "scripts": {

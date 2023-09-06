@@ -4,14 +4,14 @@
   "type": "module",
   "description": "Lists packages that can be published.",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/list-packages-that-can-be-published",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/list-packages-that-can-be-published",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.ts",
   "bin": "./bin/list-packages-that-can-be-published.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/list-packages-that-can-be-published"
   },
   "dependencies": {

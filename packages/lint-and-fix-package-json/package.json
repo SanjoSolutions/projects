@@ -4,14 +4,14 @@
   "type": "module",
   "description": "Linting and fixing for package.json for packages in this repository.",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/lint-and-fix-package-json",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/lint-and-fix-package-json",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.ts",
   "bin": "./bin/lint-and-fix-package-json.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/lint-and-fix-package-json"
   },
   "dependencies": {

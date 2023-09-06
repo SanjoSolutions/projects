@@ -1,11 +1,11 @@
 {
   "name": "babel-plugin-transform-stub-svg",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/babel-plugin-transform-stub-svg",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/babel-plugin-transform-stub-svg",
   "license": "Unlicense",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/babel-plugin-transform-stub-svg"
   },
   "private": true

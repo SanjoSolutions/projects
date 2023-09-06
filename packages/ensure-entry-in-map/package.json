@@ -6,12 +6,12 @@
   "keywords": [
     "ensure entry in map"
   ],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/ensure-entry-in-map",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/ensure-entry-in-map",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/ensure-entry-in-map"
   },
   "types": "./index.d.ts",

@@ -7,12 +7,12 @@
     "website builder",
     "page builder"
   ],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/compose",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/compose",
   "license": "SEE LICENSE IN LICENSE",
   "bin": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/compose"
   },
   "dependencies": {

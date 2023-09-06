@@ -4,14 +4,14 @@
   "type": "module",
   "description": "Create Node.js package",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/create-node-package",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/create-node-package",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.js",
   "bin": "./bin/create-node-package.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/create-node-package"
   },
   "dependencies": {
