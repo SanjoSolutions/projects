@@ -1,5 +1,5 @@
-/// <reference types="react" />
+import React from 'react';
 export declare function Page({ children }?: {
     children?: any;
-}): JSX.Element;
+}): React.JSX.Element;
 //# sourceMappingURL=Page.d.ts.map

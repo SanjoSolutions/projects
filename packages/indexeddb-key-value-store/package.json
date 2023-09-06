@@ -1,24 +1,22 @@
 {
-  "name": "@sanjo/indexeddb-key-value-storage",
-  "version": "0.0.0",
+  "name": "@sanjo/indexeddb-key-value-store",
+  "version": "1.0.0",
   "type": "module",
-  "description": "A key-value storage implemented with IndexedDB.",
+  "description": "A key-value store implemented with IndexedDB.",
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/indexeddb-key-value-storage",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "export": {
-    "types": "./index.d.ts",
-    "default": "./index.js"
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/indexeddb-key-value-storage"
   },
-  "dependencies": {},
-  "devDependencies": {},
   "publishConfig": {
     "access": "public"
   }

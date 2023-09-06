@@ -499,8 +499,8 @@ function updateImportAndExportStatements(ast, thingToRemove) {
                     }
                 }
                 else if (statement.declaration) {
-                    const exportedName = statement.declaration
-                        ?.id.name;
+                    const exportedName = (statement.declaration
+                        ?.id).name;
                     if (exportedName && isNamedExportToRemove(exportedName)) {
                     }
                     else {

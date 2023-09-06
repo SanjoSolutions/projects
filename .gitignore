@@ -18,5 +18,6 @@ dist
 !/packages/animate/*.d.ts
 !/packages/animate/*.d.ts.map
 !/packages/animate/*.js.map
+/packages/*/build/
 .DS_Store
 *.hot-update.*

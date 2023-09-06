@@ -9,7 +9,7 @@ export declare enum OutputFileType {
     Delete = "delete",
     Write = "write"
 }
-export declare type OutputFile = FileToDelete | FileToWrite;
+export type OutputFile = FileToDelete | FileToWrite;
 interface BaseOutputFile {
     type: OutputFileType;
     path: string;
@@ -22,7 +22,7 @@ export interface FileToWrite extends BaseOutputFile {
     content: string;
 }
 export declare function removeExportsWhichAreOnlyImportedByTests2(files: File[]): OutputFile[];
-declare type FilePath = string;
+type FilePath = string;
 declare enum ImportOrExportType {
     Import = 0,
     Export = 1
@@ -32,7 +32,7 @@ interface Import {
     filePath: FilePath;
     statement: ImportDeclaration;
 }
-declare type Export = DefaultExport | NamedExport;
+type Export = DefaultExport | NamedExport;
 interface BaseExport {
     type: ImportOrExportType.Export;
     filePath: FilePath;

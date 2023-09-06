@@ -6,11 +6,11 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/<PACKAGE_FOLDER_NAME>",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "export": {
-    "types": "./index.d.ts",
-    "default": "./index.js"
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
   },
   "repository": {
     "type": "git",

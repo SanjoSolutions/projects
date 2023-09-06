@@ -1,2 +1,2 @@
-export declare type MIMEType = string;
+export type MIMEType = string;
 //# sourceMappingURL=MIMEType.d.ts.map

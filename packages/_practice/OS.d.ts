@@ -1,3 +1,3 @@
-/// <reference types="react" />
-export declare function OS(): JSX.Element;
+import React from 'react';
+export declare function OS(): React.JSX.Element;
 //# sourceMappingURL=OS.d.ts.map

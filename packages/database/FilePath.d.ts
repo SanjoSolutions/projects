@@ -1,2 +1,2 @@
-export declare type FilePath = string;
+export type FilePath = string;
 //# sourceMappingURL=FilePath.d.ts.map

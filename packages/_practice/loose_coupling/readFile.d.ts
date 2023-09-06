@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="node" />
 import type { PathLike } from 'fs';
 import fs from 'fs/promises';
 /**

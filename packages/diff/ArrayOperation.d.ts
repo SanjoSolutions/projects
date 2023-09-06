@@ -1,4 +1,4 @@
-export declare type ArrayOperation = ArrayAddOperation | ArrayUpdateOperation | ArrayRemoveOperation;
+export type ArrayOperation = ArrayAddOperation | ArrayUpdateOperation | ArrayRemoveOperation;
 export interface ArrayAddOperation {
     type: 'add';
     index: number;

@@ -81,7 +81,7 @@
       "path": "./identity/tsconfig-build.json"
     },
     {
-      "path": "./indexeddb-key-value-storage"
+      "path": "./indexeddb-key-value-store"
     },
     {
       "path": "./lint-and-fix-package-json"
