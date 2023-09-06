@@ -1,4 +1,4 @@
-import { Cache, FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE } from './Cache.js'
+import { Cache, FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE } from "./Cache.js"
 
 export class ObjectCache<T> {
   private _cache = new Cache<T>()
@@ -37,6 +37,6 @@ export class ObjectCache<T> {
   _convertKeyObjectToArray(key: any): any[] {
     const propertyNames = Object.keys(key)
     propertyNames.sort()
-    return propertyNames.map(propertyName => key[propertyName])
+    return propertyNames.map((propertyName) => key[propertyName])
   }
 }

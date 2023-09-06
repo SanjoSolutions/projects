@@ -1,5 +1,5 @@
-import { describe, expect, it } from "@jest/globals";
-import { groupByToMap } from "./groupByToMap.js";
+import { describe, expect, it } from "@jest/globals"
+import { groupByToMap } from "./groupByToMap.js"
 
 describe("groupByToMap", () => {
   it("groups and returns a map", () => {
@@ -7,7 +7,7 @@ describe("groupByToMap", () => {
       new Map([
         [1, [1, 3]],
         [0, [2]],
-      ])
-    );
-  });
-});
+      ]),
+    )
+  })
+})

@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+import fs from "fs/promises"
 
 export class EventStorage {
   events: any[]
@@ -13,9 +13,11 @@ export class EventStorage {
 
   async initialize() {
     try {
-      this.events = JSON.parse(await fs.readFile(this._fileName, { encoding: 'utf-8' }))
+      this.events = JSON.parse(
+        await fs.readFile(this._fileName, { encoding: "utf-8" }),
+      )
     } catch (error) {
-      if ((error as any).code === 'ENOENT') {
+      if ((error as any).code === "ENOENT") {
         this.events = []
       } else {
         throw error
@@ -25,19 +27,21 @@ export class EventStorage {
   }
 
   async store(event: any) {
-    this._verifyInitialized('store')
+    this._verifyInitialized("store")
     this.events.push(event)
     await this._persist()
   }
 
   retrieve() {
-    this._verifyInitialized('retrieve')
+    this._verifyInitialized("retrieve")
     return Array.from(this.events)
   }
 
   _verifyInitialized(callerName: string) {
     if (!this._hasBeenInitialized) {
-      throw new Error(`Please call initialize() before calling ${callerName}().`)
+      throw new Error(
+        `Please call initialize() before calling ${callerName}().`,
+      )
     }
   }
 

@@ -1,6 +1,6 @@
-import { concat } from '@sanjo/array'
-import { generateTuplesInRange, range } from '@sanjo/range'
-import { difference, union, without } from '@sanjo/set'
+import { concat } from "@sanjo/array"
+import { generateTuplesInRange, range } from "@sanjo/range"
+import { difference, union, without } from "@sanjo/set"
 
 export const sudoku = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,7 +18,7 @@ const blockWidth = 3
 const blockHeight = 3
 
 export function getSudokuFromSudokuInput(sudokuInput) {
-  const cells = sudokuInput.querySelectorAll('input')
+  const cells = sudokuInput.querySelectorAll("input")
   const sudoku = new Array()
   for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
     const row = new Array()
@@ -33,19 +33,23 @@ export function getSudokuFromSudokuInput(sudokuInput) {
 }
 
 export function renderSudokuInputToHTML(sudoku) {
-  const table = document.createElement('table')
-  table.classList.add('sudoku')
-  table.classList.add('sudoku-input')
-  const tbody = document.createElement('tbody')
+  const table = document.createElement("table")
+  table.classList.add("sudoku")
+  table.classList.add("sudoku-input")
+  const tbody = document.createElement("tbody")
   table.appendChild(tbody)
   for (let rowIndex = 0; rowIndex < sudoku.length; rowIndex++) {
-    const tr = document.createElement('tr')
-    for (let columnIndex = 0; columnIndex < sudoku[rowIndex].length; columnIndex++) {
-      const td = document.createElement('td')
-      const input = document.createElement('input')
-      input.type = 'text'
-      input.inputMode = 'numeric'
-      input.pattern = '[1-9]'
+    const tr = document.createElement("tr")
+    for (
+      let columnIndex = 0;
+      columnIndex < sudoku[rowIndex].length;
+      columnIndex++
+    ) {
+      const td = document.createElement("td")
+      const input = document.createElement("input")
+      input.type = "text"
+      input.inputMode = "numeric"
+      input.pattern = "[1-9]"
       input.maxLength = 1
       const value = sudoku[rowIndex][columnIndex]
       if (value !== 0) {
@@ -60,17 +64,21 @@ export function renderSudokuInputToHTML(sudoku) {
 }
 
 export function renderSudokuToHTML(sudoku) {
-  const table = document.createElement('table')
-  table.classList.add('sudoku')
-  const tbody = document.createElement('tbody')
+  const table = document.createElement("table")
+  table.classList.add("sudoku")
+  const tbody = document.createElement("tbody")
   table.appendChild(tbody)
   for (let rowIndex = 0; rowIndex < sudoku.length; rowIndex++) {
-    const tr = document.createElement('tr')
-    for (let columnIndex = 0; columnIndex < sudoku[rowIndex].length; columnIndex++) {
-      const td = document.createElement('td')
+    const tr = document.createElement("tr")
+    for (
+      let columnIndex = 0;
+      columnIndex < sudoku[rowIndex].length;
+      columnIndex++
+    ) {
+      const td = document.createElement("td")
       const value = sudoku[rowIndex][columnIndex]
       if (value === 0) {
-        td.innerHTML = '&nbsp;'
+        td.innerHTML = "&nbsp;"
       } else {
         td.innerText = value
       }
@@ -82,15 +90,21 @@ export function renderSudokuToHTML(sudoku) {
 }
 
 export function renderPossibleNumbersToHTML(possibleNumbers) {
-  const table = document.createElement('table')
-  table.classList.add('possible-numbers')
-  const tbody = document.createElement('tbody')
+  const table = document.createElement("table")
+  table.classList.add("possible-numbers")
+  const tbody = document.createElement("tbody")
   table.appendChild(tbody)
   for (let rowIndex = 0; rowIndex < possibleNumbers.length; rowIndex++) {
-    const tr = document.createElement('tr')
-    for (let columnIndex = 0; columnIndex < possibleNumbers[rowIndex].length; columnIndex++) {
-      const td = document.createElement('td')
-      td.appendChild(renderPossibleNumbersAToHTML(possibleNumbers[rowIndex][columnIndex]))
+    const tr = document.createElement("tr")
+    for (
+      let columnIndex = 0;
+      columnIndex < possibleNumbers[rowIndex].length;
+      columnIndex++
+    ) {
+      const td = document.createElement("td")
+      td.appendChild(
+        renderPossibleNumbersAToHTML(possibleNumbers[rowIndex][columnIndex]),
+      )
       tr.appendChild(td)
     }
     tbody.appendChild(tr)
@@ -99,15 +113,18 @@ export function renderPossibleNumbersToHTML(possibleNumbers) {
 }
 
 function renderPossibleNumbersAToHTML(possibleNumbersA) {
-  const table = document.createElement('table')
-  const tbody = document.createElement('tbody')
+  const table = document.createElement("table")
+  const tbody = document.createElement("tbody")
   table.appendChild(tbody)
   for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
-    const tr = document.createElement('tr')
+    const tr = document.createElement("tr")
     for (let columnIndex = 0; columnIndex < 3; columnIndex++) {
-      const td = document.createElement('td')
+      const td = document.createElement("td")
       const number = rowIndex * 3 + columnIndex + 1
-      td.innerHTML = possibleNumbersA && possibleNumbersA.includes(number) ? number : '&nbsp;'
+      td.innerHTML =
+        possibleNumbersA && possibleNumbersA.includes(number)
+          ? number
+          : "&nbsp;"
       tr.appendChild(td)
     }
     tbody.appendChild(tr)
@@ -132,15 +149,22 @@ export function getPossibleNumbers(sudoku) {
   ]
 
   for (let rowIndex = 0; rowIndex < sudoku.length; rowIndex++) {
-    for (let columnIndex = 0; columnIndex < sudoku[rowIndex].length; columnIndex++) {
+    for (
+      let columnIndex = 0;
+      columnIndex < sudoku[rowIndex].length;
+      columnIndex++
+    ) {
       if (!sudoku[rowIndex][columnIndex]) {
         possibleNumbers[rowIndex][columnIndex] = [
           ...difference(
             new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]),
             union(
-              union(new Set(getRow(sudoku, rowIndex)), new Set(getColumn(sudoku, columnIndex))),
-              new Set(concat(...getBlock(sudoku, rowIndex, columnIndex)))
-            )
+              union(
+                new Set(getRow(sudoku, rowIndex)),
+                new Set(getColumn(sudoku, columnIndex)),
+              ),
+              new Set(concat(...getBlock(sudoku, rowIndex, columnIndex))),
+            ),
           ),
         ]
       }
@@ -148,23 +172,56 @@ export function getPossibleNumbers(sudoku) {
   }
 
   for (let rowIndex = 0; rowIndex < possibleNumbers.length; rowIndex++) {
-    for (let columnIndex1 = 0; columnIndex1 < possibleNumbers[rowIndex].length; columnIndex1++) {
-      for (let columnIndex2 = columnIndex1 + 1; columnIndex2 < possibleNumbers[rowIndex].length; columnIndex2++) {
+    for (
+      let columnIndex1 = 0;
+      columnIndex1 < possibleNumbers[rowIndex].length;
+      columnIndex1++
+    ) {
+      for (
+        let columnIndex2 = columnIndex1 + 1;
+        columnIndex2 < possibleNumbers[rowIndex].length;
+        columnIndex2++
+      ) {
         const cell1 = possibleNumbers[rowIndex][columnIndex1]
         const cell2 = possibleNumbers[rowIndex][columnIndex2]
-        if (cell1 && cell2 && cell1.length === 2 && cell2.length === 2 && union(cell1, cell2).size === 2) {
-          for (let columnIndex3 = 0; columnIndex3 < possibleNumbers[rowIndex].length; columnIndex3++) {
+        if (
+          cell1 &&
+          cell2 &&
+          cell1.length === 2 &&
+          cell2.length === 2 &&
+          union(cell1, cell2).size === 2
+        ) {
+          for (
+            let columnIndex3 = 0;
+            columnIndex3 < possibleNumbers[rowIndex].length;
+            columnIndex3++
+          ) {
             const cell3 = possibleNumbers[rowIndex][columnIndex3]
             if (cell3 && cell3 !== cell1 && cell3 !== cell2) {
-              possibleNumbers[rowIndex][columnIndex3] = Array.from(difference(cell3, new Set(cell1)))
+              possibleNumbers[rowIndex][columnIndex3] = Array.from(
+                difference(cell3, new Set(cell1)),
+              )
             }
           }
 
-          if (isInSameBlock({ rowIndex, columnIndex: columnIndex1 }, { rowIndex, columnIndex: columnIndex2 })) {
+          if (
+            isInSameBlock(
+              { rowIndex, columnIndex: columnIndex1 },
+              { rowIndex, columnIndex: columnIndex2 },
+            )
+          ) {
             const blockStartRowIndex = getBlockStartRowIndex(rowIndex)
             const blockStartColumnIndex = getBlockStartColumnIndex(columnIndex1)
-            for (let blockRowIndex = 0; blockRowIndex < blockHeight; blockRowIndex++) {
-              for (let blockColumnIndex = 0; blockColumnIndex < blockWidth; blockColumnIndex++) {
+            for (
+              let blockRowIndex = 0;
+              blockRowIndex < blockHeight;
+              blockRowIndex++
+            ) {
+              for (
+                let blockColumnIndex = 0;
+                blockColumnIndex < blockWidth;
+                blockColumnIndex++
+              ) {
                 const rowIndex4 = blockStartRowIndex + blockRowIndex
                 const columnIndex4 = blockStartColumnIndex + blockColumnIndex
                 if (
@@ -175,7 +232,10 @@ export function getPossibleNumbers(sudoku) {
                   )
                 ) {
                   possibleNumbers[rowIndex4][columnIndex4] = Array.from(
-                    difference(possibleNumbers[rowIndex4][columnIndex4], new Set(cell1))
+                    difference(
+                      possibleNumbers[rowIndex4][columnIndex4],
+                      new Set(cell1),
+                    ),
                   )
                 }
               }
@@ -186,16 +246,36 @@ export function getPossibleNumbers(sudoku) {
     }
   }
 
-  for (let columnIndex = 0; columnIndex < possibleNumbers[0].length; columnIndex++) {
+  for (
+    let columnIndex = 0;
+    columnIndex < possibleNumbers[0].length;
+    columnIndex++
+  ) {
     for (let rowIndex1 = 0; rowIndex1 < possibleNumbers.length; rowIndex1++) {
-      for (let rowIndex2 = rowIndex1 + 1; rowIndex2 < possibleNumbers.length; rowIndex2++) {
+      for (
+        let rowIndex2 = rowIndex1 + 1;
+        rowIndex2 < possibleNumbers.length;
+        rowIndex2++
+      ) {
         const cell1 = possibleNumbers[rowIndex1][columnIndex]
         const cell2 = possibleNumbers[rowIndex2][columnIndex]
-        if (cell1 && cell2 && cell1.length === 2 && cell2.length === 2 && union(cell1, cell2).size === 2) {
-          for (let rowIndex3 = 0; rowIndex3 < possibleNumbers.length; rowIndex3++) {
+        if (
+          cell1 &&
+          cell2 &&
+          cell1.length === 2 &&
+          cell2.length === 2 &&
+          union(cell1, cell2).size === 2
+        ) {
+          for (
+            let rowIndex3 = 0;
+            rowIndex3 < possibleNumbers.length;
+            rowIndex3++
+          ) {
             const cell3 = possibleNumbers[rowIndex3][columnIndex]
             if (cell3 && cell3 !== cell1 && cell3 !== cell2) {
-              possibleNumbers[rowIndex3][columnIndex] = Array.from(difference(cell3, new Set(cell1)))
+              possibleNumbers[rowIndex3][columnIndex] = Array.from(
+                difference(cell3, new Set(cell1)),
+              )
             }
           }
         }
@@ -220,7 +300,11 @@ export function solve(possibleNumbers) {
   ]
 
   for (let rowIndex = 0; rowIndex < possibleNumbers.length; rowIndex++) {
-    for (let columnIndex = 0; columnIndex < possibleNumbers[rowIndex].length; columnIndex++) {
+    for (
+      let columnIndex = 0;
+      columnIndex < possibleNumbers[rowIndex].length;
+      columnIndex++
+    ) {
       if (possibleNumbers[rowIndex][columnIndex]) {
         const possibleNumbersA = possibleNumbers[rowIndex][columnIndex]
 
@@ -228,11 +312,25 @@ export function solve(possibleNumbers) {
         if (possibleNumbersA.length === 1) {
           solution = possibleNumbersA[0]
         } else {
-          const row = new Set(concat(...getRowWithout(possibleNumbers, rowIndex, columnIndex)))
-          const column = new Set(concat(...getColumnWithout(possibleNumbers, rowIndex, columnIndex)))
-          const block = new Set(concat(...concat(...getBlockWithout(possibleNumbers, rowIndex, columnIndex))))
-          solution = possibleNumbersA.find(possibleSolution => {
-            return !row.has(possibleSolution) || !column.has(possibleSolution) || !block.has(possibleSolution)
+          const row = new Set(
+            concat(...getRowWithout(possibleNumbers, rowIndex, columnIndex)),
+          )
+          const column = new Set(
+            concat(...getColumnWithout(possibleNumbers, rowIndex, columnIndex)),
+          )
+          const block = new Set(
+            concat(
+              ...concat(
+                ...getBlockWithout(possibleNumbers, rowIndex, columnIndex),
+              ),
+            ),
+          )
+          solution = possibleNumbersA.find((possibleSolution) => {
+            return (
+              !row.has(possibleSolution) ||
+              !column.has(possibleSolution) ||
+              !block.has(possibleSolution)
+            )
           })
         }
 
@@ -249,7 +347,11 @@ export function solve(possibleNumbers) {
 export function fillSolutions(sudoku, solutions) {
   sudoku = [...sudoku]
   for (let rowIndex = 0; rowIndex < sudoku.length; rowIndex++) {
-    for (let columnIndex = 0; columnIndex < sudoku[rowIndex].length; columnIndex++) {
+    for (
+      let columnIndex = 0;
+      columnIndex < sudoku[rowIndex].length;
+      columnIndex++
+    ) {
       if (solutions[rowIndex][columnIndex]) {
         sudoku[rowIndex][columnIndex] = solutions[rowIndex][columnIndex]
       }
@@ -260,29 +362,32 @@ export function fillSolutions(sudoku, solutions) {
 
 function renderPossibleNumbers(possibleNumbers) {
   return possibleNumbers
-    .map(row => {
+    .map((row) => {
       const aas = row.map(renderPossibleNumbersA)
       const aa1 = aas
-        .map(aasa => aasa.slice(0, 3))
-        .map(aasaa => aasaa.join(' '))
-        .join(' | ')
+        .map((aasa) => aasa.slice(0, 3))
+        .map((aasaa) => aasaa.join(" "))
+        .join(" | ")
       const aa2 = aas
-        .map(aasa => aasa.slice(3, 6))
-        .map(aasaa => aasaa.join(' '))
-        .join(' | ')
+        .map((aasa) => aasa.slice(3, 6))
+        .map((aasaa) => aasaa.join(" "))
+        .join(" | ")
       const aa3 = aas
-        .map(aasa => aasa.slice(6, 9))
-        .map(aasaa => aasaa.join(' '))
-        .join(' | ')
-      return aa1 + '\n' + aa2 + '\n' + aa3
+        .map((aasa) => aasa.slice(6, 9))
+        .map((aasaa) => aasaa.join(" "))
+        .join(" | ")
+      return aa1 + "\n" + aa2 + "\n" + aa3
     })
-    .join('\n' + '-----'.repeat(9) + '---'.repeat(9 - 1) + '\n')
+    .join("\n" + "-----".repeat(9) + "---".repeat(9 - 1) + "\n")
 }
 
 function renderPossibleNumbersA(possibleNumbersA) {
   const parts = new Array(9)
   for (let number = 1; number <= 9; number++) {
-    parts[number - 1] = possibleNumbersA && possibleNumbersA.includes(number) ? String(number) : ' '
+    parts[number - 1] =
+      possibleNumbersA && possibleNumbersA.includes(number)
+        ? String(number)
+        : " "
   }
   return parts
 }
@@ -325,8 +430,13 @@ function getBlock(sudoku, rowIndex, columnIndex) {
   const block = new Array(blockHeight)
   for (let blockRowIndex = 0; blockRowIndex < blockHeight; blockRowIndex++) {
     block[blockRowIndex] = new Array(blockWidth)
-    for (let blockColumnIndex = 0; blockColumnIndex < blockWidth; blockColumnIndex++) {
-      block[blockRowIndex][blockColumnIndex] = sudoku[rowIndex + blockRowIndex][columnIndex + blockColumnIndex]
+    for (
+      let blockColumnIndex = 0;
+      blockColumnIndex < blockWidth;
+      blockColumnIndex++
+    ) {
+      block[blockRowIndex][blockColumnIndex] =
+        sudoku[rowIndex + blockRowIndex][columnIndex + blockColumnIndex]
     }
   }
   return block
@@ -345,7 +455,8 @@ function isInSameBlock(cellA, cellB) {
   const { rowIndex: rowIndex2, columnIndex: columnIndex2 } = cellB
   return (
     getBlockStartRowIndex(rowIndex1) === getBlockStartRowIndex(rowIndex2) &&
-    getBlockStartColumnIndex(columnIndex1) === getBlockStartColumnIndex(columnIndex2)
+    getBlockStartColumnIndex(columnIndex1) ===
+      getBlockStartColumnIndex(columnIndex2)
   )
 }
 
@@ -366,7 +477,13 @@ export function bruteForce(sudoku) {
       nextCell = determineNextCell(sudoku, 0, 0)
     }
     const candidate = copySudoku(sudoku)
-    return solveSub(sudoku, candidate, possibleNumbers, nextCell.row, nextCell.column)
+    return solveSub(
+      sudoku,
+      candidate,
+      possibleNumbers,
+      nextCell.row,
+      nextCell.column,
+    )
   }
 
   return null
@@ -377,14 +494,20 @@ function solveSub(sudoku, candidate, possibleNumbers, rowIndex, columnIndex) {
     new Set(possibleNumbers[rowIndex][columnIndex]),
     getRow(candidate, rowIndex),
     getColumn(candidate, columnIndex),
-    getBlock(candidate, rowIndex, columnIndex)
+    getBlock(candidate, rowIndex, columnIndex),
   )
   if (remainingPossibleNumbers.size >= 1) {
     const nextCell = determineNextCell(sudoku, rowIndex, columnIndex)
     for (const number of remainingPossibleNumbers) {
       candidate[rowIndex][columnIndex] = number
       if (nextCell) {
-        const solution = solveSub(sudoku, candidate, possibleNumbers, nextCell.row, nextCell.column)
+        const solution = solveSub(
+          sudoku,
+          candidate,
+          possibleNumbers,
+          nextCell.row,
+          nextCell.column,
+        )
         if (solution) {
           return solution
         }
@@ -431,18 +554,20 @@ export function isSolution(sudoku) {
 }
 
 function getAllRows(sudoku) {
-  return [...range(0, 8)].map(index => getRow(sudoku, index))
+  return [...range(0, 8)].map((index) => getRow(sudoku, index))
 }
 
 function getAllColumns(sudoku) {
-  return [...range(0, 8)].map(index => getColumn(sudoku, index))
+  return [...range(0, 8)].map((index) => getColumn(sudoku, index))
 }
 
 function getAllBlocks(sudoku) {
   return generateTuplesInRange([
     [0, 8, 3],
     [0, 8, 3],
-  ]).map(([rowIndex, columnIndex]) => getBlock(sudoku, rowIndex, columnIndex).flat())
+  ]).map(([rowIndex, columnIndex]) =>
+    getBlock(sudoku, rowIndex, columnIndex).flat(),
+  )
 }
 
 function isValidRowFilling(row) {
@@ -461,7 +586,7 @@ const validFilledValues = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 function isValidFilling(values) {
   const set = new Set(values)
-  return set.size === 9 && values.every(value => validFilledValues.has(value))
+  return set.size === 9 && values.every((value) => validFilledValues.has(value))
 }
 
 function canSudokuBeSolved(sudoku, possibleNumbers) {
@@ -469,7 +594,10 @@ function canSudokuBeSolved(sudoku, possibleNumbers) {
     [0, 8, 1],
     [0, 8, 1],
   ]).every(([rowIndex, columnIndex]) => {
-    if (sudoku[rowIndex][columnIndex] || possibleNumbers[rowIndex][columnIndex]) {
+    if (
+      sudoku[rowIndex][columnIndex] ||
+      possibleNumbers[rowIndex][columnIndex]
+    ) {
       return true
     } else {
       return false
@@ -478,5 +606,5 @@ function canSudokuBeSolved(sudoku, possibleNumbers) {
 }
 
 function copySudoku(sudoku) {
-  return sudoku.map(row => Array.from(row))
+  return sudoku.map((row) => Array.from(row))
 }

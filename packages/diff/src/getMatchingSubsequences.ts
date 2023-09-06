@@ -1,14 +1,21 @@
-import { findNextToArrayIndex } from './findNextToArrayIndex.js'
-import type { Subsequence } from './Subsequence.js'
+import { findNextToArrayIndex } from "./findNextToArrayIndex.js"
+import type { Subsequence } from "./Subsequence.js"
 
-export function getMatchingSubsequences(fromArray: any[], toArray: any[]): any[] {
+export function getMatchingSubsequences(
+  fromArray: any[],
+  toArray: any[],
+): any[] {
   const matchingSubsequences: Subsequence[] = []
   let fromArrayIndex = 0
   while (fromArrayIndex < fromArray.length) {
     let matchingSubsequence: Subsequence | null = null
     const fromArrayValue = fromArray[fromArrayIndex]
 
-    let toArrayIndex = findNextToArrayIndex(toArray, matchingSubsequences, fromArrayValue)
+    let toArrayIndex = findNextToArrayIndex(
+      toArray,
+      matchingSubsequences,
+      fromArrayValue,
+    )
 
     while (toArrayIndex !== -1) {
       let indexDelta = 0
@@ -17,7 +24,8 @@ export function getMatchingSubsequences(fromArray: any[], toArray: any[]): any[]
       } while (
         fromArrayIndex + indexDelta < fromArray.length &&
         toArrayIndex + indexDelta < toArray.length &&
-        fromArray[fromArrayIndex + indexDelta] === toArray[toArrayIndex + indexDelta]
+        fromArray[fromArrayIndex + indexDelta] ===
+          toArray[toArrayIndex + indexDelta]
       )
       indexDelta--
       const matchingSubsequenceLength = indexDelta + 1
@@ -37,7 +45,12 @@ export function getMatchingSubsequences(fromArray: any[], toArray: any[]): any[]
         ]
       }
 
-      toArrayIndex = findNextToArrayIndex(toArray, matchingSubsequences, fromArrayValue, toArrayIndex + 1)
+      toArrayIndex = findNextToArrayIndex(
+        toArray,
+        matchingSubsequences,
+        fromArrayValue,
+        toArrayIndex + 1,
+      )
     }
     if (matchingSubsequence) {
       matchingSubsequences.push(matchingSubsequence)

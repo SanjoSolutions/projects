@@ -9,11 +9,11 @@ let platforms = []
 let cameraYOffset = 0
 let cameraMoveToYOffset = 0
 
-import { createFullDocumentCanvas } from '@sanjo/canvas'
-import { loadImage } from '../../loadImage.js'
-import { animate } from '@sanjo/animate'
-import { randomInteger } from '../../randomInteger.js'
-import { run } from '../../run.js'
+import { createFullDocumentCanvas } from "@sanjo/canvas"
+import { loadImage } from "../../loadImage.js"
+import { animate } from "@sanjo/animate"
+import { randomInteger } from "../../randomInteger.js"
+import { run } from "../../run.js"
 
 let platformY = 25
 while (platformY < window.innerHeight) {
@@ -64,7 +64,13 @@ function jumpyPositionToCanvasPosition({ canvas }, jumpy) {
 function drawPlatform({ canvas, context }, platform, platformImage) {
   context.beginPath()
   const { x, y } = platformPositionToCanvasPosition({ canvas }, platform)
-  context.drawImage(platformImage, x, y, platformDrawing.width, platformDrawing.height)
+  context.drawImage(
+    platformImage,
+    x,
+    y,
+    platformDrawing.width,
+    platformDrawing.height,
+  )
   context.stroke()
 }
 
@@ -77,16 +83,19 @@ function platformPositionToCanvasPosition({ canvas }, platform) {
 
 function drawGameOver({ canvas, context }) {
   context.save()
-  context.font = '64px sans-serif'
+  context.font = "64px sans-serif"
   context.beginPath()
-  const text = 'Game over!'
+  const text = "Game over!"
   const textMeasure = context.measureText(text)
   context.fillText(
     text,
     window.innerWidth / 2 - 0.5 * textMeasure.width,
-    window.innerHeight / 2 + 0.5 * (textMeasure.actualBoundingBoxAscent + textMeasure.actualBoundingBoxDescent)
+    window.innerHeight / 2 +
+      0.5 *
+        (textMeasure.actualBoundingBoxAscent +
+          textMeasure.actualBoundingBoxDescent),
   )
-  context.fillStyle = 'red'
+  context.fillStyle = "red"
   context.fillRect(window.innerWidth / 2, window.innerHeight / 2, 1, 1)
   context.restore()
 }
@@ -94,15 +103,15 @@ function drawGameOver({ canvas, context }) {
 // Main
 
 async function main() {
-  const jumpyImage = await loadImage('jumpy.png')
-  const platformImage = await loadImage('platform.png')
+  const jumpyImage = await loadImage("jumpy.png")
+  const platformImage = await loadImage("platform.png")
 
   const { canvas, context } = createFullDocumentCanvas()
   document.body.appendChild(canvas)
 
   let mouseX = null
   let mouseY = null
-  document.addEventListener('mousemove', event => {
+  document.addEventListener("mousemove", (event) => {
     mouseX = event.pageX
     jumpy.x = mouseX - 0.5 * window.innerWidth
   })
@@ -128,10 +137,10 @@ async function main() {
         }
       } else {
         const jumpPlatform = platforms.find(
-          platform =>
+          (platform) =>
             platform.y === jumpy.y &&
             platform.x - 0.5 * platformDrawing.width <= jumpy.x &&
-            jumpy.x <= platform.x + 0.5 * platformDrawing.width
+            jumpy.x <= platform.x + 0.5 * platformDrawing.width,
         )
         if (jumpPlatform) {
           cameraMoveToYOffset = jumpPlatform.y - platformDrawing.height - 20
@@ -154,7 +163,7 @@ async function main() {
       }
       drawJumpy({ canvas, context }, jumpy, jumpyImage)
 
-      platforms = platforms.filter(platform => platform.y > cameraYOffset)
+      platforms = platforms.filter((platform) => platform.y > cameraYOffset)
     }
   })
 

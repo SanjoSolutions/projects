@@ -1,8 +1,8 @@
-import { describe, test, expect } from '@jest/globals'
-import { sum, times } from './index.js'
+import { describe, test, expect } from "@jest/globals"
+import { sum, times } from "./index.js"
 
-describe('sum', () => {
-  test('objects', function () {
+describe("sum", () => {
+  test("objects", function () {
     const A = {
       a: 2,
       b: -1,
@@ -20,13 +20,13 @@ describe('sum', () => {
     })
   })
 
-  test('numbers', function () {
+  test("numbers", function () {
     expect(sum([1, 2, 3])).toEqual(6)
   })
 })
 
-describe('times', function () {
-  test('number times object', () => {
+describe("times", function () {
+  test("number times object", () => {
     const number = 2
     const object = { a: 2, b: 3 }
     expect(times(number, object)).toEqual({

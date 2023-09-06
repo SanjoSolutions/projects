@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
 interface WorkTime {
   start: Date
@@ -56,7 +56,7 @@ class StopClock implements IStopClock {
 
   stop(): WorkTime {
     if (!this.stoppedTime) {
-      throw new Error('Stop clock has not been started yet.')
+      throw new Error("Stop clock has not been started yet.")
     }
     this.stoppedTime.end = new Date()
     return this.stoppedTime as WorkTime
@@ -81,16 +81,24 @@ class StopClockMock implements IStopClock {
   }
 }
 
-function calculateMoneyEarnedFromWorkTimes(workTimes: WorkTime[], hourlyRate: HourlyRate): Money {
+function calculateMoneyEarnedFromWorkTimes(
+  workTimes: WorkTime[],
+  hourlyRate: HourlyRate,
+): Money {
   return calculateMoneyEarned(calculateTimeWorked(workTimes), hourlyRate)
 }
 
-function calculateMoneyEarned(timeWorked: number, hourlyRate: HourlyRate): Money {
+function calculateMoneyEarned(
+  timeWorked: number,
+  hourlyRate: HourlyRate,
+): Money {
   return millisecondsToHours(timeWorked * hourlyRate)
 }
 
 function calculateTimeWorked(workTimes: WorkTime[]): TimeSpan {
-  const timesWorked = workTimes.map(({ start, end }) => calculateTimeSpan(start, end))
+  const timesWorked = workTimes.map(({ start, end }) =>
+    calculateTimeSpan(start, end),
+  )
   return sum(timesWorked)
 }
 
@@ -107,11 +115,16 @@ function sum(numbers: number[]) {
 }
 
 function generateDate(hour: number, minute: number = 0): Date {
-  return new Date(`2020-06-30 ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`)
+  return new Date(
+    `2020-06-30 ${String(hour).padStart(2, "0")}:${String(minute).padStart(
+      2,
+      "0",
+    )}`,
+  )
 }
 
-describe('MoneyMaker', () => {
-  it('makes money', () => {
+describe("MoneyMaker", () => {
+  it("makes money", () => {
     const workTimes = [
       {
         start: generateDate(9),
@@ -132,15 +145,19 @@ describe('MoneyMaker', () => {
       moneyMaker.stopWorking()
     }
 
-    expect(moneyMaker.getMoneyEarned()).toEqual(calculateMoneyEarnedFromWorkTimes(workTimes, hourlyRate))
+    expect(moneyMaker.getMoneyEarned()).toEqual(
+      calculateMoneyEarnedFromWorkTimes(workTimes, hourlyRate),
+    )
   })
 })
 
-describe('StopClock', () => {
-  describe('when stop clock is stopped before it has been started', () => {
-    it('throws an error', () => {
+describe("StopClock", () => {
+  describe("when stop clock is stopped before it has been started", () => {
+    it("throws an error", () => {
       const stopClock = new StopClock()
-      expect(() => stopClock.stop()).toThrowError('Stop clock has not been started yet.')
+      expect(() => stopClock.stop()).toThrowError(
+        "Stop clock has not been started yet.",
+      )
     })
   })
 })

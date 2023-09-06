@@ -1,13 +1,13 @@
-import { test, test2 } from "./1.js";
+import { test, test2 } from "./1.js"
 
 describe("test", () => {
   it("works", () => {
-    test();
-  });
-});
+    test()
+  })
+})
 
 describe("test2", () => {
   it("works", () => {
-    test2();
-  });
-});
+    test2()
+  })
+})

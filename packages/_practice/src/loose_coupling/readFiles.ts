@@ -1,8 +1,8 @@
-import { extname, relative } from 'path'
-import { extensionToContentType } from './extensionToContentType.js'
-import type { MIMEType } from './MIMEType.js'
-import { readFile } from './readFile.js'
-import { traverseDirectory } from './traverseDirectory.js'
+import { extname, relative } from "path"
+import { extensionToContentType } from "./extensionToContentType.js"
+import type { MIMEType } from "./MIMEType.js"
+import { readFile } from "./readFile.js"
+import { traverseDirectory } from "./traverseDirectory.js"
 
 export async function readFiles(directoryToServeFrom: string): Promise<File[]> {
   const files: File[] = []

@@ -1,6 +1,6 @@
 ;(async function () {
   while (true) {
     await undefined
-    console.log('A')
+    console.log("A")
   }
 })()

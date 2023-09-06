@@ -1,4 +1,4 @@
-import { generateRandomFloat } from './generateRandomFloat.js'
+import { generateRandomFloat } from "./generateRandomFloat.js"
 
 /**
  * @param min Minimum number (inclusive)

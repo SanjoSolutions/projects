@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
-import { removeExportsWhichAreOnlyImportedByTests } from "../removeExportsWhichAreOnlyImportedByTests.js";
+import { removeExportsWhichAreOnlyImportedByTests } from "../removeExportsWhichAreOnlyImportedByTests.js"
 
-await removeExportsWhichAreOnlyImportedByTests();
+await removeExportsWhichAreOnlyImportedByTests()

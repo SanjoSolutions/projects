@@ -1,4 +1,4 @@
-import { generateRandomInteger } from '@sanjo/random'
+import { generateRandomInteger } from "@sanjo/random"
 
 class Heart {
   public x: number
@@ -18,9 +18,9 @@ class Heart {
   constructor({ x, y }: { x: number; y: number }) {
     this.x = x
     this.y = y
-    this.element = document.createElement('div')
-    this.element.textContent = '❤'
-    this.element.classList.add('heart')
+    this.element = document.createElement("div")
+    this.element.textContent = "❤"
+    this.element.classList.add("heart")
     document.body.appendChild(this.element)
   }
 
@@ -49,7 +49,10 @@ export function main(): void {
 
   function spawnHearts() {
     for (let i = 0; i < 5; i++) {
-      const heart = new Heart({ x: generateRandomInteger(0, window.innerWidth), y: -10 })
+      const heart = new Heart({
+        x: generateRandomInteger(0, window.innerWidth),
+        y: -10,
+      })
       hearts.push(heart)
     }
   }
@@ -58,7 +61,7 @@ export function main(): void {
 
   setInterval(spawnHearts, 3000)
 
-  hearts.forEach(heart => heart.generateNewAAndB())
+  hearts.forEach((heart) => heart.generateNewAAndB())
 
   function requestNextAnimationFrame(): void {
     requestAnimationFrame(animate)

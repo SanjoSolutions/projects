@@ -1,4 +1,4 @@
-import { getWebServerPort } from './getWebServerPort.js'
+import { getWebServerPort } from "./getWebServerPort.js"
 
 export async function getUrl(input) {
   const webServerPort = await getWebServerPort()

@@ -1,12 +1,20 @@
-import { describe, it, test, expect, jest, afterEach, beforeEach } from '@jest/globals'
-import { kommtInFrage } from './core.js'
-import { contactData } from './config.js'
+import {
+  describe,
+  it,
+  test,
+  expect,
+  jest,
+  afterEach,
+  beforeEach,
+} from "@jest/globals"
+import { kommtInFrage } from "./core.js"
+import { contactData } from "./config.js"
 
-describe('core', () => {
-  describe('kommtInFrage', () => {
-    test('', () => {
+describe("core", () => {
+  describe("kommtInFrage", () => {
+    test("", () => {
       const flatOffer = {
-        url: 'https://immosuche.degewo.de/de/properties/W1400-40102-1300-1708',
+        url: "https://immosuche.degewo.de/de/properties/W1400-40102-1300-1708",
         coldRent: 219.3,
         coldServiceCharges: 66.97,
         warmServiceCharges: 24.38,

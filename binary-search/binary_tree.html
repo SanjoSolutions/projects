@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,7 +33,11 @@
         const numberOfLevels = calculateNumberOfLevels(numberOfLeafNodes)
         let nextLevelNodes = [binaryTree.root]
         let nodes
-        for (let levelIndex = 0; levelIndex < numberOfLevels - 1; levelIndex++) {
+        for (
+          let levelIndex = 0;
+          levelIndex < numberOfLevels - 1;
+          levelIndex++
+        ) {
           nodes = nextLevelNodes
           nextLevelNodes = new Array(2 ** (levelIndex + 1))
           let nextLevelNodesIndex = 0
@@ -60,7 +64,11 @@
 
       function calculateNumberOfNodes(numberOfLeafNodes) {
         let totalNumberOfNodes = 0
-        for (let numberOfNodes = 1; numberOfNodes <= numberOfLeafNodes; numberOfNodes *= 2) {
+        for (
+          let numberOfNodes = 1;
+          numberOfNodes <= numberOfLeafNodes;
+          numberOfNodes *= 2
+        ) {
           totalNumberOfNodes += numberOfNodes
         }
         return totalNumberOfNodes
@@ -73,30 +81,30 @@
 
       const totalNumberOfNodes = calculateNumberOfNodes(numberOfLeafNodes)
       const numberOfLevels = calculateNumberOfLevels(numberOfLeafNodes)
-      console.log('numberOfLevels', numberOfLevels)
+      console.log("numberOfLevels", numberOfLevels)
       const binaryTree = createBinaryTree(numberOfLeafNodes)
       let topNode = binaryTree.root
       let level = 1
 
-      const $undo = document.getElementById('undo')
-      const $l = document.getElementById('l')
-      const $r = document.getElementById('r')
-      const $level = document.getElementById('level')
-      const $output = document.getElementById('output')
+      const $undo = document.getElementById("undo")
+      const $l = document.getElementById("l")
+      const $r = document.getElementById("r")
+      const $level = document.getElementById("level")
+      const $output = document.getElementById("output")
 
-      $undo.addEventListener('click', () => {
+      $undo.addEventListener("click", () => {
         topNode = topNode.parent
         level--
         $level.textContent = String(level)
       })
 
-      $l.addEventListener('click', () => {
+      $l.addEventListener("click", () => {
         topNode = topNode.children[0]
         nextLevel()
         output()
       })
 
-      $r.addEventListener('click', () => {
+      $r.addEventListener("click", () => {
         topNode = topNode.children[1]
         nextLevel()
         output()
@@ -110,9 +118,9 @@
       function output() {
         if (level === numberOfLevels) {
           $output.textContent = String(topNode.value)
-          $undo.setAttribute('disabled', String(true))
-          $l.setAttribute('disabled', String(true))
-          $r.setAttribute('disabled', String(true))
+          $undo.setAttribute("disabled", String(true))
+          $l.setAttribute("disabled", String(true))
+          $r.setAttribute("disabled", String(true))
         }
       }
     </script>

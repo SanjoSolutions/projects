@@ -1,6 +1,6 @@
-import { sortCardsDescending } from './sortCardsDescending.js'
-import { getRank } from './getRank.js'
-import { getRankValue } from './getRankValue.js'
+import { sortCardsDescending } from "./sortCardsDescending.js"
+import { getRank } from "./getRank.js"
+import { getRankValue } from "./getRankValue.js"
 
 export function sortStraightFlushesDescending(straightFlushes) {
   straightFlushes = [...straightFlushes]

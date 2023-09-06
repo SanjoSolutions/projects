@@ -12,6 +12,6 @@ export function shiftBetween(a: any[], b: any[]): any[] {
     result.push(a[a.length - 1])
     return result
   } else {
-    throw new Error('Expected: a.length === b.length + 1')
+    throw new Error("Expected: a.length === b.length + 1")
   }
 }

@@ -1,1 +1,1 @@
-export { readJSON } from './readJSON.js'
+export { readJSON } from "./readJSON.js"

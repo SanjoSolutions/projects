@@ -1,4 +1,4 @@
-import type { DependingOn } from './DependingOn.js'
+import type { DependingOn } from "./DependingOn.js"
 
 export class DependencyInjectionContainer {
   registry: Map<string, any>
@@ -9,7 +9,9 @@ export class DependencyInjectionContainer {
 
   register(id: string, component: any): void {
     if (this.registry.has(id)) {
-      throw new Error(`There is already a component registered with the id "${id}".`)
+      throw new Error(
+        `There is already a component registered with the id "${id}".`,
+      )
     }
 
     this.registry.set(id, component)
@@ -19,7 +21,9 @@ export class DependencyInjectionContainer {
     const dependencyIds = (component as any).getDependencies()
     for (const dependencyId of dependencyIds) {
       if (!this.registry.has(dependencyId)) {
-        throw new Error(`No component has been registered with the id "${dependencyId}".`)
+        throw new Error(
+          `No component has been registered with the id "${dependencyId}".`,
+        )
       }
     }
 

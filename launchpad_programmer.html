@@ -46,7 +46,7 @@
     displayCurrentFrame()
 
     launchpad.onPadPress(onTap)
-    launchpad.onControlPadPress(column => {
+    launchpad.onControlPadPress((column) => {
       if (column === 1) {
         previousSequence()
       } else if (column === 2) {
@@ -82,11 +82,11 @@
     }
 
     function save() {
-      localStorage.setItem('sequences', JSON.stringify(sequences))
+      localStorage.setItem("sequences", JSON.stringify(sequences))
     }
 
     function load() {
-      const sequencesJSON = localStorage.getItem('sequences')
+      const sequencesJSON = localStorage.getItem("sequences")
 
       if (sequencesJSON) {
         try {
@@ -109,7 +109,9 @@
 
     function parseFrame(frameJSON) {
       const frame = createFrame()
-      frame.values = frameJSON.values.map(value => (value ? new Color(value.green, value.red) : null))
+      frame.values = frameJSON.values.map((value) =>
+        value ? new Color(value.green, value.red) : null,
+      )
       return frame
     }
 
@@ -160,7 +162,8 @@
 
     function onTap({ row, column }) {
       if (column === 9 && row === 1) {
-        const lastBpmTap = bpmTaps.length > 0 ? bpmTaps[bpmTaps.length - 1] : null
+        const lastBpmTap =
+          bpmTaps.length > 0 ? bpmTaps[bpmTaps.length - 1] : null
         if (lastBpmTap && lastBpmTap <= Date.now() - 10000) {
           bmpTaps = []
         }
@@ -235,7 +238,10 @@
         for (let column = 1; column <= frame.width; column++) {
           const previousCell = lastDisplayedFrame.get({ row, column })
           const cell = frame.get({ row, column })
-          if (cell !== previousCell || (previousCell && cell && !cell.equals(previousCell))) {
+          if (
+            cell !== previousCell ||
+            (previousCell && cell && !cell.equals(previousCell))
+          ) {
             led({ row, column }, frame.get({ row, column }))
           }
         }
@@ -263,13 +269,13 @@
   }
 
   function wait(interval) {
-    return new Promise(resolve => setTimeout(resolve, interval))
+    return new Promise((resolve) => setTimeout(resolve, interval))
   }
 
   function run(fn) {
     fn().then(
-      result => console.log(result),
-      error => console.error(error)
+      (result) => console.log(result),
+      (error) => console.error(error),
     )
   }
 

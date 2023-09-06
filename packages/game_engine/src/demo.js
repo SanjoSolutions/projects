@@ -1,12 +1,12 @@
-import { Game } from "./Game.js";
-import { Map as GameEngineMap } from "./Map.js";
-import { TeleportationArea } from "./TeleportationArea.js";
-import { Tile } from "./Tile.js";
+import { Game } from "./Game.js"
+import { Map as GameEngineMap } from "./Map.js"
+import { TeleportationArea } from "./TeleportationArea.js"
+import { Tile } from "./Tile.js"
 
-const sand = new Tile("images/tiles/sand.png");
-const f = sand;
-const grass = new Tile("images/tiles/grass.png");
-const g = grass;
+const sand = new Tile("images/tiles/sand.png")
+const f = sand
+const grass = new Tile("images/tiles/grass.png")
+const g = grass
 // prettier-ignore
 const map = new GameEngineMap(20, 12, {
   floor: [
@@ -25,7 +25,7 @@ const map = new GameEngineMap(20, 12, {
   ],
 });
 
-const w = new Tile("images/tiles/wood_floor.png");
+const w = new Tile("images/tiles/wood_floor.png")
 // prettier-ignore
 const map2 = new GameEngineMap(20, 12, {
   floor: [
@@ -51,8 +51,8 @@ map.addTeleportationArea(
       x: 10,
       y: 10.5,
     },
-  })
-);
+  }),
+)
 map2.addTeleportationArea(
   new TeleportationArea(9, 11, 2, 1, {
     map: map,
@@ -60,10 +60,10 @@ map2.addTeleportationArea(
       x: 9,
       y: 7,
     },
-  })
-);
+  }),
+)
 
-const maps = [map, map2];
-const game = new Game(document.body, maps);
-game.initialize();
-game.start();
+const maps = [map, map2]
+const game = new Game(document.body, maps)
+game.initialize()
+game.start()

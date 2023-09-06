@@ -1,5 +1,5 @@
-import { getInnerHTMLOfChild } from './getInnerHTMLOfChild.js'
-import { getInnerTextOfChild } from './getInnerTextOfChild.js'
+import { getInnerHTMLOfChild } from "./getInnerHTMLOfChild.js"
+import { getInnerTextOfChild } from "./getInnerTextOfChild.js"
 
 export class Page {
   constructor(page) {

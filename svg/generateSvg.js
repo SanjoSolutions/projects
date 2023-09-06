@@ -1,1 +1,1 @@
-const svg = document.createElement('svg')
+const svg = document.createElement("svg")

@@ -1,11 +1,11 @@
-import { promises as fs, watch } from 'fs'
-import path from 'path'
+import { promises as fs, watch } from "fs"
+import path from "path"
 
 const rootPath = path.resolve(process.cwd())
 
-const pagesDirectoryName = 'pages'
-const blocksDirectoryName = 'blocks'
-const layoutsDirectoryName = 'layouts'
+const pagesDirectoryName = "pages"
+const blocksDirectoryName = "blocks"
+const layoutsDirectoryName = "layouts"
 
 const pagesPath = path.join(rootPath, pagesDirectoryName)
 const blocksPath = path.join(rootPath, blocksDirectoryName)
@@ -15,7 +15,7 @@ run(main)
 
 async function main() {
   const args = process.argv.slice(2)
-  if (args[0] === 'watch') {
+  if (args[0] === "watch") {
     await renderPages()
 
     const onWatchEvent = async function (eventType, filePath) {
@@ -43,7 +43,7 @@ function watchPath(pathToWatch, onWatchEvent) {
 }
 
 async function renderPages() {
-  console.log('Rendering pages…')
+  console.log("Rendering pages…")
 
   let directoryPaths = [pagesPath]
   let nextDirectoryPaths = []
@@ -55,7 +55,9 @@ async function renderPages() {
       for (const directoryEntry of directoryEntries) {
         const entryFilename = directoryEntry.name
         const entryPath = path.join(directoryPath, entryFilename)
-        const stats = directoryEntry.isSymbolicLink() ? await fs.stat(entryPath) : directoryEntry
+        const stats = directoryEntry.isSymbolicLink()
+          ? await fs.stat(entryPath)
+          : directoryEntry
         if (stats.isFile() && isJavaScriptFile(entryFilename)) {
           const pagePath = path.relative(pagesPath, entryPath)
           console.log(`Rendering page "${pagePath}"…`)
@@ -69,11 +71,11 @@ async function renderPages() {
     nextDirectoryPaths = []
   }
 
-  console.log('Done rendering pages.')
+  console.log("Done rendering pages.")
 }
 
 function isJavaScriptFile(filePath) {
-  return ['.js', '.mjs', '.cjs'].includes(path.extname(filePath))
+  return [".js", ".mjs", ".cjs"].includes(path.extname(filePath))
 }
 
 async function renderPageOrDeleteOutput(pagePath) {
@@ -83,7 +85,7 @@ async function renderPageOrDeleteOutput(pagePath) {
     console.log(`Done rendering page "${pagePath}".`)
   } catch (error) {
     console.error(`Failed rendering page "${pagePath}".`)
-    if (error.code === 'ERR_MODULE_NOT_FOUND') {
+    if (error.code === "ERR_MODULE_NOT_FOUND") {
       await deleteOutput(pagePath)
     } else {
       throw error
@@ -123,12 +125,16 @@ async function writePageOutput(pagePath, output) {
 }
 
 function getPageDestinationPath(pagePath) {
-  return path.join(rootPath, path.dirname(pagePath), path.basename(pagePath, path.extname(pagePath)) + '.html')
+  return path.join(
+    rootPath,
+    path.dirname(pagePath),
+    path.basename(pagePath, path.extname(pagePath)) + ".html",
+  )
 }
 
 async function writeOutput(outputPath, output) {
   await fs.mkdir(path.dirname(outputPath), { recursive: true })
-  await fs.writeFile(outputPath, output, { encoding: 'utf8' })
+  await fs.writeFile(outputPath, output, { encoding: "utf8" })
 }
 
 async function deleteOutput(pagePath) {
@@ -155,20 +161,24 @@ async function removeEmptyDirectoriesUpTo(directoryPath, upToPath) {
   if (isSubdirectory(upToPath, directoryPath)) {
     let remainingPath = path.relative(pagesPath, path.resolve(directoryPath))
     try {
-      while (remainingPath !== '.') {
+      while (remainingPath !== ".") {
         await fs.rmdir(path.join(upToPath, remainingPath))
         remainingPath = path.dirname(remainingPath)
       }
     } catch (error) {}
   } else {
-    throw new Error(`upToPath ("${upToPath}") must be a subdirectory of directoryPath ("${directoryPath}").`)
+    throw new Error(
+      `upToPath ("${upToPath}") must be a subdirectory of directoryPath ("${directoryPath}").`,
+    )
   }
 }
 
 function isSubdirectory(directoryPath, pathToCheckAgainst) {
   directoryPath = path.resolve(directoryPath)
   pathToCheckAgainst = path.resolve(pathToCheckAgainst)
-  return directoryPath.substring(0, pathToCheckAgainst.length) === pathToCheckAgainst
+  return (
+    directoryPath.substring(0, pathToCheckAgainst.length) === pathToCheckAgainst
+  )
 }
 
 function run(fn) {

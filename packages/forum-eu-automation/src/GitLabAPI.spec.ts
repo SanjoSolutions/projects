@@ -1,9 +1,9 @@
-jest.mock('@sanjo/request-json')
+jest.mock("@sanjo/request-json")
 
-import { beforeEach, describe, expect, it, jest } from '@jest/globals'
-import { requestJSON } from '@sanjo/request-json'
-import { GitLabAPI } from './GitLabAPI.js'
-import { createMergeRequest } from './testing/fixtures/gitLabAPI/gitlab/createMergeRequest.js'
+import { beforeEach, describe, expect, it, jest } from "@jest/globals"
+import { requestJSON } from "@sanjo/request-json"
+import { GitLabAPI } from "./GitLabAPI.js"
+import { createMergeRequest } from "./testing/fixtures/gitLabAPI/gitlab/createMergeRequest.js"
 
 // TODO: Way to get merge request id for ticketId
 //   Maybe just stored it when getting it from createMergeRequest response
@@ -11,27 +11,27 @@ import { createMergeRequest } from './testing/fixtures/gitLabAPI/gitlab/createMe
 //     works for when merge request has not been created by tool
 //       for mark merge request as ready
 
-describe('GitLabAPI', () => {
-  const projectId = '1'
-  const baseURL = 'http://example.com/api/v4'
-  const token = ''
+describe("GitLabAPI", () => {
+  const projectId = "1"
+  const baseURL = "http://example.com/api/v4"
+  const token = ""
   let gitLabAPI: GitLabAPI
 
   beforeEach(function () {
     gitLabAPI = new GitLabAPI(baseURL, token)
   })
 
-  describe('listRepositoryBranches', () => {
-    it('lists repository branches', async () => {
+  describe("listRepositoryBranches", () => {
+    it("lists repository branches", async () => {
       const branches = [
         {
-          name: 'master',
+          name: "master",
         },
         {
-          name: 'develop',
+          name: "develop",
         },
         {
-          name: '1-feature',
+          name: "1-feature",
         },
       ]
       ;(requestJSON as jest.Mock<any, any>).mockResolvedValue(branches)
@@ -40,59 +40,65 @@ describe('GitLabAPI', () => {
     })
   })
 
-  describe('listProjectMergeRequests', () => {
-    it('lists merge requests', async () => {
+  describe("listProjectMergeRequests", () => {
+    it("lists merge requests", async () => {
       const gitLabMergeRequests = [createMergeRequest()]
-      ;(requestJSON as jest.Mock<any, any>).mockResolvedValue(gitLabMergeRequests)
+      ;(requestJSON as jest.Mock<any, any>).mockResolvedValue(
+        gitLabMergeRequests,
+      )
       const mergeRequests = await gitLabAPI.listProjectMergeRequests(projectId)
       expect(mergeRequests).toEqual([
         {
           id: 1, // ?
           iid: 1, // ?
-          title: '1-feature',
-          url: 'https://www.example.com/groupName/repositoryName/-/merge_requests/1',
+          title: "1-feature",
+          url: "https://www.example.com/groupName/repositoryName/-/merge_requests/1",
         },
       ])
     })
   })
 
-  describe('createMergeRequest', () => {
-    it('creates a merge request', async () => {
+  describe("createMergeRequest", () => {
+    it("creates a merge request", async () => {
       const options = {
-        sourceBranch: '1-feature',
-        targetBranch: 'dev',
-        title: '1-feature',
+        sourceBranch: "1-feature",
+        targetBranch: "dev",
+        title: "1-feature",
       }
       const response = await gitLabAPI.createMergeRequest(projectId, options)
       expect(requestJSON).toHaveBeenCalledWith(
         `${baseURL}/projects/${projectId}/merge_requests`,
         {
-          method: 'POST',
+          method: "POST",
         },
         {
-          source_branch: '1-feature',
-          target_branch: 'dev',
-          title: '1-feature',
-        }
+          source_branch: "1-feature",
+          target_branch: "dev",
+          title: "1-feature",
+        },
       )
     })
   })
 
-  describe('updateMergeRequest', () => {
-    it('updates a merge request', async () => {
+  describe("updateMergeRequest", () => {
+    it("updates a merge request", async () => {
       const options = {
-        title: '1-feature',
+        title: "1-feature",
       }
-      const mergeRequestId = '2'
-      const response = await gitLabAPI.updateMergeRequest(projectId, mergeRequestId, options)
+      const mergeRequestId = "2"
+      const response = await gitLabAPI.updateMergeRequest(
+        projectId,
+        mergeRequestId,
+        options,
+      )
       expect(requestJSON).toHaveBeenCalledWith(
         `${baseURL}/projects/${projectId}/merge_requests/${mergeRequestId}`,
         {
-          method: 'PUT',
+          method: "PUT",
         },
         {
-          title: '1-feature',
-        }
+          title: "1-feature",
+        },
       )
     })
   })

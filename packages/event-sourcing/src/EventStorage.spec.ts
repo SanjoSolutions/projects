@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it, jest, test } from '@jest/globals'
-import fs from 'fs/promises'
-import { EventStorage } from './EventStorage.js'
+import { beforeEach, describe, expect, it, jest, test } from "@jest/globals"
+import fs from "fs/promises"
+import { EventStorage } from "./EventStorage.js"
 
-declare module 'expect/build/types.js' {
+declare module "expect/build/types.js" {
   interface Matchers<R> {
     toHaveBeenStoredIn(eventStorage: EventStorage): R
 
@@ -15,7 +15,7 @@ expect.extend({
     return {
       pass: hasBeenStoredInEventStorage,
       message() {
-        return 'It seems that the event storage does not include the event.'
+        return "It seems that the event storage does not include the event."
       },
     }
   },
@@ -24,39 +24,39 @@ expect.extend({
     return {
       pass: (fs.writeFile as jest.Mock).mock.calls.length >= 1,
       message() {
-        return 'It seems that the event has not been stored on disk.'
+        return "It seems that the event has not been stored on disk."
       },
     }
   },
 })
 
-const fileName = 'a.json'
+const fileName = "a.json"
 
-describe('EventStorage', () => {
+describe("EventStorage", () => {
   beforeEach(() => {
-    jest.spyOn(fs, 'readFile').mockRejectedValue({
-      code: 'ENOENT',
+    jest.spyOn(fs, "readFile").mockRejectedValue({
+      code: "ENOENT",
     })
-    jest.spyOn(fs, 'writeFile').mockResolvedValue(undefined)
+    jest.spyOn(fs, "writeFile").mockResolvedValue(undefined)
   })
 
-  describe('constructor', () => {
-    it('accepts a file name for persistence', () => {
+  describe("constructor", () => {
+    it("accepts a file name for persistence", () => {
       const eventStorage = new EventStorage(fileName)
       expect(eventStorage._fileName).toEqual(fileName)
     })
   })
 
-  describe('initialisation', () => {
-    it('loads events from disk', async () => {
+  describe("initialisation", () => {
+    it("loads events from disk", async () => {
       const eventStorage = new EventStorage(fileName)
-      ;(fs.readFile as jest.Mock).mockResolvedValue('[{}]')
+      ;(fs.readFile as jest.Mock).mockResolvedValue("[{}]")
       await eventStorage.initialize()
       expect(eventStorage.retrieve()).toEqual([{}])
     })
 
-    describe('when the file does not exist', () => {
-      it('initializes the store with an empty list', async () => {
+    describe("when the file does not exist", () => {
+      it("initializes the store with an empty list", async () => {
         const eventStorage = new EventStorage(fileName)
         await eventStorage.initialize()
         expect(eventStorage.retrieve()).toEqual([])
@@ -64,8 +64,8 @@ describe('EventStorage', () => {
     })
   })
 
-  describe('store', () => {
-    it('saves the event in memory', async () => {
+  describe("store", () => {
+    it("saves the event in memory", async () => {
       const eventStorage = new EventStorage(fileName)
       await eventStorage.initialize()
       const event = {}
@@ -73,7 +73,7 @@ describe('EventStorage', () => {
       expect(event).toHaveBeenStoredIn(eventStorage)
     })
 
-    it('saves the event to disk', async () => {
+    it("saves the event to disk", async () => {
       const eventStorage = new EventStorage(fileName)
       await eventStorage.initialize()
       const event = {}
@@ -81,19 +81,19 @@ describe('EventStorage', () => {
       expect(event).toHaveBeenStoredOnDisk()
     })
 
-    describe('when it is called before initialize', () => {
-      it('throws an error', async () => {
+    describe("when it is called before initialize", () => {
+      it("throws an error", async () => {
         const eventStorage = new EventStorage(fileName)
         const event = {}
         await expect(() => eventStorage.store(event)).rejects.toThrow(
-          'Please call initialize() before calling store().'
+          "Please call initialize() before calling store().",
         )
       })
     })
   })
 
-  describe('retrieve', () => {
-    it('returns all events', async () => {
+  describe("retrieve", () => {
+    it("returns all events", async () => {
       const eventStorage = new EventStorage(fileName)
       await eventStorage.initialize()
       const event = {}
@@ -102,7 +102,7 @@ describe('EventStorage', () => {
       expect(events).toEqual([event])
     })
 
-    it('returns a copy of the list of events', async () => {
+    it("returns a copy of the list of events", async () => {
       const eventStorage = new EventStorage(fileName)
       await eventStorage.initialize()
       const event = {}
@@ -116,84 +116,86 @@ describe('EventStorage', () => {
       expect(events2).toEqual([event])
     })
 
-    describe('when it is called before initialize', () => {
-      it('throws an error', async () => {
+    describe("when it is called before initialize", () => {
+      it("throws an error", async () => {
         const eventStorage = new EventStorage(fileName)
-        expect(() => eventStorage.retrieve()).toThrow('Please call initialize() before calling retrieve().')
+        expect(() => eventStorage.retrieve()).toThrow(
+          "Please call initialize() before calling retrieve().",
+        )
       })
     })
   })
 })
 
-describe('', () => {
-  test('', () => {
+describe("", () => {
+  test("", () => {
     const events = [
       {
-        type: 'deposit',
-        to: 'a',
+        type: "deposit",
+        to: "a",
         amount: 10,
       },
       {
-        type: 'transfer',
-        from: 'a',
-        to: 'b',
+        type: "transfer",
+        from: "a",
+        to: "b",
         amount: 10,
       },
     ]
-    const balanceA = determineBalance(events, 'a')
-    const balanceB = determineBalance(events, 'b')
+    const balanceA = determineBalance(events, "a")
+    const balanceB = determineBalance(events, "b")
 
     expect(balanceA).toEqual(0)
     expect(balanceB).toEqual(10)
   })
 })
 
-describe('updating of balance', () => {
-  it('updates the balance when a event is added which changes the balance', () => {
+describe("updating of balance", () => {
+  it("updates the balance when a event is added which changes the balance", () => {
     const events: any[] = []
 
-    const balanceA = balance(events, 'a')
+    const balanceA = balance(events, "a")
 
     events.push({
-      type: 'deposit',
-      to: 'a',
+      type: "deposit",
+      to: "a",
       amount: 10,
     })
 
     expect(balanceA.get()).toEqual(10)
   })
 
-  it('updates the balance when a event is added which changes the balance', () => {
+  it("updates the balance when a event is added which changes the balance", () => {
     const events: any[] = []
 
-    const balanceA = balance(events, 'a')
+    const balanceA = balance(events, "a")
 
     events.push({
-      type: 'deposit',
-      to: 'a',
+      type: "deposit",
+      to: "a",
       amount: 11,
     })
 
     expect(balanceA.get()).toEqual(11)
   })
 
-  it('updates the balance when a event is added which changes the balance', () => {
+  it("updates the balance when a event is added which changes the balance", () => {
     const events: any[] = []
 
-    const balanceA = balance(events, 'a')
+    const balanceA = balance(events, "a")
 
     events.push({
-      type: 'deposit',
-      to: 'a',
+      type: "deposit",
+      to: "a",
       amount: 11,
     })
 
     expect(balanceA.get()).toEqual(11)
 
     events.push({
-      type: 'transfer',
-      from: 'a',
-      to: 'b',
+      type: "transfer",
+      from: "a",
+      to: "b",
       amount: 10,
     })
 
@@ -201,21 +203,26 @@ describe('updating of balance', () => {
   })
 })
 
-describe('balance', () => {
-  it('returns a default balance of 0', () => {
+describe("balance", () => {
+  it("returns a default balance of 0", () => {
     const events: any[] = []
 
-    const balanceA = balance(events, 'a')
+    const balanceA = balance(events, "a")
 
     expect(balanceA.get()).toEqual(0)
   })
 })
 
 function balance(events: any[], accountId: string): { get: () => number } {
-  return value<number>(events, (events, lastValue) => determineBalance(events, accountId, lastValue))
+  return value<number>(events, (events, lastValue) =>
+    determineBalance(events, accountId, lastValue),
+  )
 }
 
-function value<T>(events: any[], determineValue: (events: any[], lastValue: T | undefined) => T): { get: () => T } {
+function value<T>(
+  events: any[],
+  determineValue: (events: any[], lastValue: T | undefined) => T,
+): { get: () => T } {
   let lastEventIndexProcessed = -1
   let lastValue: T | undefined = undefined
   return {
@@ -229,13 +236,17 @@ function value<T>(events: any[], determineValue: (events: any[], lastValue: T | 
   }
 }
 
-function determineBalance(events: any[], accountId: string, balance: number = 0): number {
+function determineBalance(
+  events: any[],
+  accountId: string,
+  balance: number = 0,
+): number {
   return events.reduce((balance, event) => {
-    if (event.type === 'deposit' && event.to === accountId) {
+    if (event.type === "deposit" && event.to === accountId) {
       return balance + event.amount
-    } else if (event.type === 'transfer' && event.from === accountId) {
+    } else if (event.type === "transfer" && event.from === accountId) {
       return balance - event.amount
-    } else if (event.type === 'transfer' && event.to === accountId) {
+    } else if (event.type === "transfer" && event.to === accountId) {
       return balance + event.amount
     } else {
       return balance

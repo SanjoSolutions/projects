@@ -1,5 +1,5 @@
-import type { IncomingMessage } from "http";
+import type { IncomingMessage } from "http"
 
 export interface IncomingMessageWithBody extends IncomingMessage {
-  body: string;
+  body: string
 }

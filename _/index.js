@@ -1,4 +1,4 @@
-import { createFullDocumentCanvas } from '../createFullDocumentCanvas/createFullDocumentCanvas.js'
+import { createFullDocumentCanvas } from "../createFullDocumentCanvas/createFullDocumentCanvas.js"
 
 async function main() {
   const { canvas, context } = createFullDocumentCanvas()
@@ -81,7 +81,11 @@ async function main() {
     const m = context.measureText(text0)
     const text0Width = m.actualBoundingBoxLeft + m.actualBoundingBoxRight
     context.beginPath()
-    context.fillText(text, point300000.x - 0.5 * text0Width, inverseYAxis(point300000.y + 3))
+    context.fillText(
+      text,
+      point300000.x - 0.5 * text0Width,
+      inverseYAxis(point300000.y + 3),
+    )
   }
 
   function drawAngleA(alpha) {
@@ -107,4 +111,4 @@ async function main() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', main)
+document.addEventListener("DOMContentLoaded", main)

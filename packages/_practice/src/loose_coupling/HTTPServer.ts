@@ -1,21 +1,35 @@
-import type { IncomingMessage, RequestListener, Server, ServerResponse } from 'http'
-import http from 'http'
-import { URL } from 'url'
-import { promisify } from 'util'
+import type {
+  IncomingMessage,
+  RequestListener,
+  Server,
+  ServerResponse,
+} from "http"
+import http from "http"
+import { URL } from "url"
+import { promisify } from "util"
 
-const protocol = 'http'
+const protocol = "http"
 
-function createDefaultRequestHandler(responseText: string, contentType: string | null = null): RequestListener {
-  return function defaultRequestHandler(request: IncomingMessage, response: ServerResponse) {
+function createDefaultRequestHandler(
+  responseText: string,
+  contentType: string | null = null,
+): RequestListener {
+  return function defaultRequestHandler(
+    request: IncomingMessage,
+    response: ServerResponse,
+  ) {
     if (contentType) {
-      response.setHeader('content-type', contentType)
+      response.setHeader("content-type", contentType)
     }
     response.writeHead(200)
     response.end(responseText)
   }
 }
 
-function notFoundRequestHandler(request: IncomingMessage, response: ServerResponse): void {
+function notFoundRequestHandler(
+  request: IncomingMessage,
+  response: ServerResponse,
+): void {
   response.end()
 }
 
@@ -30,29 +44,36 @@ export class HTTPServer {
     this._requestListener = this._requestListener.bind(this)
     this._onError = this._onError.bind(this)
     this._server = http.createServer(this._requestListener)
-    this._server.on('error', this._onError)
+    this._server.on("error", this._onError)
     this._requestHandlers = new Map()
     this._notFoundRequestHandler = notFoundRequestHandler
   }
 
-  route(pathname: string, responseText: string, contentType: string | null = null) {
-    this._requestHandlers.set(pathname, createDefaultRequestHandler(responseText, contentType))
+  route(
+    pathname: string,
+    responseText: string,
+    contentType: string | null = null,
+  ) {
+    this._requestHandlers.set(
+      pathname,
+      createDefaultRequestHandler(responseText, contentType),
+    )
   }
 
   listen(): Promise<void> {
     return new Promise((resolve, reject) => {
       const onListening = () => {
-        this._server.off('error', onError)
+        this._server.off("error", onError)
         resolve()
       }
 
       const onError = (error: Error) => {
-        this._server.off('listening', onListening)
+        this._server.off("listening", onListening)
         reject(error)
       }
 
-      this._server.once('listening', onListening)
-      this._server.once('error', onError)
+      this._server.once("listening", onListening)
+      this._server.once("error", onError)
       this._server.listen(this._port)
     })
   }
@@ -81,6 +102,6 @@ export class HTTPServer {
   }
 
   _onError(error: Error) {
-    console.error('HTTPServer error', error)
+    console.error("HTTPServer error", error)
   }
 }

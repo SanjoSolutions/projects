@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
 class BinaryTree {
   public root: BinaryTreeNode = new BinaryTreeNode()
@@ -24,8 +24,8 @@ function createBinaryTreeNode() {
   return new BinaryTreeNode()
 }
 
-describe('Binary tree', () => {
-  it('can represent a binary tree structure', () => {
+describe("Binary tree", () => {
+  it("can represent a binary tree structure", () => {
     const binaryTree = createBinaryTree()
     expect(binaryTree.root instanceof BinaryTreeNode).toEqual(true)
     expect(binaryTree.root.children).toHaveLength(2)

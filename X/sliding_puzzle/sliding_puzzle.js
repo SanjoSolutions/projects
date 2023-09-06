@@ -1,4 +1,4 @@
-import { search } from '../../ida_star/index.js'
+import { search } from "../../ida_star/index.js"
 
 const WITH_NUMBERS = false
 
@@ -23,13 +23,13 @@ function createSlidingPuzzle() {
 }
 
 function slidingPuzzleToString(slidingPuzzle) {
-  let output = ''
+  let output = ""
   for (let row = 0; row < height; row++) {
     output +=
       slidingPuzzle
         .slice(row * width, (row + 1) * width)
         .map(slidingPuzzleValueToString)
-        .join(' ') + '\n'
+        .join(" ") + "\n"
   }
   return output
 }
@@ -37,12 +37,12 @@ function slidingPuzzleToString(slidingPuzzle) {
 function slidingPuzzleValueToString(value) {
   const maxValue = size - 1
   const maxLength = String(maxValue).length + 1
-  return (value === null ? '' : String(value)).padStart(maxLength, ' ')
+  return (value === null ? "" : String(value)).padStart(maxLength, " ")
 }
 
 function movePiece(slidingPuzzle, indexOrPosition) {
   let index
-  if (typeof indexOrPosition === 'object') {
+  if (typeof indexOrPosition === "object") {
     index = positionToIndex(indexOrPosition)
   } else {
     index = indexOrPosition
@@ -58,8 +58,10 @@ function isValidMove(fromIndex, toIndex) {
   const fromPosition = indexToPosition(fromIndex)
   const toPosition = indexToPosition(toIndex)
   return (
-    (Math.abs(toPosition.row - fromPosition.row) === 1 && Math.abs(toPosition.column - fromPosition.column) === 0) ||
-    (Math.abs(toPosition.row - fromPosition.row) === 0 && Math.abs(toPosition.column - fromPosition.column) === 1)
+    (Math.abs(toPosition.row - fromPosition.row) === 1 &&
+      Math.abs(toPosition.column - fromPosition.column) === 0) ||
+    (Math.abs(toPosition.row - fromPosition.row) === 0 &&
+      Math.abs(toPosition.column - fromPosition.column) === 1)
   )
 }
 
@@ -83,9 +85,11 @@ let lastShuffleToIndex = null
 function shuffle(slidingPuzzle) {
   const emptySlotIndex = slidingPuzzle.indexOf(null)
   const movableIndexes = series(0, slidingPuzzle.length - 1).filter(
-    index => index !== lastShuffleToIndex && isValidMove(index, emptySlotIndex)
+    (index) =>
+      index !== lastShuffleToIndex && isValidMove(index, emptySlotIndex),
   )
-  const index = movableIndexes[Math.floor(Math.random() * movableIndexes.length)]
+  const index =
+    movableIndexes[Math.floor(Math.random() * movableIndexes.length)]
   slidingPuzzle = movePiece(slidingPuzzle, index)
   lastShuffleToIndex = emptySlotIndex
   return {
@@ -131,35 +135,39 @@ function areArraysEqual(a, b) {
 }
 
 async function renderSlidingPuzzle(slidingPuzzle, withNumbers = false) {
-  const image = await loadImage('images/cat.jpg')
+  const image = await loadImage("images/cat.jpg")
   let scaledWidth
   let scaledHeight
   if (image.naturalWidth < image.naturalHeight) {
     scaledWidth = 256
-    scaledHeight = Math.round((scaledWidth / image.naturalWidth) * image.naturalHeight)
+    scaledHeight = Math.round(
+      (scaledWidth / image.naturalWidth) * image.naturalHeight,
+    )
   } else {
     scaledHeight = 256
-    scaledWidth = Math.round((scaledHeight / image.naturalHeight) * image.naturalWidth)
+    scaledWidth = Math.round(
+      (scaledHeight / image.naturalHeight) * image.naturalWidth,
+    )
   }
 
-  const $slidingPuzzle = document.createElement('div')
-  $slidingPuzzle.classList.add('sliding-puzzle')
-  $slidingPuzzle.style.width = slidingPuzzleWidth + 'px'
-  $slidingPuzzle.style.height = slidingPuzzleHeight + 'px'
+  const $slidingPuzzle = document.createElement("div")
+  $slidingPuzzle.classList.add("sliding-puzzle")
+  $slidingPuzzle.style.width = slidingPuzzleWidth + "px"
+  $slidingPuzzle.style.height = slidingPuzzleHeight + "px"
 
   for (let row = 0; row < height; row++) {
     for (let column = 0; column < width; column++) {
       const value = slidingPuzzle[positionToIndex({ row, column })]
       if (value !== null) {
-        const $slidingPuzzlePiece = document.createElement('div')
+        const $slidingPuzzlePiece = document.createElement("div")
         if (withNumbers) {
           $slidingPuzzlePiece.textContent = value
         }
-        $slidingPuzzlePiece.classList.add('sliding-puzzle__piece')
+        $slidingPuzzlePiece.classList.add("sliding-puzzle__piece")
         // $slidingPuzzlePiece.innerText = value
-        $slidingPuzzlePiece.setAttribute('data-value', value)
-        $slidingPuzzlePiece.style.width = slidingPuzzlePieceWidth + 'px'
-        $slidingPuzzlePiece.style.height = slidingPuzzlePieceHeight + 'px'
+        $slidingPuzzlePiece.setAttribute("data-value", value)
+        $slidingPuzzlePiece.style.width = slidingPuzzlePieceWidth + "px"
+        $slidingPuzzlePiece.style.height = slidingPuzzlePieceHeight + "px"
         $slidingPuzzlePiece.style.left = `${column * slidingPuzzlePieceWidth}px`
         $slidingPuzzlePiece.style.top = `${row * slidingPuzzlePieceHeight}px`
         $slidingPuzzlePiece.style.backgroundSize = `${scaledWidth}px ${scaledHeight}px`
@@ -175,7 +183,7 @@ async function renderSlidingPuzzle(slidingPuzzle, withNumbers = false) {
 }
 
 async function loadImage(url) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const image = new Image()
     image.onload = () => {
       resolve(image)
@@ -193,7 +201,7 @@ function series(fromNumberInclusive, toNumberInclusive) {
 }
 
 function wait(numberOfSeconds) {
-  return new Promise(resolve => setTimeout(resolve, numberOfSeconds * 1000))
+  return new Promise((resolve) => setTimeout(resolve, numberOfSeconds * 1000))
 }
 
 async function main() {
@@ -203,7 +211,7 @@ async function main() {
 
   function updatePositions() {
     for (const $slidingPuzzlePiece of $slidingPuzzlePieces) {
-      const value = Number($slidingPuzzlePiece.getAttribute('data-value'))
+      const value = Number($slidingPuzzlePiece.getAttribute("data-value"))
       const slotIndex = slidingPuzzle.indexOf(value)
       const { row, column } = indexToPosition(slotIndex)
       $slidingPuzzlePiece.style.left = `${column * slidingPuzzlePieceWidth}px`
@@ -213,7 +221,11 @@ async function main() {
 
   async function animatedShuffle() {
     const numberOfShuffles = 100
-    for (let shuffleNumber = 1; shuffleNumber <= numberOfShuffles; shuffleNumber++) {
+    for (
+      let shuffleNumber = 1;
+      shuffleNumber <= numberOfShuffles;
+      shuffleNumber++
+    ) {
       slidingPuzzle = shuffle(slidingPuzzle)
       updatePositions()
       await wait(1)
@@ -224,13 +236,16 @@ async function main() {
   document.body.appendChild($slidingPuzzle)
   // await animatedShuffle()
   const numberOfShuffles = 1000
-  const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(slidingPuzzle, numberOfShuffles)
-  console.log('Shuffled sliding puzzle:', shuffledSlidingPuzzle)
+  const { slidingPuzzle: shuffledSlidingPuzzle, solution } = shuffleTimes(
+    slidingPuzzle,
+    numberOfShuffles,
+  )
+  console.log("Shuffled sliding puzzle:", shuffledSlidingPuzzle)
   slidingPuzzle = shuffledSlidingPuzzle
   // slidingPuzzle = [3, 8, 2, 14, 12, 7, 1, null, 13, 6, 5, 11, 4, 15, 9, 10]
   // const solution = [6, 10, 11, 15, 14, 10, 6, 7, 11, 10, 9, 5, 6, 10, 9, 5, 1, 2, 3, 7, 11, 15, 14, 10, 6, 5, 9, 13, 12, 8, 4, 5, 6, 10, 14, 15, 11, 7, 6, 2, 3, 7, 11, 10, 9, 13, 12, 8, 9, 10, 6, 2, 3, 7, 11, 15, 14, 13, 9, 5, 6, 7, 3, 2, 6, 5, 1, 0, 4, 8, 9, 13, 14, 10, 9, 8, 12, 13, 14, 10, 11, 15, 14, 13, 12, 8, 9, 10, 6, 7, 3, 2, 1, 5, 6, 7, 3, 2, 1, 0]
   // const numberOfShuffles = solution.length
-  console.log('Solution:', solution)
+  console.log("Solution:", solution)
   updatePositions()
 
   let zIndex = 1
@@ -257,18 +272,18 @@ async function main() {
   let initialOffsetX
   let initialOffsetY
   let lastMousePosition
-  $slidingPuzzle.addEventListener('mousedown', event => {
+  $slidingPuzzle.addEventListener("mousedown", (event) => {
     const target = event.target
-    if (target.classList.contains('sliding-puzzle__piece')) {
+    if (target.classList.contains("sliding-puzzle__piece")) {
       const $slidingPuzzlePiece = target
-      const value = Number($slidingPuzzlePiece.getAttribute('data-value'))
+      const value = Number($slidingPuzzlePiece.getAttribute("data-value"))
       const slotIndex = slidingPuzzle.indexOf(value)
       const emptySlotIndex = slidingPuzzle.indexOf(null)
       if (isValidMove(slotIndex, emptySlotIndex)) {
         $movingSlidingPuzzlePiece = $slidingPuzzlePiece
         initialOffsetX = $movingSlidingPuzzlePiece.offsetLeft
         initialOffsetY = $movingSlidingPuzzlePiece.offsetTop
-        $movingSlidingPuzzlePiece.classList.add('sliding-puzzle__piece--moving')
+        $movingSlidingPuzzlePiece.classList.add("sliding-puzzle__piece--moving")
         lastMousePosition = {
           x: event.pageX,
           y: event.pageY,
@@ -277,19 +292,31 @@ async function main() {
     }
   })
 
-  function extracted($movingSlidingPuzzlePiece, initialOffsetX, initialOffsetY) {
+  function extracted(
+    $movingSlidingPuzzlePiece,
+    initialOffsetX,
+    initialOffsetY,
+  ) {
     let translateX = $movingSlidingPuzzlePiece.offsetLeft - initialOffsetX
     let translateY = $movingSlidingPuzzlePiece.offsetTop - initialOffsetY
 
-    const value = Number($movingSlidingPuzzlePiece.getAttribute('data-value'))
+    const value = Number($movingSlidingPuzzlePiece.getAttribute("data-value"))
     const slotIndex = slidingPuzzle.indexOf(value)
     const emptySlotIndex = slidingPuzzle.indexOf(null)
     const slotPosition = indexToPosition(slotIndex)
     const emptySlotPosition = indexToPosition(emptySlotIndex)
-    const minimumTranslateX = emptySlotPosition.column < slotPosition.column ? -slidingPuzzlePieceWidth : 0
-    const maximumTranslateX = emptySlotPosition.column > slotPosition.column ? slidingPuzzlePieceWidth : 0
-    const minimumTranslateY = emptySlotPosition.row < slotPosition.row ? -slidingPuzzlePieceHeight : 0
-    const maximumTranslateY = emptySlotPosition.row > slotPosition.row ? slidingPuzzlePieceHeight : 0
+    const minimumTranslateX =
+      emptySlotPosition.column < slotPosition.column
+        ? -slidingPuzzlePieceWidth
+        : 0
+    const maximumTranslateX =
+      emptySlotPosition.column > slotPosition.column
+        ? slidingPuzzlePieceWidth
+        : 0
+    const minimumTranslateY =
+      emptySlotPosition.row < slotPosition.row ? -slidingPuzzlePieceHeight : 0
+    const maximumTranslateY =
+      emptySlotPosition.row > slotPosition.row ? slidingPuzzlePieceHeight : 0
     return {
       translateX,
       translateY,
@@ -301,7 +328,7 @@ async function main() {
     }
   }
 
-  window.addEventListener('mousemove', event => {
+  window.addEventListener("mousemove", (event) => {
     if ($movingSlidingPuzzlePiece) {
       let {
         translateX,
@@ -320,17 +347,23 @@ async function main() {
       const deltaY = mousePosition.y - lastMousePosition.y
       translateX += deltaX
       translateY += deltaY
-      translateX = Math.max(minimumTranslateX, Math.min(translateX, maximumTranslateX))
-      translateY = Math.max(minimumTranslateY, Math.min(translateY, maximumTranslateY))
+      translateX = Math.max(
+        minimumTranslateX,
+        Math.min(translateX, maximumTranslateX),
+      )
+      translateY = Math.max(
+        minimumTranslateY,
+        Math.min(translateY, maximumTranslateY),
+      )
 
-      $movingSlidingPuzzlePiece.style.left = initialOffsetX + translateX + 'px'
-      $movingSlidingPuzzlePiece.style.top = initialOffsetY + translateY + 'px'
+      $movingSlidingPuzzlePiece.style.left = initialOffsetX + translateX + "px"
+      $movingSlidingPuzzlePiece.style.top = initialOffsetY + translateY + "px"
 
       lastMousePosition = mousePosition
     }
   })
 
-  window.addEventListener('mouseup', event => {
+  window.addEventListener("mouseup", (event) => {
     if ($movingSlidingPuzzlePiece) {
       let {
         translateX,
@@ -355,13 +388,15 @@ async function main() {
         slidingPuzzle = movePiece(slidingPuzzle, slotIndex)
       }
       updatePositions()
-      $movingSlidingPuzzlePiece.classList.remove('sliding-puzzle__piece--moving')
+      $movingSlidingPuzzlePiece.classList.remove(
+        "sliding-puzzle__piece--moving",
+      )
       $movingSlidingPuzzlePiece = null
 
       if (isSolved(slidingPuzzle)) {
-        $slidingPuzzle.classList.add('sliding-puzzle--solved')
+        $slidingPuzzle.classList.add("sliding-puzzle--solved")
       } else {
-        $slidingPuzzle.classList.remove('sliding-puzzle--solved')
+        $slidingPuzzle.classList.remove("sliding-puzzle--solved")
       }
     }
   })
@@ -381,10 +416,13 @@ async function main() {
 }
 
 function applyMoves(slidingPuzzle, moves) {
-  return moves.reduce((slidingPuzzle, move) => movePiece(slidingPuzzle, move), slidingPuzzle)
+  return moves.reduce(
+    (slidingPuzzle, move) => movePiece(slidingPuzzle, move),
+    slidingPuzzle,
+  )
 }
 
-document.addEventListener('DOMContentLoaded', main)
+document.addEventListener("DOMContentLoaded", main)
 
 class Node {
   constructor(slidingPuzzle, depth, moves, parent) {
@@ -427,10 +465,12 @@ function generateSlidingPuzzleToMovesToSolve() {
 }
 
 function hashSlidingPuzzle(slidingPuzzle) {
-  let hash = ''
+  let hash = ""
   const maximumSlotNumberLength = size.toString().length
-  for (const slot of slidingPuzzle.map(value => (value === null ? 0 : value))) {
-    hash += String(slot).padStart(maximumSlotNumberLength, '0')
+  for (const slot of slidingPuzzle.map((value) =>
+    value === null ? 0 : value,
+  )) {
+    hash += String(slot).padStart(maximumSlotNumberLength, "0")
   }
   return hash
 }
@@ -455,7 +495,10 @@ class SortedList {
 
   _findIndexToInsert(value) {
     let index = 0
-    while (index < this.list.length - 2 && this.comparator(value, this.list[index]) > 0) {
+    while (
+      index < this.list.length - 2 &&
+      this.comparator(value, this.list[index]) > 0
+    ) {
       index++
     }
     index += 1
@@ -504,7 +547,7 @@ class List {
 
   remove(value) {
     const hash = this.hash(value)
-    this.sortedList.filter(node => this.hash(node) !== hash)
+    this.sortedList.filter((node) => this.hash(node) !== hash)
     this.set.delete(hash)
     this.map.delete(hash)
   }
@@ -520,13 +563,13 @@ class List {
 
 async function solve(slidingPuzzle, maxDepth, doMoves) {
   debugger
-  console.log('Finding solution...')
+  console.log("Finding solution...")
   const solution = findSolution(slidingPuzzle, maxDepth)
   if (solution) {
-    console.log('Solution found:', solution)
+    console.log("Solution found:", solution)
     await doMoves(solution)
   } else {
-    console.log('No solution found.')
+    console.log("No solution found.")
   }
 }
 
@@ -535,7 +578,10 @@ function findSolution(slidingPuzzle, maxDepth) {
 
   function estimateTravelDistance(node) {
     if (node.manhattanDistance === null) {
-      node.manhattanDistance = totalManhattanDistance(node.slidingPuzzle, solvedSlidingPuzzle)
+      node.manhattanDistance = totalManhattanDistance(
+        node.slidingPuzzle,
+        solvedSlidingPuzzle,
+      )
     }
     if (node.metric === null) {
       node.metric = node.depth + node.manhattanDistance
@@ -559,7 +605,13 @@ function findSolution(slidingPuzzle, maxDepth) {
   }
 
   debugger
-  const solutionNode = search(tree, estimateTravelDistance, isSolution, requestChildren, requestParent)
+  const solutionNode = search(
+    tree,
+    estimateTravelDistance,
+    isSolution,
+    requestChildren,
+    requestParent,
+  )
 
   let solutionMoves
   if (solutionNode) {
@@ -604,7 +656,11 @@ function compareManhattanDistance(a, b) {
 }
 
 function totalManhattanDistance(slidingPuzzleA, slidingPuzzleB) {
-  return sum(range(0, size).map(index => pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index)))
+  return sum(
+    range(0, size).map((index) =>
+      pieceManhattanDistance(slidingPuzzleA, slidingPuzzleB, index),
+    ),
+  )
 }
 
 function sum(values) {
@@ -661,11 +717,14 @@ function generateChildrenForSolver(node, targetSlidingPuzzle) {
   generateChildren(node)
 
   for (const child of node.children) {
-    child.manhattanDistance = totalManhattanDistance(child.slidingPuzzle, targetSlidingPuzzle)
+    child.manhattanDistance = totalManhattanDistance(
+      child.slidingPuzzle,
+      targetSlidingPuzzle,
+    )
     child.metric = child.depth + child.manhattanDistance
   }
 
-  node.children = node.children.filter(node => !hasAlreadyBeenVisited(node))
+  node.children = node.children.filter((node) => !hasAlreadyBeenVisited(node))
 
   node.children.forEach(setAsVisited)
 }
@@ -673,14 +732,20 @@ function generateChildrenForSolver(node, targetSlidingPuzzle) {
 function generateChildren(node) {
   const slidingPuzzle = node.slidingPuzzle
   const emptySlotIndex = determineEmptySlotIndex(slidingPuzzle)
-  const indexesOfPiecesThatCanBeMovedIntoEmptySlot = determineIndexesOfPiecesThatCanBeMovedIntoSlot(
-    slidingPuzzle,
-    emptySlotIndex
-  )
+  const indexesOfPiecesThatCanBeMovedIntoEmptySlot =
+    determineIndexesOfPiecesThatCanBeMovedIntoSlot(
+      slidingPuzzle,
+      emptySlotIndex,
+    )
 
   let children = []
   for (const index of indexesOfPiecesThatCanBeMovedIntoEmptySlot) {
-    const child = new Node(movePiece(slidingPuzzle, index), node.depth + 1, node.moves.concat([index]), node)
+    const child = new Node(
+      movePiece(slidingPuzzle, index),
+      node.depth + 1,
+      node.moves.concat([index]),
+      node,
+    )
     children.push(child)
   }
 
@@ -690,7 +755,9 @@ function generateChildren(node) {
 const visitedStates = new Map()
 
 function setAsVisited(node) {
-  const slidingPuzzle = node.slidingPuzzle.map(piece => (piece === null ? 0 : piece))
+  const slidingPuzzle = node.slidingPuzzle.map((piece) =>
+    piece === null ? 0 : piece,
+  )
   let a = visitedStates
   for (let index = 0; index < slidingPuzzle.length - 1; index++) {
     if (!a.has(slidingPuzzle[index])) {
@@ -702,7 +769,9 @@ function setAsVisited(node) {
 }
 
 function hasAlreadyBeenVisited(node) {
-  const slidingPuzzle = node.slidingPuzzle.map(piece => (piece === null ? 0 : piece))
+  const slidingPuzzle = node.slidingPuzzle.map((piece) =>
+    piece === null ? 0 : piece,
+  )
   let a = visitedStates
   for (let index = 0; index < node.slidingPuzzle.length; index++) {
     if (a.has(slidingPuzzle[index])) {
@@ -730,7 +799,10 @@ function determineEmptySlotPosition(slidingPuzzle) {
   return indexToPosition(determineEmptySlotIndex(slidingPuzzle))
 }
 
-function determineIndexesOfPiecesThatCanBeMovedIntoSlot(slidingPuzzle, slotIndex) {
+function determineIndexesOfPiecesThatCanBeMovedIntoSlot(
+  slidingPuzzle,
+  slotIndex,
+) {
   const slotPosition = indexToPosition(slotIndex)
 
   const potentialPositionsThatCanBeMovedIntoSlot = [
@@ -740,9 +812,11 @@ function determineIndexesOfPiecesThatCanBeMovedIntoSlot(slidingPuzzle, slotIndex
     { row: slotPosition.row, column: slotPosition.column - 1 },
   ]
 
-  const positionsOfPiecesThatCanBeMovedIntoSlot = potentialPositionsThatCanBeMovedIntoSlot.filter(isValidPosition)
+  const positionsOfPiecesThatCanBeMovedIntoSlot =
+    potentialPositionsThatCanBeMovedIntoSlot.filter(isValidPosition)
 
-  const indexesOfPiecesThatCanBeMovedIntoSlot = positionsOfPiecesThatCanBeMovedIntoSlot.map(positionToIndex)
+  const indexesOfPiecesThatCanBeMovedIntoSlot =
+    positionsOfPiecesThatCanBeMovedIntoSlot.map(positionToIndex)
 
   return indexesOfPiecesThatCanBeMovedIntoSlot
 }
@@ -756,7 +830,7 @@ function solve2(slidingPuzzle) {
   const subgames = generateSubgames()
   let i = 1
   for (const subgame of subgames) {
-    console.log('Subgame ' + i + ':')
+    console.log("Subgame " + i + ":")
     const moves = solveSubgame(slidingPuzzle, subgame)
     if (!moves) {
       throw new Error("Wasn't able to solve subgame.")
@@ -774,7 +848,9 @@ function generateSubgames() {
     const subgame = {
       pieceIndexesToPutInPlace: pieceIndexesInColumn(
         columnToSolve,
-        (width - 1 - columnToSolve) % 2 == 0 ? Direction.FromTopToBottom : Direction.FromBottomToTop
+        (width - 1 - columnToSolve) % 2 == 0
+          ? Direction.FromTopToBottom
+          : Direction.FromBottomToTop,
       ),
       areaThatCanBeUsed: {
         fromRow: 0,
@@ -786,9 +862,10 @@ function generateSubgames() {
     subgames.push(subgame)
   }
   const subgame = {
-    pieceIndexesToPutInPlace: pieceIndexesInColumn(1, Direction.FromTopToBottom).concat(
-      pieceIndexesInColumn(0, Direction.FromBottomToTop)
-    ),
+    pieceIndexesToPutInPlace: pieceIndexesInColumn(
+      1,
+      Direction.FromTopToBottom,
+    ).concat(pieceIndexesInColumn(0, Direction.FromBottomToTop)),
     areaThatCanBeUsed: {
       fromRow: 0,
       toRow: height,
@@ -843,7 +920,10 @@ function solveSubgame(slidingPuzzle, subgame) {
 
   function estimateTravelDistance(node) {
     if (node.manhattanDistance === null) {
-      node.manhattanDistance = subgameManhattanDistance2(node.slidingPuzzle, subgame)
+      node.manhattanDistance = subgameManhattanDistance2(
+        node.slidingPuzzle,
+        subgame,
+      )
     }
     if (node.metric === null) {
       node.metric = node.depth + node.manhattanDistance
@@ -852,7 +932,9 @@ function solveSubgame(slidingPuzzle, subgame) {
   }
 
   function isSolution(node) {
-    return node.manhattanDistance === subgame.pieceIndexesToPutInPlace.length - 1
+    return (
+      node.manhattanDistance === subgame.pieceIndexesToPutInPlace.length - 1
+    )
   }
 
   function requestChildren(node) {
@@ -866,7 +948,13 @@ function solveSubgame(slidingPuzzle, subgame) {
     return node.parent
   }
 
-  const solutionNode = search(tree, estimateTravelDistance, isSolution, requestChildren, requestParent)
+  const solutionNode = search(
+    tree,
+    estimateTravelDistance,
+    isSolution,
+    requestChildren,
+    requestParent,
+  )
 
   let solutionMoves
   if (solutionNode) {
@@ -879,7 +967,11 @@ function solveSubgame(slidingPuzzle, subgame) {
 }
 
 function subgameManhattanDistance(slidingPuzzle, subgame) {
-  return sum(subgame.pieceIndexesToPutInPlace.map(index => pieceManhattanDistance2(slidingPuzzle, index)))
+  return sum(
+    subgame.pieceIndexesToPutInPlace.map((index) =>
+      pieceManhattanDistance2(slidingPuzzle, index),
+    ),
+  )
 }
 
 function subgameManhattanDistance2(slidingPuzzle, subgame) {
@@ -908,33 +1000,41 @@ function evaluateIfSubgameIsSolved(node, subgame) {
 function generateChildrenForSubgame(node, subgame) {
   const slidingPuzzle = node.slidingPuzzle
   const emptySlotIndex = determineEmptySlotIndex(slidingPuzzle)
-  let indexesOfPiecesThatCanBeMovedIntoEmptySlot = determineIndexesOfPiecesThatCanBeMovedIntoSlot(
-    slidingPuzzle,
-    emptySlotIndex
-  )
+  let indexesOfPiecesThatCanBeMovedIntoEmptySlot =
+    determineIndexesOfPiecesThatCanBeMovedIntoSlot(
+      slidingPuzzle,
+      emptySlotIndex,
+    )
 
   const parent = node.parent
   if (parent) {
     const parentEmptySlotIndex = determineEmptySlotIndex(parent.slidingPuzzle)
-    indexesOfPiecesThatCanBeMovedIntoEmptySlot = indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter(
-      index => index !== parentEmptySlotIndex
-    )
+    indexesOfPiecesThatCanBeMovedIntoEmptySlot =
+      indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter(
+        (index) => index !== parentEmptySlotIndex,
+      )
   }
 
   const areaThatCanBeUsed = subgame.areaThatCanBeUsed
-  indexesOfPiecesThatCanBeMovedIntoEmptySlot = indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter(index => {
-    const position = indexToPosition(index)
-    return (
-      position.row >= areaThatCanBeUsed.fromRow &&
-      position.row <= areaThatCanBeUsed.toRow &&
-      position.column >= areaThatCanBeUsed.fromColumn &&
-      position.column <= areaThatCanBeUsed.toColumn
-    )
-  })
+  indexesOfPiecesThatCanBeMovedIntoEmptySlot =
+    indexesOfPiecesThatCanBeMovedIntoEmptySlot.filter((index) => {
+      const position = indexToPosition(index)
+      return (
+        position.row >= areaThatCanBeUsed.fromRow &&
+        position.row <= areaThatCanBeUsed.toRow &&
+        position.column >= areaThatCanBeUsed.fromColumn &&
+        position.column <= areaThatCanBeUsed.toColumn
+      )
+    })
 
   let children = []
   for (const index of indexesOfPiecesThatCanBeMovedIntoEmptySlot) {
-    const child = new Node(movePiece(slidingPuzzle, index), node.depth + 1, node.moves.concat([index]), node)
+    const child = new Node(
+      movePiece(slidingPuzzle, index),
+      node.depth + 1,
+      node.moves.concat([index]),
+      node,
+    )
     children.push(child)
   }
 
@@ -945,7 +1045,11 @@ function moveFromIndexToIndex(slidingPuzzle, fromIndex, toIndex) {
   const fromPosition = indexToPosition(fromIndex)
   const toPosition = indexToPosition(toIndex)
   if (isInQuarterWithEmptySlot(slidingPuzzle, fromPosition, toPosition)) {
-    const quarter = determineSectionWithEmptySlot(slidingPuzzle, fromPosition, toPosition)
+    const quarter = determineSectionWithEmptySlot(
+      slidingPuzzle,
+      fromPosition,
+      toPosition,
+    )
     slidingPuzzle = rotateQuarterWithEmptySlot(
       slidingPuzzle,
       quarter,
@@ -953,8 +1057,8 @@ function moveFromIndexToIndex(slidingPuzzle, fromIndex, toIndex) {
         slidingPuzzle,
         quarter,
         fromPosition,
-        toPosition
-      )
+        toPosition,
+      ),
     )
   }
   // for (let length = 2; length <= slidingPuzzleLength; length++) {
@@ -966,20 +1070,30 @@ function moveFromIndexToIndex(slidingPuzzle, fromIndex, toIndex) {
   return slidingPuzzle
 }
 
-function rotateQuarterWithEmptySlot(slidingPuzzle, { fromRow, toRow, fromColumn, toColumn }, numberOfMoves = 1) {
+function rotateQuarterWithEmptySlot(
+  slidingPuzzle,
+  { fromRow, toRow, fromColumn, toColumn },
+  numberOfMoves = 1,
+) {
   const rotationQuarterPositions = generateRotationQuarterPositions({
     fromRow,
     toRow,
     fromColumn,
     toColumn,
   })
-  const emptySlotRotationQuarterPositionsIndex = rotationQuarterPositions.find(isEmptySlot)
+  const emptySlotRotationQuarterPositionsIndex =
+    rotationQuarterPositions.find(isEmptySlot)
   let nextSlotToMoveRotationQuarterPositionsIndex =
-    (emptySlotRotationQuarterPositionsIndex + 1) % rotationQuarterPositions.length
+    (emptySlotRotationQuarterPositionsIndex + 1) %
+    rotationQuarterPositions.length
   for (let moveNumber = 1; moveNumber <= numberOfMoves; moveNumber++) {
-    slidingPuzzle = movePiece(slidingPuzzle, rotationQuarterPositions[nextSlotToMoveRotationQuarterPositionsIndex])
+    slidingPuzzle = movePiece(
+      slidingPuzzle,
+      rotationQuarterPositions[nextSlotToMoveRotationQuarterPositionsIndex],
+    )
     nextSlotToMoveRotationQuarterPositionsIndex =
-      (nextSlotToMoveRotationQuarterPositionsIndex + 1) % rotationQuarterPositions.length
+      (nextSlotToMoveRotationQuarterPositionsIndex + 1) %
+      rotationQuarterPositions.length
   }
   return slidingPuzzle
 }
@@ -988,7 +1102,7 @@ function countNumberOfMovesToMovePieceFromPositionToPositionInQuarterWithEmptySl
   slidingPuzzle,
   { fromRow, toRow, fromColumn, toColumn },
   fromPosition,
-  toPosition
+  toPosition,
 ) {
   const rotationQuarterPositions = generateRotationQuarterPositions({
     fromRow,
@@ -996,8 +1110,12 @@ function countNumberOfMovesToMovePieceFromPositionToPositionInQuarterWithEmptySl
     fromColumn,
     toColumn,
   })
-  const fromPositionIndex = rotationQuarterPositions.find(isEqualPosition.bind(null, fromPosition))
-  const toPositionIndex = rotationQuarterPositions.find(isEqualPosition.bind(null, toPosition))
+  const fromPositionIndex = rotationQuarterPositions.find(
+    isEqualPosition.bind(null, fromPosition),
+  )
+  const toPositionIndex = rotationQuarterPositions.find(
+    isEqualPosition.bind(null, toPosition),
+  )
   if (toPositionIndex >= fromPositionIndex) {
     return toPositionIndex - fromPositionIndex
   } else {
@@ -1009,7 +1127,12 @@ function isEqualPosition(a, b) {
   return a.row === b.row && a.column === b.column
 }
 
-function generateRotationQuarterPositions({ fromRow, toRow, fromColumn, toColumn }) {
+function generateRotationQuarterPositions({
+  fromRow,
+  toRow,
+  fromColumn,
+  toColumn,
+}) {
   return [
     { row: fromRow, column: fromColumn },
     { row: fromRow, column: toColumn },
@@ -1022,19 +1145,26 @@ function isInQuarterWithEmptySlot(slidingPuzzle, fromPosition, toPosition) {
   const emptySlotPosition = determineEmptySlotPosition(slidingPuzzle)
   return (
     arePositionsInAdjacentingOrSameRowsAndColumns(fromPosition, toPosition) &&
-    arePositionsInAdjacentingOrSameRowsAndColumns(fromPosition, emptySlotPosition) &&
+    arePositionsInAdjacentingOrSameRowsAndColumns(
+      fromPosition,
+      emptySlotPosition,
+    ) &&
     arePositionsInAdjacentingOrSameRowsAndColumns(toPosition, emptySlotPosition)
   )
 }
 
-function determineSectionWithEmptySlot(slidingPuzzle, fromPosition, toPosition) {
+function determineSectionWithEmptySlot(
+  slidingPuzzle,
+  fromPosition,
+  toPosition,
+) {
   const emptySlotPosition = determineEmptySlotPosition(slidingPuzzle)
   return determineSection([fromPosition, toPosition, emptySlotPosition])
 }
 
 function determineSection(positions) {
-  const rows = positions.map(position => position.row)
-  const columns = positions.map(position => position.column)
+  const rows = positions.map((position) => position.row)
+  const columns = positions.map((position) => position.column)
   return {
     fromRow: Math.min(...rows),
     toRow: Math.max(...rows),

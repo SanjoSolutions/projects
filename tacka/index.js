@@ -1,13 +1,13 @@
 var t = {
     539: (t, e, n) => {
-      var i = n(400).Symbol;
-      t.exports = i;
+      var i = n(400).Symbol
+      t.exports = i
     },
     736: (t, e, n) => {
       var i = n(539),
         o = n(840),
         r = n(258),
-        a = i ? i.toStringTag : void 0;
+        a = i ? i.toStringTag : void 0
       t.exports = function (t) {
         return null == t
           ? void 0 === t
@@ -15,62 +15,62 @@ var t = {
             : "[object Null]"
           : a && a in Object(t)
           ? o(t)
-          : r(t);
-      };
+          : r(t)
+      }
     },
     833: (t, e, n) => {
       var i = n(127),
-        o = /^\s+/;
+        o = /^\s+/
       t.exports = function (t) {
-        return t ? t.slice(0, i(t) + 1).replace(o, "") : t;
-      };
+        return t ? t.slice(0, i(t) + 1).replace(o, "") : t
+      }
     },
     120: (t, e, n) => {
-      var i = "object" == typeof n.g && n.g && n.g.Object === Object && n.g;
-      t.exports = i;
+      var i = "object" == typeof n.g && n.g && n.g.Object === Object && n.g
+      t.exports = i
     },
     840: (t, e, n) => {
       var i = n(539),
         o = Object.prototype,
         r = o.hasOwnProperty,
         a = o.toString,
-        c = i ? i.toStringTag : void 0;
+        c = i ? i.toStringTag : void 0
       t.exports = function (t) {
         var e = r.call(t, c),
-          n = t[c];
+          n = t[c]
         try {
-          t[c] = void 0;
-          var i = !0;
+          t[c] = void 0
+          var i = !0
         } catch (t) {}
-        var o = a.call(t);
-        return i && (e ? (t[c] = n) : delete t[c]), o;
-      };
+        var o = a.call(t)
+        return i && (e ? (t[c] = n) : delete t[c]), o
+      }
     },
     258: (t) => {
-      var e = Object.prototype.toString;
+      var e = Object.prototype.toString
       t.exports = function (t) {
-        return e.call(t);
-      };
+        return e.call(t)
+      }
     },
     400: (t, e, n) => {
       var i = n(120),
         o = "object" == typeof self && self && self.Object === Object && self,
-        r = i || o || Function("return this")();
-      t.exports = r;
+        r = i || o || Function("return this")()
+      t.exports = r
     },
     127: (t) => {
-      var e = /\s/;
+      var e = /\s/
       t.exports = function (t) {
         for (var n = t.length; n-- && e.test(t.charAt(n)); );
-        return n;
-      };
+        return n
+      }
     },
     726: (t, e, n) => {
       var i = n(611),
         o = n(846),
         r = n(936),
         a = Math.max,
-        c = Math.min;
+        c = Math.min
       t.exports = function (t, e, n) {
         var u,
           s,
@@ -81,42 +81,42 @@ var t = {
           v = 0,
           g = !1,
           p = !1,
-          x = !0;
-        if ("function" != typeof t) throw new TypeError("Expected a function");
+          x = !0
+        if ("function" != typeof t) throw new TypeError("Expected a function")
         function w(e) {
           var n = u,
-            i = s;
-          return (u = s = void 0), (v = e), (l = t.apply(i, n));
+            i = s
+          return (u = s = void 0), (v = e), (l = t.apply(i, n))
         }
         function y(t) {
-          return (v = t), (d = setTimeout(b, e)), g ? w(t) : l;
+          return (v = t), (d = setTimeout(b, e)), g ? w(t) : l
         }
         function m(t) {
-          var n = t - f;
-          return void 0 === f || n >= e || n < 0 || (p && t - v >= h);
+          var n = t - f
+          return void 0 === f || n >= e || n < 0 || (p && t - v >= h)
         }
         function b() {
-          var t = o();
-          if (m(t)) return M(t);
+          var t = o()
+          if (m(t)) return M(t)
           d = setTimeout(
             b,
             (function (t) {
-              var n = e - (t - f);
-              return p ? c(n, h - (t - v)) : n;
-            })(t)
-          );
+              var n = e - (t - f)
+              return p ? c(n, h - (t - v)) : n
+            })(t),
+          )
         }
         function M(t) {
-          return (d = void 0), x && u ? w(t) : ((u = s = void 0), l);
+          return (d = void 0), x && u ? w(t) : ((u = s = void 0), l)
         }
         function j() {
           var t = o(),
-            n = m(t);
+            n = m(t)
           if (((u = arguments), (s = this), (f = t), n)) {
-            if (void 0 === d) return y(f);
-            if (p) return clearTimeout(d), (d = setTimeout(b, e)), w(f);
+            if (void 0 === d) return y(f)
+            if (p) return clearTimeout(d), (d = setTimeout(b, e)), w(f)
           }
-          return void 0 === d && (d = setTimeout(b, e)), l;
+          return void 0 === d && (d = setTimeout(b, e)), l
         }
         return (
           (e = r(e) || 0),
@@ -125,38 +125,38 @@ var t = {
             (h = (p = "maxWait" in n) ? a(r(n.maxWait) || 0, e) : h),
             (x = "trailing" in n ? !!n.trailing : x)),
           (j.cancel = function () {
-            void 0 !== d && clearTimeout(d), (v = 0), (u = f = s = d = void 0);
+            void 0 !== d && clearTimeout(d), (v = 0), (u = f = s = d = void 0)
           }),
           (j.flush = function () {
-            return void 0 === d ? l : M(o());
+            return void 0 === d ? l : M(o())
           }),
           j
-        );
-      };
+        )
+      }
     },
     611: (t) => {
       t.exports = function (t) {
-        var e = typeof t;
-        return null != t && ("object" == e || "function" == e);
-      };
+        var e = typeof t
+        return null != t && ("object" == e || "function" == e)
+      }
     },
     360: (t) => {
       t.exports = function (t) {
-        return null != t && "object" == typeof t;
-      };
+        return null != t && "object" == typeof t
+      }
     },
     193: (t, e, n) => {
       var i = n(736),
-        o = n(360);
+        o = n(360)
       t.exports = function (t) {
-        return "symbol" == typeof t || (o(t) && "[object Symbol]" == i(t));
-      };
+        return "symbol" == typeof t || (o(t) && "[object Symbol]" == i(t))
+      }
     },
     846: (t, e, n) => {
-      var i = n(400);
+      var i = n(400)
       t.exports = function () {
-        return i.Date.now();
-      };
+        return i.Date.now()
+      }
     },
     936: (t, e, n) => {
       var i = n(833),
@@ -165,102 +165,102 @@ var t = {
         a = /^[-+]0x[0-9a-f]+$/i,
         c = /^0b[01]+$/i,
         u = /^0o[0-7]+$/i,
-        s = parseInt;
+        s = parseInt
       t.exports = function (t) {
-        if ("number" == typeof t) return t;
-        if (r(t)) return NaN;
+        if ("number" == typeof t) return t
+        if (r(t)) return NaN
         if (o(t)) {
-          var e = "function" == typeof t.valueOf ? t.valueOf() : t;
-          t = o(e) ? e + "" : e;
+          var e = "function" == typeof t.valueOf ? t.valueOf() : t
+          t = o(e) ? e + "" : e
         }
-        if ("string" != typeof t) return 0 === t ? t : +t;
-        t = i(t);
-        var n = c.test(t);
-        return n || u.test(t) ? s(t.slice(2), n ? 2 : 8) : a.test(t) ? NaN : +t;
-      };
+        if ("string" != typeof t) return 0 === t ? t : +t
+        t = i(t)
+        var n = c.test(t)
+        return n || u.test(t) ? s(t.slice(2), n ? 2 : 8) : a.test(t) ? NaN : +t
+      }
     },
   },
-  e = {};
+  e = {}
 function n(i) {
-  var o = e[i];
-  if (void 0 !== o) return o.exports;
-  var r = (e[i] = { exports: {} });
-  return t[i](r, r.exports, n), r.exports;
+  var o = e[i]
+  if (void 0 !== o) return o.exports
+  var r = (e[i] = { exports: {} })
+  return t[i](r, r.exports, n), r.exports
 }
-(n.g = (function () {
-  if ("object" == typeof globalThis) return globalThis;
+;(n.g = (function () {
+  if ("object" == typeof globalThis) return globalThis
   try {
-    return this || new Function("return this")();
+    return this || new Function("return this")()
   } catch (t) {
-    if ("object" == typeof window) return window;
+    if ("object" == typeof window) return window
   }
 })()),
   (() => {
     function t() {}
-    var e = n(726);
-    const i = 180 / Math.PI;
+    var e = n(726)
+    const i = 180 / Math.PI
     function o({ origin: t, radius: e, angle: n }) {
-      return { x: t.x + e * Math.cos(n), y: t.y + e * Math.sin(n) };
+      return { x: t.x + e * Math.cos(n), y: t.y + e * Math.sin(n) }
     }
     const { canvas: r, context: a } = (function ({
       onDevicePixelRatioOrDocumentSizeChange: n,
       afterCanvasSizeAndScaleSet: i,
     } = {}) {
-      n || (n = t), i || (i = t);
+      n || (n = t), i || (i = t)
       const o = document.createElement("canvas"),
         r = o.getContext("2d"),
         a = window.innerWidth,
         c = window.innerHeight,
-        u = window.devicePixelRatio;
-      (o.style.width = `${a}px`),
+        u = window.devicePixelRatio
+      ;(o.style.width = `${a}px`),
         (o.style.height = `${c}px`),
         (o.width = u * a),
         (o.height = u * c),
-        r.scale(u, u);
+        r.scale(u, u)
       const s = e(function () {
           const t = parseInt(o.style.width, 10),
             e = window.innerWidth,
             n = parseInt(o.style.height, 10),
             a = window.innerHeight,
-            c = window.devicePixelRatio;
+            c = window.devicePixelRatio
           if (e > t || a > n) {
             const { canvas: i, context: u } = (function (
               t,
               e,
-              { x: n, y: i, width: o, height: r }
+              { x: n, y: i, width: o, height: r },
             ) {
-              const a = document.createElement("canvas");
-              (a.width = o - n), (a.height = r - i);
-              const c = a.getContext("2d");
+              const a = document.createElement("canvas")
+              ;(a.width = o - n), (a.height = r - i)
+              const c = a.getContext("2d")
               return (
                 c.putImageData(e.getImageData(n, i, o, r), 0, 0),
                 { canvas: a, context: c }
-              );
-            })(0, r, { x: 0, y: 0, width: o.width, height: o.height });
+              )
+            })(0, r, { x: 0, y: 0, width: o.width, height: o.height })
             e > t && ((o.style.width = `${e}px`), (o.width = c * e)),
               a > n && ((o.style.height = `${a}px`), (o.height = c * a)),
               r.resetTransform(),
               r.scale(c, c),
-              r.putImageData(u.getImageData(0, 0, i.width, i.height), 0, 0);
+              r.putImageData(u.getImageData(0, 0, i.width, i.height), 0, 0)
           }
-          i();
+          i()
         }, 200),
         h = (function (t) {
-          let e;
+          let e
           function n(e) {
-            o(), i(), t(e);
+            o(), i(), t(e)
           }
           function i() {
-            (e = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)),
-              e.addEventListener("change", n);
+            ;(e = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)),
+              e.addEventListener("change", n)
           }
           function o() {
-            e.removeEventListener("change", n);
+            e.removeEventListener("change", n)
           }
-          return i(), o;
-        })(l);
+          return i(), o
+        })(l)
       function l(t) {
-        s(), n(t);
+        s(), n(t)
       }
       return (
         window.addEventListener("resize", l),
@@ -268,53 +268,53 @@ function n(i) {
           canvas: o,
           context: r,
           removeEventListeners: function () {
-            s.cancel(), h(), window.removeEventListener("resize", l);
+            s.cancel(), h(), window.removeEventListener("resize", l)
           },
         }
-      );
-    })();
-    document.body.appendChild(r);
-    const c = 200;
+      )
+    })()
+    document.body.appendChild(r)
+    const c = 200
     let u = c,
       s = -0.1,
       h = 0,
       l = (((2 * Math.PI) / 360) * 0.5) / 10,
-      d = { radius: u, angle: h };
-    const f = document.createElement("canvas");
-    (f.width = 402), (f.height = f.width);
-    const v = f.getContext("2d");
-    v.lineWidth = 1;
-    const g = { x: f.width / 2, y: f.height / 2 };
+      d = { radius: u, angle: h }
+    const f = document.createElement("canvas")
+    ;(f.width = 402), (f.height = f.width)
+    const v = f.getContext("2d")
+    v.lineWidth = 1
+    const g = { x: f.width / 2, y: f.height / 2 }
     !(function (t) {
-      let e;
+      let e
       function n() {
         {
-          const t = Date.now();
-          ((t) => {
-            v.beginPath();
-            const { x: e, y: n } = o({ ...d, origin: g });
-            v.moveTo(e, n);
+          const t = Date.now()
+          ;((t) => {
+            v.beginPath()
+            const { x: e, y: n } = o({ ...d, origin: g })
+            v.moveTo(e, n)
             const p = { radius: u, angle: h },
               x = {
                 hue: Math.round(((w = (d.angle + p.angle) / 2), w * i)),
                 saturation: 1,
                 lightness: 0.5,
-              };
-            var w;
+              }
+            var w
             v.strokeStyle = (function (t) {
               t = Array.isArray(t)
                 ? { hue: t[0], saturation: t[1], lightness: t[2], alpha: t[3] }
-                : { ...t, hue: t.hue / 360 };
-              const { hue: e, saturation: n, lightness: i, alpha: o } = t;
+                : { ...t, hue: t.hue / 360 }
+              const { hue: e, saturation: n, lightness: i, alpha: o } = t
               return o
                 ? `hsla(${Math.round(360 * e)}, ${Math.round(
-                    100 * n
+                    100 * n,
                   )}%, ${Math.round(100 * i)}%, ${o})`
                 : `hsl(${Math.round(360 * e)}, ${Math.round(
-                    100 * n
-                  )}%, ${Math.round(100 * i)}%)`;
-            })(x);
-            const { x: y, y: m } = o({ ...p, origin: g });
+                    100 * n,
+                  )}%, ${Math.round(100 * i)}%)`
+            })(x)
+            const { x: y, y: m } = o({ ...p, origin: g })
             v.lineTo(y, m),
               v.stroke(),
               (d = p),
@@ -322,12 +322,12 @@ function n(i) {
                 t,
                 e,
                 n,
-                { radius: i, angle: o, minRadius: r, maxRadius: a }
+                { radius: i, angle: o, minRadius: r, maxRadius: a },
               ) {
                 const c = {
                   x: window.innerWidth / 2,
                   y: window.innerHeight / 2,
-                };
+                }
                 e.save(),
                   (e.lineWidth = 1),
                   (e.lineCap = "round"),
@@ -344,27 +344,27 @@ function n(i) {
                   e.drawImage(
                     n,
                     0.5 * t.width - 0.5 * n.width,
-                    0.5 * t.height - 0.5 * n.height
+                    0.5 * t.height - 0.5 * n.height,
                   ),
                   e.beginPath(),
                   e.moveTo(c.x, c.y),
                   e.lineTo(c.x + i * Math.cos(o), c.y + i * Math.sin(o)),
                   e.stroke(),
-                  e.restore();
+                  e.restore()
               })(r, a, f, { radius: u, angle: h, minRadius: 40, maxRadius: c }),
               (h = (h + t * l) % (8 * Math.PI)),
               (u += t * s),
               u <= 40 ? (s = 0.1) : u >= c && (s = -0.1),
-              (u = Math.min(Math.max(40, u), c));
+              (u = Math.min(Math.max(40, u), c))
           })(t - (e || t)),
             (e = t),
-            p();
+            p()
         }
       }
       function p() {
-        requestAnimationFrame(n);
+        requestAnimationFrame(n)
       }
-      p();
-    })();
-  })();
+      p()
+    })()
+  })()
 //# sourceMappingURL=index.js.map

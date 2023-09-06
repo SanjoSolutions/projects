@@ -1,8 +1,16 @@
-import { describe, it, test, expect, jest, afterEach, beforeEach } from '@jest/globals'
-import { nOutOfWithDuplicates } from './nOutOfWithDuplicates.js'
+import {
+  describe,
+  it,
+  test,
+  expect,
+  jest,
+  afterEach,
+  beforeEach,
+} from "@jest/globals"
+import { nOutOfWithDuplicates } from "./nOutOfWithDuplicates.js"
 
-describe('nOutOfWithDuplicates', () => {
-  test('1', () => {
+describe("nOutOfWithDuplicates", () => {
+  test("1", () => {
     const a = [1, 2]
     const result = nOutOfWithDuplicates(2, a)
     expect(result).toEqual([
@@ -13,7 +21,7 @@ describe('nOutOfWithDuplicates', () => {
     ])
   })
 
-  test('2', () => {
+  test("2", () => {
     const a = [1, 2]
     const result = nOutOfWithDuplicates(3, a)
     expect(result).toEqual([

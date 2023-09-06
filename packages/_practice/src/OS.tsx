@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react"
 
 export function OS() {
-  return (
-    <div>
-      Welcome
-    </div>
-  )
+  return <div>Welcome</div>
 }

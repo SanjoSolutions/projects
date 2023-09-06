@@ -1,4 +1,4 @@
-const resources = new Set(['wood', 'water'])
+const resources = new Set(["wood", "water"])
 
 const woodworker = {
   wood: 2,
@@ -12,7 +12,10 @@ const fountain = {
 const factories = [woodworker, fountain]
 const totalYield = calculateTotalYield(factories)
 const timeInterval = hours(1)
-const yieldInTimeInterval = calculateYieldInTimeInterval(timeInterval, totalYield)
+const yieldInTimeInterval = calculateYieldInTimeInterval(
+  timeInterval,
+  totalYield,
+)
 
 /**
  *
@@ -32,7 +35,7 @@ export function calculateYieldInTimeInterval(timeInterval, baseYield) {
 }
 
 export function sum(array) {
-  if (typeof array[0] === 'number') {
+  if (typeof array[0] === "number") {
     return sumNumbers(array)
   } else {
     return sumObjects(array)
@@ -40,8 +43,12 @@ export function sum(array) {
 }
 
 function sumObjects(objects) {
-  const keys = Array.from(new Set(objects.map(object => Object.keys(object)).flat()))
-  return Object.fromEntries(keys.map(key => [key, sum(objects.map(object => object[key] ?? 0))]))
+  const keys = Array.from(
+    new Set(objects.map((object) => Object.keys(object)).flat()),
+  )
+  return Object.fromEntries(
+    keys.map((key) => [key, sum(objects.map((object) => object[key] ?? 0))]),
+  )
 }
 
 function sumNumbers(numbers) {
@@ -53,7 +60,9 @@ function plus(a, b) {
 }
 
 export function times(number, object) {
-  return Object.fromEntries(Object.entries(object).map(([key, value]) => [key, number * value]))
+  return Object.fromEntries(
+    Object.entries(object).map(([key, value]) => [key, number * value]),
+  )
 }
 
 /**

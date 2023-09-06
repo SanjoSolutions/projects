@@ -3,5 +3,5 @@ export function a() {
 }
 
 export function b() {
-  return 'Hello from b()'
+  return "Hello from b()"
 }

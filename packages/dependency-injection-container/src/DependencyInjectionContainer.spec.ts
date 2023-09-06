@@ -1,21 +1,21 @@
-import { describe, expect, it } from '@jest/globals'
-import { DependencyInjectionContainer } from './DependencyInjectionContainer.js'
-import type { DependingOn } from './DependingOn.js'
+import { describe, expect, it } from "@jest/globals"
+import { DependencyInjectionContainer } from "./DependencyInjectionContainer.js"
+import type { DependingOn } from "./DependingOn.js"
 
-describe('DependencyInjectionContainer', () => {
-  it('can instantiate a component with dependencies', () => {
+describe("DependencyInjectionContainer", () => {
+  it("can instantiate a component with dependencies", () => {
     const container = new DependencyInjectionContainer()
 
     class DatabaseA {}
 
     const database = new DatabaseA()
-    container.register('database', database)
+    container.register("database", database)
 
     class ComponentB implements DependingOn {
       database: any
 
       static getDependencies() {
-        return ['database']
+        return ["database"]
       }
     }
 

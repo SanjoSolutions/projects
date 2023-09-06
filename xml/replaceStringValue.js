@@ -1,4 +1,4 @@
-import { getKeyConstantFromLookUp } from '../getKeyConstantFromLookUp.js'
+import { getKeyConstantFromLookUp } from "../getKeyConstantFromLookUp.js"
 
 /**
  * Replaces a string value with the reference string (`@string/example`) from the look-up.
@@ -9,7 +9,7 @@ import { getKeyConstantFromLookUp } from '../getKeyConstantFromLookUp.js'
  * @throws StringValueNotFoundError
  */
 export function replaceStringValue(lookUp, stringValue) {
-  if (stringValue.startsWith('@string/')) {
+  if (stringValue.startsWith("@string/")) {
     return stringValue
   } else {
     const keyConstant = getKeyConstantFromLookUp(lookUp, stringValue)

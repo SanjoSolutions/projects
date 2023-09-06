@@ -1,7 +1,7 @@
-import { createDOM } from './createDOM.js'
+import { createDOM } from "./createDOM.js"
 
 export function createTemplate(templateText) {
   const dom = createDOM(templateText)
-  const template = dom.querySelector('template')
+  const template = dom.querySelector("template")
   return template
 }

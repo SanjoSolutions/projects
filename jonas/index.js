@@ -9,18 +9,24 @@ var t = {
         r = n(333),
         a = i ? i.toStringTag : void 0
       t.exports = function (t) {
-        return null == t ? (void 0 === t ? '[object Undefined]' : '[object Null]') : a && a in Object(t) ? o(t) : r(t)
+        return null == t
+          ? void 0 === t
+            ? "[object Undefined]"
+            : "[object Null]"
+          : a && a in Object(t)
+          ? o(t)
+          : r(t)
       }
     },
     561: (t, e, n) => {
       var i = n(990),
         o = /^\s+/
       t.exports = function (t) {
-        return t ? t.slice(0, i(t) + 1).replace(o, '') : t
+        return t ? t.slice(0, i(t) + 1).replace(o, "") : t
       }
     },
     957: (t, e, n) => {
-      var i = 'object' == typeof n.g && n.g && n.g.Object === Object && n.g
+      var i = "object" == typeof n.g && n.g && n.g.Object === Object && n.g
       t.exports = i
     },
     607: (t, e, n) => {
@@ -40,7 +46,7 @@ var t = {
         return i && (e ? (t[s] = n) : delete t[s]), o
       }
     },
-    333: t => {
+    333: (t) => {
       var e = Object.prototype.toString
       t.exports = function (t) {
         return e.call(t)
@@ -48,11 +54,11 @@ var t = {
     },
     639: (t, e, n) => {
       var i = n(957),
-        o = 'object' == typeof self && self && self.Object === Object && self,
-        r = i || o || Function('return this')()
+        o = "object" == typeof self && self && self.Object === Object && self,
+        r = i || o || Function("return this")()
       t.exports = r
     },
-    990: t => {
+    990: (t) => {
       var e = /\s/
       t.exports = function (t) {
         for (var n = t.length; n-- && e.test(t.charAt(n)); );
@@ -76,7 +82,7 @@ var t = {
           w = !1,
           g = !1,
           p = !0
-        if ('function' != typeof t) throw new TypeError('Expected a function')
+        if ("function" != typeof t) throw new TypeError("Expected a function")
         function m(e) {
           var n = c,
             i = u
@@ -97,7 +103,7 @@ var t = {
             (function (t) {
               var n = e - (t - d)
               return g ? s(n, h - (t - v)) : n
-            })(t)
+            })(t),
           )
         }
         function M(t) {
@@ -116,8 +122,8 @@ var t = {
           (e = r(e) || 0),
           i(n) &&
             ((w = !!n.leading),
-            (h = (g = 'maxWait' in n) ? a(r(n.maxWait) || 0, e) : h),
-            (p = 'trailing' in n ? !!n.trailing : p)),
+            (h = (g = "maxWait" in n) ? a(r(n.maxWait) || 0, e) : h),
+            (p = "trailing" in n ? !!n.trailing : p)),
           ($.cancel = function () {
             void 0 !== f && clearTimeout(f), (v = 0), (c = d = u = f = void 0)
           }),
@@ -128,22 +134,22 @@ var t = {
         )
       }
     },
-    218: t => {
+    218: (t) => {
       t.exports = function (t) {
         var e = typeof t
-        return null != t && ('object' == e || 'function' == e)
+        return null != t && ("object" == e || "function" == e)
       }
     },
-    5: t => {
+    5: (t) => {
       t.exports = function (t) {
-        return null != t && 'object' == typeof t
+        return null != t && "object" == typeof t
       }
     },
     448: (t, e, n) => {
       var i = n(239),
         o = n(5)
       t.exports = function (t) {
-        return 'symbol' == typeof t || (o(t) && '[object Symbol]' == i(t))
+        return "symbol" == typeof t || (o(t) && "[object Symbol]" == i(t))
       }
     },
     771: (t, e, n) => {
@@ -161,13 +167,13 @@ var t = {
         c = /^0o[0-7]+$/i,
         u = parseInt
       t.exports = function (t) {
-        if ('number' == typeof t) return t
+        if ("number" == typeof t) return t
         if (r(t)) return NaN
         if (o(t)) {
-          var e = 'function' == typeof t.valueOf ? t.valueOf() : t
-          t = o(e) ? e + '' : e
+          var e = "function" == typeof t.valueOf ? t.valueOf() : t
+          t = o(e) ? e + "" : e
         }
-        if ('string' != typeof t) return 0 === t ? t : +t
+        if ("string" != typeof t) return 0 === t ? t : +t
         t = i(t)
         var n = s.test(t)
         return n || c.test(t) ? u(t.slice(2), n ? 2 : 8) : a.test(t) ? NaN : +t
@@ -182,11 +188,11 @@ function n(i) {
   return t[i](r, r.exports, n), r.exports
 }
 ;(n.g = (function () {
-  if ('object' == typeof globalThis) return globalThis
+  if ("object" == typeof globalThis) return globalThis
   try {
-    return this || new Function('return this')()
+    return this || new Function("return this")()
   } catch (t) {
-    if ('object' == typeof window) return window
+    if ("object" == typeof window) return window
   }
 })()),
   (() => {
@@ -202,7 +208,10 @@ function n(i) {
         _initializeValues(t, e, n) {
           const i = t * e
           if (n) {
-            if (n.length !== i) throw new Error(`values length ${n.length} does't match expected length of ${i}.`)
+            if (n.length !== i)
+              throw new Error(
+                `values length ${n.length} does't match expected length of ${i}.`,
+              )
             this.values = n
           } else this.values = new Array(i)
         }
@@ -216,10 +225,16 @@ function n(i) {
           return (t - 1) * this.width + (e - 1)
         }
         indexToPosition(t) {
-          return { row: 1 + Math.floor(t / this.width), column: 1 + (t % this.width) }
+          return {
+            row: 1 + Math.floor(t / this.width),
+            column: 1 + (t % this.width),
+          }
         }
         entries() {
-          return Array.from(this.values.entries()).map(([t, e]) => [this.indexToPosition(t), e])
+          return Array.from(this.values.entries()).map(([t, e]) => [
+            this.indexToPosition(t),
+            e,
+          ])
         }
         forEach(t) {
           this.values.forEach(t)
@@ -241,12 +256,16 @@ function n(i) {
         afterCanvasSizeAndScaleSet: i,
       } = {}) {
         n || (n = t), i || (i = t)
-        const o = document.createElement('canvas'),
-          r = o.getContext('2d'),
+        const o = document.createElement("canvas"),
+          r = o.getContext("2d"),
           a = window.innerWidth,
           s = window.innerHeight,
           c = window.devicePixelRatio
-        ;(o.style.width = `${a}px`), (o.style.height = `${s}px`), (o.width = c * a), (o.height = c * s), r.scale(c, c)
+        ;(o.style.width = `${a}px`),
+          (o.style.height = `${s}px`),
+          (o.width = c * a),
+          (o.height = c * s),
+          r.scale(c, c)
         const u = e(function () {
             const t = parseInt(o.style.width, 10),
               e = window.innerWidth,
@@ -254,11 +273,18 @@ function n(i) {
               a = window.innerHeight,
               s = window.devicePixelRatio
             if (e > t || a > n) {
-              const { canvas: i, context: c } = (function (t, e, { x: n, y: i, width: o, height: r }) {
-                const a = document.createElement('canvas')
+              const { canvas: i, context: c } = (function (
+                t,
+                e,
+                { x: n, y: i, width: o, height: r },
+              ) {
+                const a = document.createElement("canvas")
                 ;(a.width = o - n), (a.height = r - i)
-                const s = a.getContext('2d')
-                return s.putImageData(e.getImageData(n, i, o, r), 0, 0), { canvas: a, context: s }
+                const s = a.getContext("2d")
+                return (
+                  s.putImageData(e.getImageData(n, i, o, r), 0, 0),
+                  { canvas: a, context: s }
+                )
               })(0, r, { x: 0, y: 0, width: o.width, height: o.height })
               e > t && ((o.style.width = `${e}px`), (o.width = s * e)),
                 a > n && ((o.style.height = `${a}px`), (o.height = s * a)),
@@ -274,10 +300,11 @@ function n(i) {
               o(), i(), t(e)
             }
             function i() {
-              ;(e = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)), e.addEventListener('change', n)
+              ;(e = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)),
+                e.addEventListener("change", n)
             }
             function o() {
-              e.removeEventListener('change', n)
+              e.removeEventListener("change", n)
             }
             return i(), o
           })(l)
@@ -285,12 +312,12 @@ function n(i) {
           u(), n(t)
         }
         return (
-          window.addEventListener('resize', l),
+          window.addEventListener("resize", l),
           {
             canvas: o,
             context: r,
             removeEventListeners: function () {
-              u.cancel(), h(), window.removeEventListener('resize', l)
+              u.cancel(), h(), window.removeEventListener("resize", l)
             },
           }
         )
@@ -310,8 +337,12 @@ function n(i) {
           : { ...t, hue: t.hue / 360 }
         const { hue: e, saturation: n, lightness: i, alpha: o } = t
         return o
-          ? `hsla(${Math.round(360 * e)}, ${Math.round(100 * n)}%, ${Math.round(100 * i)}%, ${o})`
-          : `hsl(${Math.round(360 * e)}, ${Math.round(100 * n)}%, ${Math.round(100 * i)}%)`
+          ? `hsla(${Math.round(360 * e)}, ${Math.round(100 * n)}%, ${Math.round(
+              100 * i,
+            )}%, ${o})`
+          : `hsl(${Math.round(360 * e)}, ${Math.round(100 * n)}%, ${Math.round(
+              100 * i,
+            )}%)`
       })(n)),
         c.fillRect(o, r, i, i)
     }
@@ -321,9 +352,10 @@ function n(i) {
         function n() {
           {
             const t = Date.now()
-            ;(t => {
+            ;((t) => {
               const e = ((t / 1e3) * 10) / 100
-              for (const [t, n] of a.entries()) n && a.set(t, { ...n, lightness: n.lightness + e })
+              for (const [t, n] of a.entries())
+                n && a.set(t, { ...n, lightness: n.lightness + e })
               const n = a
                 .entries()
                 .filter(([t, e]) => !e)
@@ -346,7 +378,8 @@ function n(i) {
               var i, o
               c.clearRect(0, 0, s.width, s.height)
               for (const [t, e] of a.entries()) e && u(t, e)
-              for (const [t, e] of a.entries()) e && e.lightness >= 1 && a.set(t, void 0)
+              for (const [t, e] of a.entries())
+                e && e.lightness >= 1 && a.set(t, void 0)
             })(t - (e || t)),
               (e = t),
               i()

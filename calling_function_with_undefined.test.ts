@@ -1,6 +1,6 @@
-import { test, expect } from '@jest/globals'
+import { test, expect } from "@jest/globals"
 
-test('calling function with undefined', () => {
+test("calling function with undefined", () => {
   function fn(...args: any[]): number {
     return args.length
   }

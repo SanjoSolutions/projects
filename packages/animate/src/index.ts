@@ -1,1 +1,1 @@
-export { animate } from './animate.js'
+export { animate } from "./animate.js"

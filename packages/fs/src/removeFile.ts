@@ -1,4 +1,4 @@
-import { PathLike, promises as fs } from "fs";
+import { PathLike, promises as fs } from "fs"
 
 /**
  * Removes a file.
@@ -7,10 +7,10 @@ import { PathLike, promises as fs } from "fs";
  */
 export async function removeFile(filePath: PathLike): Promise<void> {
   try {
-    await fs.unlink(filePath);
+    await fs.unlink(filePath)
   } catch (error: any) {
     if (error.code !== "ENOENT") {
-      throw error;
+      throw error
     }
   }
 }

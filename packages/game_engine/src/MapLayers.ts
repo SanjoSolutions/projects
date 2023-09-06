@@ -1,4 +1,4 @@
 export interface MapLayers {
-  events?: any;
-  floor: any;
+  events?: any
+  floor: any
 }

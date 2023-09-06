@@ -1,7 +1,10 @@
-import type { PathLike } from 'fs'
-import fs from 'fs/promises'
+import type { PathLike } from "fs"
+import fs from "fs/promises"
 
-export async function removeRecursively(path: PathLike, options?: RemoveRecursivelyOptions): Promise<void> {
+export async function removeRecursively(
+  path: PathLike,
+  options?: RemoveRecursivelyOptions,
+): Promise<void> {
   await fs.rm(path, {
     maxRetries: 3,
     ...options,

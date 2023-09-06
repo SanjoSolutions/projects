@@ -1,15 +1,15 @@
-import { readJSON } from '@sanjo/read-json'
-import { writeJSON } from '@sanjo/write-json'
-import { promises as fs } from 'fs'
-import path from 'path'
-import { notify } from './flat_offer_notifier.js'
-import { determineDirname } from './lib/determineDirname.js'
-import { getMissingFields } from './lib/getMissingFields.js'
-import { isBoolean } from './lib/isBoolean.js'
-import { isNumber } from './lib/isNumber.js'
-import { wait } from './lib/wait.js'
+import { readJSON } from "@sanjo/read-json"
+import { writeJSON } from "@sanjo/write-json"
+import { promises as fs } from "fs"
+import path from "path"
+import { notify } from "./flat_offer_notifier.js"
+import { determineDirname } from "./lib/determineDirname.js"
+import { getMissingFields } from "./lib/getMissingFields.js"
+import { isBoolean } from "./lib/isBoolean.js"
+import { isNumber } from "./lib/isNumber.js"
+import { wait } from "./lib/wait.js"
 
-const modulesDirectoryName = 'modules'
+const modulesDirectoryName = "modules"
 
 const __dirname = determineDirname(import.meta.url)
 
@@ -17,38 +17,57 @@ const modulesPath = path.join(__dirname, modulesDirectoryName)
 
 export function verifyContactData(contactData) {
   const minimumRequiredFields = [
-    'title',
-    'firstName',
-    'lastName',
-    'email',
-    'phone',
-    'address',
-    'applicationMessage',
-    'numberOfAdults',
-    'numberOfChildren',
-    'monthlyIncome',
-    'earliestDateToMoveIn',
-    'wbs',
-    'hasPets',
-    'threatenedByLossOfHousing',
-    'firstTimeHousehold',
-    'mBill',
+    "title",
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "address",
+    "applicationMessage",
+    "numberOfAdults",
+    "numberOfChildren",
+    "monthlyIncome",
+    "earliestDateToMoveIn",
+    "wbs",
+    "hasPets",
+    "threatenedByLossOfHousing",
+    "firstTimeHousehold",
+    "mBill",
   ]
-  const missingRequiredFields = getMissingFields(minimumRequiredFields, contactData)
+  const missingRequiredFields = getMissingFields(
+    minimumRequiredFields,
+    contactData,
+  )
   if (missingRequiredFields.length >= 1) {
-    throw new Error(`Missing required fields in contact data: ${missingRequiredFields.join(', ')}`)
+    throw new Error(
+      `Missing required fields in contact data: ${missingRequiredFields.join(
+        ", ",
+      )}`,
+    )
   }
 }
 
-export async function process(getBrowser, flatOfferFetchers, { intervalBetweenProcessRuns, contactData, shouldStop }) {
-  await fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer.bind(null, getBrowser, contactData), {
-    intervalBetweenProcessRuns,
-    shouldStop,
-  })
+export async function process(
+  getBrowser,
+  flatOfferFetchers,
+  { intervalBetweenProcessRuns, contactData, shouldStop },
+) {
+  await fetchFlatOffers(
+    getBrowser,
+    flatOfferFetchers,
+    onFlatOffer.bind(null, getBrowser, contactData),
+    {
+      intervalBetweenProcessRuns,
+      shouldStop,
+    },
+  )
 }
 
 async function onFlatOffer(getBrowser, contactData, flatOffer) {
-  if (!(await haveNotifiedOfFlatOffer(flatOffer)) && kommtInFrage(contactData, flatOffer)) {
+  if (
+    !(await haveNotifiedOfFlatOffer(flatOffer)) &&
+    kommtInFrage(contactData, flatOffer)
+  ) {
     await notifyOf(getBrowser, contactData, flatOffer)
   }
 }
@@ -59,23 +78,27 @@ export async function getFlatOfferFetchers() {
     let filePath = path.join(modulesPath, fileName)
     let stats = await fs.stat(filePath)
     if (stats.isDirectory()) {
-      filePath = path.join(filePath, 'index.js')
+      filePath = path.join(filePath, "index.js")
       stats = await fs.stat(filePath)
     }
     if (
       isJavaScriptFile(filePath) &&
-      !path.basename(fileName).startsWith('_') &&
-      !path.basename(fileName, path.extname(fileName)).endsWith('_test') &&
-      fileName !== 'howoge'
+      !path.basename(fileName).startsWith("_") &&
+      !path.basename(fileName, path.extname(fileName)).endsWith("_test") &&
+      fileName !== "howoge"
     ) {
       if (stats.isFile()) {
-        const module = await import('file:///' + filePath)
+        const module = await import("file:///" + filePath)
         const fetcher = module.fetch
         if (!fetcher) {
-          throw new Error(`Module "${filePath}" has no expected export "fetch".`)
+          throw new Error(
+            `Module "${filePath}" has no expected export "fetch".`,
+          )
         }
-        if (typeof fetcher !== 'function') {
-          throw new Error(`Module "${filePath}" export "fetch" has not the expected type "function".`)
+        if (typeof fetcher !== "function") {
+          throw new Error(
+            `Module "${filePath}" export "fetch" has not the expected type "function".`,
+          )
         }
         flatOfferFetchers.push(fetcher)
       }
@@ -84,9 +107,14 @@ export async function getFlatOfferFetchers() {
   return flatOfferFetchers
 }
 
-async function fetchFlatOffers(getBrowser, flatOfferFetchers, onFlatOffer, { intervalBetweenProcessRuns, shouldStop }) {
+async function fetchFlatOffers(
+  getBrowser,
+  flatOfferFetchers,
+  onFlatOffer,
+  { intervalBetweenProcessRuns, shouldStop },
+) {
   while (!shouldStop()) {
-    console.log('Fetching flat offers.')
+    console.log("Fetching flat offers.")
     for (const fetch of flatOfferFetchers) {
       await fetch(getBrowser, onFlatOffer)
     }
@@ -107,8 +135,10 @@ export function kommtInFrage(contactData, flatOffer) {
     forPeopleOfAge(flatOffer, 30) &&
     flatOffer.area <= 50 && // m ** 2
     flatOffer.numberOfRooms <= 2 &&
-    (!flatOffer.url.includes('howoge') || monthlyIncome >= 3 * totalRent(flatOffer)) && // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
-    (!isBoolean(flatOffer.selfRenovation) || flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
+    (!flatOffer.url.includes("howoge") ||
+      monthlyIncome >= 3 * totalRent(flatOffer)) && // Haushaltsnettoeinkommen >= 3 * Gesamtmiete
+    (!isBoolean(flatOffer.selfRenovation) ||
+      flatOffer.selfRenovation === Boolean(contactData.selfRenovation))
   )
 }
 
@@ -118,10 +148,17 @@ function totalRent(flatOffer) {
     isNumber(flatOffer.coldServiceCharges) &&
     isNumber(flatOffer.warmServiceCharges)
   ) {
-    return flatOffer.coldRent + flatOffer.coldServiceCharges + flatOffer.warmServiceCharges
+    return (
+      flatOffer.coldRent +
+      flatOffer.coldServiceCharges +
+      flatOffer.warmServiceCharges
+    )
   } else if (isNumber(flatOffer.warmRent)) {
     return flatOffer.warmRent
-  } else if (isNumber(flatOffer.coldRent) && isNumber(flatOffer.serviceCharges)) {
+  } else if (
+    isNumber(flatOffer.coldRent) &&
+    isNumber(flatOffer.serviceCharges)
+  ) {
     return flatOffer.coldRent + flatOffer.serviceCharges
   }
 }
@@ -129,7 +166,8 @@ function totalRent(flatOffer) {
 function forPeopleOfAge(flatOffer, age) {
   return (
     !isFlatOfferForSeniorsOnly(flatOffer) &&
-    (typeof flatOffer.requiredMinimumAge !== 'number' || age >= flatOffer.requiredMinimumAge)
+    (typeof flatOffer.requiredMinimumAge !== "number" ||
+      age >= flatOffer.requiredMinimumAge)
   )
 }
 
@@ -138,7 +176,7 @@ function isFlatOfferForSeniorsOnly(flatOffer) {
 }
 
 async function notifyOf(getBrowser, contactData, flatOffer) {
-  console.log('Sending notification for flat offer: ', flatOffer)
+  console.log("Sending notification for flat offer: ", flatOffer)
   await notify(flatOffer, contactData)
   await registerFlatOfferAsNotifiedOf(flatOffer)
 }
@@ -150,7 +188,11 @@ async function haveNotifiedOfFlatOffer(flatOffer) {
   return flatOffersNotifiedOf.includes(flatOffer.url)
 }
 
-const flatOffersNotifiedOfPath = path.resolve(__dirname, '..', 'flatOffersNotifiedOf.json')
+const flatOffersNotifiedOfPath = path.resolve(
+  __dirname,
+  "..",
+  "flatOffersNotifiedOf.json",
+)
 
 async function registerFlatOfferAsNotifiedOf(flatOffer) {
   const flatOffersNotifiedOf = await readFlatOffersNotifiedOf()
@@ -169,7 +211,11 @@ async function haveAppliedForFlatOffer(flatOffer) {
   return flatOffersAppliedTo.includes(flatOffer.url)
 }
 
-const flatOffersAppliedToPath = path.resolve(__dirname, '..', 'flatOffersAppliedTo.json')
+const flatOffersAppliedToPath = path.resolve(
+  __dirname,
+  "..",
+  "flatOffersAppliedTo.json",
+)
 
 export async function registerFlatOfferAsAppliedTo(flatOffer) {
   const flatOffersAppliedTo = await readFlatOffersAppliedTo()
@@ -182,5 +228,5 @@ async function readFlatOffersAppliedTo() {
 }
 
 function isJavaScriptFile(filePath) {
-  return ['.js', '.mjs', '.cjs'].includes(path.extname(filePath))
+  return [".js", ".mjs", ".cjs"].includes(path.extname(filePath))
 }

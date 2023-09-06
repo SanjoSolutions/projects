@@ -1,1 +1,1 @@
-export { parseNpmPackageName } from './parseNpmPackageName.js'
+export { parseNpmPackageName } from "./parseNpmPackageName.js"

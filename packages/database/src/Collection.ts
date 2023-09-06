@@ -1,5 +1,5 @@
-import type { ICollection } from './ICollection.js'
-import type { IStorage } from './IStorage.js'
+import type { ICollection } from "./ICollection.js"
+import type { IStorage } from "./IStorage.js"
 
 export class Collection implements ICollection {
   _name: string
@@ -18,7 +18,9 @@ export class Collection implements ICollection {
 
   async update(selector: any, update: any): Promise<void> {
     let collection = (await this._storage.get(this._name)) || []
-    const entriesToUpdate = collection.filter((entry: any) => this._isMatchingSelector(entry, selector))
+    const entriesToUpdate = collection.filter((entry: any) =>
+      this._isMatchingSelector(entry, selector),
+    )
     for (const entry of entriesToUpdate) {
       this._updateEntry(entry, update)
     }
@@ -26,7 +28,9 @@ export class Collection implements ICollection {
   }
 
   _isMatchingSelector(entry: any, selector: any) {
-    return Object.entries(selector).every(([key, value]) => entry[key] === value)
+    return Object.entries(selector).every(
+      ([key, value]) => entry[key] === value,
+    )
   }
 
   _updateEntry(entry: any, update: any) {

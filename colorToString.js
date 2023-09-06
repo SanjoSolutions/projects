@@ -11,8 +11,12 @@ export function colorToString(color) {
   }
   const { hue, saturation, lightness, alpha } = color
   if (alpha) {
-    return `hsla(${Math.round(hue * 360)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%, ${alpha})`
+    return `hsla(${Math.round(hue * 360)}, ${Math.round(
+      saturation * 100,
+    )}%, ${Math.round(lightness * 100)}%, ${alpha})`
   } else {
-    return `hsl(${Math.round(hue * 360)}, ${Math.round(saturation * 100)}%, ${Math.round(lightness * 100)}%)`
+    return `hsl(${Math.round(hue * 360)}, ${Math.round(
+      saturation * 100,
+    )}%, ${Math.round(lightness * 100)}%)`
   }
 }

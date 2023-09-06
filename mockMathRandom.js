@@ -7,14 +7,14 @@ export function letMathRandomReturn(numbersToReturn) {
     if (numbersToReturn.length >= 1) {
       return numbersToReturn.shift()
     } else {
-      throw new Error('No more numbers to return.')
+      throw new Error("No more numbers to return.")
     }
   })
 }
 
 export function mockMathRandom(mathRandomMock) {
   if (isMathRandomMocked) {
-    throw new Error('Math.random is already mocked.')
+    throw new Error("Math.random is already mocked.")
   }
   Math.random = mathRandomMock.bind(Math)
   isMathRandomMocked = true

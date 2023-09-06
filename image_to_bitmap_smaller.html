@@ -3,17 +3,18 @@
   const height = 64
   const tileSize = 32
   const numberOfPaddingTiles = 2
-  const canvas = document.createElement('canvas')
+  const canvas = document.createElement("canvas")
   canvas.width = width * tileSize
   canvas.height = height * tileSize
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d")
 
-  const imageUrl = 'heart.png'
+  const imageUrl = "heart.png"
   const image = new Image()
   image.src = imageUrl
   image.onload = () => {
     const drawingWidth = 0.6875 * (width - 2 * numberOfPaddingTiles) * tileSize
-    const drawingHeight = 0.6875 * (height - 2 * numberOfPaddingTiles) * tileSize
+    const drawingHeight =
+      0.6875 * (height - 2 * numberOfPaddingTiles) * tileSize
     let scale
     if (image.naturalWidth <= image.naturalHeight) {
       scale = drawingHeight / image.naturalHeight
@@ -48,7 +49,9 @@
       const outputRow = bitmap.slice(row * width, (row + 1) * width)
       outputRows[row] = outputRow
     }
-    const output = outputRows.map(outputRow => outputRow.join(', ')).join(', \n')
+    const output = outputRows
+      .map((outputRow) => outputRow.join(", "))
+      .join(", \n")
     console.log(output)
   }
 

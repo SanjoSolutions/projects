@@ -17,7 +17,10 @@ export function hslToRgb(hue, saturation, lightness) {
   if (saturation === 0) {
     r = g = b = lightness // achromatic
   } else {
-    const q = lightness < 0.5 ? lightness * (1 + saturation) : lightness + saturation - lightness * saturation
+    const q =
+      lightness < 0.5
+        ? lightness * (1 + saturation)
+        : lightness + saturation - lightness * saturation
     const p = 2 * lightness - q
     r = hue2rgb(p, q, hue + 1 / 3)
     g = hue2rgb(p, q, hue)

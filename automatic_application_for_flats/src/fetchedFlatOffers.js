@@ -1,26 +1,30 @@
-import { promises as fs } from 'fs'
-import path from 'path'
-import { readJSON } from './lib/readJSON.js'
-import { determineDirname } from './lib/determineDirname.js'
+import { promises as fs } from "fs"
+import path from "path"
+import { readJSON } from "./lib/readJSON.js"
+import { determineDirname } from "./lib/determineDirname.js"
 
 const __dirname = determineDirname(import.meta.url)
 
-const fetchedFlatOffersFileName = 'fetchedFlatOffers.json'
-const defaultFetchedFlatOffersFileName = 'fetchedFlatOffers.default.json'
+const fetchedFlatOffersFileName = "fetchedFlatOffers.json"
+const defaultFetchedFlatOffersFileName = "fetchedFlatOffers.default.json"
 
 async function readFetchedFlatOffers() {
-  return await readJSON(path.resolve(__dirname, '..', fetchedFlatOffersFileName))
+  return await readJSON(
+    path.resolve(__dirname, "..", fetchedFlatOffersFileName),
+  )
 }
 
 async function readDefaultFetchedFlatOffers() {
-  return await readJSON(path.resolve(__dirname, '..', defaultFetchedFlatOffersFileName))
+  return await readJSON(
+    path.resolve(__dirname, "..", defaultFetchedFlatOffersFileName),
+  )
 }
 
 async function writeFetchedFlatOffers(fetchedFlatOffers) {
   await fs.writeFile(
-    path.resolve(__dirname, '..', fetchedFlatOffersFileName),
+    path.resolve(__dirname, "..", fetchedFlatOffersFileName),
     JSON.stringify(fetchedFlatOffers, null, 2),
-    { encoding: 'utf8' }
+    { encoding: "utf8" },
   )
 }
 

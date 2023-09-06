@@ -1,4 +1,4 @@
-import type { IStorage } from './IStorage.js'
+import type { IStorage } from "./IStorage.js"
 
 export class MemoryStorage implements IStorage {
   _data: Map<string, any> = new Map()

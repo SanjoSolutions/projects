@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
 class EventSourcingEvent {}
 
@@ -17,10 +17,10 @@ function applyEvent(entity: any, event: EventSourcingEvent) {
   }
 }
 
-describe.skip('EventSourcing', () => {
+describe.skip("EventSourcing", () => {
   // can store events regarding a model
 
-  it('', () => {
+  it("", () => {
     let entity = null
     const creationEvent = new CreationEvent()
     const growEvent = new GrowEvent()

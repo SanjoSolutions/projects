@@ -1,4 +1,4 @@
-import { wait } from './wait.js'
+import { wait } from "./wait.js"
 
 export function createFetch({ fetchOnce }) {
   return async function fetch(getBrowser, onFlatOffer) {

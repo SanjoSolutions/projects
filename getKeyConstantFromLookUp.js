@@ -1,4 +1,4 @@
-import { StringValueNotFoundError } from './StringValueNotFoundError.js'
+import { StringValueNotFoundError } from "./StringValueNotFoundError.js"
 
 /**
  * Returns key constant for a string value from look-up.
@@ -10,7 +10,9 @@ import { StringValueNotFoundError } from './StringValueNotFoundError.js'
  */
 export function getKeyConstantFromLookUp(lookUp, stringValue) {
   if (!lookUp.has(stringValue)) {
-    throw new StringValueNotFoundError(`String value "${stringValue}" has not been found in look-up.`)
+    throw new StringValueNotFoundError(
+      `String value "${stringValue}" has not been found in look-up.`,
+    )
   }
   return lookUp.get(stringValue)
 }

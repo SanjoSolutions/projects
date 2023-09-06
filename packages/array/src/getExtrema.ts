@@ -1,9 +1,9 @@
-import { identity } from '@sanjo/identity'
+import { identity } from "@sanjo/identity"
 
 export function getExtrema<T>(
   array: T[],
   getter: (value: T) => any = identity,
-  isMoreExtreme: (a: any, b: any) => boolean
+  isMoreExtreme: (a: any, b: any) => boolean,
 ): T | null {
   if (array.length === 0) {
     return null

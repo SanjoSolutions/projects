@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from "fs"
+import path from "path"
 
 /**
  * Traverses given directory recursively and calls the given processFile function for each file found.
@@ -10,32 +10,32 @@ import path from "path";
  */
 export async function traverseDirectory(
   directoryPath: string,
-  processFile: (entryPath: string) => void | Promise<void>
+  processFile: (entryPath: string) => void | Promise<void>,
 ): Promise<void> {
   if (!path.isAbsolute(directoryPath)) {
-    directoryPath = path.resolve(directoryPath);
+    directoryPath = path.resolve(directoryPath)
   }
-  let directoryPaths = [directoryPath];
-  let nextDirectoryPaths = [];
+  let directoryPaths = [directoryPath]
+  let nextDirectoryPaths = []
   while (directoryPaths.length >= 1) {
     for (const directoryPath of directoryPaths) {
       let directoryEntries = await fs.readdir(directoryPath, {
         withFileTypes: true,
-      });
+      })
       for (const directoryEntry of directoryEntries) {
-        const entryFilename = directoryEntry.name;
-        const entryPath = path.join(directoryPath, entryFilename);
+        const entryFilename = directoryEntry.name
+        const entryPath = path.join(directoryPath, entryFilename)
         const stats = directoryEntry.isSymbolicLink()
           ? await fs.stat(entryPath)
-          : directoryEntry;
+          : directoryEntry
         if (stats.isFile()) {
-          await processFile(entryPath);
+          await processFile(entryPath)
         } else if (stats.isDirectory()) {
-          nextDirectoryPaths.push(entryPath);
+          nextDirectoryPaths.push(entryPath)
         }
       }
     }
-    directoryPaths = nextDirectoryPaths;
-    nextDirectoryPaths = [];
+    directoryPaths = nextDirectoryPaths
+    nextDirectoryPaths = []
   }
 }

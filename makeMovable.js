@@ -1,4 +1,4 @@
-import { identity } from "./packages/identity/src/identity.js";
+import { identity } from "./packages/identity/src/identity.js"
 
 export function makeMovable(
   element,
@@ -7,77 +7,77 @@ export function makeMovable(
     onPointerDown,
     onPointerUp,
     isMoving,
-  } = {}
+  } = {},
 ) {
   if (!elementWithWhichTheElementCanBeMovedWith) {
-    elementWithWhichTheElementCanBeMovedWith = element;
+    elementWithWhichTheElementCanBeMovedWith = element
   }
   if (!onPointerDown) {
-    onPointerDown = identity;
+    onPointerDown = identity
   }
   if (!onPointerUp) {
-    onPointerUp = identity;
+    onPointerUp = identity
   }
   if (!isMoving) {
-    isMoving = () => true;
+    isMoving = () => true
   }
-  element.style.position = "absolute";
-  element.style.left = element.offsetLeft + "px";
-  element.style.top = element.offsetTop + "px";
+  element.style.position = "absolute"
+  element.style.left = element.offsetLeft + "px"
+  element.style.top = element.offsetTop + "px"
 
-  let isMousePressed = false;
-  let pointerClickOffsetToWindow = null;
+  let isMousePressed = false
+  let pointerClickOffsetToWindow = null
 
   function onPointerDownHandler(event) {
     if (event.button === 0) {
-      onPointerDown(event);
-      isMousePressed = true;
+      onPointerDown(event)
+      isMousePressed = true
       pointerClickOffsetToWindow = {
         x: event.clientX - element.offsetLeft,
         y: event.clientY - element.offsetTop,
-      };
-      event.preventDefault();
+      }
+      event.preventDefault()
     }
   }
 
   elementWithWhichTheElementCanBeMovedWith.addEventListener(
     "pointerdown",
-    onPointerDownHandler
-  );
+    onPointerDownHandler,
+  )
 
   function onPointerMove(event) {
     if (isMousePressed && isMoving(event)) {
-      const x = event.clientX - pointerClickOffsetToWindow.x;
-      const y = event.clientY - pointerClickOffsetToWindow.y;
+      const x = event.clientX - pointerClickOffsetToWindow.x
+      const y = event.clientY - pointerClickOffsetToWindow.y
 
-      element.style.position = "absolute";
-      element.style.left = x + "px";
-      element.style.top = y + "px";
+      element.style.position = "absolute"
+      element.style.left = x + "px"
+      element.style.top = y + "px"
     }
   }
 
-  window.addEventListener("pointermove", onPointerMove);
+  window.addEventListener("pointermove", onPointerMove)
 
   function onPointerUpHandler(event) {
     if (event.button === 0) {
       if (isMousePressed) {
-        onPointerUp(event);
-        isMousePressed = false;
-        pointerClickOffsetToWindow = null;
+        onPointerUp(event)
+        isMousePressed = false
+        pointerClickOffsetToWindow = null
       }
     }
   }
 
-  window.addEventListener("pointerup", onPointerUpHandler);
+  window.addEventListener("pointerup", onPointerUpHandler)
 
   function removeEventListeners() {
     elementWithWhichTheElementCanBeMovedWith.removeEventListener(
       "pointerdown",
-      onPointerDownHandler
-    );
-    window.removeEventListener("pointermove", onPointerMove);
-    window.removeEventListener("pointerup", onPointerUpHandler);
+      onPointerDownHandler,
+    )
+    window.removeEventListener("pointermove", onPointerMove)
+    window.removeEventListener("pointerup", onPointerUpHandler)
   }
 
-  return removeEventListeners;
+  return removeEventListeners
 }

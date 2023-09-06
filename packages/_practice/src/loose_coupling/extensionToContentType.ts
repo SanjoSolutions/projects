@@ -1,10 +1,10 @@
-import type { MIMEType } from './MIMEType.js'
+import type { MIMEType } from "./MIMEType.js"
 
 export function extensionToContentType(extension: string): MIMEType {
   switch (extension) {
-    case '.html':
-      return 'text/html'
+    case ".html":
+      return "text/html"
     default:
-      return 'text/plain'
+      return "text/plain"
   }
 }

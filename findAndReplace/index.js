@@ -1,9 +1,9 @@
-import path from 'path'
-import { removeFile } from '../file/removeFile.js'
-import { processFile } from '../processFile.js'
-import { traverseDirectory } from '../traverseDirectory.js'
-import { loadConfig } from './loadConfig.js'
-import { readLookUp } from './readLookUp.js'
+import path from "path"
+import { removeFile } from "../file/removeFile.js"
+import { processFile } from "../processFile.js"
+import { traverseDirectory } from "../traverseDirectory.js"
+import { loadConfig } from "./loadConfig.js"
+import { readLookUp } from "./readLookUp.js"
 
 /**
  * Entry point of program.
@@ -29,7 +29,7 @@ async function main() {
   const configFilePath = path.resolve(process.cwd(), process.argv[2])
   const config = await loadConfig(configFilePath)
   const lookUp = await readLookUp(config.CSV_file)
-  const errorFilePath = path.resolve(process.cwd(), 'error.csv')
+  const errorFilePath = path.resolve(process.cwd(), "error.csv")
   await removeFile(errorFilePath)
   const processFileWithLookUp = processFile.bind(null, lookUp, errorFilePath)
   await traverseDirectory(config.source_code_path, processFileWithLookUp)

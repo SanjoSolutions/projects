@@ -1,7 +1,7 @@
-import { describe, expect, test } from '@jest/globals'
-import { getMatchingSubsequences } from './getMatchingSubsequences.js'
+import { describe, expect, test } from "@jest/globals"
+import { getMatchingSubsequences } from "./getMatchingSubsequences.js"
 
-describe('getMatchingSubsequences', () => {
+describe("getMatchingSubsequences", () => {
   const testCases = [
     {
       from: [1, 2, 3],
@@ -91,7 +91,7 @@ describe('getMatchingSubsequences', () => {
         `with expected result "${JSON.stringify(expectedResult)}"`,
       () => {
         expect(getMatchingSubsequences(from, to)).toEqual(expectedResult)
-      }
+      },
     )
   }
 })

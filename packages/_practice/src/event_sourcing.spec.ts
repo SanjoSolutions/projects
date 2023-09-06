@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
 function eventWasOnDate(date: Date): ({ date }: { date: Date }) => boolean {
   return ({ date: eventDate }) =>
@@ -7,7 +7,9 @@ function eventWasOnDate(date: Date): ({ date }: { date: Date }) => boolean {
     eventDate.getFullYear() === date.getFullYear()
 }
 
-function filter(fn: (value: any, index: number, array: any[]) => any): (array: any[]) => any[] {
+function filter(
+  fn: (value: any, index: number, array: any[]) => any,
+): (array: any[]) => any[] {
   return (array: any[]) => array.filter(fn)
 }
 
@@ -16,7 +18,7 @@ function count(array: any[]): number {
 }
 
 function incrementBy(incrementor: number): (number: number) => number {
-  return number => number + incrementor
+  return (number) => number + incrementor
 }
 
 function passValueToFunction(value: any, fn: Function): any {
@@ -32,18 +34,18 @@ interface EventSourcingEvent {
   date: Date
 }
 
-describe('Event Sourcing', () => {
-  it('doggy walking tracking', () => {
+describe("Event Sourcing", () => {
+  it("doggy walking tracking", () => {
     const events: EventSourcingEvent[] = [
-      { what: 'Doggy walking', date: new Date('2020-06-01 09:00') },
-      { what: 'Doggy walking', date: new Date('2020-06-01 21:00') },
-      { what: 'Doggy walking', date: new Date('2020-06-02 09:01') },
+      { what: "Doggy walking", date: new Date("2020-06-01 09:00") },
+      { what: "Doggy walking", date: new Date("2020-06-01 21:00") },
+      { what: "Doggy walking", date: new Date("2020-06-02 09:01") },
     ]
 
     function howOftenWalkedDoggy(events: EventSourcingEvent[], date: Date) {
       return pipe(events, filter(eventWasOnDate(date)), count)
     }
 
-    expect(howOftenWalkedDoggy(events, new Date('2020-06-01'))).toEqual(2)
+    expect(howOftenWalkedDoggy(events, new Date("2020-06-01"))).toEqual(2)
   })
 })

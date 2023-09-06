@@ -1,8 +1,8 @@
-import { describe, it, expect } from '@jest/globals'
-import { Multiset } from './Multiset.js'
+import { describe, it, expect } from "@jest/globals"
+import { Multiset } from "./Multiset.js"
 
-describe('Multiset', () => {
-  it('supports adding multiple of the same element', () => {
+describe("Multiset", () => {
+  it("supports adding multiple of the same element", () => {
     const multiset = new Multiset()
     multiset.add(1)
     multiset.add(1)
@@ -12,8 +12,8 @@ describe('Multiset', () => {
     expect(multiset.has(1)).toEqual(false)
   })
 
-  describe('count', () => {
-    it('returns the count of an element', () => {
+  describe("count", () => {
+    it("returns the count of an element", () => {
       const multiset = new Multiset()
       multiset.add(1)
       multiset.add(1)

@@ -9,18 +9,24 @@ var t = {
         r = e(333),
         a = o ? o.toStringTag : void 0
       t.exports = function (t) {
-        return null == t ? (void 0 === t ? '[object Undefined]' : '[object Null]') : a && a in Object(t) ? i(t) : r(t)
+        return null == t
+          ? void 0 === t
+            ? "[object Undefined]"
+            : "[object Null]"
+          : a && a in Object(t)
+          ? i(t)
+          : r(t)
       }
     },
     561: (t, n, e) => {
       var o = e(990),
         i = /^\s+/
       t.exports = function (t) {
-        return t ? t.slice(0, o(t) + 1).replace(i, '') : t
+        return t ? t.slice(0, o(t) + 1).replace(i, "") : t
       }
     },
     957: (t, n, e) => {
-      var o = 'object' == typeof e.g && e.g && e.g.Object === Object && e.g
+      var o = "object" == typeof e.g && e.g && e.g.Object === Object && e.g
       t.exports = o
     },
     607: (t, n, e) => {
@@ -40,7 +46,7 @@ var t = {
         return o && (n ? (t[c] = e) : delete t[c]), i
       }
     },
-    333: t => {
+    333: (t) => {
       var n = Object.prototype.toString
       t.exports = function (t) {
         return n.call(t)
@@ -48,11 +54,11 @@ var t = {
     },
     639: (t, n, e) => {
       var o = e(957),
-        i = 'object' == typeof self && self && self.Object === Object && self,
-        r = o || i || Function('return this')()
+        i = "object" == typeof self && self && self.Object === Object && self,
+        r = o || i || Function("return this")()
       t.exports = r
     },
-    990: t => {
+    990: (t) => {
       var n = /\s/
       t.exports = function (t) {
         for (var e = t.length; e-- && n.test(t.charAt(e)); );
@@ -76,7 +82,7 @@ var t = {
           w = !1,
           x = !1,
           p = !0
-        if ('function' != typeof t) throw new TypeError('Expected a function')
+        if ("function" != typeof t) throw new TypeError("Expected a function")
         function g(n) {
           var e = s,
             o = u
@@ -97,7 +103,7 @@ var t = {
             (function (t) {
               var e = n - (t - h)
               return x ? c(e, f - (t - v)) : e
-            })(t)
+            })(t),
           )
         }
         function j(t) {
@@ -116,8 +122,8 @@ var t = {
           (n = r(n) || 0),
           o(e) &&
             ((w = !!e.leading),
-            (f = (x = 'maxWait' in e) ? a(r(e.maxWait) || 0, n) : f),
-            (p = 'trailing' in e ? !!e.trailing : p)),
+            (f = (x = "maxWait" in e) ? a(r(e.maxWait) || 0, n) : f),
+            (p = "trailing" in e ? !!e.trailing : p)),
           (T.cancel = function () {
             void 0 !== l && clearTimeout(l), (v = 0), (s = h = u = l = void 0)
           }),
@@ -128,22 +134,22 @@ var t = {
         )
       }
     },
-    218: t => {
+    218: (t) => {
       t.exports = function (t) {
         var n = typeof t
-        return null != t && ('object' == n || 'function' == n)
+        return null != t && ("object" == n || "function" == n)
       }
     },
-    5: t => {
+    5: (t) => {
       t.exports = function (t) {
-        return null != t && 'object' == typeof t
+        return null != t && "object" == typeof t
       }
     },
     448: (t, n, e) => {
       var o = e(239),
         i = e(5)
       t.exports = function (t) {
-        return 'symbol' == typeof t || (i(t) && '[object Symbol]' == o(t))
+        return "symbol" == typeof t || (i(t) && "[object Symbol]" == o(t))
       }
     },
     771: (t, n, e) => {
@@ -161,13 +167,13 @@ var t = {
         s = /^0o[0-7]+$/i,
         u = parseInt
       t.exports = function (t) {
-        if ('number' == typeof t) return t
+        if ("number" == typeof t) return t
         if (r(t)) return NaN
         if (i(t)) {
-          var n = 'function' == typeof t.valueOf ? t.valueOf() : t
-          t = i(n) ? n + '' : n
+          var n = "function" == typeof t.valueOf ? t.valueOf() : t
+          t = i(n) ? n + "" : n
         }
-        if ('string' != typeof t) return 0 === t ? t : +t
+        if ("string" != typeof t) return 0 === t ? t : +t
         t = o(t)
         var e = c.test(t)
         return e || s.test(t) ? u(t.slice(2), e ? 2 : 8) : a.test(t) ? NaN : +t
@@ -182,11 +188,11 @@ function e(o) {
   return t[o](r, r.exports, e), r.exports
 }
 ;(e.g = (function () {
-  if ('object' == typeof globalThis) return globalThis
+  if ("object" == typeof globalThis) return globalThis
   try {
-    return this || new Function('return this')()
+    return this || new Function("return this")()
   } catch (t) {
-    if ('object' == typeof window) return window
+    if ("object" == typeof window) return window
   }
 })()),
   (() => {
@@ -211,7 +217,13 @@ function e(o) {
     }
     function d() {
       const t = window.innerWidth / 2 - i
-      return (n = -t), (e = t), (n = Math.floor(n)), (e = Math.floor(e)), n + Math.floor(Math.random() * (e - n + 1))
+      return (
+        (n = -t),
+        (e = t),
+        (n = Math.floor(n)),
+        (e = Math.floor(e)),
+        n + Math.floor(Math.random() * (e - n + 1))
+      )
       var n, e
     }
     function l(t) {
@@ -223,24 +235,31 @@ function e(o) {
     function v({ canvas: t, context: n }, e, o) {
       n.beginPath()
       const { x: r, y: a } = (function ({ canvas: t }, n) {
-        return { x: n.x - 50 + window.innerWidth / 2, y: window.innerHeight - n.y + s }
+        return {
+          x: n.x - 50 + window.innerWidth / 2,
+          y: window.innerHeight - n.y + s,
+        }
       })({ canvas: t }, e)
       n.drawImage(o, r, a, i, 25), n.stroke()
     }
     ;(async function () {
-      const e = await o('jumpy.png'),
-        i = await o('platform.png'),
+      const e = await o("jumpy.png"),
+        i = await o("platform.png"),
         { canvas: f, context: w } = (function ({
           onDevicePixelRatioOrDocumentSizeChange: e,
           afterCanvasSizeAndScaleSet: o,
         } = {}) {
           e || (e = t), o || (o = t)
-          const i = document.createElement('canvas'),
-            r = i.getContext('2d'),
+          const i = document.createElement("canvas"),
+            r = i.getContext("2d"),
             a = window.innerWidth,
             c = window.innerHeight,
             s = window.devicePixelRatio
-          ;(i.style.width = `${a}px`), (i.style.height = `${c}px`), (i.width = s * a), (i.height = s * c), r.scale(s, s)
+          ;(i.style.width = `${a}px`),
+            (i.style.height = `${c}px`),
+            (i.width = s * a),
+            (i.height = s * c),
+            r.scale(s, s)
           const u = n(function () {
               const t = parseInt(i.style.width, 10),
                 n = window.innerWidth,
@@ -248,11 +267,18 @@ function e(o) {
                 a = window.innerHeight,
                 c = window.devicePixelRatio
               if (n > t || a > e) {
-                const { canvas: o, context: s } = (function (t, n, { x: e, y: o, width: i, height: r }) {
-                  const a = document.createElement('canvas')
+                const { canvas: o, context: s } = (function (
+                  t,
+                  n,
+                  { x: e, y: o, width: i, height: r },
+                ) {
+                  const a = document.createElement("canvas")
                   ;(a.width = i - e), (a.height = r - o)
-                  const c = a.getContext('2d')
-                  return c.putImageData(n.getImageData(e, o, i, r), 0, 0), { canvas: a, context: c }
+                  const c = a.getContext("2d")
+                  return (
+                    c.putImageData(n.getImageData(e, o, i, r), 0, 0),
+                    { canvas: a, context: c }
+                  )
                 })(0, r, { x: 0, y: 0, width: i.width, height: i.height })
                 n > t && ((i.style.width = `${n}px`), (i.width = c * n)),
                   a > e && ((i.style.height = `${a}px`), (i.height = c * a)),
@@ -268,10 +294,13 @@ function e(o) {
                 i(), o(), t(n)
               }
               function o() {
-                ;(n = matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)), n.addEventListener('change', e)
+                ;(n = matchMedia(
+                  `(resolution: ${window.devicePixelRatio}dppx)`,
+                )),
+                  n.addEventListener("change", e)
               }
               function i() {
-                n.removeEventListener('change', e)
+                n.removeEventListener("change", e)
               }
               return o(), i
             })(d)
@@ -279,19 +308,19 @@ function e(o) {
             u(), e(t)
           }
           return (
-            window.addEventListener('resize', d),
+            window.addEventListener("resize", d),
             {
               canvas: i,
               context: r,
               removeEventListeners: function () {
-                u.cancel(), f(), window.removeEventListener('resize', d)
+                u.cancel(), f(), window.removeEventListener("resize", d)
               },
             }
           )
         })()
       document.body.appendChild(f)
       let x = null
-      document.addEventListener('mousemove', t => {
+      document.addEventListener("mousemove", (t) => {
         ;(x = t.pageX), (r.x = x - 0.5 * window.innerWidth)
       })
       let p = 0
@@ -304,23 +333,34 @@ function e(o) {
             ;(() => {
               if (((p += 1), r.y - s <= 0))
                 !(function ({ canvas: t, context: n }) {
-                  n.save(), (n.font = '64px sans-serif'), n.beginPath()
-                  const e = 'Game over!',
+                  n.save(), (n.font = "64px sans-serif"), n.beginPath()
+                  const e = "Game over!",
                     o = n.measureText(e)
                   n.fillText(
                     e,
                     window.innerWidth / 2 - 0.5 * o.width,
-                    window.innerHeight / 2 + 0.5 * (o.actualBoundingBoxAscent + o.actualBoundingBoxDescent)
+                    window.innerHeight / 2 +
+                      0.5 *
+                        (o.actualBoundingBoxAscent +
+                          o.actualBoundingBoxDescent),
                   ),
-                    (n.fillStyle = 'red'),
-                    n.fillRect(window.innerWidth / 2, window.innerHeight / 2, 1, 1),
+                    (n.fillStyle = "red"),
+                    n.fillRect(
+                      window.innerWidth / 2,
+                      window.innerHeight / 2,
+                      1,
+                      1,
+                    ),
                     n.restore()
                 })({ canvas: f, context: w }),
                   g()
               else {
-                if ((u > s && (s += 1), a)) (r.y += 1), p >= a.endFrame && (a = null)
+                if ((u > s && (s += 1), a))
+                  (r.y += 1), p >= a.endFrame && (a = null)
                 else {
-                  const t = c.find(t => t.y === r.y && t.x - 50 <= r.x && r.x <= t.x + 50)
+                  const t = c.find(
+                    (t) => t.y === r.y && t.x - 50 <= r.x && r.x <= t.x + 50,
+                  )
                   if (t) {
                     u = t.y - 25 - 20
                     const n = c[c.length - 1],
@@ -335,11 +375,14 @@ function e(o) {
                 ;(function ({ canvas: t, context: n }, e, o) {
                   n.beginPath()
                   const { x: i, y: r } = (function ({ canvas: t }, n) {
-                    return { x: n.x - 25 + window.innerWidth / 2, y: window.innerHeight - n.y - 100 + s }
+                    return {
+                      x: n.x - 25 + window.innerWidth / 2,
+                      y: window.innerHeight - n.y - 100 + s,
+                    }
                   })({ canvas: t }, e)
                   n.drawImage(o, i, r, 50, 100), n.stroke()
                 })({ canvas: f, context: w }, r, e),
-                  (c = c.filter(t => t.y > s))
+                  (c = c.filter((t) => t.y > s))
               }
             })(),
               (n = t),

@@ -1,4 +1,4 @@
-import { lastMatch } from './lastMatch.js'
+import { lastMatch } from "./lastMatch.js"
 
 /**
  * Returns the full line, that the given index lies within, without leading or ending line break characters.

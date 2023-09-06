@@ -1,4 +1,4 @@
-import { Subscribable } from './Subscribable.js'
+import { Subscribable } from "./Subscribable.js"
 
 export class Maus {
   constructor() {
@@ -10,12 +10,12 @@ export class Maus {
 
   listen() {
     this._isListening = true
-    window.addEventListener('mousedown', this._onPrimaryClick)
+    window.addEventListener("mousedown", this._onPrimaryClick)
   }
 
   unlisten() {
     this._isListening = false
-    window.removeEventListener('mousedown', this._onPrimaryClick)
+    window.removeEventListener("mousedown", this._onPrimaryClick)
   }
 
   _onPrimaryClick(event) {

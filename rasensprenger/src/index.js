@@ -1,8 +1,8 @@
-import { animate } from '@sanjo/animate'
-import { createFullDocumentCanvas } from '@sanjo/canvas'
-import { colorToString } from '../../colorToString.js'
-import { randomColor } from '../../randomColor.js'
-import { randomInteger } from '../../randomInteger.js'
+import { animate } from "@sanjo/animate"
+import { createFullDocumentCanvas } from "@sanjo/canvas"
+import { colorToString } from "../../colorToString.js"
+import { randomColor } from "../../randomColor.js"
+import { randomInteger } from "../../randomInteger.js"
 
 const radius = 20
 const coverRadius = 5 * radius
@@ -35,7 +35,9 @@ const rainDropBaseColor = {
 }
 const rainDropLifeTime = 5000
 animate(() => {
-  rainDrops = rainDrops.filter(({ spawnTime }) => Date.now() - spawnTime <= rainDropLifeTime)
+  rainDrops = rainDrops.filter(
+    ({ spawnTime }) => Date.now() - spawnTime <= rainDropLifeTime,
+  )
 
   for (let index = 0; index < numRainDropsPerFrame; index++) {
     rainDrops.push({
@@ -116,12 +118,12 @@ function drawFlower({ x, y, color }) {
       y + flowerDingRadius * Math.sin(angle),
       flowerDingRadius,
       0,
-      2 * Math.PI
+      2 * Math.PI,
     )
     context.fill()
   }
 
-  context.fillStyle = 'yellow'
+  context.fillStyle = "yellow"
   context.beginPath()
   context.arc(x, y, flowerDingRadius, 0, 2 * Math.PI)
   context.fill()

@@ -1,22 +1,22 @@
-import { FlatOfferDetailPage } from '../../lib/FlatOfferDetailPage.js'
-import { getInnerText } from '../../lib/getInnerText.js'
-import { isTitleOfSeniorsOnlyFlat } from '../../lib/isTitleOfSeniorsOnlyFlat.js'
-import { parseCurrencyText } from '../../lib/parseCurrencyText.js'
-import { parseFloatNumberText } from '../../lib/parseFloatNumberText.js'
-import { parseNumberOfRooms } from '../../lib/parseNumberOfRooms.js'
+import { FlatOfferDetailPage } from "../../lib/FlatOfferDetailPage.js"
+import { getInnerText } from "../../lib/getInnerText.js"
+import { isTitleOfSeniorsOnlyFlat } from "../../lib/isTitleOfSeniorsOnlyFlat.js"
+import { parseCurrencyText } from "../../lib/parseCurrencyText.js"
+import { parseFloatNumberText } from "../../lib/parseFloatNumberText.js"
+import { parseNumberOfRooms } from "../../lib/parseNumberOfRooms.js"
 
 export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
   async getCosts() {
     if (!this.costs) {
-      const costsDataRows = await this.page.$$('.expenses .wrap > div')
+      const costsDataRows = await this.page.$$(".expenses .wrap > div")
       this.costs = await Promise.all(
-        costsDataRows.map(async costsDataRow => {
-          const keyElement = await costsDataRow.$('p')
-          const key = await keyElement.evaluate(node => node.innerHTML)
-          const valueElement = await costsDataRow.$('div')
-          const value = await valueElement.evaluate(node => node.innerText)
+        costsDataRows.map(async (costsDataRow) => {
+          const keyElement = await costsDataRow.$("p")
+          const key = await keyElement.evaluate((node) => node.innerHTML)
+          const valueElement = await costsDataRow.$("div")
+          const value = await valueElement.evaluate((node) => node.innerText)
           return [key, value]
-        })
+        }),
       )
     }
 
@@ -29,15 +29,15 @@ export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
 
   async getKeyFigures() {
     if (!this.keyFigures) {
-      const keyFiguresRows = await this.page.$$('.expose-facts .details tr')
+      const keyFiguresRows = await this.page.$$(".expose-facts .details tr")
       this.keyFigures = await Promise.all(
-        keyFiguresRows.map(async keyFiguresRow => {
-          const keyElement = await keyFiguresRow.$('th')
-          const key = await keyElement.evaluate(node => node.innerHTML)
-          const valueElement = await keyFiguresRow.$('td')
-          const value = await valueElement.evaluate(node => node.innerText)
+        keyFiguresRows.map(async (keyFiguresRow) => {
+          const keyElement = await keyFiguresRow.$("th")
+          const key = await keyElement.evaluate((node) => node.innerHTML)
+          const valueElement = await keyFiguresRow.$("td")
+          const value = await valueElement.evaluate((node) => node.innerText)
           return [key, value]
-        })
+        }),
       )
     }
 
@@ -49,33 +49,33 @@ export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getColdRent() {
-    const coldRentText = (await this.getCost('Kaltmiete'))[1]
+    const coldRentText = (await this.getCost("Kaltmiete"))[1]
     return parseCurrencyText(coldRentText)
   }
 
   async getServiceCharges() {
-    const serviceChargesText = (await this.getCost('Nebenkosten'))[1]
+    const serviceChargesText = (await this.getCost("Nebenkosten"))[1]
     return parseCurrencyText(serviceChargesText)
   }
 
   async getWarmRent() {
-    const warmRent = await this.getCost('Warmmiete')
+    const warmRent = await this.getCost("Warmmiete")
     return parseCurrencyText(warmRent[1])
   }
 
   async getArea() {
-    const areaText = (await this.getKeyFigure('Fläche'))[1]
+    const areaText = (await this.getKeyFigure("Fläche"))[1]
     return parseFloatNumberText(areaText)
   }
 
   async getNumberOfRooms() {
-    const numberOfRoomsText = (await this.getKeyFigure('Zimmer'))[1]
+    const numberOfRoomsText = (await this.getKeyFigure("Zimmer"))[1]
     return parseNumberOfRooms(numberOfRoomsText)
   }
 
   async getTitle() {
-    const titleElement = (await this.page.$$('.expose-head .h1'))[1]
-    return await titleElement.evaluate(node => node.innerText)
+    const titleElement = (await this.page.$$(".expose-head .h1"))[1]
+    return await titleElement.evaluate((node) => node.innerText)
   }
 
   async getSeniorsOnly() {
@@ -83,13 +83,15 @@ export class HOWOGEFlatOfferDetailPage extends FlatOfferDetailPage {
   }
 
   async getFeatures() {
-    const $features = await this.page.$$('.features .feature')
-    const features = (await Promise.all($features.map($feature => getInnerText($feature)))).map(text => text.trim())
+    const $features = await this.page.$$(".features .feature")
+    const features = (
+      await Promise.all($features.map(($feature) => getInnerText($feature)))
+    ).map((text) => text.trim())
     return new Set(features)
   }
 
   async getWbs() {
     const features = await this.getFeatures()
-    return features.has('WBS erforderlich')
+    return features.has("WBS erforderlich")
   }
 }

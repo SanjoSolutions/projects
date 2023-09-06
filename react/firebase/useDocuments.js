@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { identity } from '../../packages/identity/src/identity.js'
+import { useEffect, useState } from "react"
+import { identity } from "../../packages/identity/src/identity.js"
 
 export function useDocuments(queryRef, filterFn = identity) {
   const [documents, setDocuments] = useState(null)

@@ -1,8 +1,8 @@
-import { groupByToMap } from "./groupByToMap.js";
+import { groupByToMap } from "./groupByToMap.js"
 
 export function groupBy<T, GroupingType>(
   set: Set<T>,
-  predicate: (element: T) => GroupingType
+  predicate: (element: T) => GroupingType,
 ): Set<Set<T>> {
-  return new Set(groupByToMap(set, predicate).values());
+  return new Set(groupByToMap(set, predicate).values())
 }

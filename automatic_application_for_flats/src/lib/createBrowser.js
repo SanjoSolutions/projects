@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer'
+import puppeteer from "puppeteer"
 
 export async function createBrowser(optionsOverwrites) {
   return await puppeteer.launch({

@@ -20,22 +20,22 @@
 <canvas></canvas>
 
 <script type="module">
-  import { debounce } from './debounce.js'
+  import { debounce } from "./debounce.js"
 
-  const pencil = document.querySelector('.pencil')
-  const canvas = document.querySelector('canvas')
+  const pencil = document.querySelector(".pencil")
+  const canvas = document.querySelector("canvas")
   canvas.style.width = window.innerWidth
   canvas.style.height = window.innerHeight
   canvas.width = window.devicePixelRatio * window.innerWidth
   canvas.height = window.devicePixelRatio * window.innerHeight
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d")
   context.lineWidth = 1
-  context.lineCap = 'round'
+  context.lineCap = "round"
   context.scale(window.devicePixelRatio, window.devicePixelRatio)
 
   let isDrawing = false
   let lastPoint
-  window.addEventListener('mousedown', event => {
+  window.addEventListener("mousedown", (event) => {
     if (isLeftMouseButton(event)) {
       isDrawing = true
       const point = eventToPoint(event)
@@ -44,7 +44,7 @@
     }
   })
 
-  window.addEventListener('mousemove', event => {
+  window.addEventListener("mousemove", (event) => {
     const point = eventToPoint(event)
     pencil.style.left = point.x
     pencil.style.top = point.y
@@ -54,11 +54,11 @@
     }
   })
 
-  window.addEventListener('mouseup', event => {
+  window.addEventListener("mouseup", (event) => {
     isDrawing = false
   })
 
-  window.addEventListener('wheel', event => {
+  window.addEventListener("wheel", (event) => {
     const deltaY = event.deltaY
     if (deltaY !== 0) {
       if (deltaY < 0) {
@@ -75,7 +75,7 @@
   })
 
   window.addEventListener(
-    'resize',
+    "resize",
     debounce(() => {
       const oldWidth = parseInt(canvas.style.width, 10)
       const newWidth = window.innerWidth
@@ -83,11 +83,15 @@
       const newHeight = window.innerHeight
 
       if (newWidth > oldWidth || newHeight > oldHeight) {
-        const copyCanvas = document.createElement('canvas')
+        const copyCanvas = document.createElement("canvas")
         copyCanvas.width = canvas.width
         copyCanvas.height = canvas.height
-        const copyContext = copyCanvas.getContext('2d')
-        copyContext.putImageData(context.getImageData(0, 0, canvas.width, canvas.height), 0, 0)
+        const copyContext = copyCanvas.getContext("2d")
+        copyContext.putImageData(
+          context.getImageData(0, 0, canvas.width, canvas.height),
+          0,
+          0,
+        )
 
         if (newWidth > oldWidth) {
           canvas.style.width = newWidth
@@ -101,10 +105,14 @@
 
         context.resetTransform()
         context.scale(window.devicePixelRatio, window.devicePixelRatio)
-        context.putImageData(copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height), 0, 0)
+        context.putImageData(
+          copyContext.getImageData(0, 0, copyCanvas.width, copyCanvas.height),
+          0,
+          0,
+        )
         copyCanvas.remove()
       }
-    }, 200)
+    }, 200),
   )
 
   function isLeftMouseButton(event) {

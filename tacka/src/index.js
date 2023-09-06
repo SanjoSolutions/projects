@@ -1,113 +1,113 @@
-import animate from "@sanjo/animate";
-import { createFullDocumentCanvas } from "@sanjo/canvas";
-import { colorToString } from "../../colorToString.js";
-import { convertRadiansToDegrees } from "../../convertRadiansToDegrees.js";
-import { getCenter } from "../../getCenter.js";
-import { polarCoordinatesToCartesianCoordinates } from "../../polarCoordinatesToCartesianCoordinates.js";
+import animate from "@sanjo/animate"
+import { createFullDocumentCanvas } from "@sanjo/canvas"
+import { colorToString } from "../../colorToString.js"
+import { convertRadiansToDegrees } from "../../convertRadiansToDegrees.js"
+import { getCenter } from "../../getCenter.js"
+import { polarCoordinatesToCartesianCoordinates } from "../../polarCoordinatesToCartesianCoordinates.js"
 
-const { canvas, context } = createFullDocumentCanvas();
-document.body.appendChild(canvas);
+const { canvas, context } = createFullDocumentCanvas()
+document.body.appendChild(canvas)
 
-const maxRadius = 200;
-const minRadius = 0.2 * maxRadius;
-let radius = maxRadius;
-const RADIUS_DELTA = 1 / 10;
-let radiusDelta = -RADIUS_DELTA;
-let angle = 0;
-let angleDelta = (0.5 * ((2 * Math.PI) / 360)) / 10;
-let previousPoint = { radius, angle };
+const maxRadius = 200
+const minRadius = 0.2 * maxRadius
+let radius = maxRadius
+const RADIUS_DELTA = 1 / 10
+let radiusDelta = -RADIUS_DELTA
+let angle = 0
+let angleDelta = (0.5 * ((2 * Math.PI) / 360)) / 10
+let previousPoint = { radius, angle }
 
-const drawCanvas = document.createElement("canvas");
-drawCanvas.width = 2 * maxRadius + 2 * 1;
-drawCanvas.height = drawCanvas.width;
-const drawContext = drawCanvas.getContext("2d");
-drawContext.lineWidth = 1;
+const drawCanvas = document.createElement("canvas")
+drawCanvas.width = 2 * maxRadius + 2 * 1
+drawCanvas.height = drawCanvas.width
+const drawContext = drawCanvas.getContext("2d")
+drawContext.lineWidth = 1
 
 const origin = {
   x: drawCanvas.width / 2,
   y: drawCanvas.height / 2,
-};
+}
 
 animate((elapsedTime) => {
-  drawContext.beginPath();
+  drawContext.beginPath()
   const { x: previousX, y: previousY } = polarCoordinatesToCartesianCoordinates(
     {
       ...previousPoint,
       origin,
-    }
-  );
-  drawContext.moveTo(previousX, previousY);
-  const point = { radius, angle };
+    },
+  )
+  drawContext.moveTo(previousX, previousY)
+  const point = { radius, angle }
   const color = {
     hue: Math.round(
-      convertRadiansToDegrees((previousPoint.angle + point.angle) / 2)
+      convertRadiansToDegrees((previousPoint.angle + point.angle) / 2),
     ),
     saturation: 1,
     lightness: 0.5,
-  };
-  drawContext.strokeStyle = colorToString(color);
+  }
+  drawContext.strokeStyle = colorToString(color)
   const { x, y } = polarCoordinatesToCartesianCoordinates({
     ...point,
     origin,
-  });
-  drawContext.lineTo(x, y);
-  drawContext.stroke();
-  previousPoint = point;
+  })
+  drawContext.lineTo(x, y)
+  drawContext.stroke()
+  previousPoint = point
 
   drawTacka(canvas, context, drawCanvas, {
     radius,
     angle,
     minRadius,
     maxRadius,
-  });
+  })
 
-  angle = (angle + elapsedTime * angleDelta) % (4 * 2 * Math.PI);
-  radius += elapsedTime * radiusDelta;
+  angle = (angle + elapsedTime * angleDelta) % (4 * 2 * Math.PI)
+  radius += elapsedTime * radiusDelta
   if (radius <= minRadius) {
-    radiusDelta = RADIUS_DELTA;
+    radiusDelta = RADIUS_DELTA
   } else if (radius >= maxRadius) {
-    radiusDelta = -RADIUS_DELTA;
+    radiusDelta = -RADIUS_DELTA
   }
-  radius = Math.min(Math.max(minRadius, radius), maxRadius);
-});
+  radius = Math.min(Math.max(minRadius, radius), maxRadius)
+})
 
 function drawTacka(
   canvas,
   context,
   drawCanvas,
-  { radius, angle, minRadius, maxRadius }
+  { radius, angle, minRadius, maxRadius },
 ) {
-  const center = getCenter();
-  context.save();
+  const center = getCenter()
+  context.save()
 
-  context.lineWidth = 1;
-  context.lineCap = "round";
-  context.fillStyle = "white";
-  context.strokeStyle = "black";
+  context.lineWidth = 1
+  context.lineCap = "round"
+  context.fillStyle = "white"
+  context.strokeStyle = "black"
 
-  context.beginPath();
-  context.arc(center.x, center.y, maxRadius, 0, 2 * Math.PI);
-  context.fill();
-  context.stroke();
+  context.beginPath()
+  context.arc(center.x, center.y, maxRadius, 0, 2 * Math.PI)
+  context.fill()
+  context.stroke()
 
-  context.beginPath();
-  context.arc(center.x, center.y, minRadius, 0, 2 * Math.PI);
-  context.fill();
-  context.stroke();
+  context.beginPath()
+  context.arc(center.x, center.y, minRadius, 0, 2 * Math.PI)
+  context.fill()
+  context.stroke()
 
   context.drawImage(
     drawCanvas,
     0.5 * canvas.width - 0.5 * drawCanvas.width,
-    0.5 * canvas.height - 0.5 * drawCanvas.height
-  );
+    0.5 * canvas.height - 0.5 * drawCanvas.height,
+  )
 
-  context.beginPath();
-  context.moveTo(center.x, center.y);
+  context.beginPath()
+  context.moveTo(center.x, center.y)
   context.lineTo(
     center.x + radius * Math.cos(angle),
-    center.y + radius * Math.sin(angle)
-  );
-  context.stroke();
+    center.y + radius * Math.sin(angle),
+  )
+  context.stroke()
 
-  context.restore();
+  context.restore()
 }

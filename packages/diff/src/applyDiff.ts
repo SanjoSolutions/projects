@@ -1,6 +1,6 @@
-import type { KeyPath } from './KeyPath.js'
-import type { ObjectDiff } from './objectDiff.js'
-import type { ObjectOperation } from './ObjectOperation.js'
+import type { KeyPath } from "./KeyPath.js"
+import type { ObjectDiff } from "./objectDiff.js"
+import type { ObjectOperation } from "./ObjectOperation.js"
 
 export function applyDiff(object: any, diff: ObjectDiff) {
   return diff.reduce(applyOperation, object)
@@ -9,13 +9,13 @@ export function applyDiff(object: any, diff: ObjectDiff) {
 function applyOperation(object: any, operation: ObjectOperation) {
   const { type } = operation
   switch (type) {
-    case 'add':
+    case "add":
       applyOperationAdd(object, operation)
       break
-    case 'update':
+    case "update":
       applyOperationUpdate(object, operation)
       break
-    case 'remove':
+    case "remove":
       applyOperationRemove(object, operation)
       break
     default:
@@ -80,5 +80,5 @@ function removeProperty(object: any, keyPath: KeyPath) {
 }
 
 function keyPathToString(keyPath: KeyPath): string {
-  return `.${keyPath.join('.')}`
+  return `.${keyPath.join(".")}`
 }

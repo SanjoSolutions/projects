@@ -1,9 +1,9 @@
-import { promises as fs } from 'fs'
-import type { IFileSystem } from './IFileSystem.js'
-import { mkdir } from 'fs/promises'
-import { dirname } from 'path'
+import { promises as fs } from "fs"
+import type { IFileSystem } from "./IFileSystem.js"
+import { mkdir } from "fs/promises"
+import { dirname } from "path"
 
-const encoding = 'utf-8'
+const encoding = "utf-8"
 
 export class PersistentFileSystem implements IFileSystem {
   async contains(filePath: string): Promise<boolean> {
@@ -19,7 +19,7 @@ export class PersistentFileSystem implements IFileSystem {
     try {
       return await fs.readFile(filePath, { encoding })
     } catch (error: any) {
-      if (error.code === 'ENOENT') {
+      if (error.code === "ENOENT") {
         return null
       } else {
         throw error

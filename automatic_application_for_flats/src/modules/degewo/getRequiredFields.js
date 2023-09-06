@@ -1,3 +1,3 @@
 export function getRequiredFields() {
-  return ['firstName', 'lastName', 'email']
+  return ["firstName", "lastName", "email"]
 }

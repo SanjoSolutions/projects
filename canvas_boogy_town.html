@@ -11,8 +11,8 @@
 
 <body>
   <script type="module">
-    import { animate } from './packages/animate/animate.js'
-    import { createFullDocumentCanvas } from './createFullDocumentCanvas/createFullDocumentCanvas.js'
+    import { animate } from "./packages/animate/animate.js"
+    import { createFullDocumentCanvas } from "./createFullDocumentCanvas/createFullDocumentCanvas.js"
 
     const { canvas, context } = createFullDocumentCanvas()
     document.body.appendChild(canvas)
@@ -31,10 +31,10 @@
     let isPaused = false
 
     let deltaX = 0
-    animate(elapsedTime => {
+    animate((elapsedTime) => {
       context.save()
 
-      context.fillStyle = 'aliceblue'
+      context.fillStyle = "aliceblue"
 
       shapes = [...initialShapeSequence]
 
@@ -45,13 +45,18 @@
 
       const radius = 0.25 * Math.min(documentWidth, documentHeight)
 
-      context.clearRect(center.x - radius, center.y - radius, 2 * radius, 2 * radius)
+      context.clearRect(
+        center.x - radius,
+        center.y - radius,
+        2 * radius,
+        2 * radius,
+      )
 
       context.beginPath()
       context.arc(center.x, center.y, radius, 0, 2 * Math.PI)
       context.arc(center.x, center.y, 0.5 * radius, 0, 2 * Math.PI)
 
-      context.clip('evenodd')
+      context.clip("evenodd")
 
       context.beginPath()
       context.arc(center.x, center.y, radius, 0, 2 * Math.PI)
@@ -67,7 +72,10 @@
         const row = (y - initialY) / shapeHeight // starting from 0
         const isEvenRow = row % 2 === 0 // 0, 2, 4, …
         const direction = isEvenRow ? -1 : 1 // -1 === left, 1 === right
-        let x = direction === -1 ? center.x - radius - deltaX : center.x + radius + deltaX
+        let x =
+          direction === -1
+            ? center.x - radius - deltaX
+            : center.x + radius + deltaX
 
         if (direction === -1) {
           while (x < center.x + radius) {
@@ -90,14 +98,15 @@
       }
 
       if (!isPaused) {
-        deltaX = (deltaX + 10 * (elapsedTime / 1000)) % (shapes.length * shapeWidth)
+        deltaX =
+          (deltaX + 10 * (elapsedTime / 1000)) % (shapes.length * shapeWidth)
       }
 
       context.restore()
     })
 
-    window.addEventListener('keydown', event => {
-      if (event.code === 'Space') {
+    window.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
         isPaused = !isPaused
       }
     })

@@ -1,16 +1,21 @@
-import { animate } from '../../packages/animate/animate.js'
+import { animate } from "../../packages/animate/animate.js"
 
-export function createLineToLineAnimated({ width, height, color, backgroundColor }) {
+export function createLineToLineAnimated({
+  width,
+  height,
+  color,
+  backgroundColor,
+}) {
   const lineWidth = 0.45 * width
   const connectionLineWidth = 0.1 * width
 
-  const canvas = document.createElement('canvas')
+  const canvas = document.createElement("canvas")
   canvas.width = width
   canvas.height = height
 
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d")
 
-  context.strokeStyle = color || 'black'
+  context.strokeStyle = color || "black"
   context.lineWidth = 1
 
   const maxOffset = height
@@ -28,12 +33,15 @@ export function createLineToLineAnimated({ width, height, color, backgroundColor
     context.beginPath()
     context.moveTo(0, height - 0.5 * context.lineWidth - offset)
     context.lineTo(lineWidth, height - 0.5 * context.lineWidth - offset)
-    context.lineTo(lineWidth + connectionLineWidth, 0.5 * context.lineWidth + offset)
+    context.lineTo(
+      lineWidth + connectionLineWidth,
+      0.5 * context.lineWidth + offset,
+    )
     context.lineTo(width, 0.5 * context.lineWidth + offset)
     context.stroke()
   }
 
-  animate(elapsedTime => {
+  animate((elapsedTime) => {
     offset += (elapsedTime / (1000 / 60)) * offsetDelta
     if (offset > maxOffset) {
       offset = maxOffset
@@ -55,12 +63,12 @@ export function createLineToLineAnimated({ width, height, color, backgroundColor
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const options = { width: 496, height: 32, color: 'yellow' }
-  const container = document.createElement('div')
-  container.style.width = options.width + 'px'
-  container.style.padding = '1rem'
-  container.style.backgroundColor = 'black'
+document.addEventListener("DOMContentLoaded", () => {
+  const options = { width: 496, height: 32, color: "yellow" }
+  const container = document.createElement("div")
+  container.style.width = options.width + "px"
+  container.style.padding = "1rem"
+  container.style.backgroundColor = "black"
   const lineToLine = createLineToLineAnimated(options)
   container.appendChild(lineToLine.element)
   document.body.appendChild(container)

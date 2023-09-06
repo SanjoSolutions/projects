@@ -1,4 +1,6 @@
-export function generateTuplesInRange(ranges: [number, number, number][]): number[][] {
+export function generateTuplesInRange(
+  ranges: [number, number, number][],
+): number[][] {
   let tuples: number[][] = [[]]
   for (const range of ranges) {
     const nextTuples = []

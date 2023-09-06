@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -16,29 +16,29 @@
     </div>
     <div id="output"></div>
     <script>
-      const $l = document.getElementById('l')
-      const $r = document.getElementById('r')
-      const $doOutput = document.getElementById('doOutput')
-      const $output = document.getElementById('output')
+      const $l = document.getElementById("l")
+      const $r = document.getElementById("r")
+      const $doOutput = document.getElementById("doOutput")
+      const $output = document.getElementById("output")
 
       const characters = []
       let number = 0
       let index = 0
       const maxIndex = 16 - 1
 
-      $l.addEventListener('click', () => {
+      $l.addEventListener("click", () => {
         number = (number << 1) | 1
         index++
         createNextCharacter()
       })
 
-      $r.addEventListener('click', () => {
+      $r.addEventListener("click", () => {
         number = (number << 1) | 0
         index++
         createNextCharacter()
       })
 
-      $doOutput.addEventListener('click', () => {
+      $doOutput.addEventListener("click", () => {
         output()
       })
 
@@ -52,11 +52,11 @@
       }
 
       function output() {
-        const string = characters.join('')
+        const string = characters.join("")
         $output.textContent = string
-        $l.setAttribute('disabled', String(true))
-        $r.setAttribute('disabled', String(true))
-        $doOutput.setAttribute('disabled', String(true))
+        $l.setAttribute("disabled", String(true))
+        $r.setAttribute("disabled", String(true))
+        $doOutput.setAttribute("disabled", String(true))
       }
     </script>
   </body>

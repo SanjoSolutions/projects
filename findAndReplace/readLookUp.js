@@ -1,5 +1,5 @@
-import { createLookUpFromCsv } from '../createLookUpFromCsv.js'
-import { readCsv } from '../csv/readCsv.js'
+import { createLookUpFromCsv } from "../createLookUpFromCsv.js"
+import { readCsv } from "../csv/readCsv.js"
 
 /**
  * Reads the look-up from a CSV file.

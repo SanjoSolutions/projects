@@ -1,15 +1,18 @@
-import { arrayDiff } from './arrayDiff.js'
-import type { ArrayOperation } from './ArrayOperation.js'
-import { isObject } from './isObject.js'
-import { objectDiff } from './objectDiff.js'
-import type { ObjectOperation } from './ObjectOperation.js'
+import { arrayDiff } from "./arrayDiff.js"
+import type { ArrayOperation } from "./ArrayOperation.js"
+import { isObject } from "./isObject.js"
+import { objectDiff } from "./objectDiff.js"
+import type { ObjectOperation } from "./ObjectOperation.js"
 
 export function getOperationsForDiffSubsequence(
   fromArray: any[],
   toArray: any[],
-  subsequence: any[]
+  subsequence: any[],
 ): (ArrayOperation | ObjectOperation)[] {
-  const fromSubsequence = fromArray.slice(subsequence[0].from, subsequence[0].to)
+  const fromSubsequence = fromArray.slice(
+    subsequence[0].from,
+    subsequence[0].to,
+  )
   const toSubsequence = toArray.slice(subsequence[1].from, subsequence[1].to)
   const fromArrayMaxIndex = fromSubsequence.length - 1
   const toArrayMaxIndex = toSubsequence.length - 1
@@ -19,7 +22,7 @@ export function getOperationsForDiffSubsequence(
     // when index value in fromArray missing then add operation
     if (index > fromArrayMaxIndex) {
       const operation: ArrayOperation = {
-        type: 'add',
+        type: "add",
         index: subsequence[0].from + index,
         values: toSubsequence.slice(index),
       }
@@ -29,7 +32,7 @@ export function getOperationsForDiffSubsequence(
     // when index value in toArray missing then remove operation
     else if (index > toArrayMaxIndex) {
       const operation: ArrayOperation = {
-        type: 'remove',
+        type: "remove",
         index: subsequence[0].from + index,
         deleteCount: fromArrayMaxIndex - toArrayMaxIndex,
       }
@@ -46,7 +49,7 @@ export function getOperationsForDiffSubsequence(
         operations.push(...arrayDiff(fromValue, toValue))
       } else {
         const operation: ArrayOperation = {
-          type: 'update',
+          type: "update",
           index: subsequence[0].from + index,
           value: toValue,
         }

@@ -28,7 +28,7 @@ class MongoDB {
 
 {
   function api(): any {
-    const id = '1'
+    const id = "1"
     businessLogic(id)
     const response = {}
     return response

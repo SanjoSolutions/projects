@@ -22,8 +22,8 @@
 <div id="triangle" class="element triangle"></div>
 
 <script type="module">
-  import { getPosition } from './getPosition.js'
-  import { makeMovable } from './makeMovable.js'
+  import { getPosition } from "./getPosition.js"
+  import { makeMovable } from "./makeMovable.js"
 
   function getAngle(element) {
     let angle
@@ -43,22 +43,22 @@
 
   function makeRotatable(element) {
     let isMousePressed = false
-    element.addEventListener('pointerdown', function (event) {
+    element.addEventListener("pointerdown", function (event) {
       isMousePressed = true
       event.preventDefault()
     })
     function isRotating(event) {
       return isMousePressed && event.shiftKey
     }
-    window.addEventListener('pointermove', function (event) {
+    window.addEventListener("pointermove", function (event) {
       if (isRotating(event)) {
         let angle = getAngle(element)
         angle += event.movementY * ((2 * Math.PI) / 360)
-        element.style.transformOrigin = 'center'
+        element.style.transformOrigin = "center"
         element.style.transform = `rotate(${angle}rad)`
       }
     })
-    window.addEventListener('pointerup', function (event) {
+    window.addEventListener("pointerup", function (event) {
       isMousePressed = false
     })
 
@@ -69,15 +69,15 @@
     const id = element.id
 
     if (!id) {
-      throw new Error('element needs an id for persistPosition')
+      throw new Error("element needs an id for persistPosition")
     }
 
     const position = localStorage.getItem(id)
     if (position) {
       const { x, y, angle } = JSON.parse(position)
-      element.style.position = 'absolute'
-      element.style.left = x + 'px'
-      element.style.top = y + 'px'
+      element.style.position = "absolute"
+      element.style.left = x + "px"
+      element.style.top = y + "px"
       element.style.transform = `rotate(${angle}rad)`
     }
 
@@ -88,7 +88,7 @@
     })
     observer.observe(element, {
       attributes: true,
-      attributeFilter: ['style'],
+      attributeFilter: ["style"],
     })
 
     return element
@@ -101,11 +101,11 @@
           isMoving(event) {
             return !event.shiftKey
           },
-        })
-      )
+        }),
+      ),
     )
   }
 
-  const elements = Array.from(document.querySelectorAll('.element'))
+  const elements = Array.from(document.querySelectorAll(".element"))
   elements.forEach(makeMovableAndRotatableAndPersistPosition)
 </script>

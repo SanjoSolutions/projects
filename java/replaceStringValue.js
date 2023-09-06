@@ -1,4 +1,4 @@
-import { getKeyConstantFromLookUp } from '../getKeyConstantFromLookUp.js'
+import { getKeyConstantFromLookUp } from "../getKeyConstantFromLookUp.js"
 
 /**
  * Replaces a string value with the reference string (`R.string.<keyConstant>`) from the look-up.

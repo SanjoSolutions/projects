@@ -1,6 +1,8 @@
-import { Cache } from './Cache.js'
+import { Cache } from "./Cache.js"
 
-export function createCachingFunction<T extends Function>(fn: T): { (...args: any[]): any; cache: Cache } {
+export function createCachingFunction<T extends Function>(
+  fn: T,
+): { (...args: any[]): any; cache: Cache } {
   const cache = new Cache()
   const cachingFunction = function (...args: any[]) {
     let result

@@ -1,4 +1,4 @@
-import "@sanjo/canvas/createFullDocumentCanvas.css";
+import "@sanjo/canvas/createFullDocumentCanvas.css"
 
-export { createFullDocumentCanvas } from "@sanjo/canvas";
-export { Map } from "./Map.js";
+export { createFullDocumentCanvas } from "@sanjo/canvas"
+export { Map } from "./Map.js"

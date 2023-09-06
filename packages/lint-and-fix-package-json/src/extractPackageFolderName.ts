@@ -1,4 +1,4 @@
-import { basename } from 'path'
+import { basename } from "path"
 
 export function extractPackageFolderName(path: string): string {
   return basename(path)

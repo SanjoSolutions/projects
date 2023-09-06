@@ -1,8 +1,8 @@
-import { identity } from '../../packages/identity/src/identity.js'
-import { getAllNCardsCombinations } from './getAllNCardsCombinations.js'
-import { isRoyalFlush } from './isRoyalFlush.js'
-import { isStraightFlush } from './isStraightFlush.js'
-import { sortStraightFlushesDescending } from './sortStraightFlushesDescending.js'
+import { identity } from "../../packages/identity/src/identity.js"
+import { getAllNCardsCombinations } from "./getAllNCardsCombinations.js"
+import { isRoyalFlush } from "./isRoyalFlush.js"
+import { isStraightFlush } from "./isStraightFlush.js"
+import { sortStraightFlushesDescending } from "./sortStraightFlushesDescending.js"
 
 export function getFiveBestCards(cards) {
   const madeHandTypes = [

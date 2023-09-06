@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import { getDatabase } from '../../firebase/compat/getDatabase.js'
-import { useUserId } from './useUserId.js'
+import { useEffect, useState } from "react"
+import { getDatabase } from "../../firebase/compat/getDatabase.js"
+import { useUserId } from "./useUserId.js"
 
 export function useUserDocument() {
   const userId = useUserId()
@@ -14,7 +14,10 @@ export function useUserDocument() {
     if (userId) {
       async function retrieve() {
         const database = getDatabase()
-        unsubscribe = database.collection('users').doc(userId).onSnapshot(setUserDocument)
+        unsubscribe = database
+          .collection("users")
+          .doc(userId)
+          .onSnapshot(setUserDocument)
       }
 
       retrieve()

@@ -1,7 +1,7 @@
-import { test, expect } from '@jest/globals'
-import { dotProduct } from './dotProduct.js'
+import { test, expect } from "@jest/globals"
+import { dotProduct } from "./dotProduct.js"
 
-test('dot product', () => {
+test("dot product", () => {
   const A = [
     [1, 2],
     [3, 4],

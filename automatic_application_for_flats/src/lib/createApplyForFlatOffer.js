@@ -13,7 +13,7 @@ export function createApplyForFlatOffer({
 
     await fillForm({ form, page }, contactData)
 
-    if (process.env.NODE_ENV !== 'TESTING') {
+    if (process.env.NODE_ENV !== "TESTING") {
       await submitForm({ form, page })
       await saveScreenshot(page, flatOffer)
       await closePage(page)

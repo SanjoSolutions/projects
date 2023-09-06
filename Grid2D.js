@@ -11,7 +11,10 @@ export class Grid2D {
       if (values.length === length) {
         this.values = values
       } else {
-        throw new Error(`values length ${values.length} does't match ` + `expected length of ${length}.`)
+        throw new Error(
+          `values length ${values.length} does't match ` +
+            `expected length of ${length}.`,
+        )
       }
     } else {
       this.values = new Array(length)
@@ -38,7 +41,10 @@ export class Grid2D {
   }
 
   entries() {
-    return Array.from(this.values.entries()).map(([index, value]) => [this.indexToPosition(index), value])
+    return Array.from(this.values.entries()).map(([index, value]) => [
+      this.indexToPosition(index),
+      value,
+    ])
   }
 
   forEach(f) {

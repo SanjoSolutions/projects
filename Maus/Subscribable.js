@@ -8,10 +8,10 @@ export class Subscribable {
   }
 
   unsubscribe(f) {
-    this.subscribers = this.subscribers.filter(g => g !== f)
+    this.subscribers = this.subscribers.filter((g) => g !== f)
   }
 
   trigger(data) {
-    this.subscribers.forEach(f => f(data))
+    this.subscribers.forEach((f) => f(data))
   }
 }

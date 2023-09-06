@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment"
 
 export function createEmail({ to }: { to: string }): string {
   return `MIME-Version: 1.0
@@ -36,5 +36,5 @@ ate Kopie des Dokuments beliebig bearbeiten</div><div>und der Zustand des g=
 eteilten Dokuments bleibt erhalten.</div><div><br></div><div>Mit freundlich=
 en Gr=C3=BC=C3=9Fen</div>Jonas<br></div>
 
---0000000000009cccc905d9e2b418--`;
+--0000000000009cccc905d9e2b418--`
 }

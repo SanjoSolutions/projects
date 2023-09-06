@@ -1,10 +1,10 @@
-process.env.NODE_ENV = 'TESTING'
+process.env.NODE_ENV = "TESTING"
 
-import path from 'path'
-import puppeteer from 'puppeteer'
-import { contactData } from '../config.js'
-import { determineDirname } from '../lib/determineDirname.js'
-import { wait } from '../lib/wait.js'
+import path from "path"
+import puppeteer from "puppeteer"
+import { contactData } from "../config.js"
+import { determineDirname } from "../lib/determineDirname.js"
+import { wait } from "../lib/wait.js"
 
 const __dirname = determineDirname(import.meta.url)
 
@@ -12,7 +12,11 @@ run(main)
 
 async function main() {
   const moduleNameUnderTest = process.argv[2]
-  const modulePathUnderTest = path.resolve(__dirname, moduleNameUnderTest, 'index.js')
+  const modulePathUnderTest = path.resolve(
+    __dirname,
+    moduleNameUnderTest,
+    "index.js",
+  )
   const { fetchOnce } = await import(modulePathUnderTest)
 
   const browser = await puppeteer.launch({
@@ -33,7 +37,7 @@ async function main() {
 
   async function onFlatOffer(_flatOffer) {
     if (!flatOffer) {
-      console.log('Flat offer: ', _flatOffer)
+      console.log("Flat offer: ", _flatOffer)
       flatOffer = _flatOffer
     }
   }

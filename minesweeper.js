@@ -52,7 +52,11 @@ export class Minesweeper {
 
   placeMines() {
     const freePositions = this.grid.entries().map(([position]) => position)
-    for (let mineIndex = 0; mineIndex < this.numberOfMines && freePositions.length >= 1; mineIndex++) {
+    for (
+      let mineIndex = 0;
+      mineIndex < this.numberOfMines && freePositions.length >= 1;
+      mineIndex++
+    ) {
       const positionIndex = randomInteger(0, freePositions.length - 1)
       const position = freePositions.splice(positionIndex, 1)[0]
       this.grid.set(position, Minesweeper.MINE)
@@ -78,7 +82,11 @@ export class Minesweeper {
 
   getNeighbours(position) {
     const neighbours = []
-    for (let row = Math.max(1, position.row - 1); row <= Math.min(position.row + 1, this.grid.width); row++) {
+    for (
+      let row = Math.max(1, position.row - 1);
+      row <= Math.min(position.row + 1, this.grid.width);
+      row++
+    ) {
       for (
         let column = Math.max(1, position.column - 1);
         column <= Math.min(position.column + 1, this.grid.height);

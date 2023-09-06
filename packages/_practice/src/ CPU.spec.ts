@@ -1,9 +1,9 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
-describe('CPU', () => {
-  it('can add', () => {
+describe("CPU", () => {
+  it("can add", () => {
     const cpu = new CPU()
-    cpu.mov('EAX', 1)
+    cpu.mov("EAX", 1)
     expect(cpu.EAX).toEqual(1)
     cpu.add(2)
     expect(cpu.EAX).toEqual(3)

@@ -1,4 +1,4 @@
-import { selectRandomUniform } from '../selectRandomUniform.js'
+import { selectRandomUniform } from "../selectRandomUniform.js"
 
 const CIRCLE_MARGIN = 4 // 0.25rem with 1rem = 16px
 const SPACE_BETWEEN_CIRCLES = 2 * CIRCLE_MARGIN
@@ -10,14 +10,14 @@ const CIRCLE_BORDER = 1 // px
 export function main() {
   const rows = 20
   const columns = 20
-  const colors = ['red', 'green', 'yellow', 'blue']
-  const circleGrid = document.querySelector('.circle-grid')
+  const colors = ["red", "green", "yellow", "blue"]
+  const circleGrid = document.querySelector(".circle-grid")
   spawnCircles(circleGrid, { rows, columns, colors })
 
-  const connectionLineCanvas = document.querySelector('.connection-line-canvas')
+  const connectionLineCanvas = document.querySelector(".connection-line-canvas")
   connectionLineCanvas.width = circleGrid.clientWidth
   connectionLineCanvas.height = circleGrid.clientHeight
-  const context = connectionLineCanvas.getContext('2d')
+  const context = connectionLineCanvas.getContext("2d")
 
   let selectedCircles = new Set()
   let firstSelectedCircle = null
@@ -28,9 +28,9 @@ export function main() {
     return lastSelectedCircle !== null
   }
 
-  circleGrid.addEventListener('pointerdown', function (event) {
+  circleGrid.addEventListener("pointerdown", function (event) {
     const target = event.target
-    if (target.classList.contains('circle')) {
+    if (target.classList.contains("circle")) {
       event.preventDefault()
       const circle = target
       selectedCircles.add(circle)
@@ -40,15 +40,16 @@ export function main() {
     }
   })
 
-  circleGrid.addEventListener('pointermove', function (event) {
+  circleGrid.addEventListener("pointermove", function (event) {
     if (isSelectingCircles()) {
       const target = event.target
-      if (target.classList.contains('circle')) {
+      if (target.classList.contains("circle")) {
         const circle = target
         const circleColor = determineCircleColor(circle)
         if (
           circleColor === selectedColor &&
-          (!selectedCircles.has(circle) || (selectedCircles.size >= 3 && circle === firstSelectedCircle)) &&
+          (!selectedCircles.has(circle) ||
+            (selectedCircles.size >= 3 && circle === firstSelectedCircle)) &&
           canBeConnected(circle, lastSelectedCircle)
         ) {
           drawConnectionLine(circle, lastSelectedCircle)
@@ -59,10 +60,10 @@ export function main() {
     }
   })
 
-  window.addEventListener('pointerup', function () {
+  window.addEventListener("pointerup", function () {
     if (selectedCircles.size >= 2) {
       if (hasSquareBeenSelected(selectedCircles, columns)) {
-        const circles = circleGrid.querySelectorAll('.circle')
+        const circles = circleGrid.querySelectorAll(".circle")
         for (const circle of circles) {
           if (determineCircleColor(circle) === selectedColor) {
             removeCircle(circle)
@@ -77,7 +78,12 @@ export function main() {
     firstSelectedCircle = null
     selectedColor = null
     lastSelectedCircle = null
-    context.clearRect(0, 0, connectionLineCanvas.width, connectionLineCanvas.height)
+    context.clearRect(
+      0,
+      0,
+      connectionLineCanvas.width,
+      connectionLineCanvas.height,
+    )
   })
 
   function removeCircle(circle) {
@@ -102,14 +108,20 @@ function canBeConnected(circleA, circleB) {
   const positionB = determinePosition(circleB)
   const rowDifference = Math.abs(positionA.row - positionB.row)
   const columnDifference = Math.abs(positionA.column - positionB.column)
-  return (rowDifference === 0 && columnDifference === 1) || (columnDifference === 0 && rowDifference === 1)
+  return (
+    (rowDifference === 0 && columnDifference === 1) ||
+    (columnDifference === 0 && rowDifference === 1)
+  )
 }
 
 function determinePosition(circle) {
   return {
-    row: (circle.offsetLeft - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_WIDTH + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
+    row:
+      (circle.offsetLeft - CIRCLE_MARGIN) /
+      (CIRCLE_BORDER + CIRCLE_WIDTH + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
     column:
-      (circle.offsetTop - CIRCLE_MARGIN) / (CIRCLE_BORDER + CIRCLE_HEIGHT + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
+      (circle.offsetTop - CIRCLE_MARGIN) /
+      (CIRCLE_BORDER + CIRCLE_HEIGHT + CIRCLE_BORDER + SPACE_BETWEEN_CIRCLES),
   }
 }
 
@@ -118,17 +130,22 @@ function determineCircleColor(circle) {
 }
 
 function determineCircleColorClass(circle) {
-  return Array.from(circle.classList).find(className => className.includes('--'))
+  return Array.from(circle.classList).find((className) =>
+    className.includes("--"),
+  )
 }
 
 function extractColorName(colorClass) {
-  return colorClass.split('--')[1]
+  return colorClass.split("--")[1]
 }
 
 function hasSquareBeenSelected(selectedCircles, numberOfColumns) {
   if (selectedCircles.size === 4) {
     const positions = Array.from(selectedCircles).map(determinePosition)
-    positions.sort((a, b) => calculateIndex(a, numberOfColumns) - calculateIndex(b, numberOfColumns))
+    positions.sort(
+      (a, b) =>
+        calculateIndex(a, numberOfColumns) - calculateIndex(b, numberOfColumns),
+    )
     return (
       positions[0].row === positions[1].row &&
       positions[0].column === positions[1].column - 1 &&
@@ -154,8 +171,8 @@ function calculateElementCenter(element) {
 
 function spawnCircles(element, { rows, columns, colors }) {
   for (let column = 0; column < columns; column++) {
-    const $column = document.createElement('div')
-    $column.classList.add('circles-column')
+    const $column = document.createElement("div")
+    $column.classList.add("circles-column")
     element.appendChild($column)
     for (let row = 0; row < rows; row++) {
       const circle = createCircleWithRandomColor(colors)
@@ -171,8 +188,8 @@ function createCircleWithRandomColor(colors) {
 }
 
 function createCircle({ color }) {
-  const circle = document.createElement('div')
-  circle.classList.add('circle')
+  const circle = document.createElement("div")
+  circle.classList.add("circle")
   circle.classList.add(`circle--${color}`)
   return circle
 }

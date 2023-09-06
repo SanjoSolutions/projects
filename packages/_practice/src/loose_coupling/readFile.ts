@@ -1,5 +1,5 @@
-import type { PathLike } from 'fs'
-import fs from 'fs/promises'
+import type { PathLike } from "fs"
+import fs from "fs/promises"
 
 /**
  * Reads file with utf-8 encoding.
@@ -7,5 +7,5 @@ import fs from 'fs/promises'
  * @returns {Promise<string>} Contents of file
  */
 export async function readFile(filePath: PathLike | fs.FileHandle) {
-  return await fs.readFile(filePath, { encoding: 'utf-8' })
+  return await fs.readFile(filePath, { encoding: "utf-8" })
 }

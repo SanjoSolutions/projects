@@ -18,12 +18,14 @@
 
 <form>
   <input id="file" type="file" />
-  <label> <input checked id="tile-toggle" type="checkbox" /> Tile toggle </label>
+  <label>
+    <input checked id="tile-toggle" type="checkbox" /> Tile toggle
+  </label>
 </form>
 <canvas id="canvas"></canvas>
 
 <script type="module">
-  import { max } from './packages/array/max.js'
+  import { max } from "./packages/array/max.js"
 
   class ColorMap extends Map {
     has(color) {
@@ -40,46 +42,56 @@
 
     colorToKey(color) {
       // return color.join(' ')
-      return (color[0] << (8 * 3)) + (color[1] << (8 * 2)) + (color[2] << (8 * 1)) + color[3]
+      return (
+        (color[0] << (8 * 3)) +
+        (color[1] << (8 * 2)) +
+        (color[2] << (8 * 1)) +
+        color[3]
+      )
     }
 
     keyToColor(key) {
       // return key.split(' ').map(Number)
-      return [(key >> (8 * 3)) & 0xff, (key >> (8 * 2)) & 0xff, (key >> (8 * 1)) & 0xff, (key >> (8 * 0)) & 0xff]
+      return [
+        (key >> (8 * 3)) & 0xff,
+        (key >> (8 * 2)) & 0xff,
+        (key >> (8 * 1)) & 0xff,
+        (key >> (8 * 0)) & 0xff,
+      ]
     }
   }
 
   const width = 64
   const height = 64
   const tileSize = 32
-  const canvas = document.querySelector('#canvas')
+  const canvas = document.querySelector("#canvas")
   const canvasClientRect = canvas.getBoundingClientRect()
   const bodyClientRect = document.body.getBoundingClientRect()
   const canvasLength = Math.min(
     bodyClientRect.height - (canvasClientRect.top - bodyClientRect.top),
-    bodyClientRect.width - canvasClientRect.left
+    bodyClientRect.width - canvasClientRect.left,
   )
   canvas.width = width * tileSize
   canvas.height = height * tileSize
   canvas.style.width = canvasLength
   canvas.style.height = canvasLength
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext("2d")
 
   const fileReader = new FileReader()
 
-  const $file = document.querySelector('#file')
-  const $tileToggle = document.querySelector('#tile-toggle')
+  const $file = document.querySelector("#file")
+  const $tileToggle = document.querySelector("#tile-toggle")
 
-  $file.addEventListener('change', event => {
+  $file.addEventListener("change", (event) => {
     const file = $file.files[0]
     if (file) {
       fileReader.readAsDataURL(file)
     }
   })
 
-  $tileToggle.addEventListener('change', event => {})
+  $tileToggle.addEventListener("change", (event) => {})
 
-  fileReader.addEventListener('load', event => {
+  fileReader.addEventListener("load", (event) => {
     // const imageUrl = 'heart.png'
     const imageUrl = fileReader.result
     const image = new Image()
@@ -94,14 +106,26 @@
         const scaledHeight = drawingHeight
         const paddingLeft = 0.5 * (drawingWidth - scaledWidth)
         const paddingTop = 0
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight,
+        )
       } else {
         const scale = drawingWidth / image.naturalWidth
         const scaledWidth = drawingWidth
         const scaledHeight = scale * image.naturalHeight
         const paddingLeft = 0
         const paddingTop = 0.5 * (drawingHeight - scaledHeight)
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight,
+        )
       }
 
       const primaryColor = getPrimaryNonBackgroundColor(canvas, context, {
@@ -123,7 +147,7 @@
             canvas,
             context,
             { x, y, width: tileSize, height: tileSize },
-            backgroundColor
+            backgroundColor,
           )
             ? 1
             : 0
@@ -175,7 +199,9 @@
         const outputRow = bitmap.slice(row * width, (row + 1) * width)
         outputRows[row] = outputRow
       }
-      const output = outputRows.map(outputRow => outputRow.join(', ')).join(', \n')
+      const output = outputRows
+        .map((outputRow) => outputRow.join(", "))
+        .join(", \n")
       console.log(output)
     }
 
@@ -208,7 +234,11 @@
       return colorCounts
     }
 
-    function getPrimaryNonBackgroundColor(canvas, context, { x, y, width, height }) {
+    function getPrimaryNonBackgroundColor(
+      canvas,
+      context,
+      { x, y, width, height },
+    ) {
       const colorCounts = countColors(canvas, context, { x, y, width, height })
 
       function getColorWithHighestCount() {
@@ -219,7 +249,12 @@
       return getColorWithHighestCount()
     }
 
-    function nonBackgroundTile(canvas, context, { x, y, width, height }, backgroundColor) {
+    function nonBackgroundTile(
+      canvas,
+      context,
+      { x, y, width, height },
+      backgroundColor,
+    ) {
       let nonBackgroundCount = 0
       const imageData = context.getImageData(x, y, width, height)
       const data = imageData.data
@@ -246,7 +281,12 @@
     }
 
     function colorsMatch(colorA, colorB) {
-      return colorA[0] === colorB[0] && colorA[1] === colorB[1] && colorA[2] === colorB[2] && colorA[3] === colorB[3]
+      return (
+        colorA[0] === colorB[0] &&
+        colorA[1] === colorB[1] &&
+        colorA[2] === colorB[2] &&
+        colorA[3] === colorB[3]
+      )
     }
   })
 </script>

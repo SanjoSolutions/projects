@@ -1,9 +1,9 @@
-import type { Subsequence } from './Subsequence.js'
+import type { Subsequence } from "./Subsequence.js"
 
 export function getDiffSubsequences(
   fromArray: any[],
   toArray: any[],
-  matchingSubsequences: Subsequence[]
+  matchingSubsequences: Subsequence[],
 ): Subsequence[] {
   const diffSubsequences: Subsequence[] = []
 
@@ -14,7 +14,10 @@ export function getDiffSubsequences(
     ])
   } else {
     const firstMatchingSubsequence = matchingSubsequences[0]
-    if (firstMatchingSubsequence[0].from > 0 || firstMatchingSubsequence[1].from > 0) {
+    if (
+      firstMatchingSubsequence[0].from > 0 ||
+      firstMatchingSubsequence[1].from > 0
+    ) {
       diffSubsequences.push([
         { from: 0, to: firstMatchingSubsequence[0].from },
         { from: 0, to: firstMatchingSubsequence[1].from },
@@ -36,8 +39,12 @@ export function getDiffSubsequences(
       ])
     }
 
-    const lastMatchingSubsequence = matchingSubsequences[matchingSubsequences.length - 1]
-    if (lastMatchingSubsequence[0].to < fromArray.length || lastMatchingSubsequence[1].to < toArray.length) {
+    const lastMatchingSubsequence =
+      matchingSubsequences[matchingSubsequences.length - 1]
+    if (
+      lastMatchingSubsequence[0].to < fromArray.length ||
+      lastMatchingSubsequence[1].to < toArray.length
+    ) {
       diffSubsequences.push([
         { from: lastMatchingSubsequence[0].to, to: fromArray.length },
         { from: lastMatchingSubsequence[1].to, to: toArray.length },

@@ -3,7 +3,7 @@ export async function selectOption(
   selectSelector,
   optionsSelector,
   optionIndexToSelect,
-  isMultiSelect = false
+  isMultiSelect = false,
 ) {
   const select = await form.$(selectSelector)
   await select.click()

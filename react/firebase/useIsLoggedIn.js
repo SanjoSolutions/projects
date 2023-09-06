@@ -1,4 +1,4 @@
-import { useUser } from './useUser.js'
+import { useUser } from "./useUser.js"
 
 export function useIsLoggedIn() {
   const user = useUser()

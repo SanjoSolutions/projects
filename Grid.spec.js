@@ -1,8 +1,8 @@
-import { describe, expect, test } from '@jest/globals'
-import { Grid } from './Grid.js'
+import { describe, expect, test } from "@jest/globals"
+import { Grid } from "./Grid.js"
 
-describe('Grid', () => {
-  test('entries', () => {
+describe("Grid", () => {
+  test("entries", () => {
     const grid = new Grid([3, 3, 3])
     const entries = grid.entries()
     expect(entries).toEqual([

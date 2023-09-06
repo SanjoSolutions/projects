@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
 class GroceryShoppingList {
   private items: GroceryItem[]
@@ -22,21 +22,24 @@ interface GroceryItem {
   shopName: string
 }
 
-describe('GroceryShoppingList', () => {
-  it('stores items to buy in grocery stores', () => {
+describe("GroceryShoppingList", () => {
+  it("stores items to buy in grocery stores", () => {
     const groceryShoppingList = new GroceryShoppingList()
     const groceryItem1 = {
-      groceryItemName: 'Spaghetti',
+      groceryItemName: "Spaghetti",
       amount: 2,
-      shopName: 'Lidl',
+      shopName: "Lidl",
     }
     groceryShoppingList.store(groceryItem1)
     const groceryItem2 = {
-      groceryItemName: 'Schokolade',
+      groceryItemName: "Schokolade",
       amount: 1,
-      shopName: 'Lidl',
+      shopName: "Lidl",
     }
     groceryShoppingList.store(groceryItem2)
-    expect(groceryShoppingList.getGroceryItems()).toEqual([groceryItem1, groceryItem2])
+    expect(groceryShoppingList.getGroceryItems()).toEqual([
+      groceryItem1,
+      groceryItem2,
+    ])
   })
 })

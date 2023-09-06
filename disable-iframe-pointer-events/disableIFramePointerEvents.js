@@ -1,3 +1,3 @@
 export function disableIFramePointerEvents() {
-  document.body.classList.add('disable-iframe-pointer-events')
+  document.body.classList.add("disable-iframe-pointer-events")
 }

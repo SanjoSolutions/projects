@@ -1,1 +1,1 @@
-export { diffFolders } from './diffFolders.js'
+export { diffFolders } from "./diffFolders.js"

@@ -4,7 +4,8 @@ export function getIndexSubSequences(length: number): number[][] {
   do {
     const nextSubSequences = []
     for (const subSequence of subSequences) {
-      const lastValue = subSequence.length > 0 ? subSequence[subSequence.length - 1] : -1
+      const lastValue =
+        subSequence.length > 0 ? subSequence[subSequence.length - 1] : -1
       for (let value = lastValue + 1; value < length; value++) {
         nextSubSequences.push([...subSequence, value])
       }

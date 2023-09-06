@@ -1,9 +1,9 @@
-import { describe, test, expect } from '@jest/globals'
+import { describe, test, expect } from "@jest/globals"
 
-describe('nullish coalescing operator', () => {
-  test('', () => {
+describe("nullish coalescing operator", () => {
+  test("", () => {
     const value = null
-    const defaultValue = 'a'
+    const defaultValue = "a"
 
     const result1 = value ?? defaultValue
     expect(result1).toEqual(defaultValue)

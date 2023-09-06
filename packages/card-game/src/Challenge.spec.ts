@@ -1,12 +1,12 @@
-import { describe, expect, it } from '@jest/globals'
-import { Challenge } from './Challenge.js'
-import { Option } from './Option.js'
+import { describe, expect, it } from "@jest/globals"
+import { Challenge } from "./Challenge.js"
+import { Option } from "./Option.js"
 
-describe('Challenge', () => {
-  it('can be solved', () => {
+describe("Challenge", () => {
+  it("can be solved", () => {
     const challenge = new Challenge()
     const option = new Option()
     const isSolutionAccepted = challenge.solve(option)
-    expect(typeof isSolutionAccepted).toEqual('boolean')
+    expect(typeof isSolutionAccepted).toEqual("boolean")
   })
 })

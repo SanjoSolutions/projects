@@ -1,4 +1,4 @@
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from "@jest/globals"
 
 function sort(values: any[]) {
   if (values.length <= 1) {
@@ -16,7 +16,10 @@ function sort(values: any[]) {
   for (let index = 0; index < length; index++) {
     const sortedValueLeft = sortedValuesLeft[index]
     const sortedValueRight = sortedValuesRight[index]
-    if (index < sortedValuesLeft.length && sortedValueLeft <= sortedValueRight) {
+    if (
+      index < sortedValuesLeft.length &&
+      sortedValueLeft <= sortedValueRight
+    ) {
       sortedValues[currentSortedValueIndex++] = sortedValueLeft
       sortedValues[currentSortedValueIndex++] = sortedValueRight
     } else {
@@ -29,8 +32,8 @@ function sort(values: any[]) {
   return sortedValues
 }
 
-describe('sort', () => {
-  it('sorts', () => {
+describe("sort", () => {
+  it("sorts", () => {
     expect(sort([2, 3, 4, 1, 5])).toEqual([1, 2, 3, 4, 5])
   })
 })

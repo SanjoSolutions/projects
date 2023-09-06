@@ -12,29 +12,38 @@
   <script>
     const tileSize = 2 ** 4
     const numberOfPaddingTiles = 2
-    const canvas = document.createElement('canvas')
+    const canvas = document.createElement("canvas")
     document.body.appendChild(canvas)
     canvas.width = /*window.devicePixelRatio * */ window.innerWidth
     canvas.height = /*window.devicePixelRatio * */ window.innerHeight
     const width = Math.floor(canvas.width / tileSize)
     const height = Math.floor(canvas.height / tileSize)
-    const context = canvas.getContext('2d')
+    const context = canvas.getContext("2d")
     // context.scale(window.devicePixelRatio, window.devicePixelRatio)
 
-    const imageUrl = 'website11/assets/img/heart.png'
+    const imageUrl = "website11/assets/img/heart.png"
     const image = new Image()
     image.src = imageUrl
     image.onload = () => {
       const drawingWidth = window.innerWidth - 2 * numberOfPaddingTiles * 32
       const drawingHeight = window.innerHeight - 2 * numberOfPaddingTiles * 32
-      if (drawingHeight / image.naturalHeight <= drawingWidth / image.naturalWidth) {
+      if (
+        drawingHeight / image.naturalHeight <=
+        drawingWidth / image.naturalWidth
+      ) {
         const scale = drawingHeight / image.naturalHeight
         const scaledWidth = scale * image.naturalWidth
         const scaledHeight = drawingHeight
         const padding = numberOfPaddingTiles * 32
         const paddingLeft = padding + 0.5 * (drawingWidth - scaledWidth)
         const paddingTop = padding
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight,
+        )
       } else {
         const scale = drawingWidth / image.naturalWidth
         const scaledWidth = drawingWidth
@@ -42,7 +51,13 @@
         const padding = numberOfPaddingTiles * 32
         const paddingLeft = padding
         const paddingTop = padding + 0.5 * (drawingHeight - scaledHeight)
-        context.drawImage(image, paddingLeft, paddingTop, scaledWidth, scaledHeight)
+        context.drawImage(
+          image,
+          paddingLeft,
+          paddingTop,
+          scaledWidth,
+          scaledHeight,
+        )
       }
 
       context.scale(1, 1)
@@ -61,12 +76,12 @@
           })
             ? 1
             : 0
-          context.strokeStyle = 'black'
+          context.strokeStyle = "black"
           context.beginPath()
           context.rect(rect.x, rect.y, rect.width, rect.height)
           context.stroke()
           if (bitmap[row * width + column]) {
-            context.fillStyle = 'red'
+            context.fillStyle = "red"
             context.fillRect(rect.x, rect.y, rect.width, rect.height)
           }
         }
@@ -78,7 +93,9 @@
         const outputRow = bitmap.slice(row * width, (row + 1) * width)
         outputRows[row] = outputRow
       }
-      const output = outputRows.map(outputRow => outputRow.join(', ')).join(', \n')
+      const output = outputRows
+        .map((outputRow) => outputRow.join(", "))
+        .join(", \n")
       console.log(output)
     }
 

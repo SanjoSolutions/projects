@@ -160,23 +160,31 @@ class Launchpad {
 
   handleMidiMessage(event) {
     if (event.data.length !== 3) {
-      console.log('Unknown message received.', event.data)
+      console.log("Unknown message received.", event.data)
     } else if (event.data[0] === 0xb0 && event.data[2] === 0x7f) {
       // Control Pad press
-      this.listeners.onControlPadPress.forEach(callback => callback(event.data[1] - 0x67))
+      this.listeners.onControlPadPress.forEach((callback) =>
+        callback(event.data[1] - 0x67),
+      )
     } else if (event.data[0] === 0xb0 && event.data[2] === 0x0) {
       // Control Pad release
-      this.listeners.onControlPadRelease.forEach(callback => callback(event.data[1] - 0x67))
+      this.listeners.onControlPadRelease.forEach((callback) =>
+        callback(event.data[1] - 0x67),
+      )
     } else if (event.data[0] === 0x90 && event.data[2] === 0x7f) {
       // Pad press
       const row = Math.floor(event.data[1] / 0x10) + 1
       const column = (event.data[1] % 0x10) + 1
-      this.listeners.onPadPress.forEach(callback => callback(new Pad(row, column)))
+      this.listeners.onPadPress.forEach((callback) =>
+        callback(new Pad(row, column)),
+      )
     } else if (event.data[0] === 0x90 && event.data[2] === 0x0) {
       // Pad release
       const row = Math.floor(event.data[1] / 0x10) + 1
       const column = (event.data[1] % 0x10) + 1
-      this.listeners.onPadRelease.forEach(callback => callback(new Pad(row, column)))
+      this.listeners.onPadRelease.forEach((callback) =>
+        callback(new Pad(row, column)),
+      )
     }
   }
 
@@ -197,7 +205,7 @@ class Launchpad {
   }
 }
 
-const autoDetectLaunchpad = (midiAccess, name = 'launchpad') => {
+const autoDetectLaunchpad = (midiAccess, name = "launchpad") => {
   let launchpadInput = null,
     launchpadOutput = null
 

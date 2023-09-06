@@ -1,4 +1,4 @@
-import { multiply } from './packages/mathematics/arithmetic/multiply.js'
+import { multiply } from "./packages/mathematics/arithmetic/multiply.js"
 
 export class Grid {
   #values
@@ -11,7 +11,9 @@ export class Grid {
 
   _calculateIndex(position) {
     return position.reduce(
-      (result, value, index) => result + value * (index === 0 ? 1 : multiply(this.dimensions.slice(0, index)))
+      (result, value, index) =>
+        result +
+        value * (index === 0 ? 1 : multiply(this.dimensions.slice(0, index))),
     )
   }
 
@@ -31,7 +33,8 @@ export class Grid {
     if (position.length === this.dimensions.length) {
       return [[position, this.get(position)]]
     } else {
-      const dimensionSize = this.dimensions[this.dimensions.length - 1 - position.length]
+      const dimensionSize =
+        this.dimensions[this.dimensions.length - 1 - position.length]
       const entries = new Array(dimensionSize)
       for (let coordinate = 0; coordinate < dimensionSize; coordinate++) {
         entries[coordinate] = this._entriesRecursion([coordinate, ...position])

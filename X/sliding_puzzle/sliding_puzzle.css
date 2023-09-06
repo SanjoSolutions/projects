@@ -23,7 +23,7 @@ body {
   align-items: center;
   justify-content: center;
   border: 1px solid black;
-  background-image: url('images/cat.jpg');
+  background-image: url("images/cat.jpg");
   background-repeat: no-repeat;
   position: absolute;
   transition-property: transform;

@@ -1,24 +1,30 @@
-import { animate } from '@sanjo/animate'
-import { randomColor } from '../../randomColor.js'
-import { colorToString } from '../../colorToString.js'
-import { Grid2D as Grid } from '../../Grid2D.js'
-import { createFullDocumentCanvas } from '@sanjo/canvas'
+import { animate } from "@sanjo/animate"
+import { randomColor } from "../../randomColor.js"
+import { colorToString } from "../../colorToString.js"
+import { Grid2D as Grid } from "../../Grid2D.js"
+import { createFullDocumentCanvas } from "@sanjo/canvas"
 
 const tileSize = 32 // 2rem
 const documentWidth = window.innerWidth
 const documentHeight = window.innerHeight
-const grid = new Grid(Math.floor(documentWidth / tileSize), Math.floor(documentHeight / tileSize))
+const grid = new Grid(
+  Math.floor(documentWidth / tileSize),
+  Math.floor(documentHeight / tileSize),
+)
 
 const { canvas, context } = createFullDocumentCanvas({
   onDevicePixelRatioOrDocumentSizeChange() {
     const documentWidth = window.innerWidth
     const documentHeight = window.innerHeight
-    grid.resize(Math.floor(documentWidth / tileSize), Math.floor(documentHeight / tileSize))
+    grid.resize(
+      Math.floor(documentWidth / tileSize),
+      Math.floor(documentHeight / tileSize),
+    )
   },
 })
 document.body.appendChild(canvas)
 
-animate(elapsedTime => {
+animate((elapsedTime) => {
   const lightnessDelta = (10 * (elapsedTime / 1000)) / 100
   for (const [position, color] of grid.entries()) {
     if (color) {

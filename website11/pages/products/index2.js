@@ -1,8 +1,8 @@
-import { render as renderLayout } from '../../layouts/default.js'
+import { render as renderLayout } from "../../layouts/default.js"
 
 export function render(renderer) {
   return renderLayout(renderer, {
-    title: 'Products',
+    title: "Products",
     content: `
                 <div class="starter-template">
                     <h1>Products</h1>

@@ -1,6 +1,7 @@
-import { last } from '@sanjo/array'
+import { last } from "@sanjo/array"
 
-export const FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE = 'Failed to retrieve value.'
+export const FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE =
+  "Failed to retrieve value."
 
 export class Cache<T = any> {
   _cache: Map<any, any>

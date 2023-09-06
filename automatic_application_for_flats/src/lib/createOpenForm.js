@@ -1,5 +1,5 @@
-import { navigateToFormPage } from './navigateToFormPage.js'
-import { openPage } from './openPage.js'
+import { navigateToFormPage } from "./navigateToFormPage.js"
+import { openPage } from "./openPage.js"
 
 export function createOpenForm({ navigateToForm }) {
   return async function openForm(getBrowser, flatOffer) {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -11,7 +11,7 @@
     <script>
       // user event --> user interface
       const events = [
-        { type: 'MouseDownEvent' },
+        { type: "MouseDownEvent" },
         // {type: 'MouseUpEvent'},
       ]
 
@@ -21,12 +21,12 @@
       }
 
       const sideEffect = () => {
-        pushEvent({ type: 'DataFetchEvent', data: { text: 'hi' } })
+        pushEvent({ type: "DataFetchEvent", data: { text: "hi" } })
       }
 
       function processEvents(events) {
         events.reduce((_, event) => {
-          if (event.type === 'MouseUpEvent') {
+          if (event.type === "MouseUpEvent") {
             sideEffect()
           }
         }, {})
@@ -36,7 +36,7 @@
 
       function renderUserInterface(events) {
         return events.reduce((_, event) => {
-          if (event.type === 'MouseDownEvent') {
+          if (event.type === "MouseDownEvent") {
             return '<button class="button button--pressed"></button>'
           } else {
             return '<button class="button"></button>'
@@ -44,7 +44,7 @@
         }, {})
       }
 
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         document.body.innerHTML = processEvents(events)
       })
     </script>

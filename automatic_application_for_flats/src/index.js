@@ -1,6 +1,6 @@
-import puppeteer from 'puppeteer'
-import { contactData } from './config.js'
-import { getFlatOfferFetchers, process, verifyContactData } from './core.js'
+import puppeteer from "puppeteer"
+import { contactData } from "./config.js"
+import { getFlatOfferFetchers, process, verifyContactData } from "./core.js"
 
 const intervalBetweenProcessRuns = 60 * 60 * 1000 // every hour
 
@@ -15,8 +15,8 @@ async function main() {
   function getBrowser() {
     if (!browserPromise) {
       browserPromise = createBrowser()
-      browserPromise.then(browser => {
-        browser.on('disconnect', () => {
+      browserPromise.then((browser) => {
+        browser.on("disconnect", () => {
           browserPromise = null
         })
       })
@@ -39,7 +39,7 @@ async function main() {
   }
 
   async function runProcess() {
-    console.log('Starting.')
+    console.log("Starting.")
     await process(getBrowser, flatOfferFetchers, {
       intervalBetweenProcessRuns,
       contactData,
@@ -50,13 +50,13 @@ async function main() {
 
   function onProcessStop(callback) {
     timerForHour(runToHour, () => {
-      console.log('Stopping.')
+      console.log("Stopping.")
       callback()
     })
   }
 
   function scheduleNextProcessStart() {
-    console.log('Scheduling next process start.')
+    console.log("Scheduling next process start.")
     timerForHour(runFromHour, runProcess)
   }
 
@@ -71,7 +71,8 @@ async function main() {
     }
     const oneHourInMilliseconds = 1 * 60 * 60 * 1000
     const nextProcessStartTime =
-      Math.floor(Date.now() / oneHourInMilliseconds) * oneHourInMilliseconds + hoursUntilTimeout * oneHourInMilliseconds
+      Math.floor(Date.now() / oneHourInMilliseconds) * oneHourInMilliseconds +
+      hoursUntilTimeout * oneHourInMilliseconds
     setTimeout(callback, nextProcessStartTime - Date.now())
   }
 

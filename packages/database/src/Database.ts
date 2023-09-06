@@ -1,6 +1,6 @@
-import { Collection } from './Collection.js'
-import type { ICollection } from './ICollection.js'
-import type { IStorage } from './IStorage.js'
+import { Collection } from "./Collection.js"
+import type { ICollection } from "./ICollection.js"
+import type { IStorage } from "./IStorage.js"
 
 export class Database {
   _storage: IStorage
@@ -21,7 +21,9 @@ export class Database {
     return Array.from(this._collections.keys())
   }
 
-  async getCollection(collectionName: string): Promise<ICollection | undefined> {
+  async getCollection(
+    collectionName: string,
+  ): Promise<ICollection | undefined> {
     return this._collections.get(collectionName)!
   }
 }

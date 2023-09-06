@@ -1,1 +1,1 @@
-export { packageNameToFolderName } from "./packageNameToFolderName.js";
+export { packageNameToFolderName } from "./packageNameToFolderName.js"

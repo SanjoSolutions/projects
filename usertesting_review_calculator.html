@@ -18,42 +18,63 @@
 
 <script>
   const millisecondsPerDay = 24 * 60 * 60 * 1000
-  const submissionDate = new Date('2020-03-03')
+  const submissionDate = new Date("2020-03-03")
 
-  const $currentlyReviewingSubmissionsXDaysAgo = document.querySelector('#currentlyReviewingSubmissionsXDaysAgo')
-  const $message = document.querySelector('#message')
+  const $currentlyReviewingSubmissionsXDaysAgo = document.querySelector(
+    "#currentlyReviewingSubmissionsXDaysAgo",
+  )
+  const $message = document.querySelector("#message")
 
-  $currentlyReviewingSubmissionsXDaysAgo.value = localStorage.getItem('currentlyReviewingSubmissionsXDaysAgo') || ''
+  $currentlyReviewingSubmissionsXDaysAgo.value =
+    localStorage.getItem("currentlyReviewingSubmissionsXDaysAgo") || ""
   updateMessage()
 
-  $currentlyReviewingSubmissionsXDaysAgo.addEventListener('change', updateMessage)
-  $currentlyReviewingSubmissionsXDaysAgo.addEventListener('keyup', updateMessage)
+  $currentlyReviewingSubmissionsXDaysAgo.addEventListener(
+    "change",
+    updateMessage,
+  )
+  $currentlyReviewingSubmissionsXDaysAgo.addEventListener(
+    "keyup",
+    updateMessage,
+  )
 
   function updateMessage() {
     if ($currentlyReviewingSubmissionsXDaysAgo.value.length > 0) {
-      const currentlyReviewingSubmissionsXDaysAgo = Number($currentlyReviewingSubmissionsXDaysAgo.value)
+      const currentlyReviewingSubmissionsXDaysAgo = Number(
+        $currentlyReviewingSubmissionsXDaysAgo.value,
+      )
       if (!Number.isNaN(currentlyReviewingSubmissionsXDaysAgo)) {
         const now = Date.now()
         const currentlyReviewingSubmissionsFromDate = new Date(
-          now - (now % millisecondsPerDay) - currentlyReviewingSubmissionsXDaysAgo * millisecondsPerDay
+          now -
+            (now % millisecondsPerDay) -
+            currentlyReviewingSubmissionsXDaysAgo * millisecondsPerDay,
         )
         const daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate =
-          (submissionDate - currentlyReviewingSubmissionsFromDate) / millisecondsPerDay
+          (submissionDate - currentlyReviewingSubmissionsFromDate) /
+          millisecondsPerDay
 
         let message = `The submission occured on the <strong>${submissionDate.toLocaleDateString()}</strong>.`
 
         message += `<br>They are currently reviewing submissions from date <strong>${currentlyReviewingSubmissionsFromDate.toLocaleDateString()}</strong>.`
         if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate > 0) {
           message += `<br>That's <strong>${daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate} days</strong> before the submission date.`
-        } else if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate === 0) {
+        } else if (
+          daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate === 0
+        ) {
           message += `<br><span style="color: green;">That's on the submission date.</span>`
-        } else if (daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate < 0) {
+        } else if (
+          daysBetweenCurrentlyReviewedSubmissionDateAndSubmissionDate < 0
+        ) {
           message += `<br><span style="color: green;">That's after the submission date.</span>`
         }
 
         $message.innerHTML = message
 
-        localStorage.setItem('currentlyReviewingSubmissionsXDaysAgo', currentlyReviewingSubmissionsXDaysAgo)
+        localStorage.setItem(
+          "currentlyReviewingSubmissionsXDaysAgo",
+          currentlyReviewingSubmissionsXDaysAgo,
+        )
       }
     }
   }

@@ -2,7 +2,14 @@
  * @jest-environment jsdom
  */
 
-import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals'
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals"
 
 function createButton({
   onStartWebServer,
@@ -13,22 +20,22 @@ function createButton({
 }) {
   let isWebServerRunning = false
 
-  const button = document.createElement('button')
+  const button = document.createElement("button")
   setTextToStartWebServer()
 
   function setTextToStartWebServer(): void {
-    setText('Start web server')
+    setText("Start web server")
   }
 
   function setTextToStopWebServer(): void {
-    setText('Stop web server')
+    setText("Stop web server")
   }
 
   function setText(text: string): void {
     button.textContent = text
   }
 
-  button.addEventListener('click', function onClick() {
+  button.addEventListener("click", function onClick() {
     toggleIsWebServerRunning()
     updateText()
     callCallback()
@@ -57,11 +64,11 @@ function createButton({
   return button
 }
 
-describe('Web server start and stop button', () => {
+describe("Web server start and stop button", () => {
   let container: HTMLDivElement
 
   beforeEach(function () {
-    container = document.createElement('div')
+    container = document.createElement("div")
     document.body.appendChild(container)
   })
 
@@ -69,21 +76,21 @@ describe('Web server start and stop button', () => {
     container.remove()
   })
 
-  it('renders a button for starting and stopping a web server', () => {
+  it("renders a button for starting and stopping a web server", () => {
     const onStartWebServer = jest.fn()
     const onStopWebServer = jest.fn()
     const button = createButton({ onStartWebServer, onStopWebServer })
     container.appendChild(button)
-    expect(button.textContent).toEqual('Start web server')
+    expect(button.textContent).toEqual("Start web server")
 
-    button.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }))
 
-    expect(button.textContent).toEqual('Stop web server')
+    expect(button.textContent).toEqual("Stop web server")
     expect(onStartWebServer).toHaveBeenCalled()
 
-    button.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    button.dispatchEvent(new MouseEvent("click", { bubbles: true }))
 
-    expect(button.textContent).toEqual('Start web server')
+    expect(button.textContent).toEqual("Start web server")
     expect(onStopWebServer).toHaveBeenCalled()
   })
 })

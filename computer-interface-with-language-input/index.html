@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -27,14 +27,14 @@
     </form>
 
     <script>
-      const form = document.querySelector("form");
-      const textarea = document.querySelector("textarea");
+      const form = document.querySelector("form")
+      const textarea = document.querySelector("textarea")
 
       form.addEventListener("submit", function onSubmit(event) {
-        event.preventDefault();
+        event.preventDefault()
 
-        eval(textarea.value);
-      });
+        eval(textarea.value)
+      })
     </script>
   </body>
 </html>

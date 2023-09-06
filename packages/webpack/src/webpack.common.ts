@@ -1,18 +1,18 @@
-import { escapeForRegExp } from '@sanjo/escape-for-reg-exp'
-import * as process from 'process'
+import { escapeForRegExp } from "@sanjo/escape-for-reg-exp"
+import * as process from "process"
 
 const path = process.cwd()
 
-const outputFileName = 'index.js'
+const outputFileName = "index.js"
 const writeToDiskRegExp = new RegExp(`${escapeForRegExp(outputFileName)}$`)
 
 export default {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
     filename: outputFileName,
     path,
     library: {
-      type: 'module',
+      type: "module",
     },
   },
   devServer: {
@@ -25,19 +25,19 @@ export default {
       },
     },
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: [".js", ".jsx"],
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.jsx?$/,
-        use: 'babel-loader',
+        use: "babel-loader",
         exclude: /node_modules/,
       },
     ],

@@ -1,8 +1,13 @@
-import { describe, expect, it } from '@jest/globals'
-import { bruteForce, determineNextCell, getPossibleNumbers, isSolution } from './lib.js'
+import { describe, expect, it } from "@jest/globals"
+import {
+  bruteForce,
+  determineNextCell,
+  getPossibleNumbers,
+  isSolution,
+} from "./lib.js"
 
-describe('isSolution', () => {
-  it('returns true when the sudoku is solved', () => {
+describe("isSolution", () => {
+  it("returns true when the sudoku is solved", () => {
     expect(
       isSolution([
         [1, 5, 4, 8, 7, 3, 2, 9, 6],
@@ -14,7 +19,7 @@ describe('isSolution', () => {
         [6, 3, 1, 4, 5, 7, 9, 8, 2],
         [5, 9, 8, 2, 3, 6, 4, 7, 1],
         [2, 4, 7, 1, 8, 9, 5, 6, 3],
-      ])
+      ]),
     ).toEqual(true)
   })
 })

@@ -1,4 +1,7 @@
-export function createParseFlatOffer({ FlatOfferDetailPage, applyForFlatOffer }) {
+export function createParseFlatOffer({
+  FlatOfferDetailPage,
+  applyForFlatOffer,
+}) {
   return async function parseFlatOffer(getBrowser, flatOfferElement) {
     const url = await flatOfferElement.getUrl()
 
@@ -9,24 +12,32 @@ export function createParseFlatOffer({ FlatOfferDetailPage, applyForFlatOffer })
 
     let flatOffer = { url }
     const flatOfferProperties = [
-      'coldRent',
-      'coldServiceCharges',
-      'warmServiceCharges',
-      'serviceCharges',
-      'warmRent',
-      'area',
-      'numberOfRooms',
-      'seniorsOnly',
-      'requiredMinimumAge',
-      'selfRenovation',
-      'wbs',
+      "coldRent",
+      "coldServiceCharges",
+      "warmServiceCharges",
+      "serviceCharges",
+      "warmRent",
+      "area",
+      "numberOfRooms",
+      "seniorsOnly",
+      "requiredMinimumAge",
+      "selfRenovation",
+      "wbs",
     ]
     for (const flatOfferProperty of flatOfferProperties) {
-      const getterName = `get${flatOfferProperty[0].toUpperCase() + flatOfferProperty.substring(1)}`
+      const getterName = `get${
+        flatOfferProperty[0].toUpperCase() + flatOfferProperty.substring(1)
+      }`
       let value
-      if (flatOfferElement.__proto__.hasOwnProperty(getterName) && typeof flatOfferElement[getterName] === 'function') {
+      if (
+        flatOfferElement.__proto__.hasOwnProperty(getterName) &&
+        typeof flatOfferElement[getterName] === "function"
+      ) {
         value = await flatOfferElement[getterName]()
-      } else if (page.__proto__.hasOwnProperty(getterName) && typeof page[getterName] === 'function') {
+      } else if (
+        page.__proto__.hasOwnProperty(getterName) &&
+        typeof page[getterName] === "function"
+      ) {
         value = await page[getterName]()
       } else {
         value = null
