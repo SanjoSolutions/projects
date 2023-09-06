@@ -1,3 +1,3 @@
 <component name="DependencyValidationManager">
-  <scope name="remove-unused-exports" pattern="file[unnamed]:packages/remove-unused-exports/src//*" />
+  <scope name="remove-unused-exports" pattern="file[projects]:packages/remove-unused-exports/src//*" />
 </component>
