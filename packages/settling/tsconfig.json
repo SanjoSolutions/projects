@@ -2,17 +2,11 @@
   "extends": "../../tsconfig-base.json",
   "compilerOptions": {
     "rootDir": "./src/",
-    "outDir": "./",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
-    "module": "ES2020"
+    "outDir": "./build/",
+    "lib": ["ES2022", "DOM"],
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
   },
-  "include": [
-    "./src/**/*"
-  ],
+  "include": ["./src/**/*"],
   "references": [
     {
       "path": "../canvas"

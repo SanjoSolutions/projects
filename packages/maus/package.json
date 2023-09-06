@@ -1,0 +1,25 @@
+{
+  "name": "@sanjo/maus",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Subscribable mouse events.",
+  "keywords": [
+    "mouse"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/maus",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/maus"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

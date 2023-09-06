@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./build/",
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
+  },
+  "include": ["./src/**/*"],
+  "references": [
+    {
+      "path": "../zoomable"
+    }
+  ]
+}

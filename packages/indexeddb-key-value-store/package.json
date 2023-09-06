@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A key-value store implemented with IndexedDB.",
-  "keywords": ["key-value-store", "indexeddb"],
+  "keywords": [
+    "key-value-store",
+    "indexeddb"
+  ],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/indexeddb-key-value-storage",
   "license": "Unlicense",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
-  "export": {
+  "exports": {
     "types": "./build/index.d.ts",
     "default": "./build/index.js"
   },

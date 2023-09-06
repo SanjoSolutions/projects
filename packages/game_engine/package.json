@@ -1,18 +1,44 @@
 {
+  "name": "@sanjo/game_engine",
+  "version": "0.0.0",
   "type": "module",
+  "description": "A game engine.",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
     "build:watch": "webpack serve --open --config webpack.dev.js"
   },
+  "keywords": [
+    "game-engine"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/game_engine",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/game_engine"
+  },
   "dependencies": {
-    "@sanjo/canvas": "^0.1.0"
+    "@sanjo/canvas": "^0.1.0",
+    "@sanjo/equals-approximately": "^1.0.0",
+    "@sanjo/grid-2d": "^1.0.0",
+    "@sanjo/maus": "^0.1.0"
   },
   "devDependencies": {
     "@sanjo/webpack": "^2.1.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "@webpack-cli/serve": "^2.0.5",
     "typescript": "^5.1.6",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

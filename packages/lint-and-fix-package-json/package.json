@@ -6,9 +6,13 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/lint-and-fix-package-json",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "bin": "./bin/lint-and-fix-package-json.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "bin": "./build/bin/lint-and-fix-package-json.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",

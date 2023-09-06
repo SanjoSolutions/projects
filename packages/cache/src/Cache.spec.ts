@@ -1,10 +1,18 @@
-import { describe, it, test, expect, jest, afterEach, beforeEach } from '@jest/globals'
-import { Cache, FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE } from './Cache'
+import {
+  describe,
+  it,
+  test,
+  expect,
+  jest,
+  afterEach,
+  beforeEach,
+} from "@jest/globals"
+import { Cache, FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE } from "./Cache.js"
 
-describe('Cache', () => {
-  describe('has', () => {
-    describe('when the cache has a value for the key', () => {
-      it('returns true', () => {
+describe("Cache", () => {
+  describe("has", () => {
+    describe("when the cache has a value for the key", () => {
+      it("returns true", () => {
         const cache = new Cache()
         const key = 1
         cache.set(key, {})
@@ -13,8 +21,8 @@ describe('Cache', () => {
       })
     })
 
-    describe('when the cache has no value for the key', () => {
-      it('returns false', () => {
+    describe("when the cache has no value for the key", () => {
+      it("returns false", () => {
         const cache = new Cache()
         const key = 1
 
@@ -23,9 +31,9 @@ describe('Cache', () => {
     })
   })
 
-  describe('retrieve', () => {
-    describe('when the cache has a value for the key', () => {
-      it('returns the value', () => {
+  describe("retrieve", () => {
+    describe("when the cache has a value for the key", () => {
+      it("returns the value", () => {
         const cache = new Cache()
         const key = 1
         const value = {}
@@ -35,12 +43,14 @@ describe('Cache', () => {
       })
     })
 
-    describe('when the cache has no value for the key', () => {
+    describe("when the cache has no value for the key", () => {
       it('throws the error "Failed to retrieve value."', () => {
         const cache = new Cache()
         const key = 1
 
-        expect(() => cache.retrieve(key)).toThrowError(FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE)
+        expect(() => cache.retrieve(key)).toThrowError(
+          FAILED_TO_RETRIEVE_VALUE_ERROR_MESSAGE,
+        )
       })
     })
   })

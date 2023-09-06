@@ -6,9 +6,13 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/create-node-package",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.js",
-  "bin": "./bin/create-node-package.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "bin": "./build/bin/create-node-package.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",

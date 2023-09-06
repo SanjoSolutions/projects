@@ -6,9 +6,13 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/list-packages-that-can-be-published",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "bin": "./bin/list-packages-that-can-be-published.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "bin": "./build/bin/list-packages-that-can-be-published.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",

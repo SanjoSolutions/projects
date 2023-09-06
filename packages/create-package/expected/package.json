@@ -6,10 +6,18 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/test-package-for-create-package",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "export": {
-    "types": "./index.d.ts",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "exports": {
+    "types": "./build/index.d.ts",
+    "exports": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    },
     "default": "./index.js"
   },
   "repository": {

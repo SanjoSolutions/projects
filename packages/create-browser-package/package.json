@@ -6,8 +6,13 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/create-browser-package",
   "license": "Unlicense",
-  "types": "./index.d.js",
-  "bin": "./bin/create-browser-package.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "bin": "./build/bin/create-browser-package.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",

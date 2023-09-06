@@ -1,0 +1,23 @@
+{
+  "name": "@sanjo/grid-2d",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A 2D grid.",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/grid-2d",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/grid-2d"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

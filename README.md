@@ -20,6 +20,18 @@ E.g.
 npm init @sanjo/package '@sanjo/mathematics' 'Mathematics'
 ```
 
+### Creating a package for a browser app
+
+```sh
+npm init @sanjo/browser-package '<PACKAGE_NAME>' '<PACKAGE_DESCRIPTION>'
+```
+
+E.g.
+
+```sh
+npm init @sanjo/browser-package '@sanjo/web-app' 'Web app'
+```
+
 ## Publishing a package
 
 ```sh

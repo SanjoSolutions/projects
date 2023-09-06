@@ -1,0 +1,33 @@
+{
+  "name": "@sanjo/zoomable-canvas",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "",
+  "scripts": {
+    "development": "node ../../node_modules/@sanjo/esbuild/build/development.js",
+    "build": "node ../../node_modules/@sanjo/esbuild/build/build.js"
+  },
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/zoomable-canvas",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/zoomable-canvas"
+  },
+  "dependencies": {
+    "@sanjo/zoomable": "^1.0.0"
+  },
+  "devDependencies": {
+    "@sanjo/esbuild": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

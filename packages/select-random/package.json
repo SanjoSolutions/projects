@@ -1,0 +1,28 @@
+{
+  "name": "@sanjo/select-random",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A function that randomly selects a value based on a given probability distribution.",
+  "keywords": [
+    "select-random"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/select-random",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/select-random"
+  },
+  "dependencies": {
+    "@sanjo/mathematics": "^0.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

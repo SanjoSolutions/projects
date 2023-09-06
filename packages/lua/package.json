@@ -1,7 +1,25 @@
 {
+  "name": "@sanjo/lua",
+  "version": "0.0.0",
   "type": "module",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/lua",
+  "license": "Unlicense",
+  "main": "./index.js",
+  "exports": {
+    "default": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/lua"
+  },
   "dependencies": {
     "@sanjo/read-file": "^2.0.0",
     "@sanjo/write-file": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

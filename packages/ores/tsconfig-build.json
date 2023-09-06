@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig-base-build.json",
+  "compilerOptions": {
+    "rootDir": "./src/",
+    "outDir": "./build/",
+    "lib": ["ES2022", "DOM"],
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo",
+    "module": "ES2020"
+  },
+  "include": ["./src/**/*"],
+  "references": [
+    {
+      "path": "../esbuild"
+    },
+    {
+      "path": "../grid-2d"
+    },
+    {
+      "path": "../select-random"
+    }
+  ]
+}

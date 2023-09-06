@@ -6,9 +6,19 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/create-package",
   "license": "Unlicense",
-  "main": "./index.js",
-  "types": "./index.d.js",
-  "bin": "./bin/create-package.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    },
+    "./*.js": {
+      "types": "./build/*.d.ts",
+      "default": "./build/*.js"
+    }
+  },
+  "bin": "./build/bin/create-package.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",

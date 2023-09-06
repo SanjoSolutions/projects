@@ -1,0 +1,28 @@
+{
+  "name": "@sanjo/binary-tree-graph",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/binary-tree-graph",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/binary-tree-graph"
+  },
+  "dependencies": {
+    "@sanjo/equals": "^1.0.0",
+    "@sanjo/is-on-line": "^1.0.0",
+    "@sanjo/zoomable": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

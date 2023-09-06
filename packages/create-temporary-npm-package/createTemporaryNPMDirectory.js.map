@@ -1,1 +1,0 @@
-{"version":3,"file":"createTemporaryNPMDirectory.js","sourceRoot":"","sources":["src/createTemporaryNPMDirectory.ts"],"names":[],"mappings":"AAAA,OAAO,gBAAgB,MAAM,2BAA2B,CAAA;AACxD,OAAO,sBAAsB,MAAM,iCAAiC,CAAA;AAEpE,MAAM,CAAC,KAAK,UAAU,yBAAyB,CAAC,WAAmB;IACjE,MAAM,QAAQ,GAAG,MAAM,sBAAsB,EAAE,CAAA;IAC/C,MAAM,gBAAgB,CAAC,QAAQ,EAAE,WAAW,CAAC,CAAA;IAC7C,OAAO,QAAQ,CAAA;AACjB,CAAC"}

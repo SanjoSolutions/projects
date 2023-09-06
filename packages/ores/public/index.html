@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ores</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script type="module">
+      import { displayMap, visualizeMap, OresMap } from "./build/index.js"
+
+      const map = new OresMap(20, 24)
+      displayMap(map)
+      const canvas = visualizeMap(map)
+      document.body.appendChild(canvas)
+    </script>
+  </body>
+</html>

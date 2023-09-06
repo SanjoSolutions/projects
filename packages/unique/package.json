@@ -1,0 +1,28 @@
+{
+  "name": "@sanjo/unique",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A function which removes duplicates from an array.",
+  "keywords": [
+    "unique"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/unique",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/unique"
+  },
+  "dependencies": {
+    "@sanjo/equals": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

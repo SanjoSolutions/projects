@@ -1,1 +1,1 @@
-export { Maus as Mouse } from "./libs/Maus/Maus.js";
+export { Maus as Mouse } from "@sanjo/maus"

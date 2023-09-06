@@ -6,21 +6,25 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/test-package-for-create-browser-package",
   "license": "Unlicense",
-  "main": "./index.js",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/test-package-for-create-browser-package"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "build:watch": "webpack-dev-server --open --config webpack.dev.js"
+    "development": "node ../../node_modules/@sanjo/esbuild/build/development.js",
+    "build": "node ../../node_modules/@sanjo/esbuild/build/build.js"
   },
   "dependencies": {},
   "devDependencies": {
-    "@sanjo/webpack": "^1.1.0"
+    "@sanjo/esbuild": "^1.0.0"
   },
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

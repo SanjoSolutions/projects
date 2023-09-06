@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ores Gallery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      body {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      body > * {
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import { visualizeMap, OresMap } from "./build/index.js"
+
+      for (let i = 1; i <= 100; i++) {
+        const map = new OresMap(20, 24)
+        const canvas = visualizeMap(map)
+        document.body.appendChild(canvas)
+      }
+    </script>
+  </body>
+</html>

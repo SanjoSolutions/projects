@@ -6,7 +6,7 @@
   "keywords": [],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/gunbound",
   "license": "Unlicense",
-  "main": "./index.js",
+  "main": "./build/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",

@@ -1,2 +1,0 @@
-export declare function reduce<T, AggregateType>(set: Set<T>, reducer: (aggregate: AggregateType, element: T) => AggregateType, initialValue?: AggregateType): AggregateType;
-//# sourceMappingURL=reduce.d.ts.map

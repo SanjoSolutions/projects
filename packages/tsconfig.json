@@ -15,6 +15,9 @@
       "path": "./binary-search/tsconfig-build.json"
     },
     {
+      "path": "./binary-tree-graph"
+    },
+    {
       "path": "./cache"
     },
     {
@@ -57,6 +60,15 @@
       "path": "./ensure-entry-in-map"
     },
     {
+      "path": "./equals"
+    },
+    {
+      "path": "./equals-approximately"
+    },
+    {
+      "path": "./esbuild"
+    },
+    {
       "path": "./escape-for-reg-exp/tsconfig-build.json"
     },
     {
@@ -75,6 +87,12 @@
       "path": "./fs"
     },
     {
+      "path": "./game_engine"
+    },
+    {
+      "path": "./grid-2d"
+    },
+    {
       "path": "./hearts"
     },
     {
@@ -82,6 +100,9 @@
     },
     {
       "path": "./indexeddb-key-value-store"
+    },
+    {
+      "path": "./is-on-line"
     },
     {
       "path": "./lint-and-fix-package-json"
@@ -96,6 +117,9 @@
       "path": "./mathematics"
     },
     {
+      "path": "./maus"
+    },
+    {
       "path": "./multiset"
     },
     {
@@ -103,6 +127,9 @@
     },
     {
       "path": "./npm-init/tsconfig-build.json"
+    },
+    {
+      "path": "./ores"
     },
     {
       "path": "./package-name-to-folder-name"
@@ -144,6 +171,9 @@
       "path": "./request/tsconfig-build.json"
     },
     {
+      "path": "./select-random"
+    },
+    {
       "path": "./set/tsconfig-build.json"
     },
     {
@@ -168,6 +198,9 @@
       "path": "./traverse-directory"
     },
     {
+      "path": "./unique"
+    },
+    {
       "path": "./webpack/tsconfig-build.json"
     },
     {
@@ -175,6 +208,12 @@
     },
     {
       "path": "./write-json/tsconfig-build.json"
+    },
+    {
+      "path": "./zoomable"
+    },
+    {
+      "path": "./zoomable-canvas"
     }
   ]
 }

@@ -8,7 +8,7 @@
   "license": "Unlicense",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
-  "export": {
+  "exports": {
     "types": "./build/index.d.ts",
     "default": "./build/index.js"
   },

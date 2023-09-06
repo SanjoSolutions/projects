@@ -1,0 +1,28 @@
+{
+  "name": "@sanjo/is-on-line",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A function that determines if a point is on a line.",
+  "keywords": [
+    "is-on-line"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/is-on-line",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/is-on-line"
+  },
+  "dependencies": {
+    "@sanjo/equals-approximately": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,7 +1,7 @@
-export { FeatureFlags } from "./FeatureFlags";
+export { FeatureFlags } from "./FeatureFlags.js"
 export type {
   FeatureFlagName,
   FeatureFlagValue,
   FeatureFlagsObject,
   FeatureFlagsInitializationValue,
-} from "./FeatureFlags";
+} from "./FeatureFlags.js"
