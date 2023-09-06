@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A key-value store implemented with IndexedDB.",
-  "keywords": [],
+  "keywords": ["key-value-store", "indexeddb"],
   "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/indexeddb-key-value-storage",
   "license": "Unlicense",
   "main": "./build/index.js",
