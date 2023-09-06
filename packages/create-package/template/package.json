@@ -4,17 +4,21 @@
   "type": "module",
   "description": "<PACKAGE_DESCRIPTION>",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/<PACKAGE_FOLDER_NAME>",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/<PACKAGE_FOLDER_NAME>",
   "license": "Unlicense",
   "main": "./index.js",
+  "types": "./index.d.ts",
+  "export": {
+    "types": "./index.d.ts",
+    "default": "./index.js"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/<PACKAGE_FOLDER_NAME>"
   },
   "dependencies": {},
   "devDependencies": {},
-  "types": "./index.d.ts",
   "publishConfig": {
     "access": "public"
   }

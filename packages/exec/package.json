@@ -6,13 +6,13 @@
   "keywords": [
     "exec"
   ],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/exec",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/exec",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/exec"
   },
   "publishConfig": {

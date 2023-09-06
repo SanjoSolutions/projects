@@ -6,12 +6,12 @@
   "keywords": [
     "feature flags"
   ],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/feature-flags",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/feature-flags",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/feature-flags"
   },
   "types": "./index.d.ts",

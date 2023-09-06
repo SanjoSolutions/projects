@@ -6,12 +6,12 @@
   "keywords": [
     "recursive directory traversing"
   ],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/traverse-directory",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/traverse-directory",
   "license": "Unlicense",
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/traverse-directory"
   },
   "types": "./index.d.ts",

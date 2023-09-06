@@ -4,13 +4,13 @@
   "type": "module",
   "description": "Parses NPM package name",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/parse-npm-package-name",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/parse-npm-package-name",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/parse-npm-package-name"
   },
   "publishConfig": {

@@ -4,13 +4,13 @@
   "type": "module",
   "description": "Extracts a function as a package",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/refactor-extract-function-as-package",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/refactor-extract-function-as-package",
   "license": "Unlicense",
   "main": "./index.js",
   "types": "./index.d.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/refactor-extract-function-as-package"
   },
   "publishConfig": {

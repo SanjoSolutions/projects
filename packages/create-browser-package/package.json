@@ -4,13 +4,13 @@
   "type": "module",
   "description": "Create browser package",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/unnamed/tree/main/packages/create-browser-package",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/create-browser-package",
   "license": "Unlicense",
   "types": "./index.d.js",
   "bin": "./bin/create-browser-package.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SanjoSolutions/unnamed.git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
     "directory": "packages/create-browser-package"
   },
   "dependencies": {
