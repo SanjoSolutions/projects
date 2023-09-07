@@ -1,0 +1,35 @@
+{
+  "name": "@sanjo/mmog",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "MMOG",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/mmog",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/mmog"
+  },
+  "scripts": {
+    "development": "node ../../node_modules/@sanjo/esbuild/build/development.js",
+    "build": "node ../../node_modules/@sanjo/esbuild/build/build.js"
+  },
+  "dependencies": {
+    "@pixi/display": "^7.2.4",
+    "@pixi/tilemap": "pixijs/tilemap#123f8530c10bb1de790346d435ad65345ce8b2ae",
+    "pixi.js": "^7.2.4"
+  },
+  "devDependencies": {
+    "@sanjo/esbuild": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
