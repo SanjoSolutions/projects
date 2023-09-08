@@ -1,12 +1,20 @@
 import {
-  Action,
   compressMoveData,
   decompressMoveFromServerData,
   Direction,
+  MessageType,
   MoveData,
 } from "@sanjo/mmog-shared/communication.js"
 import { debounce, throttle } from "lodash-es"
-import { AnimatedSprite, Application, Assets, Spritesheet } from "pixi.js"
+import {
+  AnimatedSprite,
+  Application,
+  Assets,
+  Container,
+  Resource,
+  Spritesheet,
+  Texture,
+} from "pixi.js"
 
 let i = 0
 
@@ -40,22 +48,116 @@ Assets.add(
 const { idle: idleSpritesheet, walk: walkSpritesheet } =
   await Assets.load<Spritesheet>(["idle", "walk"])
 
-type Character = AnimatedSprite & { lastI: number | null; direction: Direction }
+class Character {
+  lastI: number | null = null
+  _direction: Direction = Direction.Down
+  private _isMoving: boolean = false
+  sprite: AnimatedSprite = new AnimatedSprite([idleSpritesheet.textures.down])
 
-function createPhysicalBody(): Character {
-  const physicalBody = new AnimatedSprite([
-    idleSpritesheet.textures.down,
-  ]) as Character
-  physicalBody.anchor.set(0.5, 1)
-  physicalBody.animationSpeed = 0.115
-  physicalBody.lastI = null
-  physicalBody.direction = Direction.Down
-  return physicalBody
+  get direction(): Direction {
+    return this._direction
+  }
+
+  set direction(direction: Direction) {
+    this._direction = direction
+    this._updateTextures()
+  }
+
+  get isMoving(): boolean {
+    return this._isMoving
+  }
+
+  set isMoving(isMoving: boolean) {
+    this._isMoving = isMoving
+    this._updateTextures()
+    if (isMoving) {
+      this.sprite.play()
+    } else {
+      this.sprite.stop()
+    }
+  }
+
+  get x(): number {
+    return this.sprite.x
+  }
+
+  set x(x: number) {
+    this.sprite.x = x
+  }
+
+  get y(): number {
+    return this.sprite.y
+  }
+
+  set y(y: number) {
+    this.sprite.y = y
+  }
+
+  constructor() {
+    this.sprite.anchor.set(0.5, 1)
+    this.sprite.animationSpeed = 0.115
+  }
+
+  updatePosition(delta: number): void {
+    if (this.isMoving) {
+      if (hasFlag(this.direction, Direction.Left)) {
+        this.x -= delta
+      } else if (hasFlag(this.direction, Direction.Right)) {
+        this.x += delta
+      }
+
+      if (hasFlag(this.direction, Direction.Up)) {
+        this.y -= delta
+      } else if (hasFlag(this.direction, Direction.Down)) {
+        this.y += delta
+      }
+    }
+  }
+
+  private _updateTextures() {
+    const textures = this._determineTextures()
+    if (this.sprite.textures !== textures) {
+      this.sprite.textures = textures
+      if (this.isMoving) {
+        this.sprite.play()
+      }
+    }
+  }
+
+  private _determineTextures(): Texture<Resource>[] {
+    if (this.isMoving) {
+      if (hasFlag(this.direction, Direction.Up)) {
+        return walkSpritesheet.animations.up
+      } else if (hasFlag(this.direction, Direction.Down)) {
+        return walkSpritesheet.animations.down
+      } else if (hasFlag(this.direction, Direction.Left)) {
+        return walkSpritesheet.animations.left
+      } else if (hasFlag(this.direction, Direction.Right)) {
+        return walkSpritesheet.animations.right
+      } else {
+        return idle.down
+      }
+    } else {
+      if (hasFlag(this.direction, Direction.Up)) {
+        return idle.up
+      } else if (hasFlag(this.direction, Direction.Down)) {
+        return idle.down
+      } else if (hasFlag(this.direction, Direction.Left)) {
+        return idle.left
+      } else if (hasFlag(this.direction, Direction.Right)) {
+        return idle.right
+      } else {
+        return idle.down
+      }
+    }
+  }
 }
 
-const physicalBodies = new Map<string, Character>()
-const physicalBody = createPhysicalBody()
-app.stage.addChild(physicalBody)
+const characters = new Map<string, Character>()
+const character = new Character()
+const charactersContainer = new Container()
+charactersContainer.addChild(character.sprite)
+app.stage.addChild(charactersContainer)
 updateViewport()
 
 const keyStates = new Map([
@@ -83,7 +185,7 @@ const sendMoveToServer = throttle(function sendMoveToServer(data: MoveData) {
   if (socket.readyState === OPEN) {
     socket.send(
       JSON.stringify({
-        action: Action.Move,
+        type: MessageType.Move,
         data: compressMoveData({
           ...data,
           i,
@@ -94,17 +196,6 @@ const sendMoveToServer = throttle(function sendMoveToServer(data: MoveData) {
   }
 }, 1000 / 30)
 
-const movingTextures: any = [
-  walkSpritesheet.animations.left,
-  walkSpritesheet.animations.right,
-  walkSpritesheet.animations.up,
-  walkSpritesheet.animations.down,
-]
-
-function isMoving(physicalBody: AnimatedSprite): boolean {
-  return movingTextures.includes(physicalBody.textures)
-}
-
 const idle = {
   left: [idleSpritesheet.textures.left],
   right: [idleSpritesheet.textures.right],
@@ -112,114 +203,83 @@ const idle = {
   down: [idleSpritesheet.textures.down],
 }
 
-let direction: Direction = Direction.Down
-
-function removeDirection(
-  direction: Direction,
-  directionToRemove: Direction,
-): Direction {
-  return direction & ~directionToRemove
+interface KeysDown {
+  left: boolean
+  right: boolean
+  up: boolean
+  down: boolean
 }
 
-function addDirection(
-  direction: Direction,
-  directionToAdd: Direction,
-): Direction {
-  return direction | directionToAdd
+function cancelOutKeys({ left, right, up, down }: KeysDown): KeysDown {
+  if (left && right) {
+    left = false
+    right = false
+  }
+  if (up && down) {
+    up = false
+    down = false
+  }
+  return { left, right, up, down }
+}
+
+function convertKeysDownToDirection(keysDown: KeysDown): Direction {
+  const { left, right, up, down } = cancelOutKeys(keysDown)
+  let direction: Direction = Direction.None
+  if (left) {
+    direction |= Direction.Left
+  } else if (right) {
+    direction |= Direction.Right
+  }
+  if (up) {
+    direction |= Direction.Up
+  } else if (down) {
+    direction |= Direction.Down
+  }
+  return direction
+}
+
+function convertKeysDownToIsMoving(keysDown: KeysDown): boolean {
+  const { left, right, up, down } = cancelOutKeys(keysDown)
+  return left || right || up || down
 }
 
 app.ticker.add((delta) => {
-  const left = keyStates.get("KeyA")
-  const right = keyStates.get("KeyD")
-  const up = keyStates.get("KeyW")
-  const down = keyStates.get("KeyS")
-  let hasPositionChanged = false
-  const wasMoving = isMoving(physicalBody)
-  let previousDirection = direction
-  if (left && !right) {
-    if (physicalBody.textures !== walkSpritesheet.animations.left) {
-      physicalBody.textures = walkSpritesheet.animations.left
-    }
-    direction = removeDirection(direction, Direction.Right)
-    direction = addDirection(direction, Direction.Left)
-    physicalBody.x -= delta
-    hasPositionChanged = true
-  } else if (right && !left) {
-    if (physicalBody.textures !== walkSpritesheet.animations.right) {
-      physicalBody.textures = walkSpritesheet.animations.right
-    }
-    direction = removeDirection(direction, Direction.Left)
-    direction = addDirection(direction, Direction.Right)
-    physicalBody.x += delta
-    hasPositionChanged = true
-  } else {
-    direction = removeDirection(direction, Direction.Left)
-    direction = removeDirection(direction, Direction.Right)
+  const left = keyStates.get("KeyA")!
+  const right = keyStates.get("KeyD")!
+  const up = keyStates.get("KeyW")!
+  const down = keyStates.get("KeyS")!
+
+  const wasMoving = character.isMoving
+  const previousDirection = character.direction
+
+  character.isMoving = convertKeysDownToIsMoving({ left, right, up, down })
+  if (character.isMoving) {
+    character.direction = convertKeysDownToDirection({ left, right, up, down })
   }
-  if (up && !down) {
-    if (physicalBody.textures !== walkSpritesheet.animations.up) {
-      physicalBody.textures = walkSpritesheet.animations.up
-    }
-    direction = removeDirection(direction, Direction.Down)
-    direction = addDirection(direction, Direction.Up)
-    physicalBody.y -= delta
-    hasPositionChanged = true
-  } else if (down && !up) {
-    if (physicalBody.textures !== walkSpritesheet.animations.down) {
-      physicalBody.textures = walkSpritesheet.animations.down
-    }
-    direction = removeDirection(direction, Direction.Up)
-    direction = addDirection(direction, Direction.Down)
-    physicalBody.y += delta
-    hasPositionChanged = true
-  } else {
-    direction = removeDirection(direction, Direction.Up)
-    direction = removeDirection(direction, Direction.Down)
+  const previousX = character.x
+  const previousY = character.y
+  character.updatePosition(delta)
+  if (character.y !== previousY) {
+    updateCharacterRenderPosition(character)
   }
-  if (hasPositionChanged) {
-    physicalBody.play()
+  if (character.x !== previousX || character.y !== previousY) {
     updateViewport()
-  } else {
-    physicalBody.stop()
-    if (physicalBody.textures === walkSpritesheet.animations.left) {
-      physicalBody.textures = idle.left
-    } else if (physicalBody.textures === walkSpritesheet.animations.right) {
-      physicalBody.textures = idle.right
-    } else if (physicalBody.textures === walkSpritesheet.animations.up) {
-      physicalBody.textures = idle.up
-    } else if (physicalBody.textures === walkSpritesheet.animations.down) {
-      physicalBody.textures = idle.down
-    }
   }
-  const isMovingNow = isMoving(physicalBody)
-  const hasStopped = wasMoving && !isMovingNow
-  if (hasStopped) {
-    direction = previousDirection
-  }
-  const hasStartedToMove = !wasMoving && isMovingNow
-  const hasDirectionChanged = direction !== previousDirection
-  if (hasDirectionChanged || hasStopped || hasStartedToMove) {
+
+  if (
+    character.isMoving !== wasMoving ||
+    character.direction !== previousDirection
+  ) {
     sendMoveToServer({
-      isMoving: hasPositionChanged,
-      x: physicalBody.x,
-      y: physicalBody.y,
-      direction,
+      isMoving: character.isMoving,
+      x: character.x,
+      y: character.y,
+      direction: character.direction,
     })
   }
 
-  for (const physicalBody of physicalBodies.values()) {
-    if (isMoving(physicalBody)) {
-      if (hasFlag(physicalBody.direction, Direction.Left)) {
-        physicalBody.x -= delta
-      } else if (hasFlag(physicalBody.direction, Direction.Right)) {
-        physicalBody.x += delta
-      }
-      if (hasFlag(physicalBody.direction, Direction.Up)) {
-        physicalBody.y -= delta
-      } else if (hasFlag(physicalBody.direction, Direction.Down)) {
-        physicalBody.y += delta
-      }
-    }
+  for (const character of characters.values()) {
+    character.updatePosition(delta)
   }
 })
 
@@ -228,8 +288,8 @@ function hasFlag(flags: number, flag: number): boolean {
 }
 
 function updateViewport() {
-  app.stage.x = 0.5 * app.view.width - physicalBody.x
-  app.stage.y = 0.5 * app.view.height - physicalBody.y
+  app.stage.x = 0.5 * app.view.width - character.x
+  app.stage.y = 0.5 * app.view.height - character.y
 }
 
 // const tileMap = new CompositeTilemap()
@@ -245,68 +305,85 @@ function updateViewport() {
 // }
 
 const socket = new WebSocket(
-  "wss://0umom0d6od.execute-api.eu-central-1.amazonaws.com/Prod",
+  "wss://ggzdmf37h3.execute-api.eu-central-1.amazonaws.com/Prod",
 )
 
-socket.onmessage = function (event) {
-  const body = JSON.parse(event.data)
-  const { action, data } = body
-  if (action === Action.Move) {
-    const moveData = decompressMoveFromServerData(data)
-    console.log(action, moveData)
-    let physicalBody = physicalBodies.get(moveData.connectionId)
-    if (!physicalBody) {
-      physicalBody = createPhysicalBody()
-      app.stage.addChild(physicalBody)
-      physicalBodies.set(moveData.connectionId, physicalBody)
-    }
-    if (physicalBody.lastI === null || physicalBody.lastI < moveData.i) {
-      physicalBody.x = moveData.x
-      physicalBody.y = moveData.y
-      physicalBody.direction = moveData.direction
-      let textures
-      if (moveData.isMoving) {
-        if (hasFlag(moveData.direction, Direction.Down)) {
-          textures = walkSpritesheet.animations.down
-        } else if (hasFlag(moveData.direction, Direction.Up)) {
-          textures = walkSpritesheet.animations.up
-        } else if (hasFlag(moveData.direction, Direction.Left)) {
-          textures = walkSpritesheet.animations.left
-        } else if (hasFlag(moveData.direction, Direction.Right)) {
-          textures = walkSpritesheet.animations.right
-        }
-      } else {
-        if (hasFlag(moveData.direction, Direction.Down)) {
-          textures = idle.down
-        } else if (hasFlag(moveData.direction, Direction.Up)) {
-          textures = idle.up
-        } else if (hasFlag(moveData.direction, Direction.Left)) {
-          textures = idle.left
-        } else if (hasFlag(moveData.direction, Direction.Right)) {
-          textures = idle.right
-        }
-      }
-      if (textures && physicalBody.textures !== textures) {
-        physicalBody.textures = textures
-        if (moveData.isMoving) {
-          physicalBody.play()
-        }
-      }
+function updateCharacterRenderPosition(character: Character): void {
+  charactersContainer.removeChild(character.sprite)
+  let index = 0
+  while (
+    index < charactersContainer.children.length &&
+    character.y > charactersContainer.getChildAt(index).y
+  ) {
+    index++
+  }
+  if (index === charactersContainer.children.length) {
+    charactersContainer.addChild(character.sprite)
+  } else {
+    charactersContainer.addChildAt(character.sprite, index)
+  }
+}
 
-      physicalBody.lastI = moveData.i
+socket.onmessage = function (event) {
+  console.log("onmessage", event.data)
+  const body = JSON.parse(event.data)
+  const { type, data } = body
+  if (type === MessageType.Move) {
+    const moveData = decompressMoveFromServerData(data)
+    console.log(type, moveData)
+    const character = retrieveCharacter(moveData.connectionId)
+    if (character.lastI === null || moveData.i > character.lastI) {
+      updateCharacter(character, moveData)
+      character.lastI = moveData.i
+    }
+  } else if (type === MessageType.Characters) {
+    const { characters } = data
+    for (const characterData of characters) {
+      const character = retrieveCharacter(characterData.connectionId)
+      updateCharacter(character, characterData)
     }
   } else {
     console.log(body)
   }
 }
 
+function retrieveCharacter(connectionId: string): Character {
+  let character = characters.get(connectionId)
+  if (!character) {
+    character = new Character()
+    charactersContainer.addChild(character.sprite)
+    characters.set(connectionId, character)
+  }
+  return character
+}
+
+function updateCharacter(character: Character, characterData: any): void {
+  character.x = characterData.x
+  const isDifferentYCoordinate = character.y !== characterData.y
+  character.y = characterData.y
+  if (isDifferentYCoordinate) {
+    updateCharacterRenderPosition(character)
+  }
+  character.direction = characterData.direction
+  character.isMoving = characterData.isMoving
+}
+
 socket.onopen = function () {
   sendMoveToServer({
     isMoving: false,
     direction: Direction.Down,
-    x: physicalBody.x,
-    y: physicalBody.y,
+    x: character.x,
+    y: character.y,
   })
+  requestCharacters()
+}
+
+function requestCharacters(): void {
+  socket.send(
+    JSON.stringify({
+      type: MessageType.RequestCharacters,
+    }),
+  )
 }
 
 window.addEventListener(

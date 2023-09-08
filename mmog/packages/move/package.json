@@ -7,7 +7,7 @@
   "author": "SAM CLI",
   "license": "Unlicense",
   "dependencies": {
-    "@sanjo/mmog-shared": "^0.3.0"
+    "@sanjo/mmog-shared": "^0.6.0"
   },
   "devDependencies": {
     "@aws-sdk/client-apigatewaymanagementapi": "^3.408.0",

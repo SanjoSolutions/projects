@@ -1,4 +1,5 @@
 export enum Direction {
+  None = 0b0,
   Left = 0b1,
   Right = 0b10,
   Up = 0b100,
@@ -25,14 +26,16 @@ export type MoveDataWithI = MoveData & { i: number }
 export type CompressedMoveData = [number, number, Direction, number, number]
 
 export interface Package {
-  action: Action
+  action: MessageType
   data: any
 }
 
-export type CompressedPackage = [Action, any]
+export type CompressedPackage = [MessageType, any]
 
-export enum Action {
+export enum MessageType {
   Move = "move",
+  Characters = "characters",
+  RequestCharacters = "request-characters",
 }
 
 export function decompressPackage(

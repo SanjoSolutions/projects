@@ -1,6 +1,11 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb"
-import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+import type {
+  APIGatewayProxyResultV2,
+  APIGatewayProxyWebsocketEventV2,
+} from "aws-lambda/trigger/api-gateway-proxy.js"
+
+Error.stackTraceLimit = Infinity
 
 declare global {
   namespace NodeJS {
@@ -10,6 +15,8 @@ declare global {
   }
 }
 
+const { TABLE_NAME } = process.env
+
 const ddb = DynamoDBDocumentClient.from(
   new DynamoDBClient({
     apiVersion: "2012-08-10",
@@ -18,23 +25,16 @@ const ddb = DynamoDBDocumentClient.from(
 )
 
 export async function handler(
-  event: APIGatewayProxyEvent,
-): Promise<APIGatewayProxyResult> {
-  try {
-    await ddb.send(
-      new PutCommand({
-        TableName: process.env.TABLE_NAME,
-        Item: {
-          connectionId: event.requestContext.connectionId,
-        },
-      }),
-    )
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: "Failed to connect: " + JSON.stringify(err),
-    }
-  }
+  event: APIGatewayProxyWebsocketEventV2,
+): Promise<APIGatewayProxyResultV2> {
+  await ddb.send(
+    new PutCommand({
+      TableName: TABLE_NAME,
+      Item: {
+        connectionId: event.requestContext.connectionId,
+      },
+    }),
+  )
 
   return { statusCode: 200, body: "Connected." }
 }

@@ -22,7 +22,7 @@ Resources:
     Properties:
       Name: WebSocket
       ProtocolType: WEBSOCKET
-      RouteSelectionExpression: "$request.body.action"
+      RouteSelectionExpression: "$request.body.type"
   ConnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -83,12 +83,34 @@ Resources:
       IntegrationUri:
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MoveFunction.Arn}/invocations
+  RequestCharactersRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocket
+      RouteKey: request-characters
+      AuthorizationType: NONE
+      OperationName: RequestCharactersRoute
+      Target: !Join
+        - '/'
+        -
+          - 'integrations'
+          - !Ref RequestCharactersIntegration
+  RequestCharactersIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocket
+      Description: Request characters integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub:
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RequestCharactersFunction.Arn}/invocations
   Deployment:
     Type: AWS::ApiGatewayV2::Deployment
     DependsOn:
     - ConnectRoute
     - MoveRoute
     - DisconnectRoute
+    - RequestCharactersRoute
     Properties:
       ApiId: !Ref WebSocket
   Stage:
@@ -108,8 +130,8 @@ Resources:
       - AttributeName: "connectionId"
         KeyType: "HASH"
       ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
+        ReadCapacityUnits: 21
+        WriteCapacityUnits: 21
       SSESpecification:
         SSEEnabled: True
       TableName: !Ref TableName
@@ -137,6 +159,7 @@ Resources:
         External:
           - '@aws-sdk/client-dynamodb'
           - '@aws-sdk/lib-dynamodb'
+          - '@aws-sdk/client-apigatewaymanagementapi'
   OnConnectPermission:
     Type: AWS::Lambda::Permission
     DependsOn:
@@ -217,6 +240,47 @@ Resources:
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !Ref MoveFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
+
+  RequestCharactersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: packages/requestCharacters/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref TableName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TableName
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'execute-api:ManageConnections'
+              Resource:
+                - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2022"
+        Sourcemap: true
+        EntryPoints:
+          - index.ts
+        External:
+          - '@aws-sdk/client-apigatewaymanagementapi'
+          - '@aws-sdk/client-dynamodb'
+          - '@aws-sdk/lib-dynamodb'
+  RequestCharactersPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref RequestCharactersFunction
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
 

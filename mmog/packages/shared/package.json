@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/mmog-shared",
-  "version": "0.3.0",
+  "version": "0.6.1",
   "type": "module",
   "description": "MMOG code that is shared between client and server.",
   "scripts": {
