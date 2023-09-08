@@ -4,9 +4,14 @@
 // $disconnect is a best-effort event.
 // API Gateway will try its best to deliver the $disconnect event to your integration, but it cannot guarantee delivery.
 
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
-import { DeleteCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb"
-import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+import { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi"
+import { DeleteCommand } from "@aws-sdk/lib-dynamodb"
+import type {
+  APIGatewayProxyResultV2,
+  APIGatewayProxyWebsocketEventV2,
+} from "aws-lambda/trigger/api-gateway-proxy.js"
+import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
+import { notifyClientsThatAClientHasDisconnected } from "../notifyClientsThatAClientHasDisconnected.js"
 
 Error.stackTraceLimit = Infinity
 
@@ -18,31 +23,31 @@ declare global {
   }
 }
 
-const ddb = DynamoDBDocumentClient.from(
-  new DynamoDBClient({
-    apiVersion: "2012-08-10",
-    region: process.env.AWS_REGION,
-  }),
-)
+const { CONNECTIONS_TABLE_NAME } = process.env
+
+const ddb = createDynamoDBDocumentClient()
 
 export async function handler(
-  event: APIGatewayProxyEvent,
-): Promise<APIGatewayProxyResult> {
-  try {
-    await ddb.send(
-      new DeleteCommand({
-        TableName: process.env.CONNECTIONS_TABLE_NAME,
-        Key: {
-          connectionId: event.requestContext.connectionId,
-        },
-      }),
-    )
-  } catch (err) {
-    return {
-      statusCode: 500,
-      body: "Failed to disconnect: " + JSON.stringify(err),
-    }
-  }
+  event: APIGatewayProxyWebsocketEventV2,
+): Promise<APIGatewayProxyResultV2> {
+  const apiGwManagementApi = new ApiGatewayManagementApiClient({
+    apiVersion: "2018-11-29",
+    endpoint: `https://${event.requestContext.domainName}/${event.requestContext.stage}`,
+  })
 
-  return { statusCode: 200, body: "Disconnected." }
+  await notifyClientsThatAClientHasDisconnected(
+    apiGwManagementApi,
+    event.requestContext.connectionId,
+  )
+
+  await ddb.send(
+    new DeleteCommand({
+      TableName: CONNECTIONS_TABLE_NAME,
+      Key: {
+        connectionId: event.requestContext.connectionId,
+      },
+    }),
+  )
+
+  return { statusCode: 200 }
 }

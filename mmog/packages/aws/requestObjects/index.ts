@@ -2,9 +2,7 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import {
-  DynamoDBDocumentClient,
   GetCommand,
   ScanCommand,
   ScanCommandInput,
@@ -15,6 +13,9 @@ import type {
   APIGatewayProxyWebsocketEventV2,
 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { MessageType } from "../../shared/communication.js"
+import { ObjectType } from "../../shared/ObjectType.js"
+import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
+import { postToConnection } from "../postToConnection.js"
 
 Error.stackTraceLimit = Infinity
 
@@ -37,12 +38,7 @@ const MAXIMUM_SUPPORTED_RESOLUTION = {
 const HALF_WIDTH = Math.ceil(MAXIMUM_SUPPORTED_RESOLUTION.width / 2)
 const HALF_HEIGHT = Math.ceil(MAXIMUM_SUPPORTED_RESOLUTION.height / 2)
 
-const ddb = DynamoDBDocumentClient.from(
-  new DynamoDBClient({
-    apiVersion: "2012-08-10",
-    region: process.env.AWS_REGION,
-  }),
-)
+const ddb = createDynamoDBDocumentClient()
 
 export async function handler(
   event: APIGatewayProxyWebsocketEventV2,
@@ -71,12 +67,21 @@ export async function handler(
         const items = connections.Items
         if (items) {
           await Promise.all(
-            items.map(async ({ connectionId, x, y, direction, isMoving }) => {
-              if (connectionId !== event.requestContext.connectionId) {
-                const character = { connectionId, x, y, direction, isMoving }
-                objects.push(character)
-              }
-            }),
+            items.map(
+              async ({ connectionId, x, y, direction, isMoving, type }) => {
+                if (connectionId !== event.requestContext.connectionId) {
+                  const character = {
+                    connectionId,
+                    x,
+                    y,
+                    direction,
+                    isMoving,
+                    type: type || ObjectType.Character,
+                  }
+                  objects.push(character)
+                }
+              },
+            ),
           )
         }
 
@@ -101,7 +106,8 @@ export async function handler(
       endpoint: `https://${event.requestContext.domainName}/${event.requestContext.stage}`,
     })
 
-    await apiGwManagementApi.send(
+    await postToConnection(
+      apiGwManagementApi,
       new PostToConnectionCommand({
         ConnectionId: event.requestContext.connectionId,
         Data: postData,
@@ -135,13 +141,16 @@ function createScanCommand(
 ): ScanCommand {
   const input: ScanCommandInput = {
     TableName: tableName,
-    ProjectionExpression: "connectionId, x, y, direction, isMoving",
+    ProjectionExpression: "connectionId, x, y, direction, isMoving, #type, id",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {
       ":x1": position.x - HALF_WIDTH,
       ":x2": position.x + HALF_WIDTH,
       ":y1": position.y - HALF_HEIGHT,
       ":y2": position.y + HALF_HEIGHT,
+    },
+    ExpressionAttributeNames: {
+      "#type": "type",
     },
   }
   if (exclusiveStartKey) {

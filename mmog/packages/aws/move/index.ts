@@ -2,10 +2,7 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb"
 import {
-  DeleteCommand,
-  DynamoDBDocumentClient,
   ScanCommand,
   ScanCommandInput,
   ScanCommandOutput,
@@ -17,6 +14,8 @@ import {
   decompressMoveDataWithI,
   MessageType,
 } from "../../shared/communication.js"
+import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
+import { postToConnection } from "../postToConnection.js"
 
 Error.stackTraceLimit = Infinity
 
@@ -28,12 +27,7 @@ declare global {
   }
 }
 
-const ddb = DynamoDBDocumentClient.from(
-  new DynamoDBClient({
-    apiVersion: "2012-08-10",
-    region: process.env.AWS_REGION,
-  }),
-)
+const ddb = createDynamoDBDocumentClient()
 
 const { CONNECTIONS_TABLE_NAME } = process.env
 
@@ -78,25 +72,13 @@ export async function handler(
       await Promise.all(
         items.map(async ({ connectionId }) => {
           if (connectionId !== event.requestContext.connectionId) {
-            try {
-              await apiGwManagementApi.send(
-                new PostToConnectionCommand({
-                  ConnectionId: connectionId,
-                  Data: postData,
-                }),
-              )
-            } catch (error: any) {
-              if (error.statusCode === 410) {
-                console.log(`Found stale connection, deleting ${connectionId}`)
-                const deleteCommand = new DeleteCommand({
-                  TableName: CONNECTIONS_TABLE_NAME,
-                  Key: { connectionId },
-                })
-                await ddb.send(deleteCommand)
-              } else {
-                console.error(error)
-              }
-            }
+            await postToConnection(
+              apiGwManagementApi,
+              new PostToConnectionCommand({
+                ConnectionId: connectionId,
+                Data: postData,
+              }),
+            )
           }
         }),
       )

@@ -360,10 +360,17 @@ socket.onmessage = function (event) {
     const { objects } = data
     for (const objectData of objects) {
       const object = retrieveOrCreateObject({
-        id: objectData.id,
+        id: objectData.id || objectData.connectionId,
         type: objectData.type || ObjectType.Character,
       })
       updateObject(object, objectData)
+    }
+  } else if (type === MessageType.OtherClientDisconnected) {
+    const { connectionId } = data
+    const object = objects.get(connectionId)
+    if (object) {
+      objectsContainer.removeChild(object.sprite)
+      objects.delete(connectionId)
     }
   } else {
     console.log(body)

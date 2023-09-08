@@ -161,6 +161,12 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ConnectionsTableName
+        - Statement:
+           - Effect: Allow
+             Action:
+               - 'execute-api:ManageConnections'
+             Resource:
+               - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
   DisconnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
