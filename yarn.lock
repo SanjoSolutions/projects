@@ -3422,74 +3422,26 @@ __metadata:
     "@pixi/display": ^7.2.4
     "@pixi/tilemap": "pixijs/tilemap#123f8530c10bb1de790346d435ad65345ce8b2ae"
     "@sanjo/esbuild": ^1.0.0
-    "@sanjo/mmog-shared": ^0.6.0
     "@types/lodash-es": ^4.17.9
     lodash-es: ^4.17.21
     pixi.js: ^7.2.4
   languageName: unknown
   linkType: soft
 
-"@sanjo/mmog-move@workspace:mmog/packages/move":
+"@sanjo/mmog@workspace:mmog":
   version: 0.0.0-use.local
-  resolution: "@sanjo/mmog-move@workspace:mmog/packages/move"
+  resolution: "@sanjo/mmog@workspace:mmog"
   dependencies:
     "@aws-sdk/client-apigatewaymanagementapi": ^3.408.0
     "@aws-sdk/client-dynamodb": ^3.408.0
     "@aws-sdk/lib-dynamodb": ^3.408.0
-    "@sanjo/mmog-shared": ^0.6.0
     "@types/aws-lambda": ^8.10.119
+    "@types/google-protobuf": ^3.15.6
+    buffer: ^6.0.3
     esbuild: ^0.19.2
+    google-protobuf: ^3.21.2
   languageName: unknown
   linkType: soft
-
-"@sanjo/mmog-on-connect@workspace:mmog/packages/onConnect":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/mmog-on-connect@workspace:mmog/packages/onConnect"
-  dependencies:
-    "@aws-sdk/client-dynamodb": ^3.408.0
-    "@aws-sdk/lib-dynamodb": ^3.408.0
-    "@sanjo/mmog-shared": ^0.4.0
-    "@types/aws-lambda": ^8.10.119
-    esbuild: ^0.19.2
-  languageName: unknown
-  linkType: soft
-
-"@sanjo/mmog-on-disconnect@workspace:mmog/packages/onDisconnect":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/mmog-on-disconnect@workspace:mmog/packages/onDisconnect"
-  dependencies:
-    "@aws-sdk/client-dynamodb": ^3.408.0
-    "@aws-sdk/lib-dynamodb": ^3.408.0
-    "@types/aws-lambda": ^8.10.119
-    esbuild: ^0.19.2
-  languageName: unknown
-  linkType: soft
-
-"@sanjo/mmog-request-characters@workspace:mmog/packages/requestCharacters":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/mmog-request-characters@workspace:mmog/packages/requestCharacters"
-  dependencies:
-    "@aws-sdk/client-apigatewaymanagementapi": ^3.408.0
-    "@aws-sdk/client-dynamodb": ^3.408.0
-    "@aws-sdk/lib-dynamodb": ^3.408.0
-    "@sanjo/mmog-shared": ^0.6.0
-    "@types/aws-lambda": ^8.10.119
-    esbuild: ^0.19.2
-  languageName: unknown
-  linkType: soft
-
-"@sanjo/mmog-shared@^0.6.0, @sanjo/mmog-shared@workspace:mmog/packages/shared":
-  version: 0.0.0-use.local
-  resolution: "@sanjo/mmog-shared@workspace:mmog/packages/shared"
-  languageName: unknown
-  linkType: soft
-
-"@sanjo/mmog-shared@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "@sanjo/mmog-shared@npm:0.4.0"
-  checksum: 29ede1e8365640cca2ce7db365bf0401afcdfefe1b6a7895e1d8e101dcf4f74e1986e784cd553ae5a489b60a241476051cee208bd5ab5363bf17cfeec1571c65
-  languageName: node
-  linkType: hard
 
 "@sanjo/mongodb-diff@npm:^0.3.0":
   version: 0.3.0
@@ -4456,6 +4408,13 @@ __metadata:
     "@types/minimatch": "*"
     "@types/node": "*"
   checksum: 6ae717fedfdfdad25f3d5a568323926c64f52ef35897bcac8aca8e19bc50c0bd84630bbd063e5d52078b2137d8e7d3c26eabebd1a2f03ff350fff8a91e79fc19
+  languageName: node
+  linkType: hard
+
+"@types/google-protobuf@npm:^3.15.6":
+  version: 3.15.6
+  resolution: "@types/google-protobuf@npm:3.15.6"
+  checksum: e8f7cd9d263093cd0a72eb10ff0bb8221e28aa8b9f601eddbe19b286932aae96fbc9ccb1f3a744525e7811fa87a6aeefd431858b6e2034f14a2dc68710a86d54
   languageName: node
   linkType: hard
 
@@ -5773,6 +5732,16 @@ __metadata:
     base64-js: ^1.3.1
     ieee754: ^1.1.13
   checksum: e2cf8429e1c4c7b8cbd30834ac09bd61da46ce35f5c22a78e6c2f04497d6d25541b16881e30a019c6fd3154150650ccee27a308eff3e26229d788bbdeb08ab84
+  languageName: node
+  linkType: hard
+
+"buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
+  dependencies:
+    base64-js: ^1.3.1
+    ieee754: ^1.2.1
+  checksum: 5ad23293d9a731e4318e420025800b42bf0d264004c0286c8cc010af7a270c7a0f6522e84f54b9ad65cbd6db20b8badbfd8d2ebf4f80fa03dab093b89e68c3f9
   languageName: node
   linkType: hard
 
@@ -7803,6 +7772,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"google-protobuf@npm:^3.21.2":
+  version: 3.21.2
+  resolution: "google-protobuf@npm:3.21.2"
+  checksum: 3caa2e1e2654714cc1a201ac5e5faabcaa48f5fba3d8ff9b64ca66fe19e4e0506b94053f32eddc77bf3a7a47ac1660315c6744185c1e2bb27654fd76fe91b988
+  languageName: node
+  linkType: hard
+
 "gopd@npm:^1.0.1":
   version: 1.0.1
   resolution: "gopd@npm:1.0.1"
@@ -8111,7 +8087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ieee754@npm:^1.1.13":
+"ieee754@npm:^1.1.13, ieee754@npm:^1.2.1":
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: 5144c0c9815e54ada181d80a0b810221a253562422e7c6c3a60b1901154184f49326ec239d618c416c1c5945a2e197107aee8d986a3dd836b53dffefd99b5e7e
@@ -10792,7 +10768,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.11.0":
+"qs@npm:^6.11.2":
   version: 6.11.2
   resolution: "qs@npm:6.11.2"
   dependencies:
@@ -12535,12 +12511,12 @@ __metadata:
   linkType: hard
 
 "url@npm:^0.11.0":
-  version: 0.11.1
-  resolution: "url@npm:0.11.1"
+  version: 0.11.2
+  resolution: "url@npm:0.11.2"
   dependencies:
     punycode: ^1.4.1
-    qs: ^6.11.0
-  checksum: a7de4b37bbcbe60ef199acda4ce437ef843c0ef3a4b34ec3e3d97e0446a5f50dc7bfeafbe33ad118cf4e5aa04805e1328f0d0126e254f2b77bb8498fa395c596
+    qs: ^6.11.2
+  checksum: da5943ab43f4df75af5ed96d8465e3084fc2ea0f01bc73e98fb60899777a644541ea0022451371a419283a27a8bbd1809292212fb4c78a0b4a70f15fd89b8205
   languageName: node
   linkType: hard
 

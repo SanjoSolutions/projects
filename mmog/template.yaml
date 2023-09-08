@@ -1,21 +1,68 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
+Metadata:
+  AWS::ServerlessRepo::Application:
+    Name: MMOG
+    Description: MMOG
+    Author: Jonas Aschenbrenner
+
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 3
 
 Parameters:
-  TableName:
+  ConnectionsTableName:
     Type: String
     Default: 'mmog-connections'
-    Description: (Required) The name of the new DynamoDB to store connection identifiers for each connected clients. Minimum 3 characters
+    Description: (Required) The name of the new DynamoDB table to store connections.
     MinLength: 3
     MaxLength: 255
     AllowedPattern: ^[A-Za-z_\-\.]+$
-    ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
+    ConstraintDescription: 'Required. Can be characters, underscore, dash and dot only. No numbers or other special characters allowed.'
+
+  ObjectsTableName:
+    Type: String
+    Default: 'mmog-objects'
+    Description: (Required) The name of the new DynamoDB table to store objects.
+    MinLength: 3
+    MaxLength: 255
+    AllowedPattern: ^[A-Za-z_\-\.]+$
+    ConstraintDescription: 'Required. Can be characters, underscore, dash and dot only. No numbers or other special characters allowed.'
 
 Resources:
+  ConnectionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "connectionId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "connectionId"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 16
+        WriteCapacityUnits: 16
+      SSESpecification:
+        SSEEnabled: True
+      TableName: !Ref ConnectionsTableName
+
+  ObjectsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      SSESpecification:
+        SSEEnabled: True
+      TableName: !Ref ObjectsTableName
+
   WebSocket:
     Type: AWS::ApiGatewayV2::Api
     DependsOn: Account
@@ -23,6 +70,54 @@ Resources:
       Name: WebSocket
       ProtocolType: WEBSOCKET
       RouteSelectionExpression: "$request.body.type"
+  Deployment:
+    Type: AWS::ApiGatewayV2::Deployment
+    DependsOn:
+      - ConnectRoute
+      - MoveRoute
+      - DisconnectRoute
+      - RequestObjectsRoute
+    Properties:
+      ApiId: !Ref WebSocket
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      StageName: Prod
+      Description: Prod Stage
+      DeploymentId: !Ref Deployment
+      ApiId: !Ref WebSocket
+  Account:
+    Type: AWS::ApiGateway::Account
+    Properties:
+      CloudWatchRoleArn: !GetAtt CloudWatchRole.Arn
+  CloudWatchRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Action: 'sts:AssumeRole'
+          Effect: Allow
+          Principal:
+            Service: apigateway.amazonaws.com
+      Path: /
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs'
+
+
+  OnConnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/onConnect/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          CONNECTIONS_TABLE_NAME: !Ref ConnectionsTableName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTableName
   ConnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -43,6 +138,29 @@ Resources:
       IntegrationUri:
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectFunction.Arn}/invocations
+  OnConnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnConnectFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
+
+  OnDisconnectFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/onDisconnect/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          CONNECTIONS_TABLE_NAME: !Ref ConnectionsTableName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTableName
   DisconnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -63,6 +181,35 @@ Resources:
       IntegrationUri:
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnDisconnectFunction.Arn}/invocations
+  OnDisconnectPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref OnDisconnectFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
+
+  MoveFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/move/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          CONNECTIONS_TABLE_NAME: !Ref ConnectionsTableName
+      Policies:
+      - DynamoDBCrudPolicy:
+          TableName: !Ref ConnectionsTableName
+      - Statement:
+        - Effect: Allow
+          Action:
+          - 'execute-api:ManageConnections'
+          Resource:
+          - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
   MoveRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -83,156 +230,6 @@ Resources:
       IntegrationUri:
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${MoveFunction.Arn}/invocations
-  RequestCharactersRoute:
-    Type: AWS::ApiGatewayV2::Route
-    Properties:
-      ApiId: !Ref WebSocket
-      RouteKey: request-characters
-      AuthorizationType: NONE
-      OperationName: RequestCharactersRoute
-      Target: !Join
-        - '/'
-        -
-          - 'integrations'
-          - !Ref RequestCharactersIntegration
-  RequestCharactersIntegration:
-    Type: AWS::ApiGatewayV2::Integration
-    Properties:
-      ApiId: !Ref WebSocket
-      Description: Request characters integration
-      IntegrationType: AWS_PROXY
-      IntegrationUri:
-        Fn::Sub:
-          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RequestCharactersFunction.Arn}/invocations
-  Deployment:
-    Type: AWS::ApiGatewayV2::Deployment
-    DependsOn:
-    - ConnectRoute
-    - MoveRoute
-    - DisconnectRoute
-    - RequestCharactersRoute
-    Properties:
-      ApiId: !Ref WebSocket
-  Stage:
-    Type: AWS::ApiGatewayV2::Stage
-    Properties:
-      StageName: Prod
-      Description: Prod Stage
-      DeploymentId: !Ref Deployment
-      ApiId: !Ref WebSocket
-  ConnectionsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-      - AttributeName: "connectionId"
-        AttributeType: "S"
-      KeySchema:
-      - AttributeName: "connectionId"
-        KeyType: "HASH"
-      ProvisionedThroughput:
-        ReadCapacityUnits: 21
-        WriteCapacityUnits: 21
-      SSESpecification:
-        SSEEnabled: True
-      TableName: !Ref TableName
-  OnConnectFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: packages/onConnect/
-      Handler: index.handler
-      MemorySize: 256
-      Runtime: nodejs18.x
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref TableName
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref TableName
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2022"
-        Sourcemap: true
-        EntryPoints:
-          - index.ts
-        External:
-          - '@aws-sdk/client-dynamodb'
-          - '@aws-sdk/lib-dynamodb'
-          - '@aws-sdk/client-apigatewaymanagementapi'
-  OnConnectPermission:
-    Type: AWS::Lambda::Permission
-    DependsOn:
-      - WebSocket
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref OnConnectFunction
-      Principal: apigateway.amazonaws.com
-      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
-  OnDisconnectFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: packages/onDisconnect/
-      Handler: index.handler
-      MemorySize: 256
-      Runtime: nodejs18.x
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref TableName
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref TableName
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2022"
-        Sourcemap: true
-        EntryPoints:
-          - index.ts
-        External:
-          - '@aws-sdk/client-dynamodb'
-          - '@aws-sdk/lib-dynamodb'
-  OnDisconnectPermission:
-    Type: AWS::Lambda::Permission
-    DependsOn:
-      - WebSocket
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref OnDisconnectFunction
-      Principal: apigateway.amazonaws.com
-      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
-  MoveFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: packages/move/
-      Handler: index.handler
-      MemorySize: 256
-      Runtime: nodejs18.x
-      Environment:
-        Variables:
-          TABLE_NAME: !Ref TableName
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref TableName
-      - Statement:
-        - Effect: Allow
-          Action:
-          - 'execute-api:ManageConnections'
-          Resource:
-          - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2022"
-        Sourcemap: true
-        EntryPoints:
-          - index.ts
-        External:
-          - '@aws-sdk/client-apigatewaymanagementapi'
-          - '@aws-sdk/client-dynamodb'
-          - '@aws-sdk/lib-dynamodb'
   MovePermission:
     Type: AWS::Lambda::Permission
     DependsOn:
@@ -243,65 +240,72 @@ Resources:
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
 
-  RequestCharactersFunction:
+  RequestObjectsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: packages/requestCharacters/
+      CodeUri: build/requestObjects/
       Handler: index.handler
       MemorySize: 256
       Runtime: nodejs18.x
       Environment:
         Variables:
-          TABLE_NAME: !Ref TableName
+          CONNECTIONS_TABLE_NAME: !Ref ConnectionsTableName
+          OBJECTS_TABLE_NAME: !Ref ObjectsTableName
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref TableName
+            TableName: !Ref ConnectionsTableName
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ObjectsTableName
         - Statement:
             - Effect: Allow
               Action:
                 - 'execute-api:ManageConnections'
               Resource:
                 - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
-    Metadata:
-      BuildMethod: esbuild
-      BuildProperties:
-        Minify: true
-        Target: "es2022"
-        Sourcemap: true
-        EntryPoints:
-          - index.ts
-        External:
-          - '@aws-sdk/client-apigatewaymanagementapi'
-          - '@aws-sdk/client-dynamodb'
-          - '@aws-sdk/lib-dynamodb'
-  RequestCharactersPermission:
+  RequestObjectsRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref WebSocket
+      RouteKey: request-objects
+      AuthorizationType: NONE
+      OperationName: RequestObjectsRoute
+      Target: !Join
+        - '/'
+        -
+          - 'integrations'
+          - !Ref RequestObjectsIntegration
+  RequestObjectsIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref WebSocket
+      Description: Request characters integration
+      IntegrationType: AWS_PROXY
+      IntegrationUri:
+        Fn::Sub:
+          arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RequestObjectsFunction.Arn}/invocations
+  RequestObjectsPermission:
     Type: AWS::Lambda::Permission
     DependsOn:
       - WebSocket
     Properties:
       Action: lambda:InvokeFunction
-      FunctionName: !Ref RequestCharactersFunction
+      FunctionName: !Ref RequestObjectsFunction
       Principal: apigateway.amazonaws.com
       SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
 
-  Account:
-    Type: AWS::ApiGateway::Account
+  InitializeWorldFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      CloudWatchRoleArn: !GetAtt CloudWatchRole.Arn
-
-  CloudWatchRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          Action: 'sts:AssumeRole'
-          Effect: Allow
-          Principal:
-            Service: apigateway.amazonaws.com
-      Path: /
-      ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs'
+      CodeUri: build/initializeWorld/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          OBJECTS_TABLE_NAME: !Ref ObjectsTableName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ObjectsTableName
 
 Outputs:
   ConnectionsTableArn:

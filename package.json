@@ -15,7 +15,8 @@
   "workspaces": [
     "packages/*",
     "packages/_practice/src/loose_coupling",
-    "mmog/packages/*"
+    "mmog",
+    "mmog/packages/client"
   ],
   "devDependencies": {
     "@babel/cli": "^7.16.8",

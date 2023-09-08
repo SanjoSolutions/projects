@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig-base.json",
+  "compilerOptions": {
+    "rootDir": "../",
+    "outDir": "./mmog/build/",
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
+  },
+  "include": ["./mmog/packages/**/*"],
+  "exclude:": ["./mmog/packages/client/public/build/**/*"],
+  "references": [
+    {
+      "path": "../../packages/esbuild"
+    }
+  ]
+}

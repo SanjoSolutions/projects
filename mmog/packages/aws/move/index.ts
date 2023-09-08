@@ -11,19 +11,19 @@ import {
   ScanCommandOutput,
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb"
+import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
 import {
   compressMoveFromServerData,
-  decompressMoveData,
+  decompressMoveDataWithI,
   MessageType,
-} from "@sanjo/mmog-shared/communication.js"
-import type { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda"
+} from "../../shared/communication.js"
 
 Error.stackTraceLimit = Infinity
 
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      TABLE_NAME: string
+      CONNECTIONS_TABLE_NAME: string
     }
   }
 }
@@ -35,7 +35,7 @@ const ddb = DynamoDBDocumentClient.from(
   }),
 )
 
-const { TABLE_NAME } = process.env
+const { CONNECTIONS_TABLE_NAME } = process.env
 
 const MAXIMUM_SUPPORTED_RESOLUTION = {
   width: 2560,
@@ -49,7 +49,7 @@ export async function handler(
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> {
   const requestBody = JSON.parse(event.body!)
-  const moveData = decompressMoveData(requestBody.data)
+  const moveData = decompressMoveDataWithI(requestBody.data)
 
   const apiGwManagementApi = new ApiGatewayManagementApiClient({
     apiVersion: "2018-11-29",
@@ -89,7 +89,7 @@ export async function handler(
               if (error.statusCode === 410) {
                 console.log(`Found stale connection, deleting ${connectionId}`)
                 const deleteCommand = new DeleteCommand({
-                  TableName: TABLE_NAME,
+                  TableName: CONNECTIONS_TABLE_NAME,
                   Key: { connectionId },
                 })
                 await ddb.send(deleteCommand)
@@ -107,7 +107,7 @@ export async function handler(
 
   await ddb.send(
     new UpdateCommand({
-      TableName: TABLE_NAME,
+      TableName: CONNECTIONS_TABLE_NAME,
       Key: { connectionId: event.requestContext.connectionId },
       UpdateExpression:
         "set x = :x, y = :y, direction = :direction, isMoving = :isMoving",
@@ -128,7 +128,7 @@ function createScanCommand(
   exclusiveStartKey?: Record<string, any>,
 ): ScanCommand {
   const input: ScanCommandInput = {
-    TableName: TABLE_NAME,
+    TableName: CONNECTIONS_TABLE_NAME,
     ProjectionExpression: "connectionId",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {

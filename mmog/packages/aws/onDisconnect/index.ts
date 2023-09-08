@@ -13,7 +13,7 @@ Error.stackTraceLimit = Infinity
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      TABLE_NAME: string
+      CONNECTIONS_TABLE_NAME: string
     }
   }
 }
@@ -31,7 +31,7 @@ export async function handler(
   try {
     await ddb.send(
       new DeleteCommand({
-        TableName: process.env.TABLE_NAME,
+        TableName: process.env.CONNECTIONS_TABLE_NAME,
         Key: {
           connectionId: event.requestContext.connectionId,
         },

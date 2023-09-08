@@ -10,23 +10,24 @@ import {
   ScanCommandInput,
   ScanCommandOutput,
 } from "@aws-sdk/lib-dynamodb"
-import { MessageType } from "@sanjo/mmog-shared/communication.js"
 import type {
   APIGatewayProxyResultV2,
   APIGatewayProxyWebsocketEventV2,
 } from "aws-lambda/trigger/api-gateway-proxy.js"
+import { MessageType } from "../../shared/communication.js"
 
 Error.stackTraceLimit = Infinity
 
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
-      TABLE_NAME: string
+      CONNECTIONS_TABLE_NAME: string
+      OBJECTS_TABLE_NAME: string
     }
   }
 }
 
-const { TABLE_NAME } = process.env
+const { CONNECTIONS_TABLE_NAME, OBJECTS_TABLE_NAME } = process.env
 
 const MAXIMUM_SUPPORTED_RESOLUTION = {
   width: 2560,
@@ -48,7 +49,7 @@ export async function handler(
 ): Promise<APIGatewayProxyResultV2> {
   const response = await ddb.send(
     new GetCommand({
-      TableName: TABLE_NAME,
+      TableName: CONNECTIONS_TABLE_NAME,
       Key: {
         connectionId: event.requestContext.connectionId,
       },
@@ -59,32 +60,39 @@ export async function handler(
   if (response.Item) {
     const position = { x: response.Item.x || 0, y: response.Item.y || 0 }
 
-    const characters: any[] = []
+    const objects: any[] = []
 
-    let lastEvaluatedKey: Record<string, any> | undefined = undefined
-    do {
-      const connections = (await ddb.send(
-        createScanCommand(position, lastEvaluatedKey),
-      )) as ScanCommandOutput
-      const items = connections.Items
-      if (items) {
-        await Promise.all(
-          items.map(async ({ connectionId, x, y, direction, isMoving }) => {
-            if (connectionId !== event.requestContext.connectionId) {
-              const character = { connectionId, x, y, direction, isMoving }
-              characters.push(character)
-            }
-          }),
-        )
-      }
+    async function retrieveObjects(scanFunction: any): Promise<void> {
+      let lastEvaluatedKey: Record<string, any> | undefined = undefined
+      do {
+        const connections = (await ddb.send(
+          scanFunction(position, lastEvaluatedKey),
+        )) as ScanCommandOutput
+        const items = connections.Items
+        if (items) {
+          await Promise.all(
+            items.map(async ({ connectionId, x, y, direction, isMoving }) => {
+              if (connectionId !== event.requestContext.connectionId) {
+                const character = { connectionId, x, y, direction, isMoving }
+                objects.push(character)
+              }
+            }),
+          )
+        }
 
-      lastEvaluatedKey = connections.LastEvaluatedKey
-    } while (lastEvaluatedKey)
+        lastEvaluatedKey = connections.LastEvaluatedKey
+      } while (lastEvaluatedKey)
+    }
+
+    await Promise.all([
+      retrieveObjects(createConnectionsScanCommand),
+      retrieveObjects(createObjectsScanCommand),
+    ])
 
     const postData = JSON.stringify({
-      type: MessageType.Characters,
+      type: MessageType.Objects,
       data: {
-        characters,
+        objects,
       },
     })
 
@@ -106,12 +114,27 @@ export async function handler(
   }
 }
 
+function createObjectsScanCommand(
+  position: { x: number; y: number },
+  exclusiveStartKey?: Record<string, any>,
+): ScanCommand {
+  return createScanCommand(OBJECTS_TABLE_NAME, position, exclusiveStartKey)
+}
+
+function createConnectionsScanCommand(
+  position: { x: number; y: number },
+  exclusiveStartKey?: Record<string, any>,
+): ScanCommand {
+  return createScanCommand(CONNECTIONS_TABLE_NAME, position, exclusiveStartKey)
+}
+
 function createScanCommand(
+  tableName: string,
   position: { x: number; y: number },
   exclusiveStartKey?: Record<string, any>,
 ): ScanCommand {
   const input: ScanCommandInput = {
-    TableName: TABLE_NAME,
+    TableName: tableName,
     ProjectionExpression: "connectionId, x, y, direction, isMoving",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message MoveFromServerData {
+  bool isMoving = 1;
+  uint32 direction = 2;
+  double x = 3;
+  double y = 4;
+  uint64 i = 5;
+  string connectionId = 6;
+}

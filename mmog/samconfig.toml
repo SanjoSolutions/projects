@@ -7,5 +7,5 @@ region = "eu-central-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 disable_rollback = false
-parameter_overrides = "TableName=\"mmog-connections\""
 image_repositories = []
+parameter_overrides = "ConnectionsTableName=\"mmog-connections\" ObjectsTableName=\"mmog-objects\""

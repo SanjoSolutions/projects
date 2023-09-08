@@ -24,7 +24,6 @@
   "dependencies": {
     "@pixi/display": "^7.2.4",
     "@pixi/tilemap": "pixijs/tilemap#123f8530c10bb1de790346d435ad65345ce8b2ae",
-    "@sanjo/mmog-shared": "^0.6.1",
     "lodash-es": "^4.17.21",
     "pixi.js": "^7.2.4"
   },

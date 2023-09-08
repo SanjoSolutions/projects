@@ -51,6 +51,8 @@
       <excludeFolder url="file://$MODULE_DIR$/din-5008-schreiben/functions/lib" />
       <excludeFolder url="file://$MODULE_DIR$/mmog/.aws-sam" />
       <excludeFolder url="file://$MODULE_DIR$/mmog/packages/client/public/build" />
+      <excludeFolder url="file://$MODULE_DIR$/mmog/packages/shared/build" />
+      <excludeFolder url="file://$MODULE_DIR$/mmog/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

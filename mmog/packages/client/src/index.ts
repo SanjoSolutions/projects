@@ -1,10 +1,3 @@
-import {
-  compressMoveData,
-  decompressMoveFromServerData,
-  Direction,
-  MessageType,
-  MoveData,
-} from "@sanjo/mmog-shared/communication.js"
 import { debounce, throttle } from "lodash-es"
 import {
   AnimatedSprite,
@@ -15,6 +8,14 @@ import {
   Spritesheet,
   Texture,
 } from "pixi.js"
+import {
+  compressMoveDataWithI,
+  decompressMoveFromServerData,
+  MessageType,
+  MoveData,
+} from "../../shared/communication.js"
+import { Direction } from "../../shared/Direction.js"
+import { ObjectType } from "../../shared/ObjectType.js"
 
 let i = 0
 
@@ -45,10 +46,14 @@ Assets.add(
   "walk",
   "assets/sprite/character/Body/Base/Human_male/Ivory/walk.json",
 )
-const { idle: idleSpritesheet, walk: walkSpritesheet } =
-  await Assets.load<Spritesheet>(["idle", "walk"])
+Assets.add("plants", "assets/sprites/plants.json")
+const {
+  idle: idleSpritesheet,
+  walk: walkSpritesheet,
+  plants: plantsSpritesheet,
+} = await Assets.load<Spritesheet>(["idle", "walk", "plants"])
 
-class Character {
+class Object {
   lastI: number | null = null
   _direction: Direction = Direction.Down
   private _isMoving: boolean = false
@@ -124,7 +129,13 @@ class Character {
     }
   }
 
-  private _determineTextures(): Texture<Resource>[] {
+  protected _determineTextures(): Texture<Resource>[] {
+    throw new Error("Please implement in a subclass.")
+  }
+}
+
+class Character extends Object {
+  protected _determineTextures(): Texture<Resource>[] {
     if (this.isMoving) {
       if (hasFlag(this.direction, Direction.Up)) {
         return walkSpritesheet.animations.up
@@ -153,11 +164,17 @@ class Character {
   }
 }
 
-const characters = new Map<string, Character>()
+class Plant extends Object {
+  protected _determineTextures(): Texture<Resource>[] {
+    return [plantsSpritesheet.textures.tomato_plant_3]
+  }
+}
+
+const objects = new Map<string, Object>()
 const character = new Character()
-const charactersContainer = new Container()
-charactersContainer.addChild(character.sprite)
-app.stage.addChild(charactersContainer)
+const objectsContainer = new Container()
+objectsContainer.addChild(character.sprite)
+app.stage.addChild(objectsContainer)
 updateViewport()
 
 const keyStates = new Map([
@@ -186,7 +203,7 @@ const sendMoveToServer = throttle(function sendMoveToServer(data: MoveData) {
     socket.send(
       JSON.stringify({
         type: MessageType.Move,
-        data: compressMoveData({
+        data: compressMoveDataWithI({
           ...data,
           i,
         }),
@@ -260,7 +277,7 @@ app.ticker.add((delta) => {
   const previousY = character.y
   character.updatePosition(delta)
   if (character.y !== previousY) {
-    updateCharacterRenderPosition(character)
+    updateObjectRenderPosition(character)
   }
   if (character.x !== previousX || character.y !== previousY) {
     updateViewport()
@@ -278,8 +295,8 @@ app.ticker.add((delta) => {
     })
   }
 
-  for (const character of characters.values()) {
-    character.updatePosition(delta)
+  for (const object of objects.values()) {
+    object.updatePosition(delta)
   }
 })
 
@@ -305,22 +322,22 @@ function updateViewport() {
 // }
 
 const socket = new WebSocket(
-  "wss://ggzdmf37h3.execute-api.eu-central-1.amazonaws.com/Prod",
+  "wss://556t8ryl95.execute-api.eu-central-1.amazonaws.com/Prod",
 )
 
-function updateCharacterRenderPosition(character: Character): void {
-  charactersContainer.removeChild(character.sprite)
+function updateObjectRenderPosition(object: Object): void {
+  objectsContainer.removeChild(object.sprite)
   let index = 0
   while (
-    index < charactersContainer.children.length &&
-    character.y > charactersContainer.getChildAt(index).y
+    index < objectsContainer.children.length &&
+    object.y > objectsContainer.getChildAt(index).y
   ) {
     index++
   }
-  if (index === charactersContainer.children.length) {
-    charactersContainer.addChild(character.sprite)
+  if (index === objectsContainer.children.length) {
+    objectsContainer.addChild(object.sprite)
   } else {
-    charactersContainer.addChildAt(character.sprite, index)
+    objectsContainer.addChildAt(object.sprite, index)
   }
 }
 
@@ -331,41 +348,59 @@ socket.onmessage = function (event) {
   if (type === MessageType.Move) {
     const moveData = decompressMoveFromServerData(data)
     console.log(type, moveData)
-    const character = retrieveCharacter(moveData.connectionId)
-    if (character.lastI === null || moveData.i > character.lastI) {
-      updateCharacter(character, moveData)
-      character.lastI = moveData.i
+    const object = retrieveOrCreateObject({
+      id: moveData.connectionId,
+      type: ObjectType.Character,
+    })
+    if (object.lastI === null || moveData.i > object.lastI) {
+      updateObject(object, moveData)
+      object.lastI = moveData.i
     }
-  } else if (type === MessageType.Characters) {
-    const { characters } = data
-    for (const characterData of characters) {
-      const character = retrieveCharacter(characterData.connectionId)
-      updateCharacter(character, characterData)
+  } else if (type === MessageType.Objects) {
+    const { objects } = data
+    for (const objectData of objects) {
+      const object = retrieveOrCreateObject({
+        id: objectData.id,
+        type: objectData.type || ObjectType.Character,
+      })
+      updateObject(object, objectData)
     }
   } else {
     console.log(body)
   }
 }
 
-function retrieveCharacter(connectionId: string): Character {
-  let character = characters.get(connectionId)
-  if (!character) {
-    character = new Character()
-    charactersContainer.addChild(character.sprite)
-    characters.set(connectionId, character)
+function retrieveOrCreateObject({
+  id,
+  type,
+}: {
+  id: string
+  type: ObjectType
+}): Object {
+  let object = objects.get(id)
+  if (!object) {
+    if (type === ObjectType.Character) {
+      object = new Character()
+    } else if (type === ObjectType.Plant) {
+      object = new Plant()
+    } else {
+      throw new Error("Other type?")
+    }
+    objectsContainer.addChild(object.sprite)
+    objects.set(id, object)
   }
-  return character
+  return object
 }
 
-function updateCharacter(character: Character, characterData: any): void {
-  character.x = characterData.x
-  const isDifferentYCoordinate = character.y !== characterData.y
-  character.y = characterData.y
+function updateObject(object: Object, objectData: any): void {
+  object.x = objectData.x
+  const isDifferentYCoordinate = object.y !== objectData.y
+  object.y = objectData.y
   if (isDifferentYCoordinate) {
-    updateCharacterRenderPosition(character)
+    updateObjectRenderPosition(object)
   }
-  character.direction = characterData.direction
-  character.isMoving = characterData.isMoving
+  object.direction = objectData.direction
+  object.isMoving = objectData.isMoving
 }
 
 socket.onopen = function () {
@@ -375,13 +410,13 @@ socket.onopen = function () {
     x: character.x,
     y: character.y,
   })
-  requestCharacters()
+  requestObjects()
 }
 
-function requestCharacters(): void {
+function requestObjects(): void {
   socket.send(
     JSON.stringify({
-      type: MessageType.RequestCharacters,
+      type: MessageType.RequestObjects,
     }),
   )
 }
