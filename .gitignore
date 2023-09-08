@@ -9,5 +9,8 @@ dist
 .history
 /packages/*/build/
 /packages/*/public/build/
+/mmog/packages/*/build/
 .DS_Store
 *.hot-update.*
+.aws-sam
+build

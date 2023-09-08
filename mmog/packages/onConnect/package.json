@@ -1,0 +1,15 @@
+{
+  "name": "@sanjo/mmog-on-connect",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "onconnect example for WebSockets on API Gateway",
+  "main": "src/app.js",
+  "author": "SAM CLI",
+  "license": "Unlicense",
+  "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.408.0",
+    "@aws-sdk/lib-dynamodb": "^3.408.0",
+    "@types/aws-lambda": "^8.10.119",
+    "esbuild": "^0.19.2"
+  }
+}

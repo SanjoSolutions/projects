@@ -1,0 +1,32 @@
+{
+  "name": "@sanjo/mmog-shared",
+  "version": "0.3.0",
+  "type": "module",
+  "description": "MMOG code that is shared between client and server.",
+  "scripts": {
+    "build": "tsc --project tsconfig-build.json"
+  },
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/mmog/packages/shared",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    },
+    "./*.js": {
+      "types": "./build/*.d.ts",
+      "default": "./build/*.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "mmog/packages/shared"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

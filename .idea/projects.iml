@@ -49,6 +49,8 @@
       <excludeFolder url="file://$MODULE_DIR$/automatic_application_for_flats/dist_production" />
       <excludeFolder url="file://$MODULE_DIR$/automatic_application_for_flats/dist_production_backup" />
       <excludeFolder url="file://$MODULE_DIR$/din-5008-schreiben/functions/lib" />
+      <excludeFolder url="file://$MODULE_DIR$/mmog/.aws-sam" />
+      <excludeFolder url="file://$MODULE_DIR$/mmog/packages/client/public/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

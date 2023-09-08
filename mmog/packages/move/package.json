@@ -1,0 +1,19 @@
+{
+  "name": "@sanjo/mmog-move",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "author": "SAM CLI",
+  "license": "Unlicense",
+  "dependencies": {
+    "@sanjo/mmog-shared": "^0.3.0"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-apigatewaymanagementapi": "^3.408.0",
+    "@aws-sdk/client-dynamodb": "^3.408.0",
+    "@aws-sdk/lib-dynamodb": "^3.408.0",
+    "@types/aws-lambda": "^8.10.119",
+    "esbuild": "^0.19.2"
+  }
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JsonSchemaMappingsProjectConfiguration">
+    <state>
+      <map>
+        <entry key="AWS SAM CLI Samconfig">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="AWS SAM CLI Samconfig" />
+              <option name="relativePathToSchema" value="https://raw.githubusercontent.com/aws/aws-sam-cli/master/schema/samcli.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="packages/mmog/src/aws/template.yaml" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+      </map>
+    </state>
+  </component>
+</project>
