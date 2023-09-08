@@ -3,7 +3,6 @@ import {
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
 import {
-  GetCommand,
   ScanCommand,
   ScanCommandInput,
   ScanCommandOutput,
@@ -14,8 +13,10 @@ import type {
 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { MessageType } from "../../shared/communication.js"
 import { ObjectType } from "../../shared/ObjectType.js"
+import { updatePosition } from "../../updatePosition.js"
 import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
 import { postToConnection } from "../postToConnection.js"
+import { retrieveConnection } from "../retrieveConnection.js"
 
 Error.stackTraceLimit = Infinity
 
@@ -43,15 +44,7 @@ const ddb = createDynamoDBDocumentClient()
 export async function handler(
   event: APIGatewayProxyWebsocketEventV2,
 ): Promise<APIGatewayProxyResultV2> {
-  const response = await ddb.send(
-    new GetCommand({
-      TableName: CONNECTIONS_TABLE_NAME,
-      Key: {
-        connectionId: event.requestContext.connectionId,
-      },
-      ProjectionExpression: "x, y",
-    }),
-  )
+  const response = await retrieveConnection(event.requestContext.connectionId)
 
   if (response.Item) {
     const position = { x: response.Item.x || 0, y: response.Item.y || 0 }
@@ -68,9 +61,17 @@ export async function handler(
         if (items) {
           await Promise.all(
             items.map(
-              async ({ connectionId, x, y, direction, isMoving, type }) => {
+              async ({
+                connectionId,
+                x,
+                y,
+                direction,
+                isMoving,
+                type,
+                whenHasChangedMoving,
+              }) => {
                 if (connectionId !== event.requestContext.connectionId) {
-                  const character = {
+                  const object = {
                     connectionId,
                     x,
                     y,
@@ -78,7 +79,10 @@ export async function handler(
                     isMoving,
                     type: type || ObjectType.Character,
                   }
-                  objects.push(character)
+                  if (isMoving) {
+                    updatePosition(object, Date.now() - whenHasChangedMoving)
+                  }
+                  objects.push(object)
                 }
               },
             ),
@@ -141,7 +145,8 @@ function createScanCommand(
 ): ScanCommand {
   const input: ScanCommandInput = {
     TableName: tableName,
-    ProjectionExpression: "connectionId, x, y, direction, isMoving, #type, id",
+    ProjectionExpression:
+      "connectionId, x, y, direction, isMoving, #type, id, whenHasChangedMoving",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {
       ":x1": position.x - HALF_WIDTH,

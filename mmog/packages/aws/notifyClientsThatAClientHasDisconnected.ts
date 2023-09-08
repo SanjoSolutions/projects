@@ -2,11 +2,12 @@ import {
   type ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import { GetCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb"
+import type { ScanCommandOutput } from "@aws-sdk/lib-dynamodb"
 import { MessageType } from "../shared/communication.js"
 import { createDynamoDBDocumentClient } from "./createDynamoDBDocumentClient.js"
 import { createScanCommand } from "./createScanCommand.js"
 import { postToConnection } from "./postToConnection.js"
+import { retrieveConnection } from "./retrieveConnection.js"
 
 export async function notifyClientsThatAClientHasDisconnected(
   apiGwManagementApi: ApiGatewayManagementApiClient,
@@ -20,15 +21,7 @@ export async function notifyClientsThatAClientHasDisconnected(
   })
 
   const ddb = createDynamoDBDocumentClient()
-  const response = await ddb.send(
-    new GetCommand({
-      TableName: process.env.CONNECTIONS_TABLE_NAME,
-      Key: {
-        connectionId: disconnectedClientConnectionId,
-      },
-      ProjectionExpression: "x, y",
-    }),
-  )
+  const response = await retrieveConnection(disconnectedClientConnectionId)
 
   if (response.Item) {
     const position = {

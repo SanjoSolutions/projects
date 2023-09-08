@@ -6,8 +6,6 @@ import { MoveFromServerData as MoveFromServerDataProto } from "./MoveFromServerD
 export interface MoveData {
   isMoving: boolean
   direction: Direction
-  x: number
-  y: number
 }
 
 export type MoveDataWithI = MoveData & { i: number }
@@ -47,9 +45,14 @@ export function decompressMoveDataWithI(
   return decompress(MoveDataWithIProto, data) as MoveDataWithI
 }
 
-export type MoveFromServerData = {
+export interface MoveFromServerData {
   connectionId: string
-} & MoveDataWithI
+  isMoving: boolean
+  direction: Direction
+  x: number
+  y: number
+  i: number
+}
 
 export type CompressedMoveFromServerData = string
 

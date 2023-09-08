@@ -4,6 +4,7 @@ import type {
   APIGatewayProxyWebsocketEventV2,
 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { randomUUID } from "node:crypto"
+import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
 
@@ -31,6 +32,11 @@ export async function handler(
         id: randomUUID(),
         connectionId: event.requestContext.connectionId,
         type: ObjectType.Character,
+        x: 0,
+        y: 0,
+        isMoving: false,
+        direction: Direction.Down,
+        whenHasChangedMoving: null,
       },
     }),
   )

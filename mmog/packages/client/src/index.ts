@@ -8,6 +8,7 @@ import {
   Spritesheet,
   Texture,
 } from "pixi.js"
+import { hasFlag } from "../../hasFlag.js"
 import {
   compressMoveDataWithI,
   decompressMoveFromServerData,
@@ -16,6 +17,7 @@ import {
 } from "../../shared/communication.js"
 import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
+import { updatePosition } from "../../updatePosition.js"
 
 let i = 0
 
@@ -103,20 +105,8 @@ class Object {
     this.sprite.animationSpeed = 0.115
   }
 
-  updatePosition(delta: number): void {
-    if (this.isMoving) {
-      if (hasFlag(this.direction, Direction.Left)) {
-        this.x -= delta
-      } else if (hasFlag(this.direction, Direction.Right)) {
-        this.x += delta
-      }
-
-      if (hasFlag(this.direction, Direction.Up)) {
-        this.y -= delta
-      } else if (hasFlag(this.direction, Direction.Down)) {
-        this.y += delta
-      }
-    }
+  updatePosition(elapsedTime: number): void {
+    updatePosition(this, elapsedTime)
   }
 
   private _updateTextures() {
@@ -275,7 +265,7 @@ app.ticker.add((delta) => {
   }
   const previousX = character.x
   const previousY = character.y
-  character.updatePosition(delta)
+  character.updatePosition(app.ticker.elapsedMS)
   if (character.y !== previousY) {
     updateObjectRenderPosition(character)
   }
@@ -289,20 +279,14 @@ app.ticker.add((delta) => {
   ) {
     sendMoveToServer({
       isMoving: character.isMoving,
-      x: character.x,
-      y: character.y,
       direction: character.direction,
     })
   }
 
   for (const object of objects.values()) {
-    object.updatePosition(delta)
+    object.updatePosition(app.ticker.elapsedMS)
   }
 })
-
-function hasFlag(flags: number, flag: number): boolean {
-  return (flags & flag) === flag
-}
 
 function updateViewport() {
   app.stage.x = 0.5 * app.view.width - character.x
@@ -414,8 +398,6 @@ socket.onopen = function () {
   sendMoveToServer({
     isMoving: false,
     direction: Direction.Down,
-    x: character.x,
-    y: character.y,
   })
   requestObjects()
 }
