@@ -25,7 +25,7 @@ declare global {
 
 const { CONNECTIONS_TABLE_NAME } = process.env
 
-const ddb = createDynamoDBDocumentClient()
+const database = createDynamoDBDocumentClient()
 
 export async function handler(
   event: APIGatewayProxyWebsocketEventV2,
@@ -40,7 +40,7 @@ export async function handler(
     event.requestContext.connectionId,
   )
 
-  await ddb.send(
+  await database.send(
     new DeleteCommand({
       TableName: CONNECTIONS_TABLE_NAME,
       Key: {
