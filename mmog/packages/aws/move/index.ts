@@ -93,8 +93,6 @@ export async function handler(
         movement,
       ),
     ])
-  } else {
-    console.log("!output.Item", output)
   }
 
   return { statusCode: 200 }
