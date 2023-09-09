@@ -4,7 +4,7 @@
   "type": "module",
   "description": "MMOG",
   "scripts": {
-    "build": "esbuild packages/aws/move/index.ts packages/aws/initializeWorld/index.ts packages/aws/move/index.ts packages/aws/onConnect/index.ts packages/aws/onDisconnect/index.ts packages/aws/requestObjects/index.ts --bundle --platform=node --target=node18 --outdir=build/ --sourcemap --minify --external:@aws-sdk/client-apigatewaymanagementapi,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb",
+    "build": "yarn build:proto && esbuild packages/aws/move/index.ts packages/aws/initializeWorld/index.ts packages/aws/move/index.ts packages/aws/onConnect/index.ts packages/aws/onDisconnect/index.ts packages/aws/requestObjects/index.ts --bundle --platform=node --target=node18 --outdir=build/ --sourcemap --minify --external:@aws-sdk/client-apigatewaymanagementapi,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb",
     "build:proto": "protoc --ts_out=. packages/shared/*.proto",
     "build:test": "esbuild packages/shared/test.ts --bundle --platform=node --target=node18 --outfile=build/test.cjs --sourcemap",
     "build:test2": "esbuild packages/shared/test2.ts --bundle --platform=node --target=node18 --outfile=build/test2.cjs --sourcemap",

@@ -60,6 +60,9 @@ class Object {
   _direction: Direction = Direction.Down
   private _isMoving: boolean = false
   sprite: AnimatedSprite = new AnimatedSprite([idleSpritesheet.textures.down])
+  baseX: number | null = null
+  baseY: number | null = null
+  whenHasChangedMoving: number | null = null
 
   get direction(): Direction {
     return this._direction
@@ -89,6 +92,9 @@ class Object {
   }
 
   set x(x: number) {
+    if (this === character) {
+      console.log(x, new Error().stack)
+    }
     this.sprite.x = x
   }
 
@@ -105,8 +111,22 @@ class Object {
     this.sprite.animationSpeed = 0.115
   }
 
-  updatePosition(elapsedTime: number): void {
-    updatePosition(this, elapsedTime)
+  updatePosition(): void {
+    if (
+      this.whenHasChangedMoving &&
+      typeof this.baseX === "number" &&
+      typeof this.baseY === "number"
+    ) {
+      const movable = {
+        x: this.baseX,
+        y: this.baseY,
+        isMoving: this.isMoving,
+        direction: this.direction,
+      }
+      updatePosition(movable, Date.now() - this.whenHasChangedMoving)
+      this.x = movable.x
+      this.y = movable.y
+    }
   }
 
   private _updateTextures() {
@@ -250,9 +270,7 @@ function convertKeysDownToIsMoving(keysDown: KeysDown): boolean {
   return left || right || up || down
 }
 
-let characterWhenStartedMoving: any = null
-
-app.ticker.add((delta) => {
+app.ticker.add(() => {
   const left = keyStates.get("KeyA")!
   const right = keyStates.get("KeyD")!
   const up = keyStates.get("KeyW")!
@@ -260,32 +278,23 @@ app.ticker.add((delta) => {
 
   const wasMoving = character.isMoving
   const previousDirection = character.direction
+  const previousX = character.x
+  const previousY = character.y
 
-  character.isMoving = convertKeysDownToIsMoving({ left, right, up, down })
+  let isMoving = convertKeysDownToIsMoving({ left, right, up, down })
+  if (isMoving !== wasMoving || character.direction !== previousDirection) {
+    character.updatePosition()
+    character.whenHasChangedMoving = Date.now()
+    character.baseX = character.x
+    character.baseY = character.y
+  }
+  character.isMoving = isMoving
   if (character.isMoving) {
     character.direction = convertKeysDownToDirection({ left, right, up, down })
   }
-  const previousX = character.x
-  const previousY = character.y
-  if (
-    character.isMoving !== wasMoving ||
-    character.direction !== previousDirection
-  ) {
-    characterWhenStartedMoving = {
-      isMoving: character.isMoving,
-      direction: character.direction,
-      x: character.x,
-      y: character.y,
-      whenCharacterHasStartedMoving: Date.now(),
-    }
-  }
+
   if (character.isMoving) {
-    character.x = characterWhenStartedMoving.x
-    character.y = characterWhenStartedMoving.y
-    updatePosition(
-      character,
-      Date.now() - characterWhenStartedMoving.whenCharacterHasStartedMoving,
-    )
+    character.updatePosition()
     if (character.y !== previousY) {
       updateObjectRenderPosition(character)
     }
@@ -305,7 +314,7 @@ app.ticker.add((delta) => {
   }
 
   for (const object of objects.values()) {
-    object.updatePosition(app.ticker.elapsedMS)
+    object.updatePosition()
   }
 })
 
@@ -327,7 +336,7 @@ function updateViewport() {
 // }
 
 const socket = new WebSocket(
-  "wss://556t8ryl95.execute-api.eu-central-1.amazonaws.com/Prod",
+  "wss://w965op18e6.execute-api.eu-central-1.amazonaws.com/Prod",
 )
 
 function updateObjectRenderPosition(object: Object): void {
@@ -347,7 +356,6 @@ function updateObjectRenderPosition(object: Object): void {
 }
 
 socket.onmessage = function (event) {
-  console.log("onmessage", event.data)
   const body = JSON.parse(event.data)
   const { type, data } = body
   if (type === MessageType.Move) {
@@ -413,14 +421,21 @@ function retrieveOrCreateObject({
 }
 
 function updateObject(object: Object, objectData: any): void {
+  object.whenHasChangedMoving = objectData.whenHasChangedMoving
+  object.baseX = objectData.x
+  object.baseY = objectData.y
+  object.direction = objectData.direction
+  object.isMoving = objectData.isMoving
   object.x = objectData.x
-  const isDifferentYCoordinate = object.y !== objectData.y
+  const previousY = object.y
   object.y = objectData.y
+  if (object.whenHasChangedMoving) {
+    object.updatePosition()
+  }
+  const isDifferentYCoordinate = object.y !== previousY
   if (isDifferentYCoordinate) {
     updateObjectRenderPosition(object)
   }
-  object.direction = objectData.direction
-  object.isMoving = objectData.isMoving
 }
 
 socket.onopen = function () {

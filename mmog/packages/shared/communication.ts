@@ -53,6 +53,7 @@ export interface MoveFromServerData {
   y: number
   i: number
   isCharacterOfClient?: boolean
+  whenHasChangedMoving: number
 }
 
 export type CompressedMoveFromServerData = string

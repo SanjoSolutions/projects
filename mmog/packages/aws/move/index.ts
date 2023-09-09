@@ -92,6 +92,7 @@ export async function handler(
 
   const isMoving = Boolean(moveData.isMoving)
   const direction = Number(moveData.direction) as Direction
+  const whenHasChangedMoving = event.requestContext.requestTimeEpoch
 
   await ddb.send(
     new UpdateCommand({
@@ -104,7 +105,7 @@ export async function handler(
         ":y": y,
         ":direction": direction,
         ":isMoving": isMoving,
-        ":whenHasChangedMoving": event.requestContext.requestTimeEpoch,
+        ":whenHasChangedMoving": whenHasChangedMoving,
       },
     }),
   )
@@ -118,6 +119,7 @@ export async function handler(
       x,
       y,
       direction,
+      whenHasChangedMoving,
     }),
   })
 
@@ -141,6 +143,7 @@ export async function handler(
                 x,
                 y,
                 direction,
+                whenHasChangedMoving,
                 isCharacterOfClient: true,
               }),
             })

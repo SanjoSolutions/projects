@@ -8,4 +8,5 @@ message MoveFromServerData {
   uint64 i = 5;
   string connectionId = 6;
   bool isCharacterOfClient = 7;
+  uint64 whenHasChangedMoving = 8;
 }
