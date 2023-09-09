@@ -2,7 +2,7 @@
 
 ## Note on licensing
 
-Some assets (graphics) are licensed under a different license than the license in the file LICENSE.
+Some assets (graphics) are licensed under a different license than the license in the file "LICENSE".
 See `public/credits.html`.
 
 ## How to deploy
