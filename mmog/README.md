@@ -16,3 +16,10 @@ Requires:
 sam build
 sam deploy --guided
 ```
+
+## How to run the client
+
+```sh
+cd packages/client
+yarn development
+```
