@@ -19,6 +19,7 @@ import { decompressMoveFromServerData } from "../../shared/communication/message
 import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { updatePosition } from "../../updatePosition.js"
+import { createUniversalSpritesheet } from "./createUniversalSpritesheet.js"
 
 let i = 1
 
@@ -60,503 +61,9 @@ const {
   plants: Spritesheet
 } = (await Assets.load(["body", "head", "hair", "plants"])) as any
 
-const frames = {
-  walk_up_0: {
-    frame: { x: 0, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_1: {
-    frame: { x: 64, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_2: {
-    frame: { x: 128, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_3: {
-    frame: { x: 192, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_4: {
-    frame: { x: 256, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_5: {
-    frame: { x: 320, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_6: {
-    frame: { x: 384, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_7: {
-    frame: { x: 448, y: 8 * 64, w: 64, h: 64 },
-  },
-  walk_up_8: {
-    frame: { x: 512, y: 8 * 64, w: 64, h: 64 },
-  },
-
-  walk_left_0: {
-    frame: { x: 0, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_1: {
-    frame: { x: 64, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_2: {
-    frame: { x: 128, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_3: {
-    frame: { x: 192, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_4: {
-    frame: { x: 256, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_5: {
-    frame: { x: 320, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_6: {
-    frame: { x: 384, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_7: {
-    frame: { x: 448, y: 9 * 64, w: 64, h: 64 },
-  },
-  walk_left_8: {
-    frame: { x: 512, y: 9 * 64, w: 64, h: 64 },
-  },
-
-  walk_down_0: {
-    frame: { x: 0, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_1: {
-    frame: { x: 64, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_2: {
-    frame: { x: 128, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_3: {
-    frame: { x: 192, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_4: {
-    frame: { x: 256, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_5: {
-    frame: { x: 320, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_6: {
-    frame: { x: 384, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_7: {
-    frame: { x: 448, y: 10 * 64, w: 64, h: 64 },
-  },
-  walk_down_8: {
-    frame: { x: 512, y: 10 * 64, w: 64, h: 64 },
-  },
-
-  walk_right_0: {
-    frame: { x: 0, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_1: {
-    frame: { x: 64, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_2: {
-    frame: { x: 128, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_3: {
-    frame: { x: 192, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_4: {
-    frame: { x: 256, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_5: {
-    frame: { x: 320, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_6: {
-    frame: { x: 384, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_7: {
-    frame: { x: 448, y: 11 * 64, w: 64, h: 64 },
-  },
-  walk_right_8: {
-    frame: { x: 512, y: 11 * 64, w: 64, h: 64 },
-  },
-}
-const animations = {
-  up: [
-    "walk_up_0",
-    "walk_up_1",
-    "walk_up_2",
-    "walk_up_3",
-    "walk_up_4",
-    "walk_up_5",
-    "walk_up_6",
-    "walk_up_7",
-    "walk_up_8",
-  ],
-  left: [
-    "walk_left_0",
-    "walk_left_1",
-    "walk_left_2",
-    "walk_left_3",
-    "walk_left_4",
-    "walk_left_5",
-    "walk_left_6",
-    "walk_left_7",
-    "walk_left_8",
-  ],
-  down: [
-    "walk_down_0",
-    "walk_down_1",
-    "walk_down_2",
-    "walk_down_3",
-    "walk_down_4",
-    "walk_down_5",
-    "walk_down_6",
-    "walk_down_7",
-    "walk_down_8",
-  ],
-  right: [
-    "walk_right_0",
-    "walk_right_1",
-    "walk_right_2",
-    "walk_right_3",
-    "walk_right_4",
-    "walk_right_5",
-    "walk_right_6",
-    "walk_right_7",
-    "walk_right_8",
-  ],
-}
-
-const data = { meta: { scale: "1" }, frames, animations }
-const bodySpritesheet = new Spritesheet(body, data)
-await bodySpritesheet.parse()
-
-let headSpritesheet: Spritesheet
-{
-  const frames = {
-    walk_up_0: {
-      frame: { x: 0, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_1: {
-      frame: { x: 64, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_2: {
-      frame: { x: 128, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_3: {
-      frame: { x: 192, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_4: {
-      frame: { x: 256, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_5: {
-      frame: { x: 320, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_6: {
-      frame: { x: 384, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_7: {
-      frame: { x: 448, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_8: {
-      frame: { x: 512, y: 8 * 64, w: 64, h: 64 },
-    },
-
-    walk_left_0: {
-      frame: { x: 0, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_1: {
-      frame: { x: 64, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_2: {
-      frame: { x: 128, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_3: {
-      frame: { x: 192, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_4: {
-      frame: { x: 256, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_5: {
-      frame: { x: 320, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_6: {
-      frame: { x: 384, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_7: {
-      frame: { x: 448, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_8: {
-      frame: { x: 512, y: 9 * 64, w: 64, h: 64 },
-    },
-
-    walk_down_0: {
-      frame: { x: 0, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_1: {
-      frame: { x: 64, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_2: {
-      frame: { x: 128, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_3: {
-      frame: { x: 192, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_4: {
-      frame: { x: 256, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_5: {
-      frame: { x: 320, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_6: {
-      frame: { x: 384, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_7: {
-      frame: { x: 448, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_8: {
-      frame: { x: 512, y: 10 * 64, w: 64, h: 64 },
-    },
-
-    walk_right_0: {
-      frame: { x: 0, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_1: {
-      frame: { x: 64, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_2: {
-      frame: { x: 128, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_3: {
-      frame: { x: 192, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_4: {
-      frame: { x: 256, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_5: {
-      frame: { x: 320, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_6: {
-      frame: { x: 384, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_7: {
-      frame: { x: 448, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_8: {
-      frame: { x: 512, y: 11 * 64, w: 64, h: 64 },
-    },
-  }
-  const animations = {
-    up: [
-      "walk_up_0",
-      "walk_up_1",
-      "walk_up_2",
-      "walk_up_3",
-      "walk_up_4",
-      "walk_up_5",
-      "walk_up_6",
-      "walk_up_7",
-      "walk_up_8",
-    ],
-    left: [
-      "walk_left_0",
-      "walk_left_1",
-      "walk_left_2",
-      "walk_left_3",
-      "walk_left_4",
-      "walk_left_5",
-      "walk_left_6",
-      "walk_left_7",
-      "walk_left_8",
-    ],
-    down: [
-      "walk_down_0",
-      "walk_down_1",
-      "walk_down_2",
-      "walk_down_3",
-      "walk_down_4",
-      "walk_down_5",
-      "walk_down_6",
-      "walk_down_7",
-      "walk_down_8",
-    ],
-    right: [
-      "walk_right_0",
-      "walk_right_1",
-      "walk_right_2",
-      "walk_right_3",
-      "walk_right_4",
-      "walk_right_5",
-      "walk_right_6",
-      "walk_right_7",
-      "walk_right_8",
-    ],
-  }
-
-  const data = { meta: { scale: "1" }, frames, animations }
-  headSpritesheet = new Spritesheet(head, data)
-  await headSpritesheet.parse()
-}
-
-let hairSpritesheet: Spritesheet
-{
-  const frames = {
-    walk_up_0: {
-      frame: { x: 0, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_1: {
-      frame: { x: 64, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_2: {
-      frame: { x: 128, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_3: {
-      frame: { x: 192, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_4: {
-      frame: { x: 256, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_5: {
-      frame: { x: 320, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_6: {
-      frame: { x: 384, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_7: {
-      frame: { x: 448, y: 8 * 64, w: 64, h: 64 },
-    },
-    walk_up_8: {
-      frame: { x: 512, y: 8 * 64, w: 64, h: 64 },
-    },
-
-    walk_left_0: {
-      frame: { x: 0, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_1: {
-      frame: { x: 64, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_2: {
-      frame: { x: 128, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_3: {
-      frame: { x: 192, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_4: {
-      frame: { x: 256, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_5: {
-      frame: { x: 320, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_6: {
-      frame: { x: 384, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_7: {
-      frame: { x: 448, y: 9 * 64, w: 64, h: 64 },
-    },
-    walk_left_8: {
-      frame: { x: 512, y: 9 * 64, w: 64, h: 64 },
-    },
-
-    walk_down_0: {
-      frame: { x: 0, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_1: {
-      frame: { x: 64, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_2: {
-      frame: { x: 128, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_3: {
-      frame: { x: 192, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_4: {
-      frame: { x: 256, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_5: {
-      frame: { x: 320, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_6: {
-      frame: { x: 384, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_7: {
-      frame: { x: 448, y: 10 * 64, w: 64, h: 64 },
-    },
-    walk_down_8: {
-      frame: { x: 512, y: 10 * 64, w: 64, h: 64 },
-    },
-
-    walk_right_0: {
-      frame: { x: 0, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_1: {
-      frame: { x: 64, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_2: {
-      frame: { x: 128, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_3: {
-      frame: { x: 192, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_4: {
-      frame: { x: 256, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_5: {
-      frame: { x: 320, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_6: {
-      frame: { x: 384, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_7: {
-      frame: { x: 448, y: 11 * 64, w: 64, h: 64 },
-    },
-    walk_right_8: {
-      frame: { x: 512, y: 11 * 64, w: 64, h: 64 },
-    },
-  }
-  const animations = {
-    up: [
-      "walk_up_0",
-      "walk_up_1",
-      "walk_up_2",
-      "walk_up_3",
-      "walk_up_4",
-      "walk_up_5",
-      "walk_up_6",
-      "walk_up_7",
-      "walk_up_8",
-    ],
-    left: [
-      "walk_left_0",
-      "walk_left_1",
-      "walk_left_2",
-      "walk_left_3",
-      "walk_left_4",
-      "walk_left_5",
-      "walk_left_6",
-      "walk_left_7",
-      "walk_left_8",
-    ],
-    down: [
-      "walk_down_0",
-      "walk_down_1",
-      "walk_down_2",
-      "walk_down_3",
-      "walk_down_4",
-      "walk_down_5",
-      "walk_down_6",
-      "walk_down_7",
-      "walk_down_8",
-    ],
-    right: [
-      "walk_right_0",
-      "walk_right_1",
-      "walk_right_2",
-      "walk_right_3",
-      "walk_right_4",
-      "walk_right_5",
-      "walk_right_6",
-      "walk_right_7",
-      "walk_right_8",
-    ],
-  }
-
-  const data = { meta: { scale: "1" }, frames, animations }
-  hairSpritesheet = new Spritesheet(hair, data)
-  await hairSpritesheet.parse()
-}
+const bodySpritesheet = await createUniversalSpritesheet(body)
+const headSpritesheet = await createUniversalSpritesheet(head)
+const hairSpritesheet = await createUniversalSpritesheet(hair)
 
 abstract class Object {
   lastI: number | null = null
@@ -645,53 +152,41 @@ abstract class Object {
   }
 }
 
+function createAnimatedSprite(textures: Texture<Resource>[]): AnimatedSprite {
+  const animatedSprite = new AnimatedSprite(textures)
+  animatedSprite.animationSpeed = 0.115
+  return animatedSprite
+}
+
 class Character extends Object {
   constructor() {
     super()
-    const bodyAnimatedSprite = new AnimatedSprite(
-      bodySpritesheet.animations.down,
-    )
-    bodyAnimatedSprite.animationSpeed = 0.115
-    this.sprite.addChild(bodyAnimatedSprite)
 
-    const headAnimatedSprite = new AnimatedSprite(
-      headSpritesheet.animations.down,
-    )
-    headAnimatedSprite.animationSpeed = 0.115
-    this.sprite.addChild(headAnimatedSprite)
+    this._determineBodyTextures = this._determineBodyTextures.bind(this)
+    this._determineHeadTextures = this._determineHeadTextures.bind(this)
+    this._determineHairTextures = this._determineHairTextures.bind(this)
 
-    const hairAnimatedSprite = new AnimatedSprite(
-      hairSpritesheet.animations.down,
-    )
-    hairAnimatedSprite.animationSpeed = 0.115
-    this.sprite.addChild(hairAnimatedSprite)
+    this.sprite.addChild(createAnimatedSprite(bodySpritesheet.animations.down))
+    this.sprite.addChild(createAnimatedSprite(headSpritesheet.animations.down))
+    this.sprite.addChild(createAnimatedSprite(hairSpritesheet.animations.down))
   }
 
   protected _updateTextures() {
-    const bodyTextures = this._determineBodyTextures()
-    const bodyAnimatedSprite = this.sprite.children[0] as AnimatedSprite
-    if (bodyAnimatedSprite.textures !== bodyTextures) {
-      bodyAnimatedSprite.textures = bodyTextures
-      if (this.isMoving) {
-        bodyAnimatedSprite.play()
-      }
-    }
+    this._updateTexture(0, this._determineBodyTextures)
+    this._updateTexture(1, this._determineHeadTextures)
+    this._updateTexture(2, this._determineHairTextures)
+  }
 
-    const headTextures = this._determineHeadTextures()
-    const headAnimatedSprite = this.sprite.children[1] as AnimatedSprite
-    if (headAnimatedSprite.textures !== headTextures) {
-      headAnimatedSprite.textures = headTextures
+  private _updateTexture(
+    index: number,
+    determineTexture: () => Texture<Resource>[],
+  ): void {
+    const textures = determineTexture()
+    const animatedSprite = this.sprite.children[index] as AnimatedSprite
+    if (animatedSprite.textures !== textures) {
+      animatedSprite.textures = textures
       if (this.isMoving) {
-        headAnimatedSprite.play()
-      }
-    }
-
-    const hairTextures = this._determineHairTextures()
-    const hairAnimatedSprite = this.sprite.children[2] as AnimatedSprite
-    if (hairAnimatedSprite.textures !== hairTextures) {
-      hairAnimatedSprite.textures = hairTextures
-      if (this.isMoving) {
-        hairAnimatedSprite.play()
+        animatedSprite.play()
       }
     }
   }
@@ -705,44 +200,28 @@ class Character extends Object {
   }
 
   private _determineBodyTextures(): Texture<Resource>[] {
-    if (hasFlag(this.direction, Direction.Up)) {
-      return bodySpritesheet.animations.up
-    } else if (hasFlag(this.direction, Direction.Down)) {
-      return bodySpritesheet.animations.down
-    } else if (hasFlag(this.direction, Direction.Left)) {
-      return bodySpritesheet.animations.left
-    } else if (hasFlag(this.direction, Direction.Right)) {
-      return bodySpritesheet.animations.right
-    } else {
-      return bodySpritesheet.animations.down
-    }
+    return this._determineTexture(bodySpritesheet)
   }
 
   private _determineHeadTextures(): Texture<Resource>[] {
-    if (hasFlag(this.direction, Direction.Up)) {
-      return headSpritesheet.animations.up
-    } else if (hasFlag(this.direction, Direction.Down)) {
-      return headSpritesheet.animations.down
-    } else if (hasFlag(this.direction, Direction.Left)) {
-      return headSpritesheet.animations.left
-    } else if (hasFlag(this.direction, Direction.Right)) {
-      return headSpritesheet.animations.right
-    } else {
-      return headSpritesheet.animations.down
-    }
+    return this._determineTexture(headSpritesheet)
   }
 
   private _determineHairTextures(): Texture<Resource>[] {
+    return this._determineTexture(hairSpritesheet)
+  }
+
+  private _determineTexture(spritesheet: Spritesheet): Texture<Resource>[] {
     if (hasFlag(this.direction, Direction.Up)) {
-      return hairSpritesheet.animations.up
+      return spritesheet.animations.up
     } else if (hasFlag(this.direction, Direction.Down)) {
-      return hairSpritesheet.animations.down
+      return spritesheet.animations.down
     } else if (hasFlag(this.direction, Direction.Left)) {
-      return hairSpritesheet.animations.left
+      return spritesheet.animations.left
     } else if (hasFlag(this.direction, Direction.Right)) {
-      return hairSpritesheet.animations.right
+      return spritesheet.animations.right
     } else {
-      return hairSpritesheet.animations.down
+      return spritesheet.animations.down
     }
   }
 }
