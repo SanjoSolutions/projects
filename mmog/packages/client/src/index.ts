@@ -5,6 +5,7 @@ import {
   Assets,
   Container,
   Resource,
+  Sprite,
   Spritesheet,
   Texture,
 } from "pixi.js"
@@ -40,26 +41,528 @@ const app = new Application({
 })
 document.body.appendChild(app.view as any)
 
+Assets.add("body", "assets/spritesheets/body/bodies/male/universal/light.png")
 Assets.add(
-  "idle",
-  "assets/sprite/character/Body/Base/Human_male/Ivory/idle.json",
+  "head",
+  "assets/spritesheets/head/heads/human_male/universal/light.png",
 )
-Assets.add(
-  "walk",
-  "assets/sprite/character/Body/Base/Human_male/Ivory/walk.json",
-)
+Assets.add("hair", "assets/spritesheets/hair/afro/male/black.png")
 Assets.add("plants", "assets/sprites/plants.json")
 const {
-  idle: idleSpritesheet,
-  walk: walkSpritesheet,
+  body,
+  head,
+  hair,
   plants: plantsSpritesheet,
-} = await Assets.load<Spritesheet>(["idle", "walk", "plants"])
+}: {
+  body: Texture<Resource>
+  head: Texture<Resource>
+  hair: Texture<Resource>
+  plants: Spritesheet
+} = (await Assets.load(["body", "head", "hair", "plants"])) as any
 
-class Object {
+const frames = {
+  walk_up_0: {
+    frame: { x: 0, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_1: {
+    frame: { x: 64, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_2: {
+    frame: { x: 128, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_3: {
+    frame: { x: 192, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_4: {
+    frame: { x: 256, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_5: {
+    frame: { x: 320, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_6: {
+    frame: { x: 384, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_7: {
+    frame: { x: 448, y: 8 * 64, w: 64, h: 64 },
+  },
+  walk_up_8: {
+    frame: { x: 512, y: 8 * 64, w: 64, h: 64 },
+  },
+
+  walk_left_0: {
+    frame: { x: 0, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_1: {
+    frame: { x: 64, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_2: {
+    frame: { x: 128, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_3: {
+    frame: { x: 192, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_4: {
+    frame: { x: 256, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_5: {
+    frame: { x: 320, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_6: {
+    frame: { x: 384, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_7: {
+    frame: { x: 448, y: 9 * 64, w: 64, h: 64 },
+  },
+  walk_left_8: {
+    frame: { x: 512, y: 9 * 64, w: 64, h: 64 },
+  },
+
+  walk_down_0: {
+    frame: { x: 0, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_1: {
+    frame: { x: 64, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_2: {
+    frame: { x: 128, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_3: {
+    frame: { x: 192, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_4: {
+    frame: { x: 256, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_5: {
+    frame: { x: 320, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_6: {
+    frame: { x: 384, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_7: {
+    frame: { x: 448, y: 10 * 64, w: 64, h: 64 },
+  },
+  walk_down_8: {
+    frame: { x: 512, y: 10 * 64, w: 64, h: 64 },
+  },
+
+  walk_right_0: {
+    frame: { x: 0, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_1: {
+    frame: { x: 64, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_2: {
+    frame: { x: 128, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_3: {
+    frame: { x: 192, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_4: {
+    frame: { x: 256, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_5: {
+    frame: { x: 320, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_6: {
+    frame: { x: 384, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_7: {
+    frame: { x: 448, y: 11 * 64, w: 64, h: 64 },
+  },
+  walk_right_8: {
+    frame: { x: 512, y: 11 * 64, w: 64, h: 64 },
+  },
+}
+const animations = {
+  up: [
+    "walk_up_0",
+    "walk_up_1",
+    "walk_up_2",
+    "walk_up_3",
+    "walk_up_4",
+    "walk_up_5",
+    "walk_up_6",
+    "walk_up_7",
+    "walk_up_8",
+  ],
+  left: [
+    "walk_left_0",
+    "walk_left_1",
+    "walk_left_2",
+    "walk_left_3",
+    "walk_left_4",
+    "walk_left_5",
+    "walk_left_6",
+    "walk_left_7",
+    "walk_left_8",
+  ],
+  down: [
+    "walk_down_0",
+    "walk_down_1",
+    "walk_down_2",
+    "walk_down_3",
+    "walk_down_4",
+    "walk_down_5",
+    "walk_down_6",
+    "walk_down_7",
+    "walk_down_8",
+  ],
+  right: [
+    "walk_right_0",
+    "walk_right_1",
+    "walk_right_2",
+    "walk_right_3",
+    "walk_right_4",
+    "walk_right_5",
+    "walk_right_6",
+    "walk_right_7",
+    "walk_right_8",
+  ],
+}
+
+const data = { meta: { scale: "1" }, frames, animations }
+const bodySpritesheet = new Spritesheet(body, data)
+await bodySpritesheet.parse()
+
+let headSpritesheet: Spritesheet
+{
+  const frames = {
+    walk_up_0: {
+      frame: { x: 0, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_1: {
+      frame: { x: 64, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_2: {
+      frame: { x: 128, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_3: {
+      frame: { x: 192, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_4: {
+      frame: { x: 256, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_5: {
+      frame: { x: 320, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_6: {
+      frame: { x: 384, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_7: {
+      frame: { x: 448, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_8: {
+      frame: { x: 512, y: 8 * 64, w: 64, h: 64 },
+    },
+
+    walk_left_0: {
+      frame: { x: 0, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_1: {
+      frame: { x: 64, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_2: {
+      frame: { x: 128, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_3: {
+      frame: { x: 192, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_4: {
+      frame: { x: 256, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_5: {
+      frame: { x: 320, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_6: {
+      frame: { x: 384, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_7: {
+      frame: { x: 448, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_8: {
+      frame: { x: 512, y: 9 * 64, w: 64, h: 64 },
+    },
+
+    walk_down_0: {
+      frame: { x: 0, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_1: {
+      frame: { x: 64, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_2: {
+      frame: { x: 128, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_3: {
+      frame: { x: 192, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_4: {
+      frame: { x: 256, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_5: {
+      frame: { x: 320, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_6: {
+      frame: { x: 384, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_7: {
+      frame: { x: 448, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_8: {
+      frame: { x: 512, y: 10 * 64, w: 64, h: 64 },
+    },
+
+    walk_right_0: {
+      frame: { x: 0, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_1: {
+      frame: { x: 64, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_2: {
+      frame: { x: 128, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_3: {
+      frame: { x: 192, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_4: {
+      frame: { x: 256, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_5: {
+      frame: { x: 320, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_6: {
+      frame: { x: 384, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_7: {
+      frame: { x: 448, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_8: {
+      frame: { x: 512, y: 11 * 64, w: 64, h: 64 },
+    },
+  }
+  const animations = {
+    up: [
+      "walk_up_0",
+      "walk_up_1",
+      "walk_up_2",
+      "walk_up_3",
+      "walk_up_4",
+      "walk_up_5",
+      "walk_up_6",
+      "walk_up_7",
+      "walk_up_8",
+    ],
+    left: [
+      "walk_left_0",
+      "walk_left_1",
+      "walk_left_2",
+      "walk_left_3",
+      "walk_left_4",
+      "walk_left_5",
+      "walk_left_6",
+      "walk_left_7",
+      "walk_left_8",
+    ],
+    down: [
+      "walk_down_0",
+      "walk_down_1",
+      "walk_down_2",
+      "walk_down_3",
+      "walk_down_4",
+      "walk_down_5",
+      "walk_down_6",
+      "walk_down_7",
+      "walk_down_8",
+    ],
+    right: [
+      "walk_right_0",
+      "walk_right_1",
+      "walk_right_2",
+      "walk_right_3",
+      "walk_right_4",
+      "walk_right_5",
+      "walk_right_6",
+      "walk_right_7",
+      "walk_right_8",
+    ],
+  }
+
+  const data = { meta: { scale: "1" }, frames, animations }
+  headSpritesheet = new Spritesheet(head, data)
+  await headSpritesheet.parse()
+}
+
+let hairSpritesheet: Spritesheet
+{
+  const frames = {
+    walk_up_0: {
+      frame: { x: 0, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_1: {
+      frame: { x: 64, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_2: {
+      frame: { x: 128, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_3: {
+      frame: { x: 192, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_4: {
+      frame: { x: 256, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_5: {
+      frame: { x: 320, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_6: {
+      frame: { x: 384, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_7: {
+      frame: { x: 448, y: 8 * 64, w: 64, h: 64 },
+    },
+    walk_up_8: {
+      frame: { x: 512, y: 8 * 64, w: 64, h: 64 },
+    },
+
+    walk_left_0: {
+      frame: { x: 0, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_1: {
+      frame: { x: 64, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_2: {
+      frame: { x: 128, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_3: {
+      frame: { x: 192, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_4: {
+      frame: { x: 256, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_5: {
+      frame: { x: 320, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_6: {
+      frame: { x: 384, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_7: {
+      frame: { x: 448, y: 9 * 64, w: 64, h: 64 },
+    },
+    walk_left_8: {
+      frame: { x: 512, y: 9 * 64, w: 64, h: 64 },
+    },
+
+    walk_down_0: {
+      frame: { x: 0, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_1: {
+      frame: { x: 64, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_2: {
+      frame: { x: 128, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_3: {
+      frame: { x: 192, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_4: {
+      frame: { x: 256, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_5: {
+      frame: { x: 320, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_6: {
+      frame: { x: 384, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_7: {
+      frame: { x: 448, y: 10 * 64, w: 64, h: 64 },
+    },
+    walk_down_8: {
+      frame: { x: 512, y: 10 * 64, w: 64, h: 64 },
+    },
+
+    walk_right_0: {
+      frame: { x: 0, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_1: {
+      frame: { x: 64, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_2: {
+      frame: { x: 128, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_3: {
+      frame: { x: 192, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_4: {
+      frame: { x: 256, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_5: {
+      frame: { x: 320, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_6: {
+      frame: { x: 384, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_7: {
+      frame: { x: 448, y: 11 * 64, w: 64, h: 64 },
+    },
+    walk_right_8: {
+      frame: { x: 512, y: 11 * 64, w: 64, h: 64 },
+    },
+  }
+  const animations = {
+    up: [
+      "walk_up_0",
+      "walk_up_1",
+      "walk_up_2",
+      "walk_up_3",
+      "walk_up_4",
+      "walk_up_5",
+      "walk_up_6",
+      "walk_up_7",
+      "walk_up_8",
+    ],
+    left: [
+      "walk_left_0",
+      "walk_left_1",
+      "walk_left_2",
+      "walk_left_3",
+      "walk_left_4",
+      "walk_left_5",
+      "walk_left_6",
+      "walk_left_7",
+      "walk_left_8",
+    ],
+    down: [
+      "walk_down_0",
+      "walk_down_1",
+      "walk_down_2",
+      "walk_down_3",
+      "walk_down_4",
+      "walk_down_5",
+      "walk_down_6",
+      "walk_down_7",
+      "walk_down_8",
+    ],
+    right: [
+      "walk_right_0",
+      "walk_right_1",
+      "walk_right_2",
+      "walk_right_3",
+      "walk_right_4",
+      "walk_right_5",
+      "walk_right_6",
+      "walk_right_7",
+      "walk_right_8",
+    ],
+  }
+
+  const data = { meta: { scale: "1" }, frames, animations }
+  hairSpritesheet = new Spritesheet(hair, data)
+  await hairSpritesheet.parse()
+}
+
+abstract class Object {
   lastI: number | null = null
   _direction: Direction = Direction.Down
-  private _isMoving: boolean = false
-  sprite: AnimatedSprite = new AnimatedSprite([idleSpritesheet.textures.down])
+  protected _isMoving: boolean = false
+  sprite: Sprite = new Sprite()
   baseX: number | null = null
   baseY: number | null = null
   whenMovingHasChanged: number | null = null
@@ -81,10 +584,18 @@ class Object {
     this._isMoving = isMoving
     this._updateTextures()
     if (isMoving) {
-      this.sprite.play()
+      this._play()
     } else {
-      this.sprite.stop()
+      this._stop()
     }
+  }
+
+  protected _play() {
+    throw new Error("Please implement in a subclass.")
+  }
+
+  protected _stop() {
+    throw new Error("Please implement in a subclass.")
   }
 
   get x(): number {
@@ -105,7 +616,6 @@ class Object {
 
   constructor() {
     this.sprite.anchor.set(0.5, 1)
-    this.sprite.animationSpeed = 0.115
   }
 
   updatePosition(): void {
@@ -126,14 +636,8 @@ class Object {
     }
   }
 
-  private _updateTextures() {
-    const textures = this._determineTextures()
-    if (this.sprite.textures !== textures) {
-      this.sprite.textures = textures
-      if (this.isMoving) {
-        this.sprite.play()
-      }
-    }
+  protected _updateTextures() {
+    throw new Error("Please implement in a subclass.")
   }
 
   protected _determineTextures(): Texture<Resource>[] {
@@ -142,39 +646,117 @@ class Object {
 }
 
 class Character extends Object {
-  protected _determineTextures(): Texture<Resource>[] {
-    if (this.isMoving) {
-      if (hasFlag(this.direction, Direction.Up)) {
-        return walkSpritesheet.animations.up
-      } else if (hasFlag(this.direction, Direction.Down)) {
-        return walkSpritesheet.animations.down
-      } else if (hasFlag(this.direction, Direction.Left)) {
-        return walkSpritesheet.animations.left
-      } else if (hasFlag(this.direction, Direction.Right)) {
-        return walkSpritesheet.animations.right
-      } else {
-        return idle.down
+  constructor() {
+    super()
+    const bodyAnimatedSprite = new AnimatedSprite(
+      bodySpritesheet.animations.down,
+    )
+    bodyAnimatedSprite.animationSpeed = 0.115
+    this.sprite.addChild(bodyAnimatedSprite)
+
+    const headAnimatedSprite = new AnimatedSprite(
+      headSpritesheet.animations.down,
+    )
+    headAnimatedSprite.animationSpeed = 0.115
+    this.sprite.addChild(headAnimatedSprite)
+
+    const hairAnimatedSprite = new AnimatedSprite(
+      hairSpritesheet.animations.down,
+    )
+    hairAnimatedSprite.animationSpeed = 0.115
+    this.sprite.addChild(hairAnimatedSprite)
+  }
+
+  protected _updateTextures() {
+    const bodyTextures = this._determineBodyTextures()
+    const bodyAnimatedSprite = this.sprite.children[0] as AnimatedSprite
+    if (bodyAnimatedSprite.textures !== bodyTextures) {
+      bodyAnimatedSprite.textures = bodyTextures
+      if (this.isMoving) {
+        bodyAnimatedSprite.play()
       }
+    }
+
+    const headTextures = this._determineHeadTextures()
+    const headAnimatedSprite = this.sprite.children[1] as AnimatedSprite
+    if (headAnimatedSprite.textures !== headTextures) {
+      headAnimatedSprite.textures = headTextures
+      if (this.isMoving) {
+        headAnimatedSprite.play()
+      }
+    }
+
+    const hairTextures = this._determineHairTextures()
+    const hairAnimatedSprite = this.sprite.children[2] as AnimatedSprite
+    if (hairAnimatedSprite.textures !== hairTextures) {
+      hairAnimatedSprite.textures = hairTextures
+      if (this.isMoving) {
+        hairAnimatedSprite.play()
+      }
+    }
+  }
+
+  protected _play() {
+    this.sprite.children.map((child) => (child as AnimatedSprite).play())
+  }
+
+  protected _stop() {
+    this.sprite.children.map((child) => (child as AnimatedSprite).stop())
+  }
+
+  private _determineBodyTextures(): Texture<Resource>[] {
+    if (hasFlag(this.direction, Direction.Up)) {
+      return bodySpritesheet.animations.up
+    } else if (hasFlag(this.direction, Direction.Down)) {
+      return bodySpritesheet.animations.down
+    } else if (hasFlag(this.direction, Direction.Left)) {
+      return bodySpritesheet.animations.left
+    } else if (hasFlag(this.direction, Direction.Right)) {
+      return bodySpritesheet.animations.right
     } else {
-      if (hasFlag(this.direction, Direction.Up)) {
-        return idle.up
-      } else if (hasFlag(this.direction, Direction.Down)) {
-        return idle.down
-      } else if (hasFlag(this.direction, Direction.Left)) {
-        return idle.left
-      } else if (hasFlag(this.direction, Direction.Right)) {
-        return idle.right
-      } else {
-        return idle.down
-      }
+      return bodySpritesheet.animations.down
+    }
+  }
+
+  private _determineHeadTextures(): Texture<Resource>[] {
+    if (hasFlag(this.direction, Direction.Up)) {
+      return headSpritesheet.animations.up
+    } else if (hasFlag(this.direction, Direction.Down)) {
+      return headSpritesheet.animations.down
+    } else if (hasFlag(this.direction, Direction.Left)) {
+      return headSpritesheet.animations.left
+    } else if (hasFlag(this.direction, Direction.Right)) {
+      return headSpritesheet.animations.right
+    } else {
+      return headSpritesheet.animations.down
+    }
+  }
+
+  private _determineHairTextures(): Texture<Resource>[] {
+    if (hasFlag(this.direction, Direction.Up)) {
+      return hairSpritesheet.animations.up
+    } else if (hasFlag(this.direction, Direction.Down)) {
+      return hairSpritesheet.animations.down
+    } else if (hasFlag(this.direction, Direction.Left)) {
+      return hairSpritesheet.animations.left
+    } else if (hasFlag(this.direction, Direction.Right)) {
+      return hairSpritesheet.animations.right
+    } else {
+      return hairSpritesheet.animations.down
     }
   }
 }
 
 class Plant extends Object {
-  protected _determineTextures(): Texture<Resource>[] {
-    return [plantsSpritesheet.textures.tomato_plant_3]
-  }
+  sprite: AnimatedSprite = new AnimatedSprite([
+    plantsSpritesheet.textures.tomato_plant_3,
+  ])
+
+  protected _updateTextures() {}
+
+  protected _play() {}
+
+  protected _stop() {}
 }
 
 const objects = new Map<string, Object>()
@@ -219,13 +801,6 @@ const sendMoveToServer = function sendMoveToServer(data: MoveData) {
     )
     i++
   }
-}
-
-const idle = {
-  left: [idleSpritesheet.textures.left],
-  right: [idleSpritesheet.textures.right],
-  up: [idleSpritesheet.textures.up],
-  down: [idleSpritesheet.textures.down],
 }
 
 interface KeysDown {
