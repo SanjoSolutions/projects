@@ -5,7 +5,7 @@ import type {
 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { randomUUID } from "node:crypto"
 import { ObjectType } from "../../shared/ObjectType.js"
-import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
+import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
 
 Error.stackTraceLimit = Infinity
 

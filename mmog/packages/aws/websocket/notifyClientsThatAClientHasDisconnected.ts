@@ -3,11 +3,11 @@ import {
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
 import type { ScanCommandOutput } from "@aws-sdk/lib-dynamodb"
-import { MessageType } from "../shared/communication.js"
-import { createDynamoDBDocumentClient } from "./createDynamoDBDocumentClient.js"
-import { createScanCommand } from "./createScanCommand.js"
+import { MessageType } from "../../shared/communication/communication.js"
+import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
+import { createScanCommandForCloseByConnections } from "../database/createScanCommandForCloseByConnections.js"
+import { retrieveConnection } from "../database/retrieveConnection.js"
 import { postToConnection } from "./postToConnection.js"
-import { retrieveConnection } from "./retrieveConnection.js"
 
 export async function notifyClientsThatAClientHasDisconnected(
   apiGwManagementApi: ApiGatewayManagementApiClient,
@@ -21,7 +21,10 @@ export async function notifyClientsThatAClientHasDisconnected(
   })
 
   const ddb = createDynamoDBDocumentClient()
-  const response = await retrieveConnection(disconnectedClientConnectionId)
+  const response = await retrieveConnection(disconnectedClientConnectionId, [
+    "x",
+    "y",
+  ])
 
   if (response.Item) {
     const position = {
@@ -32,7 +35,7 @@ export async function notifyClientsThatAClientHasDisconnected(
     let lastEvaluatedKey: Record<string, any> | undefined = undefined
     do {
       const connections = (await ddb.send(
-        createScanCommand(position, lastEvaluatedKey),
+        createScanCommandForCloseByConnections(position, lastEvaluatedKey),
       )) as ScanCommandOutput
       const items = connections.Items
       if (items) {

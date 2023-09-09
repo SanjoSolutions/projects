@@ -1,7 +1,6 @@
 import { Buffer } from "buffer"
-import type { Direction } from "./Direction.js"
-import { MoveDataWithI as MoveDataWithIProto } from "./MoveDataWithI.js"
-import { MoveFromServerData as MoveFromServerDataProto } from "./MoveFromServerData.js"
+import type { Direction } from "../Direction.js"
+import { MoveDataWithI as MoveDataWithIProto } from "../MoveDataWithI.js"
 
 export interface MoveData {
   isMoving: boolean
@@ -25,11 +24,11 @@ export enum MessageType {
 
 export type CompressedMoveData = string
 
-function compress(klass: any, data: any): string {
+export function compress(klass: any, data: any): string {
   return Buffer.from(klass.fromObject(data).serialize()).toString("base64")
 }
 
-function decompress(klass: any, data: string): any {
+export function decompress(klass: any, data: string): any {
   return klass
     .deserializeBinary(new Uint8Array(Buffer.from(data, "base64")))
     .toObject()
@@ -43,29 +42,4 @@ export function decompressMoveDataWithI(
   data: CompressedMoveData,
 ): MoveDataWithI {
   return decompress(MoveDataWithIProto, data) as MoveDataWithI
-}
-
-export interface MoveFromServerData {
-  connectionId: string
-  isMoving: boolean
-  direction: Direction
-  x: number
-  y: number
-  i: number
-  isCharacterOfClient?: boolean
-  whenHasChangedMoving: number
-}
-
-export type CompressedMoveFromServerData = string
-
-export function compressMoveFromServerData(
-  data: MoveFromServerData,
-): CompressedMoveFromServerData {
-  return compress(MoveFromServerDataProto, data)
-}
-
-export function decompressMoveFromServerData(
-  data: CompressedMoveFromServerData,
-): MoveFromServerData {
-  return decompress(MoveFromServerDataProto, data) as MoveFromServerData
 }

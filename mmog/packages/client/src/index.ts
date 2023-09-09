@@ -1,4 +1,4 @@
-import { debounce, throttle } from "lodash-es"
+import { debounce } from "lodash-es"
 import {
   AnimatedSprite,
   Application,
@@ -11,15 +11,15 @@ import {
 import { hasFlag } from "../../hasFlag.js"
 import {
   compressMoveDataWithI,
-  decompressMoveFromServerData,
   MessageType,
   MoveData,
-} from "../../shared/communication.js"
+} from "../../shared/communication/communication.js"
+import { decompressMoveFromServerData } from "../../shared/communication/messagesFromServer.js"
 import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { updatePosition } from "../../updatePosition.js"
 
-let i = 0
+let i = 1
 
 declare global {
   interface Window {
@@ -62,7 +62,7 @@ class Object {
   sprite: AnimatedSprite = new AnimatedSprite([idleSpritesheet.textures.down])
   baseX: number | null = null
   baseY: number | null = null
-  whenHasChangedMoving: number | null = null
+  whenMovingHasChanged: number | null = null
 
   get direction(): Direction {
     return this._direction
@@ -92,9 +92,6 @@ class Object {
   }
 
   set x(x: number) {
-    if (this === character) {
-      console.log(x, new Error().stack)
-    }
     this.sprite.x = x
   }
 
@@ -113,7 +110,7 @@ class Object {
 
   updatePosition(): void {
     if (
-      this.whenHasChangedMoving &&
+      this.whenMovingHasChanged &&
       typeof this.baseX === "number" &&
       typeof this.baseY === "number"
     ) {
@@ -123,7 +120,7 @@ class Object {
         isMoving: this.isMoving,
         direction: this.direction,
       }
-      updatePosition(movable, Date.now() - this.whenHasChangedMoving)
+      updatePosition(movable, Date.now() - this.whenMovingHasChanged)
       this.x = movable.x
       this.y = movable.y
     }
@@ -207,9 +204,10 @@ window.addEventListener("keyup", function (event) {
   }
 })
 
-const sendMoveToServer = throttle(function sendMoveToServer(data: MoveData) {
+const sendMoveToServer = function sendMoveToServer(data: MoveData) {
   const OPEN = 1
   if (socket.readyState === OPEN) {
+    console.log("send", Date.now())
     socket.send(
       JSON.stringify({
         type: MessageType.Move,
@@ -221,7 +219,7 @@ const sendMoveToServer = throttle(function sendMoveToServer(data: MoveData) {
     )
     i++
   }
-}, 1000 / 30)
+}
 
 const idle = {
   left: [idleSpritesheet.textures.left],
@@ -270,30 +268,22 @@ function convertKeysDownToIsMoving(keysDown: KeysDown): boolean {
   return left || right || up || down
 }
 
+let lastSentMovement: MoveData | null = null
+
 app.ticker.add(() => {
   const left = keyStates.get("KeyA")!
   const right = keyStates.get("KeyD")!
   const up = keyStates.get("KeyW")!
   const down = keyStates.get("KeyS")!
 
-  const wasMoving = character.isMoving
-  const previousDirection = character.direction
-  const previousX = character.x
-  const previousY = character.y
-
-  let isMoving = convertKeysDownToIsMoving({ left, right, up, down })
-  if (isMoving !== wasMoving || character.direction !== previousDirection) {
-    character.updatePosition()
-    character.whenHasChangedMoving = Date.now()
-    character.baseX = character.x
-    character.baseY = character.y
-  }
-  character.isMoving = isMoving
-  if (character.isMoving) {
-    character.direction = convertKeysDownToDirection({ left, right, up, down })
-  }
+  const isMoving = convertKeysDownToIsMoving({ left, right, up, down })
+  const direction = isMoving
+    ? convertKeysDownToDirection({ left, right, up, down })
+    : character.direction
 
   if (character.isMoving) {
+    const previousX = character.x
+    const previousY = character.y
     character.updatePosition()
     if (character.y !== previousY) {
       updateObjectRenderPosition(character)
@@ -304,13 +294,15 @@ app.ticker.add(() => {
   }
 
   if (
-    character.isMoving !== wasMoving ||
-    character.direction !== previousDirection
+    !lastSentMovement ||
+    isMoving !== lastSentMovement.isMoving ||
+    direction !== lastSentMovement.direction
   ) {
-    sendMoveToServer({
-      isMoving: character.isMoving,
-      direction: character.direction,
-    })
+    lastSentMovement = {
+      isMoving: isMoving,
+      direction: direction,
+    }
+    sendMoveToServer(lastSentMovement)
   }
 
   for (const object of objects.values()) {
@@ -363,6 +355,7 @@ socket.onmessage = function (event) {
     console.log(type, moveData)
     let object
     if (moveData.isCharacterOfClient) {
+      console.log("receive", Date.now())
       object = character
     } else {
       object = retrieveOrCreateObject({
@@ -372,18 +365,20 @@ socket.onmessage = function (event) {
     }
     if (object.lastI === null || moveData.i > object.lastI) {
       updateObject(object, moveData)
-      if (moveData.isCharacterOfClient) {
-        updateViewport()
-      }
       object.lastI = moveData.i
     }
   } else if (type === MessageType.Objects) {
     const { objects } = data
     for (const objectData of objects) {
-      const object = retrieveOrCreateObject({
-        id: objectData.id || objectData.connectionId,
-        type: objectData.type || ObjectType.Character,
-      })
+      let object
+      if (objectData.isCharacterOfClient) {
+        object = character
+      } else {
+        object = retrieveOrCreateObject({
+          id: objectData.id || objectData.connectionId,
+          type: objectData.type || ObjectType.Character,
+        })
+      }
       updateObject(object, objectData)
     }
   } else if (type === MessageType.OtherClientDisconnected) {
@@ -421,7 +416,7 @@ function retrieveOrCreateObject({
 }
 
 function updateObject(object: Object, objectData: any): void {
-  object.whenHasChangedMoving = objectData.whenHasChangedMoving
+  object.whenMovingHasChanged = Date.now()
   object.baseX = objectData.x
   object.baseY = objectData.y
   object.direction = objectData.direction
@@ -429,9 +424,7 @@ function updateObject(object: Object, objectData: any): void {
   object.x = objectData.x
   const previousY = object.y
   object.y = objectData.y
-  if (object.whenHasChangedMoving) {
-    object.updatePosition()
-  }
+  object.updatePosition()
   const isDifferentYCoordinate = object.y !== previousY
   if (isDifferentYCoordinate) {
     updateObjectRenderPosition(object)
@@ -439,10 +432,6 @@ function updateObject(object: Object, objectData: any): void {
 }
 
 socket.onopen = function () {
-  sendMoveToServer({
-    isMoving: false,
-    direction: Direction.Down,
-  })
   requestObjects()
 }
 

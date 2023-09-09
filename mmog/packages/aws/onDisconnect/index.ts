@@ -10,8 +10,8 @@ import type {
   APIGatewayProxyResultV2,
   APIGatewayProxyWebsocketEventV2,
 } from "aws-lambda/trigger/api-gateway-proxy.js"
-import { createDynamoDBDocumentClient } from "../createDynamoDBDocumentClient.js"
-import { notifyClientsThatAClientHasDisconnected } from "../notifyClientsThatAClientHasDisconnected.js"
+import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
+import { notifyClientsThatAClientHasDisconnected } from "../websocket/notifyClientsThatAClientHasDisconnected.js"
 
 Error.stackTraceLimit = Infinity
 

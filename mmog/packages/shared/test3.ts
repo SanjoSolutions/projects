@@ -1,7 +1,7 @@
 import {
   compressMoveDataWithI,
   decompressMoveDataWithI,
-} from "./communication.js"
+} from "./communication/communication.js"
 
 const compressedData = compressMoveDataWithI({
   isMoving: true,

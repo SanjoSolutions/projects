@@ -1,7 +1,7 @@
 import {
   compressMoveFromServerData,
   decompressMoveFromServerData,
-} from "./communication.js"
+} from "./communication/messagesFromServer.js"
 
 const compressedData = compressMoveFromServerData({
   connectionId: "2",

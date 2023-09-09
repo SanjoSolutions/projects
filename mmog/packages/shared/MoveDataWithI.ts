@@ -15,6 +15,7 @@ export class MoveDataWithI extends pb_1.Message {
           x?: number
           y?: number
           i?: number
+          whenMovingHasChanged?: number
         },
   ) {
     super()
@@ -41,6 +42,12 @@ export class MoveDataWithI extends pb_1.Message {
       }
       if ("i" in data && data.i != undefined) {
         this.i = data.i
+      }
+      if (
+        "whenMovingHasChanged" in data &&
+        data.whenMovingHasChanged != undefined
+      ) {
+        this.whenMovingHasChanged = data.whenMovingHasChanged
       }
     }
   }
@@ -74,12 +81,19 @@ export class MoveDataWithI extends pb_1.Message {
   set i(value: number) {
     pb_1.Message.setField(this, 5, value)
   }
+  get whenMovingHasChanged() {
+    return pb_1.Message.getFieldWithDefault(this, 6, 0) as number
+  }
+  set whenMovingHasChanged(value: number) {
+    pb_1.Message.setField(this, 6, value)
+  }
   static fromObject(data: {
     isMoving?: boolean
     direction?: number
     x?: number
     y?: number
     i?: number
+    whenMovingHasChanged?: number
   }): MoveDataWithI {
     const message = new MoveDataWithI({})
     if (data.isMoving != null) {
@@ -97,6 +111,9 @@ export class MoveDataWithI extends pb_1.Message {
     if (data.i != null) {
       message.i = data.i
     }
+    if (data.whenMovingHasChanged != null) {
+      message.whenMovingHasChanged = data.whenMovingHasChanged
+    }
     return message
   }
   toObject() {
@@ -106,6 +123,7 @@ export class MoveDataWithI extends pb_1.Message {
       x?: number
       y?: number
       i?: number
+      whenMovingHasChanged?: number
     } = {}
     if (this.isMoving != null) {
       data.isMoving = this.isMoving
@@ -122,6 +140,9 @@ export class MoveDataWithI extends pb_1.Message {
     if (this.i != null) {
       data.i = this.i
     }
+    if (this.whenMovingHasChanged != null) {
+      data.whenMovingHasChanged = this.whenMovingHasChanged
+    }
     return data
   }
   serialize(): Uint8Array
@@ -133,6 +154,8 @@ export class MoveDataWithI extends pb_1.Message {
     if (this.x != 0) writer.writeDouble(3, this.x)
     if (this.y != 0) writer.writeDouble(4, this.y)
     if (this.i != 0) writer.writeUint64(5, this.i)
+    if (this.whenMovingHasChanged != 0)
+      writer.writeUint64(6, this.whenMovingHasChanged)
     if (!w) return writer.getResultBuffer()
   }
   static deserialize(bytes: Uint8Array | pb_1.BinaryReader): MoveDataWithI {
@@ -158,6 +181,9 @@ export class MoveDataWithI extends pb_1.Message {
           break
         case 5:
           message.i = reader.readUint64()
+          break
+        case 6:
+          message.whenMovingHasChanged = reader.readUint64()
           break
         default:
           reader.skipField()

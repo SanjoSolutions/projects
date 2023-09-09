@@ -6,4 +6,5 @@ message MoveDataWithI {
   double x = 3;
   double y = 4;
   uint64 i = 5;
+  uint64 whenMovingHasChanged = 6;
 }

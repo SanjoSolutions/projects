@@ -118,6 +118,12 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ConnectionsTableName
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'execute-api:ManageConnections'
+              Resource:
+                - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
   ConnectRoute:
     Type: AWS::ApiGatewayV2::Route
     Properties:
@@ -202,7 +208,7 @@ Resources:
     Properties:
       CodeUri: build/move/
       Handler: index.handler
-      MemorySize: 256
+      MemorySize: 2048
       Runtime: nodejs18.x
       Environment:
         Variables:
