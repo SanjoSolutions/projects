@@ -62,9 +62,9 @@ const {
   plants: Spritesheet
 } = (await Assets.load(["body", "head", "hair", "plants"])) as any
 
-const bodySpritesheet = await createUniversalSpritesheet(body)
-const headSpritesheet = await createUniversalSpritesheet(head)
-const hairSpritesheet = await createUniversalSpritesheet(hair)
+const bodySpritesheet = await createUniversalSpritesheet("body", body)
+const headSpritesheet = await createUniversalSpritesheet("head", head)
+const hairSpritesheet = await createUniversalSpritesheet("hair", hair)
 
 abstract class Object {
   lastI: number | null = null
