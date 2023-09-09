@@ -23,7 +23,7 @@ declare global {
 
 const { CONNECTIONS_TABLE_NAME } = process.env
 
-const ddb = createDynamoDBDocumentClient()
+const database = createDynamoDBDocumentClient()
 
 export async function handler(
   event: APIGatewayProxyWebsocketEventV2,
@@ -44,7 +44,7 @@ export async function handler(
   }
   await sendMovementToClients(apiGwManagementApi, { ...character, i: 0 })
 
-  await ddb.send(
+  await database.send(
     new PutCommand({
       TableName: CONNECTIONS_TABLE_NAME,
       Item: character,
