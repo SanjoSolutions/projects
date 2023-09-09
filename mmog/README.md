@@ -1,4 +1,4 @@
-# @sanjo/mmog
+# MMOG
 
 ## Note on licensing
 
