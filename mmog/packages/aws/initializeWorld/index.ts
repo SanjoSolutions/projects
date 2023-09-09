@@ -4,7 +4,9 @@ import type {
   APIGatewayProxyWebsocketEventV2,
 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { randomUUID } from "node:crypto"
+import type { Plant } from "../../shared/database.js"
 import { ObjectType } from "../../shared/ObjectType.js"
+import { PlantType } from "../../shared/PlantType.js"
 import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
 
 Error.stackTraceLimit = Infinity
@@ -19,14 +21,7 @@ declare global {
 
 const { OBJECTS_TABLE_NAME } = process.env
 
-const ddb = createDynamoDBDocumentClient()
-
-export interface Plant {
-  id: string
-  type: ObjectType.Plant
-  x: number
-  y: number
-}
+const database = createDynamoDBDocumentClient()
 
 function generatePlant(): Plant {
   return {
@@ -34,6 +29,8 @@ function generatePlant(): Plant {
     type: ObjectType.Plant,
     x: 0,
     y: 0,
+    plantType: PlantType.Tomato,
+    stage: 0,
   }
 }
 
@@ -42,7 +39,7 @@ export async function handler(
 ): Promise<APIGatewayProxyResultV2> {
   const plant = generatePlant()
 
-  await ddb.send(
+  await database.send(
     new PutCommand({
       TableName: OBJECTS_TABLE_NAME,
       Item: plant,

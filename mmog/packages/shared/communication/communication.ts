@@ -20,6 +20,7 @@ export enum MessageType {
   RequestObjects = "request-objects",
   InitializeWorld = "initialize-world",
   OtherClientDisconnected = "other-client-disconnected",
+  PlantHasGrown = "plant-has-grown",
 }
 
 export type CompressedMoveData = string

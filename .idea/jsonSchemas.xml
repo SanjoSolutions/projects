@@ -3,6 +3,22 @@
   <component name="JsonSchemaMappingsProjectConfiguration">
     <state>
       <map>
+        <entry key="AWS CloudFormation Serverless Application Model (SAM)">
+          <value>
+            <SchemaInfo>
+              <option name="name" value="AWS CloudFormation Serverless Application Model (SAM)" />
+              <option name="relativePathToSchema" value="https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/schema/schema.json" />
+              <option name="applicationDefined" value="true" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="mmog/template.yaml" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
         <entry key="AWS SAM CLI Samconfig">
           <value>
             <SchemaInfo>

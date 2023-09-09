@@ -18,6 +18,7 @@ import {
 import { decompressMoveFromServerData } from "../../shared/communication/messagesFromServer.js"
 import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
+import { PlantType } from "../../shared/PlantType.js"
 import { updatePosition } from "../../updatePosition.js"
 import { createUniversalSpritesheet } from "./createUniversalSpritesheet.js"
 
@@ -147,8 +148,20 @@ abstract class Object {
     throw new Error("Please implement in a subclass.")
   }
 
-  protected _determineTextures(): Texture<Resource>[] {
-    throw new Error("Please implement in a subclass.")
+  public update(data: any): void {
+    this.whenMovingHasChanged = Date.now()
+    this.baseX = data.x
+    this.baseY = data.y
+    this.direction = data.direction
+    this.isMoving = data.isMoving
+    this.x = data.x
+    const previousY = data.y
+    this.y = data.y
+    this.updatePosition()
+    const isDifferentYCoordinate = this.y !== previousY
+    if (isDifferentYCoordinate) {
+      updateObjectRenderPosition(this)
+    }
   }
 }
 
@@ -189,6 +202,9 @@ class Character extends Object {
         animatedSprite.play()
       }
     }
+    if (!this.isMoving) {
+      animatedSprite.gotoAndStop(0)
+    }
   }
 
   protected _play() {
@@ -226,16 +242,40 @@ class Character extends Object {
   }
 }
 
-class Plant extends Object {
-  sprite: AnimatedSprite = new AnimatedSprite([
-    plantsSpritesheet.textures.tomato_plant_3,
-  ])
+const plantTextures = new Map([
+  [PlantType.Tomato, plantsSpritesheet.animations.tomato_plant],
+  [PlantType.Potato, plantsSpritesheet.animations.potato_plant],
+  [PlantType.Carrot, plantsSpritesheet.animations.carrot_plant],
+  [PlantType.Artichoke, plantsSpritesheet.animations.artichoke_plant],
+  [PlantType.RedPepper, plantsSpritesheet.animations.redPepper_plant],
+  [PlantType.Zucchini, plantsSpritesheet.animations.zucchini_plant],
+  [PlantType.Corn, plantsSpritesheet.animations.corn_plant],
+])
 
-  protected _updateTextures() {}
+class Plant extends Object {
+  sprite: AnimatedSprite = new AnimatedSprite(
+    plantTextures.get(PlantType.Tomato)!,
+  )
+  plantType: PlantType = PlantType.Tomato
+  stage: number = 0
+
+  protected _updateTextures() {
+    const textures = plantTextures.get(this.plantType)
+    if (textures && textures !== this.sprite.textures) {
+      this.sprite.textures = textures
+    }
+    this.sprite.gotoAndStop(this.stage)
+  }
 
   protected _play() {}
 
   protected _stop() {}
+
+  public update(data: any): void {
+    super.update(data)
+    this.plantType = data.plantType
+    this.stage = data.stage
+  }
 }
 
 const objects = new Map<string, Object>()
@@ -418,7 +458,7 @@ socket.onmessage = function (event) {
       })
     }
     if (object.lastI === null || moveData.i > object.lastI) {
-      updateObject(object, moveData)
+      object.update(moveData)
       object.lastI = moveData.i
     }
   } else if (type === MessageType.Objects) {
@@ -433,7 +473,7 @@ socket.onmessage = function (event) {
           type: objectData.type || ObjectType.Character,
         })
       }
-      updateObject(object, objectData)
+      object.update(objectData)
     }
   } else if (type === MessageType.OtherClientDisconnected) {
     const { connectionId } = data

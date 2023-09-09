@@ -18,8 +18,122 @@
     "tomato_plant_4": {
       "frame": { "x": 0, "y": 256, "w": 32, "h": 64 }
     },
-    "tomato_plant_5": {
+    "tomato": {
       "frame": { "x": 0, "y": 320, "w": 32, "h": 64 }
+    },
+
+    "potato_plant_0": {
+      "frame": { "x": 32, "y": 0, "w": 32, "h": 64 }
+    },
+    "potato_plant_1": {
+      "frame": { "x": 32, "y": 64, "w": 32, "h": 64 }
+    },
+    "potato_plant_2": {
+      "frame": { "x": 32, "y": 128, "w": 32, "h": 64 }
+    },
+    "potato_plant_3": {
+      "frame": { "x": 32, "y": 192, "w": 32, "h": 64 }
+    },
+    "potato_plant_4": {
+      "frame": { "x": 32, "y": 256, "w": 32, "h": 64 }
+    },
+    "potato": {
+      "frame": { "x": 32, "y": 320, "w": 32, "h": 64 }
+    },
+
+    "carrot_plant_0": {
+      "frame": { "x": 64, "y": 0, "w": 32, "h": 64 }
+    },
+    "carrot_plant_1": {
+      "frame": { "x": 64, "y": 64, "w": 32, "h": 64 }
+    },
+    "carrot_plant_2": {
+      "frame": { "x": 64, "y": 128, "w": 32, "h": 64 }
+    },
+    "carrot_plant_3": {
+      "frame": { "x": 64, "y": 192, "w": 32, "h": 64 }
+    },
+    "carrot_plant_4": {
+      "frame": { "x": 64, "y": 256, "w": 32, "h": 64 }
+    },
+    "carrot": {
+      "frame": { "x": 64, "y": 320, "w": 32, "h": 64 }
+    },
+
+    "antichoke_plant_0": {
+      "frame": { "x": 96, "y": 0, "w": 32, "h": 64 }
+    },
+    "antichoke_plant_1": {
+      "frame": { "x": 96, "y": 64, "w": 32, "h": 64 }
+    },
+    "antichoke_plant_2": {
+      "frame": { "x": 96, "y": 128, "w": 32, "h": 64 }
+    },
+    "antichoke_plant_3": {
+      "frame": { "x": 96, "y": 192, "w": 32, "h": 64 }
+    },
+    "antichoke_plant_4": {
+      "frame": { "x": 96, "y": 256, "w": 32, "h": 64 }
+    },
+    "antichoke": {
+      "frame": { "x": 96, "y": 320, "w": 32, "h": 64 }
+    },
+
+    "red_pepper_plant_0": {
+      "frame": { "x": 128, "y": 0, "w": 32, "h": 64 }
+    },
+    "red_pepper_plant_1": {
+      "frame": { "x": 128, "y": 64, "w": 32, "h": 64 }
+    },
+    "red_pepper_plant_2": {
+      "frame": { "x": 128, "y": 128, "w": 32, "h": 64 }
+    },
+    "red_pepper_plant_3": {
+      "frame": { "x": 128, "y": 192, "w": 32, "h": 64 }
+    },
+    "red_pepper_plant_4": {
+      "frame": { "x": 128, "y": 256, "w": 32, "h": 64 }
+    },
+    "red_pepper": {
+      "frame": { "x": 128, "y": 320, "w": 32, "h": 64 }
+    },
+
+    "zucchini_plant_0": {
+      "frame": { "x": 160, "y": 0, "w": 32, "h": 64 }
+    },
+    "zucchini_plant_1": {
+      "frame": { "x": 160, "y": 64, "w": 32, "h": 64 }
+    },
+    "zucchini_plant_2": {
+      "frame": { "x": 160, "y": 128, "w": 32, "h": 64 }
+    },
+    "zucchini_plant_3": {
+      "frame": { "x": 160, "y": 192, "w": 32, "h": 64 }
+    },
+    "zucchini_plant_4": {
+      "frame": { "x": 160, "y": 256, "w": 32, "h": 64 }
+    },
+    "zucchini": {
+      "frame": { "x": 160, "y": 320, "w": 32, "h": 64 }
+    },
+
+    "corn_plant_0": {
+      "frame": { "x": 192, "y": 0, "w": 32, "h": 64 }
+    },
+    "corn_plant_1": {
+      "frame": { "x": 192, "y": 64, "w": 32, "h": 64 }
+    },
+    "corn_plant_2": {
+      "frame": { "x": 192, "y": 128, "w": 32, "h": 64 }
+    },
+    "corn_plant_3": {
+      "frame": { "x": 192, "y": 192, "w": 32, "h": 64 }
+    },
+    "corn_plant_4": {
+      "frame": { "x": 192, "y": 256, "w": 32, "h": 64 }
+    },
+    "corn": {
+      "frame": { "x": 192, "y": 320, "w": 32, "h": 64 }
     }
   },
   "animations": {
@@ -28,8 +142,49 @@
       "tomato_plant_1",
       "tomato_plant_2",
       "tomato_plant_3",
-      "tomato_plant_4",
-      "tomato_plant_5"
+      "tomato_plant_4"
+    ],
+    "potato_plant": [
+      "potato_plant_0",
+      "potato_plant_1",
+      "potato_plant_2",
+      "potato_plant_3",
+      "potato_plant_4"
+    ],
+    "carrot_plant": [
+      "carrot_plant_0",
+      "carrot_plant_1",
+      "carrot_plant_2",
+      "carrot_plant_3",
+      "carrot_plant_4"
+    ],
+    "antichoke_plant": [
+      "antichoke_plant_0",
+      "antichoke_plant_1",
+      "antichoke_plant_2",
+      "antichoke_plant_3",
+      "antichoke_plant_4"
+    ],
+    "red_pepper_plant": [
+      "red_pepper_plant_0",
+      "red_pepper_plant_1",
+      "red_pepper_plant_2",
+      "red_pepper_plant_3",
+      "red_pepper_plant_4"
+    ],
+    "zucchini_plant": [
+      "zucchini_plant_0",
+      "zucchini_plant_1",
+      "zucchini_plant_2",
+      "zucchini_plant_3",
+      "zucchini_plant_4"
+    ],
+    "corn_plant": [
+      "corn_plant_0",
+      "corn_plant_1",
+      "corn_plant_2",
+      "corn_plant_3",
+      "corn_plant_4"
     ]
   }
 }

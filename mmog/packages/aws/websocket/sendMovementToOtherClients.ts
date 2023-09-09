@@ -11,9 +11,9 @@ export async function sendMovementToOtherClients(
   object: MoveFromServerData,
 ): Promise<void> {
   let lastEvaluatedKey: Record<string, any> | undefined = undefined
-  const ddb = createDynamoDBDocumentClient()
+  const database = createDynamoDBDocumentClient()
   do {
-    const connections = (await ddb.send(
+    const connections = (await database.send(
       createScanCommandForOtherCloseByConnections(
         object,
         connectionId,

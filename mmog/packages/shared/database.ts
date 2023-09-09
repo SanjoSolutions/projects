@@ -1,5 +1,6 @@
 import type { Direction } from "./Direction.js"
 import type { ObjectType } from "./ObjectType.js"
+import type { PlantType } from "./PlantType.js"
 
 export interface Connection {
   id: string
@@ -17,4 +18,10 @@ export interface Object {
   type: ObjectType
   x: number
   y: number
+}
+
+export interface Plant extends Object {
+  type: ObjectType.Plant
+  stage: number
+  plantType: PlantType
 }

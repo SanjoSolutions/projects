@@ -132,23 +132,33 @@ function createObjectsScanCommand(
   position: { x: number; y: number },
   exclusiveStartKey?: Record<string, any>,
 ): ScanCommand {
-  return createScanCommand(OBJECTS_TABLE_NAME, position, exclusiveStartKey)
+  const input: ScanCommandInput = {
+    TableName: OBJECTS_TABLE_NAME,
+    ProjectionExpression:
+      "connectionId, x, y, direction, isMoving, #type, id, whenMovingHasChanged, plantType, stage",
+    FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
+    ExpressionAttributeValues: {
+      ":x1": position.x - HALF_WIDTH,
+      ":x2": position.x + HALF_WIDTH,
+      ":y1": position.y - HALF_HEIGHT,
+      ":y2": position.y + HALF_HEIGHT,
+    },
+    ExpressionAttributeNames: {
+      "#type": "type",
+    },
+  }
+  if (exclusiveStartKey) {
+    input.ExclusiveStartKey = exclusiveStartKey
+  }
+  return new ScanCommand(input)
 }
 
 function createConnectionsScanCommand(
   position: { x: number; y: number },
   exclusiveStartKey?: Record<string, any>,
 ): ScanCommand {
-  return createScanCommand(CONNECTIONS_TABLE_NAME, position, exclusiveStartKey)
-}
-
-function createScanCommand(
-  tableName: string,
-  position: { x: number; y: number },
-  exclusiveStartKey?: Record<string, any>,
-): ScanCommand {
   const input: ScanCommandInput = {
-    TableName: tableName,
+    TableName: CONNECTIONS_TABLE_NAME,
     ProjectionExpression:
       "connectionId, x, y, direction, isMoving, #type, id, whenMovingHasChanged",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",

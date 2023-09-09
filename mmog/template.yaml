@@ -319,6 +319,32 @@ Resources:
         - DynamoDBCrudPolicy:
             TableName: !Ref ObjectsTableName
 
+  GrowPlantsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/growPlants/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Events:
+        Scheduled:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: cron(0 * * * ? *)
+      Environment:
+        Variables:
+          OBJECTS_TABLE_NAME: !Ref ObjectsTableName
+          API_GATEWAY_URL: !Join [ '', [ 'https://', !Ref WebSocket, '.execute-api.',!Ref 'AWS::Region','.amazonaws.com/',!Ref 'Stage'] ]
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ObjectsTableName
+        - Statement:
+            - Effect: Allow
+              Action:
+                - 'execute-api:ManageConnections'
+              Resource:
+                - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
+
 Outputs:
   ConnectionsTableArn:
     Description: "Connections table ARN"
