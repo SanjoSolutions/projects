@@ -7,4 +7,5 @@ message MoveFromServerData {
   double y = 4;
   uint64 i = 5;
   string connectionId = 6;
+  bool isCharacterOfClient = 7;
 }

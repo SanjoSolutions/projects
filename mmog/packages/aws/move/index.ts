@@ -75,8 +75,8 @@ export async function handler(
 
   const output = await retrieveConnection2(event.requestContext.connectionId)
 
-  let x
-  let y
+  let x: number
+  let y: number
   if (output.Item) {
     const object = output.Item as Movable & { whenHasChangedMoving: number }
     updatePosition(
@@ -130,15 +130,30 @@ export async function handler(
     if (items) {
       await Promise.all(
         items.map(async ({ connectionId }) => {
-          if (connectionId !== event.requestContext.connectionId) {
-            await postToConnection(
-              apiGwManagementApi,
-              new PostToConnectionCommand({
-                ConnectionId: connectionId,
-                Data: postData,
+          let data
+          if (connectionId === event.requestContext.connectionId) {
+            data = JSON.stringify({
+              type: MessageType.Move,
+              data: compressMoveFromServerData({
+                connectionId: event.requestContext.connectionId,
+                i: Number(moveData.i),
+                isMoving,
+                x,
+                y,
+                direction,
+                isCharacterOfClient: true,
               }),
-            )
+            })
+          } else {
+            data = postData
           }
+          await postToConnection(
+            apiGwManagementApi,
+            new PostToConnectionCommand({
+              ConnectionId: connectionId,
+              Data: data,
+            }),
+          )
         }),
       )
     }

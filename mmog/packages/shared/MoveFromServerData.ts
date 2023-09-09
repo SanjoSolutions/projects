@@ -16,6 +16,7 @@ export class MoveFromServerData extends pb_1.Message {
           y?: number
           i?: number
           connectionId?: string
+          isCharacterOfClient?: boolean
         },
   ) {
     super()
@@ -45,6 +46,12 @@ export class MoveFromServerData extends pb_1.Message {
       }
       if ("connectionId" in data && data.connectionId != undefined) {
         this.connectionId = data.connectionId
+      }
+      if (
+        "isCharacterOfClient" in data &&
+        data.isCharacterOfClient != undefined
+      ) {
+        this.isCharacterOfClient = data.isCharacterOfClient
       }
     }
   }
@@ -84,6 +91,12 @@ export class MoveFromServerData extends pb_1.Message {
   set connectionId(value: string) {
     pb_1.Message.setField(this, 6, value)
   }
+  get isCharacterOfClient() {
+    return pb_1.Message.getFieldWithDefault(this, 7, false) as boolean
+  }
+  set isCharacterOfClient(value: boolean) {
+    pb_1.Message.setField(this, 7, value)
+  }
   static fromObject(data: {
     isMoving?: boolean
     direction?: number
@@ -91,6 +104,7 @@ export class MoveFromServerData extends pb_1.Message {
     y?: number
     i?: number
     connectionId?: string
+    isCharacterOfClient?: boolean
   }): MoveFromServerData {
     const message = new MoveFromServerData({})
     if (data.isMoving != null) {
@@ -111,6 +125,9 @@ export class MoveFromServerData extends pb_1.Message {
     if (data.connectionId != null) {
       message.connectionId = data.connectionId
     }
+    if (data.isCharacterOfClient != null) {
+      message.isCharacterOfClient = data.isCharacterOfClient
+    }
     return message
   }
   toObject() {
@@ -121,6 +138,7 @@ export class MoveFromServerData extends pb_1.Message {
       y?: number
       i?: number
       connectionId?: string
+      isCharacterOfClient?: boolean
     } = {}
     if (this.isMoving != null) {
       data.isMoving = this.isMoving
@@ -140,6 +158,9 @@ export class MoveFromServerData extends pb_1.Message {
     if (this.connectionId != null) {
       data.connectionId = this.connectionId
     }
+    if (this.isCharacterOfClient != null) {
+      data.isCharacterOfClient = this.isCharacterOfClient
+    }
     return data
   }
   serialize(): Uint8Array
@@ -152,6 +173,8 @@ export class MoveFromServerData extends pb_1.Message {
     if (this.y != 0) writer.writeDouble(4, this.y)
     if (this.i != 0) writer.writeUint64(5, this.i)
     if (this.connectionId.length) writer.writeString(6, this.connectionId)
+    if (this.isCharacterOfClient != false)
+      writer.writeBool(7, this.isCharacterOfClient)
     if (!w) return writer.getResultBuffer()
   }
   static deserialize(
@@ -182,6 +205,9 @@ export class MoveFromServerData extends pb_1.Message {
           break
         case 6:
           message.connectionId = reader.readString()
+          break
+        case 7:
+          message.isCharacterOfClient = reader.readBool()
           break
         default:
           reader.skipField()

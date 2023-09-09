@@ -250,6 +250,8 @@ function convertKeysDownToIsMoving(keysDown: KeysDown): boolean {
   return left || right || up || down
 }
 
+let characterWhenStartedMoving: any = null
+
 app.ticker.add((delta) => {
   const left = keyStates.get("KeyA")!
   const right = keyStates.get("KeyD")!
@@ -265,12 +267,31 @@ app.ticker.add((delta) => {
   }
   const previousX = character.x
   const previousY = character.y
-  character.updatePosition(app.ticker.elapsedMS)
-  if (character.y !== previousY) {
-    updateObjectRenderPosition(character)
+  if (
+    character.isMoving !== wasMoving ||
+    character.direction !== previousDirection
+  ) {
+    characterWhenStartedMoving = {
+      isMoving: character.isMoving,
+      direction: character.direction,
+      x: character.x,
+      y: character.y,
+      whenCharacterHasStartedMoving: Date.now(),
+    }
   }
-  if (character.x !== previousX || character.y !== previousY) {
-    updateViewport()
+  if (character.isMoving) {
+    character.x = characterWhenStartedMoving.x
+    character.y = characterWhenStartedMoving.y
+    updatePosition(
+      character,
+      Date.now() - characterWhenStartedMoving.whenCharacterHasStartedMoving,
+    )
+    if (character.y !== previousY) {
+      updateObjectRenderPosition(character)
+    }
+    if (character.x !== previousX || character.y !== previousY) {
+      updateViewport()
+    }
   }
 
   if (
@@ -332,12 +353,20 @@ socket.onmessage = function (event) {
   if (type === MessageType.Move) {
     const moveData = decompressMoveFromServerData(data)
     console.log(type, moveData)
-    const object = retrieveOrCreateObject({
-      id: moveData.connectionId,
-      type: ObjectType.Character,
-    })
+    let object
+    if (moveData.isCharacterOfClient) {
+      object = character
+    } else {
+      object = retrieveOrCreateObject({
+        id: moveData.connectionId,
+        type: ObjectType.Character,
+      })
+    }
     if (object.lastI === null || moveData.i > object.lastI) {
       updateObject(object, moveData)
+      if (moveData.isCharacterOfClient) {
+        updateViewport()
+      }
       object.lastI = moveData.i
     }
   } else if (type === MessageType.Objects) {
