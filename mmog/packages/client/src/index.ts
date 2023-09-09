@@ -257,7 +257,16 @@ class Plant extends Object {
     plantTextures.get(PlantType.Tomato)!,
   )
   plantType: PlantType = PlantType.Tomato
-  stage: number = 0
+  private _stage: number = 0
+
+  get stage(): number {
+    return this._stage
+  }
+
+  set stage(stage: number) {
+    this._stage = stage
+    this._updateTextures()
+  }
 
   protected _updateTextures() {
     const textures = plantTextures.get(this.plantType)
@@ -482,6 +491,13 @@ socket.onmessage = function (event) {
       objectsContainer.removeChild(object.sprite)
       objects.delete(connectionId)
     }
+  } else if (type === MessageType.PlantHasGrown) {
+    const { id, stage } = data
+    const object = retrieveOrCreateObject({
+      id,
+      type: ObjectType.Plant,
+    }) as Plant
+    object.stage = stage
   } else {
     console.log(body)
   }

@@ -72,6 +72,8 @@ export async function handler(
                 isMoving,
                 type,
                 whenMovingHasChanged,
+                plantType,
+                stage,
               }) => {
                 const object: any = {
                   connectionId,
@@ -80,6 +82,8 @@ export async function handler(
                   direction,
                   isMoving,
                   type: type || ObjectType.Character,
+                  plantType,
+                  stage,
                 }
                 if (connectionId === event.requestContext.connectionId) {
                   object.isCharacterOfClient = true

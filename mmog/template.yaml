@@ -333,9 +333,12 @@ Resources:
             ScheduleExpression: cron(0 * * * ? *)
       Environment:
         Variables:
+          CONNECTIONS_TABLE_NAME: !Ref ConnectionsTableName
           OBJECTS_TABLE_NAME: !Ref ObjectsTableName
           API_GATEWAY_URL: !Join [ '', [ 'https://', !Ref WebSocket, '.execute-api.',!Ref 'AWS::Region','.amazonaws.com/',!Ref 'Stage'] ]
       Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConnectionsTableName
         - DynamoDBCrudPolicy:
             TableName: !Ref ObjectsTableName
         - Statement:

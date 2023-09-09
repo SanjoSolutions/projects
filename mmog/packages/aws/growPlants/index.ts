@@ -40,10 +40,13 @@ export async function handler(event: ScheduledEvent): Promise<void> {
       new ScanCommand({
         TableName: process.env.OBJECTS_TABLE_NAME,
         ProjectionExpression: "id, stage, x, y",
-        FilterExpression: "type = :type AND stage < :maxGrowStage",
+        FilterExpression: "#type = :type AND stage < :maxGrowStage",
         ExpressionAttributeValues: {
           ":type": ObjectType.Plant,
           ":maxGrowStage": 3,
+        },
+        ExpressionAttributeNames: {
+          "#type": "type",
         },
       }),
     )
@@ -55,7 +58,10 @@ export async function handler(event: ScheduledEvent): Promise<void> {
             new UpdateCommand({
               Key: { id },
               TableName: OBJECTS_TABLE_NAME,
-              UpdateExpression: "SET stage = stage + 1",
+              UpdateExpression: "SET stage = stage + :increment",
+              ExpressionAttributeValues: {
+                ":increment": 1,
+              },
             }),
           )
           await sendPlantHasGrownToClients(apiGwManagementApi, {
