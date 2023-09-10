@@ -1,3 +1,4 @@
+import { sound } from "@pixi/sound"
 import { debounce } from "lodash-es"
 import {
   AnimatedSprite,
@@ -42,6 +43,9 @@ const app = new Application({
   resizeTo: window,
 })
 document.body.appendChild(app.view as any)
+
+sound.add("music", "assets/music/TownTheme.mp3")
+sound.play("music", { loop: true })
 
 Assets.add("body", "assets/spritesheets/body/bodies/male/universal/light.png")
 Assets.add(

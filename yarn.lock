@@ -2925,6 +2925,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pixi/sound@npm:^5.2.1":
+  version: 5.2.1
+  resolution: "@pixi/sound@npm:5.2.1"
+  peerDependencies:
+    "@pixi/assets": ^7.0.0
+    "@pixi/core": ^7.0.0
+  checksum: 972a5882aa853acdba24ab1d2a8aa6f10d3a079db1c3b62b7295b9c84f4457b9f17aab18932f8a468c2fa36671ea877c9d9d4b2aa82ab70db6a5eee5e6eac626
+  languageName: node
+  linkType: hard
+
 "@pixi/sprite-animated@npm:7.2.4":
   version: 7.2.4
   resolution: "@pixi/sprite-animated@npm:7.2.4"
@@ -3420,6 +3430,7 @@ __metadata:
   resolution: "@sanjo/mmog-client@workspace:mmog/packages/client"
   dependencies:
     "@pixi/display": ^7.2.4
+    "@pixi/sound": ^5.2.1
     "@pixi/tilemap": "pixijs/tilemap#123f8530c10bb1de790346d435ad65345ce8b2ae"
     "@sanjo/esbuild": ^1.0.0
     "@types/lodash-es": ^4.17.9
