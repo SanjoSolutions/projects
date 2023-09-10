@@ -237,7 +237,7 @@ class Character extends Object {
     } else if (hasFlag(this.direction, Direction.Down)) {
       return spritesheet.animations.down
     } else if (hasFlag(this.direction, Direction.Left)) {
-      return spritesheet.animations.leftn
+      return spritesheet.animations.left
     } else if (hasFlag(this.direction, Direction.Right)) {
       return spritesheet.animations.right
     } else {
@@ -341,7 +341,6 @@ window.addEventListener("pointerup", function (event) {
 const sendMoveToServer = function sendMoveToServer(data: MoveData) {
   const OPEN = 1
   if (socket.readyState === OPEN) {
-    console.log("send", Date.now())
     lastSentMovement = {
       ...data,
     }
@@ -429,7 +428,7 @@ app.ticker.add(() => {
   if (
     !lastSentMovement ||
     isMoving !== lastSentMovement.isMoving ||
-    direction !== lastSentMovement.direction
+    ((left || right || up || down) && direction !== lastSentMovement.direction)
   ) {
     sendMoveToServer({
       isMoving: isMoving,
@@ -484,10 +483,8 @@ socket.onmessage = function (event) {
   const { type, data } = body
   if (type === MessageType.Move) {
     const moveData = decompressMoveFromServerData(data)
-    console.log(type, moveData)
     let object
     if (moveData.isCharacterOfClient) {
-      console.log("receive", Date.now())
       object = character
     } else {
       object = retrieveOrCreateObject({
@@ -527,8 +524,6 @@ socket.onmessage = function (event) {
       type: ObjectType.Plant,
     }) as Plant
     object.stage = stage
-  } else {
-    console.log(body)
   }
 }
 
