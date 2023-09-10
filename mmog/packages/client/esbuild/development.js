@@ -6,6 +6,7 @@ const defaultConfig = retrieveDefaultConfigForDevelopment()
 
 development({
   ...defaultConfig,
+  entryPoints: ["src/index.tsx"],
   define: {
     ...defaultConfig.define,
     ...additionalDefines,

@@ -4,17 +4,30 @@
     <meta charset="utf-8" />
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="build/index.css" />
     <style>
       body {
         margin: 0;
         height: 100vh;
       }
 
+      #root {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
       canvas {
         display: block;
       }
 
-      .credits {
+      .links {
         display: block;
         position: absolute;
         top: 0;
@@ -22,10 +35,19 @@
         background-color: white;
         padding: 0.5rem;
       }
+
+      .links > * {
+        display: inline-block;
+        margin-right: 0.5rem;
+      }
+
+      .links > *:last-child {
+        margin-right: 0;
+      }
     </style>
   </head>
   <body>
-    <a class="credits" href="credits.html" target="_blank">Credits</a>
+    <div id="root"></div>
     <script type="module" src="build/index.js"></script>
   </body>
 </html>

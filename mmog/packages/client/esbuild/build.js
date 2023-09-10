@@ -4,10 +4,13 @@ import { additionalDefines } from "./additionalDefines.js"
 
 const defaultConfig = retrieveDefaultConfigForProduction()
 
-build({
+const config = {
   ...defaultConfig,
+  entryPoints: ["src/index.tsx"],
   define: {
     ...defaultConfig.define,
     ...additionalDefines,
   },
-})
+}
+
+build(config)

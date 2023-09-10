@@ -1,4 +1,6 @@
+import { Authenticator } from "@aws-amplify/ui-react"
 import { sound } from "@pixi/sound"
+import { Amplify, Auth, Hub } from "aws-amplify"
 import { debounce } from "lodash-es"
 import {
   AnimatedSprite,
@@ -10,6 +12,8 @@ import {
   Spritesheet,
   Texture,
 } from "pixi.js"
+import React from "react"
+import ReactDOM from "react-dom/client"
 import { hasFlag } from "../../hasFlag.js"
 import {
   compressMoveDataWithI,
@@ -21,6 +25,8 @@ import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { PlantType } from "../../shared/PlantType.js"
 import { updatePosition } from "../../updatePosition.js"
+import { App } from "./App"
+import { config } from "./config.js"
 import { createUniversalSpritesheet } from "./createUniversalSpritesheet.js"
 
 let i = 1
@@ -37,6 +43,27 @@ if (window.IS_DEVELOPMENT) {
     location.reload(),
   )
 }
+
+const amplifyConfig = {
+  ...(true || config.userPoolId != null
+    ? {
+        Auth: {
+          region: config.awsRegion,
+          userPoolId: config.userPoolId,
+          userPoolWebClientId: config.userPoolClientId,
+        },
+      }
+    : {}),
+}
+Amplify.configure(amplifyConfig)
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <Authenticator.Provider>
+      <App />
+    </Authenticator.Provider>
+  </React.StrictMode>,
+)
 
 const app = new Application({
   backgroundColor: 0x2f8136,
@@ -65,6 +92,22 @@ const {
   hair: Texture<Resource>
   plants: Spritesheet
 } = (await Assets.load(["body", "head", "hair", "plants"])) as any
+
+let socket: WebSocket | null = null
+
+try {
+  await initializeConnection()
+} catch (error) {
+  if (error === "No current user") {
+    Hub.listen("auth", async (data) => {
+      if (data.payload.event === "signIn") {
+        await initializeConnection()
+      }
+    })
+  } else {
+    throw error
+  }
+}
 
 const bodySpritesheet = await createUniversalSpritesheet("body", body)
 const headSpritesheet = await createUniversalSpritesheet("head", head)
@@ -326,21 +369,21 @@ window.addEventListener("keyup", function (event) {
   }
 })
 
-window.addEventListener("pointerdown", function (event) {
+app.view.addEventListener("pointerdown", function (event) {
   const x = event.offsetX
   const y = event.offsetY
   pointerState.isDown = true
   pointerState.position = { x, y }
 })
 
-window.addEventListener("pointerup", function (event) {
+app.view.addEventListener("pointerup", function (event) {
   pointerState.isDown = false
   pointerState.position = null
 })
 
 const sendMoveToServer = function sendMoveToServer(data: MoveData) {
   const OPEN = 1
-  if (socket.readyState === OPEN) {
+  if (socket && socket.readyState === OPEN) {
     lastSentMovement = {
       ...data,
     }
@@ -458,9 +501,64 @@ function updateViewport() {
 //   }
 // }
 
-const socket = new WebSocket(
-  "wss://c6nhirjtx8.execute-api.eu-central-1.amazonaws.com/Prod",
-)
+async function initializeConnection(): Promise<void> {
+  const currentSession = await Auth.currentSession()
+  console.log("currentSession", currentSession)
+  const idToken = currentSession.getIdToken().getJwtToken()
+  socket = new WebSocket(`${window.WEBSOCKET_API_URL}?idToken=${idToken}`)
+  socket.onmessage = function (event) {
+    const body = JSON.parse(event.data)
+    const { type, data } = body
+    if (type === MessageType.Move) {
+      const moveData = decompressMoveFromServerData(data)
+      let object
+      if (moveData.isCharacterOfClient) {
+        object = character
+      } else {
+        object = retrieveOrCreateObject({
+          id: moveData.connectionId,
+          type: ObjectType.Character,
+        })
+      }
+      if (object.lastI === null || moveData.i > object.lastI) {
+        object.update(moveData)
+        object.lastI = moveData.i
+      }
+    } else if (type === MessageType.Objects) {
+      const { objects } = data
+      for (const objectData of objects) {
+        let object
+        if (objectData.isCharacterOfClient) {
+          object = character
+        } else {
+          object = retrieveOrCreateObject({
+            id: objectData.id || objectData.connectionId,
+            type: objectData.type || ObjectType.Character,
+          })
+        }
+        object.update(objectData)
+      }
+    } else if (type === MessageType.OtherClientDisconnected) {
+      const { connectionId } = data
+      const object = objects.get(connectionId)
+      if (object) {
+        objectsContainer.removeChild(object.sprite)
+        objects.delete(connectionId)
+      }
+    } else if (type === MessageType.PlantHasGrown) {
+      const { id, stage } = data
+      const object = retrieveOrCreateObject({
+        id,
+        type: ObjectType.Plant,
+      }) as Plant
+      object.stage = stage
+    }
+  }
+
+  socket.onopen = function () {
+    requestObjects()
+  }
+}
 
 function updateObjectRenderPosition(object: Object): void {
   objectsContainer.removeChild(object.sprite)
@@ -475,55 +573,6 @@ function updateObjectRenderPosition(object: Object): void {
     objectsContainer.addChild(object.sprite)
   } else {
     objectsContainer.addChildAt(object.sprite, index)
-  }
-}
-
-socket.onmessage = function (event) {
-  const body = JSON.parse(event.data)
-  const { type, data } = body
-  if (type === MessageType.Move) {
-    const moveData = decompressMoveFromServerData(data)
-    let object
-    if (moveData.isCharacterOfClient) {
-      object = character
-    } else {
-      object = retrieveOrCreateObject({
-        id: moveData.connectionId,
-        type: ObjectType.Character,
-      })
-    }
-    if (object.lastI === null || moveData.i > object.lastI) {
-      object.update(moveData)
-      object.lastI = moveData.i
-    }
-  } else if (type === MessageType.Objects) {
-    const { objects } = data
-    for (const objectData of objects) {
-      let object
-      if (objectData.isCharacterOfClient) {
-        object = character
-      } else {
-        object = retrieveOrCreateObject({
-          id: objectData.id || objectData.connectionId,
-          type: objectData.type || ObjectType.Character,
-        })
-      }
-      object.update(objectData)
-    }
-  } else if (type === MessageType.OtherClientDisconnected) {
-    const { connectionId } = data
-    const object = objects.get(connectionId)
-    if (object) {
-      objectsContainer.removeChild(object.sprite)
-      objects.delete(connectionId)
-    }
-  } else if (type === MessageType.PlantHasGrown) {
-    const { id, stage } = data
-    const object = retrieveOrCreateObject({
-      id,
-      type: ObjectType.Plant,
-    }) as Plant
-    object.stage = stage
   }
 }
 
@@ -565,16 +614,14 @@ function updateObject(object: Object, objectData: any): void {
   }
 }
 
-socket.onopen = function () {
-  requestObjects()
-}
-
 function requestObjects(): void {
-  socket.send(
-    JSON.stringify({
-      type: MessageType.RequestObjects,
-    }),
-  )
+  if (socket) {
+    socket.send(
+      JSON.stringify({
+        type: MessageType.RequestObjects,
+      }),
+    )
+  }
 }
 
 window.addEventListener(

@@ -18,7 +18,7 @@
     "directory": "mmog/packages/client"
   },
   "scripts": {
-    "development": "node esbuild/development.js",
+    "development": "run.sh",
     "build": "node esbuild/build.js"
   },
   "dependencies": {

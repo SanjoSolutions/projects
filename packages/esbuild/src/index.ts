@@ -5,10 +5,10 @@ export function build<T extends BuildOptions>(
   config: SameShape<BuildOptions, T>,
 ): Promise<esbuild.BuildResult<T>> {
   return esbuild.build({
-    ...config,
     define: {
       "window.IS_DEVELOPMENT": "false",
     },
+    ...config,
   })
 }
 
@@ -16,11 +16,11 @@ export async function development<T extends BuildOptions>(
   config: SameShape<BuildOptions, T>,
 ): Promise<void> {
   const context = await esbuild.context({
-    ...config,
     sourcemap: true,
     define: {
       "window.IS_DEVELOPMENT": "true",
     },
+    ...config,
   })
 
   await context.watch()

@@ -32,7 +32,8 @@ export async function handler(
     apiVersion: "2018-11-29",
     endpoint: `https://${event.requestContext.domainName}/${event.requestContext.stage}`,
   })
-  const character: Connection = {
+
+  const connection: Connection = {
     id: randomUUID(),
     connectionId: event.requestContext.connectionId,
     type: ObjectType.Character,
@@ -43,14 +44,15 @@ export async function handler(
     whenMovingHasChanged: Date.now(),
     i: 0,
   }
-  await sendMovementToClients(apiGwManagementApi, character)
+  await sendMovementToClients(apiGwManagementApi, connection)
 
+  const userID = event.requestContext.authorizer!.userId
   await database.send(
     new PutCommand({
       TableName: CONNECTIONS_TABLE_NAME,
-      Item: character,
+      Item: { ...connection, userID },
     }),
   )
 
-  return { statusCode: 200, body: "Connected." }
+  return { statusCode: 200 }
 }

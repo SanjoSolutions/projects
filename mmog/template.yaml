@@ -100,6 +100,16 @@ Resources:
       ManagedPolicyArns:
         - 'arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs'
 
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AutoVerifiedAttributes:
+        - email
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref UserPool
 
   OnConnectFunction:
     Type: AWS::Serverless::Function
@@ -125,12 +135,22 @@ Resources:
     Properties:
       ApiId: !Ref WebSocket
       RouteKey: $connect
-      AuthorizationType: NONE
+      AuthorizationType: CUSTOM
+      AuthorizerId: !Ref Authorizer
       OperationName: ConnectRoute
       Target: !Join
         - '/'
         - - 'integrations'
           - !Ref ConnectIntegration
+  Authorizer:
+    Type: 'AWS::ApiGatewayV2::Authorizer'
+    Properties:
+      Name: Authorizer
+      ApiId: !Ref WebSocket
+      AuthorizerType: REQUEST
+      AuthorizerUri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AuthorizerFunction.Arn}/invocations'
+      IdentitySource:
+        - route.request.querystring.idToken
   ConnectIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
@@ -345,6 +365,30 @@ Resources:
               Resource:
                 - !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
 
+  AuthorizerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/authorizer/
+      Handler: index.handler
+      MemorySize: 256
+      Runtime: nodejs18.x
+      Environment:
+        Variables:
+          USER_POOL_ID: !Ref UserPool
+          APP_CLIENT_ID: !Ref UserPoolClient
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ObjectsTableName
+  AuthorizerPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - WebSocket
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref AuthorizerFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${WebSocket}/*'
+
 Outputs:
   ConnectionsTableArn:
     Description: "Connections table ARN"
@@ -365,3 +409,11 @@ Outputs:
   WebSocketURI:
     Description: "The WSS Protocol URI to connect to"
     Value: !Join [ '', [ 'wss://', !Ref WebSocket, '.execute-api.',!Ref 'AWS::Region','.amazonaws.com/',!Ref 'Stage'] ]
+
+  UserPoolId:
+    Description: "The ID of the user pool"
+    Value: !Ref UserPool
+
+  UserPoolClientId:
+    Description: "The ID of the user pool client"
+    Value: !Ref UserPoolClient

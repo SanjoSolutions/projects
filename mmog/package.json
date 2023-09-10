@@ -4,7 +4,7 @@
   "type": "module",
   "description": "MMOG",
   "scripts": {
-    "build": "yarn build:proto && esbuild packages/aws/move/index.ts packages/aws/initializeWorld/index.ts packages/aws/move/index.ts packages/aws/onConnect/index.ts packages/aws/onDisconnect/index.ts packages/aws/requestObjects/index.ts packages/aws/growPlants/index.ts --bundle --platform=node --target=node18 --outdir=build/ --sourcemap --minify --external:@aws-sdk/client-apigatewaymanagementapi,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb",
+    "build": "yarn build:proto && esbuild packages/aws/move/index.ts packages/aws/initializeWorld/index.ts packages/aws/move/index.ts packages/aws/onConnect/index.ts packages/aws/onDisconnect/index.ts packages/aws/requestObjects/index.ts packages/aws/growPlants/index.ts packages/aws/authorizer/index.ts --bundle --platform=node --target=node18 --outdir=build/ --sourcemap --minify --external:@aws-sdk/client-apigatewaymanagementapi,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb",
     "build:proto": "protoc --ts_out=. packages/shared/*.proto",
     "build:test": "esbuild packages/shared/test.ts --bundle --platform=node --target=node18 --outfile=build/test.cjs --sourcemap",
     "build:test2": "esbuild packages/shared/test2.ts --bundle --platform=node --target=node18 --outfile=build/test2.cjs --sourcemap",
@@ -26,11 +26,16 @@
     "access": "public"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^5.3.0",
     "@aws-sdk/client-apigatewaymanagementapi": "^3.408.0",
     "@aws-sdk/client-dynamodb": "^3.408.0",
     "@aws-sdk/lib-dynamodb": "^3.408.0",
+    "aws-amplify": "^5.3.10",
+    "aws-jwt-verify": "^4.0.0",
     "buffer": "^6.0.3",
-    "google-protobuf": "^3.21.2"
+    "google-protobuf": "^3.21.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.119",

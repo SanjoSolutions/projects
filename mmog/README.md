@@ -17,6 +17,10 @@ sam build
 sam deploy --guided
 ```
 
+### EC2
+
+There is also a server component which runs on EC2.
+
 ## How to run the client
 
 ```sh
