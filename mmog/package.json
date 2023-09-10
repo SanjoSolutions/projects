@@ -9,6 +9,7 @@
     "build:test": "esbuild packages/shared/test.ts --bundle --platform=node --target=node18 --outfile=build/test.cjs --sourcemap",
     "build:test2": "esbuild packages/shared/test2.ts --bundle --platform=node --target=node18 --outfile=build/test2.cjs --sourcemap",
     "build:test3": "esbuild packages/shared/test3.ts --bundle --platform=node --target=node18 --outfile=build/test3.cjs --sourcemap",
+    "build:server": "yarn build:proto && esbuild packages/aws/server.ts --bundle --platform=node --target=node20 --outdir=build/ --sourcemap --packages=external",
     "deploy": "yarn build && sam deploy"
   },
   "keywords": [],

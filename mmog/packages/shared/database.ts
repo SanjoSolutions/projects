@@ -13,6 +13,8 @@ export interface Connection {
   direction: Direction
   whenMovingHasChanged: number
   objectInHand?: ID
+  objectsThatHaveBeenSentToTheClient?: ID[]
+  i: number
 }
 
 export interface Object {

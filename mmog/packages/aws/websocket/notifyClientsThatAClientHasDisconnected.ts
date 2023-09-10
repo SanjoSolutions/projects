@@ -4,7 +4,7 @@ import {
 } from "@aws-sdk/client-apigatewaymanagementapi"
 import { MessageType } from "../../shared/communication/communication.js"
 import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
-import { createScanCommandForCloseByConnections } from "../database/createScanCommandForCloseByConnections.js"
+import { createScanCommandInputForCloseByConnections } from "../database/createScanCommandInputForCloseByConnections.js"
 import { retrieveConnection } from "../database/retrieveConnection.js"
 import { scanThroughAll } from "../database/scanThroughAll.js"
 import { postToConnection } from "./postToConnection.js"
@@ -33,8 +33,7 @@ export async function notifyClientsThatAClientHasDisconnected(
     }
 
     await scanThroughAll(
-      (lastEvaluatedKey) =>
-        createScanCommandForCloseByConnections(position, lastEvaluatedKey),
+      () => createScanCommandInputForCloseByConnections(position),
       async (output) => {
         const items = output.Items
         if (items) {

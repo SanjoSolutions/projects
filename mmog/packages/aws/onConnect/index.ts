@@ -41,8 +41,9 @@ export async function handler(
     isMoving: false,
     direction: Direction.Down,
     whenMovingHasChanged: Date.now(),
+    i: 0,
   }
-  await sendMovementToClients(apiGwManagementApi, { ...character, i: 0 })
+  await sendMovementToClients(apiGwManagementApi, character)
 
   await database.send(
     new PutCommand({

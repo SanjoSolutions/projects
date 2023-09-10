@@ -2,7 +2,7 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import { ScanCommand, ScanCommandInput } from "@aws-sdk/lib-dynamodb"
+import type { ScanCommandInput } from "@aws-sdk/lib-dynamodb"
 import type {
   APIGatewayProxyResultV2,
   APIGatewayProxyWebsocketEventV2,
@@ -10,7 +10,6 @@ import type {
 import { MessageType } from "../../shared/communication/communication.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { updatePosition } from "../../updatePosition.js"
-import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
 import { retrieveConnection } from "../database/retrieveConnection.js"
 import { scanThroughAll } from "../database/scanThroughAll.js"
 import { postToConnection } from "../websocket/postToConnection.js"
@@ -36,8 +35,6 @@ const MAXIMUM_SUPPORTED_RESOLUTION = {
 const HALF_WIDTH = Math.ceil(MAXIMUM_SUPPORTED_RESOLUTION.width / 2)
 const HALF_HEIGHT = Math.ceil(MAXIMUM_SUPPORTED_RESOLUTION.height / 2)
 
-const ddb = createDynamoDBDocumentClient()
-
 export async function handler(
   event: APIGatewayProxyWebsocketEventV2,
 ): Promise<APIGatewayProxyResultV2> {
@@ -51,9 +48,14 @@ export async function handler(
 
     const objects: any[] = []
 
-    async function retrieveObjects(createScanCommand: any): Promise<void> {
+    async function retrieveObjects(
+      createScanCommandInput: (position: {
+        x: number
+        y: number
+      }) => ScanCommandInput,
+    ): Promise<void> {
       await scanThroughAll(
-        (lastEvaluatedKey) => createScanCommand(position, lastEvaluatedKey),
+        () => createScanCommandInput(position),
         async (output) => {
           const items = output.Items
           if (items) {
@@ -96,8 +98,8 @@ export async function handler(
     }
 
     await Promise.all([
-      retrieveObjects(createConnectionsScanCommand),
-      retrieveObjects(createObjectsScanCommand),
+      retrieveObjects(createConnectionsScanCommandInput),
+      retrieveObjects(createObjectsScanCommandInput),
     ])
 
     const postData = JSON.stringify({
@@ -126,11 +128,11 @@ export async function handler(
   }
 }
 
-function createObjectsScanCommand(
-  position: { x: number; y: number },
-  exclusiveStartKey?: Record<string, any>,
-): ScanCommand {
-  const input: ScanCommandInput = {
+function createObjectsScanCommandInput(position: {
+  x: number
+  y: number
+}): ScanCommandInput {
+  return {
     TableName: OBJECTS_TABLE_NAME,
     ProjectionExpression:
       "connectionId, x, y, direction, isMoving, #type, id, whenMovingHasChanged, plantType, stage",
@@ -145,17 +147,13 @@ function createObjectsScanCommand(
       "#type": "type",
     },
   }
-  if (exclusiveStartKey) {
-    input.ExclusiveStartKey = exclusiveStartKey
-  }
-  return new ScanCommand(input)
 }
 
-function createConnectionsScanCommand(
-  position: { x: number; y: number },
-  exclusiveStartKey?: Record<string, any>,
-): ScanCommand {
-  const input: ScanCommandInput = {
+function createConnectionsScanCommandInput(position: {
+  x: number
+  y: number
+}): ScanCommandInput {
+  return {
     TableName: CONNECTIONS_TABLE_NAME,
     ProjectionExpression:
       "connectionId, x, y, direction, isMoving, #type, id, whenMovingHasChanged",
@@ -170,8 +168,4 @@ function createConnectionsScanCommand(
       "#type": "type",
     },
   }
-  if (exclusiveStartKey) {
-    input.ExclusiveStartKey = exclusiveStartKey
-  }
-  return new ScanCommand(input)
 }

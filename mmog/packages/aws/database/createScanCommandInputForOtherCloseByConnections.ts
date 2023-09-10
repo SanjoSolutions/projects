@@ -1,12 +1,11 @@
-import { ScanCommand, ScanCommandInput } from "@aws-sdk/lib-dynamodb"
+import type { ScanCommandInput } from "@aws-sdk/lib-dynamodb"
 import { HALF_HEIGHT, HALF_WIDTH } from "../maximumSupportedResolution.js"
 
-export function createScanCommandForOtherCloseByConnections(
+export function createScanCommandInputForOtherCloseByConnections(
   position: { x: number; y: number },
   connectionId: string,
-  exclusiveStartKey?: Record<string, any>,
-): ScanCommand {
-  const input: ScanCommandInput = {
+): ScanCommandInput {
+  return {
     TableName: process.env.CONNECTIONS_TABLE_NAME,
     ProjectionExpression: "connectionId",
     FilterExpression:
@@ -19,8 +18,4 @@ export function createScanCommandForOtherCloseByConnections(
       ":y2": position.y + HALF_HEIGHT,
     },
   }
-  if (exclusiveStartKey) {
-    input.ExclusiveStartKey = exclusiveStartKey
-  }
-  return new ScanCommand(input)
 }

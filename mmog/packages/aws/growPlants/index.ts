@@ -2,13 +2,13 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import { ScanCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb"
+import { UpdateCommand } from "@aws-sdk/lib-dynamodb"
 import type { ScheduledEvent } from "aws-lambda/trigger/cloudwatch-events.js"
 import { MessageType } from "../../shared/communication/communication.js"
 import type { Plant } from "../../shared/database.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
-import { createScanCommandForCloseByConnections } from "../database/createScanCommandForCloseByConnections.js"
+import { createScanCommandInputForCloseByConnections } from "../database/createScanCommandInputForCloseByConnections.js"
 import { scanThroughAll } from "../database/scanThroughAll.js"
 import { postToConnection } from "../websocket/postToConnection.js"
 
@@ -32,19 +32,18 @@ const apiGwManagementApi = new ApiGatewayManagementApiClient({
 
 export async function handler(event: ScheduledEvent): Promise<void> {
   await scanThroughAll(
-    (lastEvaluatedKey) =>
-      new ScanCommand({
-        TableName: process.env.OBJECTS_TABLE_NAME,
-        ProjectionExpression: "id, stage, x, y",
-        FilterExpression: "#type = :type AND stage < :maxGrowStage",
-        ExpressionAttributeValues: {
-          ":type": ObjectType.Plant,
-          ":maxGrowStage": 3,
-        },
-        ExpressionAttributeNames: {
-          "#type": "type",
-        },
-      }),
+    () => ({
+      TableName: process.env.OBJECTS_TABLE_NAME,
+      ProjectionExpression: "id, stage, x, y",
+      FilterExpression: "#type = :type AND stage < :maxGrowStage",
+      ExpressionAttributeValues: {
+        ":type": ObjectType.Plant,
+        ":maxGrowStage": 3,
+      },
+      ExpressionAttributeNames: {
+        "#type": "type",
+      },
+    }),
     async (output) => {
       const items = output.Items
       if (items) {
@@ -92,8 +91,7 @@ async function sendPlantHasGrownToClients(
   }
 
   await scanThroughAll(
-    (lastEvaluatedKey) =>
-      createScanCommandForCloseByConnections(position, lastEvaluatedKey),
+    () => createScanCommandInputForCloseByConnections(position),
     async (output) => {
       const items = output.Items
       if (items) {

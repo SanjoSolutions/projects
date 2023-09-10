@@ -1,6 +1,6 @@
 import type { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi"
 import type { MoveFromServerData } from "../../shared/communication/messagesFromServer.js"
-import { createScanCommandForOtherCloseByConnections } from "../database/createScanCommandForOtherCloseByConnections.js"
+import { createScanCommandInputForOtherCloseByConnections } from "../database/createScanCommandInputForOtherCloseByConnections.js"
 import { scanThroughAll } from "../database/scanThroughAll.js"
 import { sendMovementToClient } from "./sendMovementToClient.js"
 
@@ -10,12 +10,8 @@ export async function sendMovementToOtherClients(
   object: MoveFromServerData,
 ): Promise<void> {
   await scanThroughAll(
-    (lastEvaluatedKey) =>
-      createScanCommandForOtherCloseByConnections(
-        object,
-        connectionId,
-        lastEvaluatedKey,
-      ),
+    () =>
+      createScanCommandInputForOtherCloseByConnections(object, connectionId),
     async (output) => {
       const items = output.Items
       if (items) {
