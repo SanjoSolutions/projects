@@ -2,11 +2,7 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import {
-  ScanCommand,
-  ScanCommandInput,
-  ScanCommandOutput,
-} from "@aws-sdk/lib-dynamodb"
+import { ScanCommand, ScanCommandInput } from "@aws-sdk/lib-dynamodb"
 import type {
   APIGatewayProxyResultV2,
   APIGatewayProxyWebsocketEventV2,
@@ -16,6 +12,7 @@ import { ObjectType } from "../../shared/ObjectType.js"
 import { updatePosition } from "../../updatePosition.js"
 import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
 import { retrieveConnection } from "../database/retrieveConnection.js"
+import { scanThroughAll } from "../database/scanThroughAll.js"
 import { postToConnection } from "../websocket/postToConnection.js"
 
 Error.stackTraceLimit = Infinity
@@ -54,51 +51,48 @@ export async function handler(
 
     const objects: any[] = []
 
-    async function retrieveObjects(scanFunction: any): Promise<void> {
-      let lastEvaluatedKey: Record<string, any> | undefined = undefined
-      do {
-        const connections = (await ddb.send(
-          scanFunction(position, lastEvaluatedKey),
-        )) as ScanCommandOutput
-        const items = connections.Items
-        if (items) {
-          await Promise.all(
-            items.map(
-              async ({
-                connectionId,
-                x,
-                y,
-                direction,
-                isMoving,
-                type,
-                whenMovingHasChanged,
-                plantType,
-                stage,
-              }) => {
-                const object: any = {
+    async function retrieveObjects(createScanCommand: any): Promise<void> {
+      await scanThroughAll(
+        (lastEvaluatedKey) => createScanCommand(position, lastEvaluatedKey),
+        async (output) => {
+          const items = output.Items
+          if (items) {
+            await Promise.all(
+              items.map(
+                async ({
                   connectionId,
                   x,
                   y,
                   direction,
                   isMoving,
-                  type: type || ObjectType.Character,
+                  type,
+                  whenMovingHasChanged,
                   plantType,
                   stage,
-                }
-                if (connectionId === event.requestContext.connectionId) {
-                  object.isCharacterOfClient = true
-                }
-                if (isMoving) {
-                  updatePosition(object, Date.now() - whenMovingHasChanged)
-                }
-                objects.push(object)
-              },
-            ),
-          )
-        }
-
-        lastEvaluatedKey = connections.LastEvaluatedKey
-      } while (lastEvaluatedKey)
+                }) => {
+                  const object: any = {
+                    connectionId,
+                    x,
+                    y,
+                    direction,
+                    isMoving,
+                    type: type || ObjectType.Character,
+                    plantType,
+                    stage,
+                  }
+                  if (connectionId === event.requestContext.connectionId) {
+                    object.isCharacterOfClient = true
+                  }
+                  if (isMoving) {
+                    updatePosition(object, Date.now() - whenMovingHasChanged)
+                  }
+                  objects.push(object)
+                },
+              ),
+            )
+          }
+        },
+      )
     }
 
     await Promise.all([

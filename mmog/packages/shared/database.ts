@@ -1,9 +1,10 @@
 import type { Direction } from "./Direction.js"
+import type { ID } from "./ID.js"
 import type { ObjectType } from "./ObjectType.js"
 import type { PlantType } from "./PlantType.js"
 
 export interface Connection {
-  id: string
+  id: ID
   connectionId: string
   type: ObjectType.Character
   x: number
@@ -11,10 +12,11 @@ export interface Connection {
   isMoving: boolean
   direction: Direction
   whenMovingHasChanged: number
+  objectInHand?: ID
 }
 
 export interface Object {
-  id: string
+  id: ID
   type: ObjectType
   x: number
   y: number

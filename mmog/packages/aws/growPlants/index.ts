@@ -2,17 +2,14 @@ import {
   ApiGatewayManagementApiClient,
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
-import {
-  ScanCommand,
-  ScanCommandOutput,
-  UpdateCommand,
-} from "@aws-sdk/lib-dynamodb"
+import { ScanCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb"
 import type { ScheduledEvent } from "aws-lambda/trigger/cloudwatch-events.js"
 import { MessageType } from "../../shared/communication/communication.js"
 import type { Plant } from "../../shared/database.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
 import { createScanCommandForCloseByConnections } from "../database/createScanCommandForCloseByConnections.js"
+import { scanThroughAll } from "../database/scanThroughAll.js"
 import { postToConnection } from "../websocket/postToConnection.js"
 
 Error.stackTraceLimit = Infinity
@@ -34,9 +31,8 @@ const apiGwManagementApi = new ApiGatewayManagementApiClient({
 })
 
 export async function handler(event: ScheduledEvent): Promise<void> {
-  let lastEvaluatedKey: Record<string, any> | undefined = undefined
-  do {
-    const plantsToUpdate = await database.send(
+  await scanThroughAll(
+    (lastEvaluatedKey) =>
       new ScanCommand({
         TableName: process.env.OBJECTS_TABLE_NAME,
         ProjectionExpression: "id, stage, x, y",
@@ -49,33 +45,32 @@ export async function handler(event: ScheduledEvent): Promise<void> {
           "#type": "type",
         },
       }),
-    )
-    const items = plantsToUpdate.Items
-    if (items) {
-      await Promise.all(
-        items.map(async ({ id, stage, x, y }) => {
-          await database.send(
-            new UpdateCommand({
-              Key: { id },
-              TableName: OBJECTS_TABLE_NAME,
-              UpdateExpression: "SET stage = stage + :increment",
-              ExpressionAttributeValues: {
-                ":increment": 1,
-              },
-            }),
-          )
-          await sendPlantHasGrownToClients(apiGwManagementApi, {
-            id,
-            stage: stage + 1,
-            x,
-            y,
-          })
-        }),
-      )
-    }
-
-    lastEvaluatedKey = plantsToUpdate.LastEvaluatedKey
-  } while (lastEvaluatedKey)
+    async (output) => {
+      const items = output.Items
+      if (items) {
+        await Promise.all(
+          items.map(async ({ id, stage, x, y }) => {
+            await database.send(
+              new UpdateCommand({
+                Key: { id },
+                TableName: OBJECTS_TABLE_NAME,
+                UpdateExpression: "SET stage = stage + :increment",
+                ExpressionAttributeValues: {
+                  ":increment": 1,
+                },
+              }),
+            )
+            await sendPlantHasGrownToClients(apiGwManagementApi, {
+              id,
+              stage: stage + 1,
+              x,
+              y,
+            })
+          }),
+        )
+      }
+    },
+  )
 }
 
 async function sendPlantHasGrownToClients(
@@ -96,26 +91,24 @@ async function sendPlantHasGrownToClients(
     y: plant.y,
   }
 
-  let lastEvaluatedKey: Record<string, any> | undefined = undefined
-  do {
-    const connections = (await database.send(
+  await scanThroughAll(
+    (lastEvaluatedKey) =>
       createScanCommandForCloseByConnections(position, lastEvaluatedKey),
-    )) as ScanCommandOutput
-    const items = connections.Items
-    if (items) {
-      await Promise.all(
-        items.map(async ({ connectionId }) => {
-          await postToConnection(
-            apiGwManagementApi,
-            new PostToConnectionCommand({
-              ConnectionId: connectionId,
-              Data: postData,
-            }),
-          )
-        }),
-      )
-    }
-
-    lastEvaluatedKey = connections.LastEvaluatedKey
-  } while (lastEvaluatedKey)
+    async (output) => {
+      const items = output.Items
+      if (items) {
+        await Promise.all(
+          items.map(async ({ connectionId }) => {
+            await postToConnection(
+              apiGwManagementApi,
+              new PostToConnectionCommand({
+                ConnectionId: connectionId,
+                Data: postData,
+              }),
+            )
+          }),
+        )
+      }
+    },
+  )
 }

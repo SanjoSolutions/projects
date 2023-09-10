@@ -206,6 +206,7 @@ Resources:
   MoveFunction:
     Type: AWS::Serverless::Function
     Properties:
+      Tracing: Active
       CodeUri: build/move/
       Handler: index.handler
       MemorySize: 2048

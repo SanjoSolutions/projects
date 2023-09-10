@@ -1,8 +1,7 @@
 import type { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi"
-import type { ScanCommandOutput } from "@aws-sdk/lib-dynamodb"
 import type { MoveFromServerData } from "../../shared/communication/messagesFromServer.js"
-import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
 import { createScanCommandForOtherCloseByConnections } from "../database/createScanCommandForOtherCloseByConnections.js"
+import { scanThroughAll } from "../database/scanThroughAll.js"
 import { sendMovementToClient } from "./sendMovementToClient.js"
 
 export async function sendMovementToOtherClients(
@@ -10,25 +9,22 @@ export async function sendMovementToOtherClients(
   connectionId: string,
   object: MoveFromServerData,
 ): Promise<void> {
-  let lastEvaluatedKey: Record<string, any> | undefined = undefined
-  const database = createDynamoDBDocumentClient()
-  do {
-    const connections = (await database.send(
+  await scanThroughAll(
+    (lastEvaluatedKey) =>
       createScanCommandForOtherCloseByConnections(
         object,
         connectionId,
         lastEvaluatedKey,
       ),
-    )) as ScanCommandOutput
-    const items = connections.Items
-    if (items) {
-      await Promise.all(
-        items.map(({ connectionId }) =>
-          sendMovementToClient(apiGwManagementApi, object, connectionId),
-        ),
-      )
-    }
-
-    lastEvaluatedKey = connections.LastEvaluatedKey
-  } while (lastEvaluatedKey)
+    async (output) => {
+      const items = output.Items
+      if (items) {
+        await Promise.all(
+          items.map(({ connectionId }) =>
+            sendMovementToClient(apiGwManagementApi, object, connectionId),
+          ),
+        )
+      }
+    },
+  )
 }

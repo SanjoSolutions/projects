@@ -318,6 +318,9 @@ const sendMoveToServer = function sendMoveToServer(data: MoveData) {
   const OPEN = 1
   if (socket.readyState === OPEN) {
     console.log("send", Date.now())
+    lastSentMovement = {
+      ...data,
+    }
     socket.send(
       JSON.stringify({
         type: MessageType.Move,
@@ -371,7 +374,10 @@ function convertKeysDownToIsMoving(keysDown: KeysDown): boolean {
   return left || right || up || down
 }
 
-let lastSentMovement: MoveData | null = null
+let lastSentMovement: MoveData | null = {
+  isMoving: false,
+  direction: Direction.Down,
+}
 
 app.ticker.add(() => {
   const left = keyStates.get("KeyA")!
@@ -401,11 +407,10 @@ app.ticker.add(() => {
     isMoving !== lastSentMovement.isMoving ||
     direction !== lastSentMovement.direction
   ) {
-    lastSentMovement = {
+    sendMoveToServer({
       isMoving: isMoving,
       direction: direction,
-    }
-    sendMoveToServer(lastSentMovement)
+    })
   }
 
   for (const object of objects.values()) {
@@ -431,7 +436,7 @@ function updateViewport() {
 // }
 
 const socket = new WebSocket(
-  "wss://w965op18e6.execute-api.eu-central-1.amazonaws.com/Prod",
+  "wss://c6nhirjtx8.execute-api.eu-central-1.amazonaws.com/Prod",
 )
 
 function updateObjectRenderPosition(object: Object): void {
