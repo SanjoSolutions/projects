@@ -1,10 +1,10 @@
 import { ApiGatewayManagementApiClient } from "@aws-sdk/client-apigatewaymanagementapi"
 import type { ScanCommandInput } from "@aws-sdk/lib-dynamodb"
-import type { Connection } from "../shared/database.js"
-import type { ID } from "../shared/ID.js"
-import { scanThroughAll } from "./database/scanThroughAll.js"
-import { HALF_HEIGHT, HALF_WIDTH } from "./maximumSupportedResolution.js"
-import { sendMovementToClient } from "./websocket/sendMovementToClient.js"
+import type { Connection } from "../../shared/database.js"
+import type { ID } from "../../shared/ID.js"
+import { scanThroughAll } from "../database/scanThroughAll.js"
+import { HALF_HEIGHT, HALF_WIDTH } from "../maximumSupportedResolution.js"
+import { sendMovementToClient } from "../websocket/sendMovementToClient.js"
 
 // Environment variables required:
 // * API_GATEWAY_URL
@@ -12,35 +12,43 @@ import { sendMovementToClient } from "./websocket/sendMovementToClient.js"
 const TICK_RATE = 30 // ticks per second
 const MAXIMUM_NUMBER_OF_ITEMS_THAT_CAN_BE_IN_IN_EXPRESSION = 100
 
-while (true) {
-  let lastRun = Date.now()
-  await scanThroughAll(
-    createScanCommandInputForAllConnections,
-    async (output) => {
-      const items = output.Items
-      if (items) {
-        await Promise.all(
-          items.map((connection) =>
-            sendObjectsToTheClient(
-              connection as Pick<
-                Connection,
-                | "id"
-                | "connectionId"
-                | "objectsThatHaveBeenSentToTheClient"
-                | "x"
-                | "y"
-              >,
+async function main() {
+  debugger
+  while (true) {
+    let lastRun = Date.now()
+    await scanThroughAll(
+      createScanCommandInputForAllConnections,
+      async (output) => {
+        const items = output.Items
+        if (items) {
+          await Promise.all(
+            items.map((connection) =>
+              sendObjectsToTheClient(
+                connection as Pick<
+                  Connection,
+                  | "id"
+                  | "connectionId"
+                  | "objectsThatHaveBeenSentToTheClient"
+                  | "x"
+                  | "y"
+                >,
+              ),
             ),
-          ),
-        )
-      }
-    },
-  )
-  const durationToWait = Math.max(1000 / TICK_RATE - (Date.now() - lastRun), 0)
-  if (durationToWait > 0) {
-    await wait(durationToWait)
+          )
+        }
+      },
+    )
+    const durationToWait = Math.max(
+      1000 / TICK_RATE - (Date.now() - lastRun),
+      0,
+    )
+    if (durationToWait > 0) {
+      await wait(durationToWait)
+    }
   }
 }
+
+main()
 
 async function wait(duration: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, duration))

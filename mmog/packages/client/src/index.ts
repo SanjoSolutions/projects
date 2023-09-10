@@ -237,7 +237,7 @@ class Character extends Object {
     } else if (hasFlag(this.direction, Direction.Down)) {
       return spritesheet.animations.down
     } else if (hasFlag(this.direction, Direction.Left)) {
-      return spritesheet.animations.left
+      return spritesheet.animations.leftn
     } else if (hasFlag(this.direction, Direction.Right)) {
       return spritesheet.animations.right
     } else {
@@ -305,6 +305,14 @@ const keyStates = new Map([
   ["KeyS", false],
 ])
 
+const pointerState: {
+  isDown: boolean
+  position: { x: number; y: number } | null
+} = {
+  isDown: false,
+  position: null,
+}
+
 window.addEventListener("keydown", function (event) {
   if (keyStates.has(event.code)) {
     event.preventDefault()
@@ -316,6 +324,18 @@ window.addEventListener("keyup", function (event) {
   if (keyStates.has(event.code)) {
     keyStates.set(event.code, false)
   }
+})
+
+window.addEventListener("pointerdown", function (event) {
+  const x = event.offsetX
+  const y = event.offsetY
+  pointerState.isDown = true
+  pointerState.position = { x, y }
+})
+
+window.addEventListener("pointerup", function (event) {
+  pointerState.isDown = false
+  pointerState.position = null
 })
 
 const sendMoveToServer = function sendMoveToServer(data: MoveData) {
