@@ -43,8 +43,6 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 15
         WriteCapacityUnits: 15
-      SSESpecification:
-        SSEEnabled: True
       TableName: !Ref ConnectionsTableName
 
   ObjectsTable:
@@ -59,8 +57,6 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-      SSESpecification:
-        SSEEnabled: True
       TableName: !Ref ObjectsTableName
 
   WebSocket:
