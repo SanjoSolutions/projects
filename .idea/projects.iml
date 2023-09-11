@@ -53,6 +53,7 @@
       <excludeFolder url="file://$MODULE_DIR$/mmog/packages/client/public/build" />
       <excludeFolder url="file://$MODULE_DIR$/mmog/packages/shared/build" />
       <excludeFolder url="file://$MODULE_DIR$/mmog/build" />
+      <excludeFolder url="file://$MODULE_DIR$/mmog/packages/aws/server/build/server" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
