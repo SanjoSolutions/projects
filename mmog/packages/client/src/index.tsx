@@ -503,7 +503,6 @@ function updateViewport() {
 
 async function initializeConnection(): Promise<void> {
   const currentSession = await Auth.currentSession()
-  console.log("currentSession", currentSession)
   const idToken = currentSession.getIdToken().getJwtToken()
   socket = new WebSocket(`${window.WEBSOCKET_API_URL}?idToken=${idToken}`)
   socket.onmessage = function (event) {
