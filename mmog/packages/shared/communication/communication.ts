@@ -1,6 +1,6 @@
 import { Buffer } from "buffer"
 import type { Direction } from "../Direction.js"
-import { MoveDataWithI as MoveDataWithIProto } from "../MoveDataWithI.js"
+import { MoveDataWithI as MoveDataWithIProto } from "../proto/MoveDataWithI.js"
 
 export interface MoveData {
   isMoving: boolean

@@ -1,5 +1,5 @@
 import type { Direction } from "../Direction.js"
-import { MoveFromServerData as MoveFromServerDataProto } from "../MoveFromServerData.js"
+import { MoveFromServerData as MoveFromServerDataProto } from "../proto/MoveFromServerData.js"
 import { compress, decompress } from "./communication.js"
 
 export interface MoveFromServerData {
