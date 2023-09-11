@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "deploy:website": "firebase deploy --only hosting"
   }
 }
