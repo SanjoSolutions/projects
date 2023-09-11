@@ -4,15 +4,8 @@ import type { ObjectType } from "./ObjectType.js"
 import type { PlantType } from "./PlantType.js"
 
 export interface Connection {
-  id: ID
   connectionId: string
-  type: ObjectType.Character
-  x: number
-  y: number
-  isMoving: boolean
-  direction: Direction
-  whenMovingHasChanged: number
-  objectInHand?: ID
+  userID: string
   objectsThatHaveBeenSentToTheClient?: ID[]
   i: number
 }
@@ -22,6 +15,9 @@ export interface Object {
   type: ObjectType
   x: number
   y: number
+  isMoving: boolean
+  direction: Direction
+  whenMovingHasChanged: number
 }
 
 export interface Plant extends Object {

@@ -121,9 +121,12 @@ Resources:
       Environment:
         Variables:
           CONNECTIONS_TABLE_NAME: !Ref ConnectionsTableName
+          OBJECTS_TABLE_NAME: !Ref ObjectsTableName
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ConnectionsTableName
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ObjectsTableName
         - Statement:
             - Effect: Allow
               Action:
