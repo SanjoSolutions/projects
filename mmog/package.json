@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.119",
-    "@types/google-protobuf": "^3.15.6",
-    "esbuild": "^0.19.2"
+    "@types/google-protobuf": "^3.15.6"
   }
 }
