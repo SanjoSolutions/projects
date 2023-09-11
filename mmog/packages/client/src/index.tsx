@@ -25,7 +25,7 @@ import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { PlantType } from "../../shared/PlantType.js"
 import { updatePosition } from "../../updatePosition.js"
-import { App } from "./App"
+import { App } from "./App.jsx"
 import { config } from "./config.js"
 import { createUniversalSpritesheet } from "./createUniversalSpritesheet.js"
 
@@ -368,15 +368,17 @@ window.addEventListener("keyup", function (event) {
     keyStates.set(event.code, false)
   }
 })
-
-app.view.addEventListener("pointerdown", function (event) {
-  const x = event.offsetX
-  const y = event.offsetY
-  pointerState.isDown = true
-  pointerState.position = { x, y }
-})
-
-app.view.addEventListener("pointerup", function (event) {
+;(app.view as HTMLCanvasElement).addEventListener(
+  "pointerdown",
+  function (event) {
+    event.preventDefault()
+    const x = event.offsetX
+    const y = event.offsetY
+    pointerState.isDown = true
+    pointerState.position = { x, y }
+  },
+)
+;(app.view as HTMLCanvasElement).addEventListener("pointerup", function () {
   pointerState.isDown = false
   pointerState.position = null
 })
@@ -595,22 +597,6 @@ function retrieveOrCreateObject({
     objects.set(id, object)
   }
   return object
-}
-
-function updateObject(object: Object, objectData: any): void {
-  object.whenMovingHasChanged = Date.now()
-  object.baseX = objectData.x
-  object.baseY = objectData.y
-  object.direction = objectData.direction
-  object.isMoving = objectData.isMoving
-  object.x = objectData.x
-  const previousY = object.y
-  object.y = objectData.y
-  object.updatePosition()
-  const isDifferentYCoordinate = object.y !== previousY
-  if (isDifferentYCoordinate) {
-    updateObjectRenderPosition(object)
-  }
 }
 
 function requestObjects(): void {

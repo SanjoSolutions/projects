@@ -6074,13 +6074,19 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/mmog-client@workspace:mmog/packages/client"
   dependencies:
+    "@aws-amplify/ui-react": ^5.3.0
     "@pixi/display": ^7.2.4
     "@pixi/sound": ^5.2.1
     "@pixi/tilemap": "pixijs/tilemap#123f8530c10bb1de790346d435ad65345ce8b2ae"
     "@sanjo/esbuild": ^1.0.0
     "@types/lodash-es": ^4.17.9
+    "@types/react-dom": ^18.2.7
+    aws-amplify: ^5.3.10
+    buffer: ^6.0.3
     lodash-es: ^4.17.21
     pixi.js: ^7.2.4
+    react: ^18.2.0
+    react-dom: ^18.2.0
   languageName: unknown
   linkType: soft
 
@@ -6088,19 +6094,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/mmog@workspace:mmog"
   dependencies:
-    "@aws-amplify/ui-react": ^5.3.0
     "@aws-sdk/client-apigatewaymanagementapi": ^3.408.0
     "@aws-sdk/client-dynamodb": ^3.408.0
     "@aws-sdk/lib-dynamodb": ^3.408.0
     "@types/aws-lambda": ^8.10.119
     "@types/google-protobuf": ^3.15.6
-    aws-amplify: ^5.3.10
     aws-jwt-verify: ^4.0.0
-    buffer: ^6.0.3
     esbuild: ^0.19.2
     google-protobuf: ^3.21.2
-    react: ^18.2.0
-    react-dom: ^18.2.0
   languageName: unknown
   linkType: soft
 
@@ -7342,6 +7343,26 @@ __metadata:
   dependencies:
     "@types/react": ^16
   checksum: c696f137aba09be0ea87ad6e99a083607b4fc574857d92c264cc6518ee929ef7e94855362436c2ef5fefb70ebfc9b7413634bb3a2f3a8c2b7522521faaac7d62
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.2.7":
+  version: 18.2.7
+  resolution: "@types/react-dom@npm:18.2.7"
+  dependencies:
+    "@types/react": "*"
+  checksum: e02ea908289a7ad26053308248d2b87f6aeafd73d0e2de2a3d435947bcea0422599016ffd1c3e38ff36c42f5e1c87c7417f05b0a157e48649e4a02f21727d54f
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*":
+  version: 18.2.21
+  resolution: "@types/react@npm:18.2.21"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: ffed203bfe7aad772b8286f7953305c9181ac3a8f27d3f5400fbbc2a8e27ca8e5bbff818ee014f39ca0d19d2b3bb154e5bdbec7e232c6f80b59069375aa78349
   languageName: node
   linkType: hard
 
