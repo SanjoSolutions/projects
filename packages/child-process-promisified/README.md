@@ -16,3 +16,7 @@ import { exec, execFile } from "@sanjo/child-process-promisified"
 await exec(...)
 await execFile(...)
 ```
+
+## Donate
+
+[Donate](https://www.paypal.com/donate/?hosted_button_id=H7Q46GUS9N3NC)

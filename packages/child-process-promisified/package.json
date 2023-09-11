@@ -1,8 +1,9 @@
 {
   "name": "@sanjo/child-process-promisified",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "type": "module",
   "description": "Child process promisified",
+  "funding": "https://www.paypal.com/donate/?hosted_button_id=H7Q46GUS9N3NC",
   "keywords": [
     "child-process",
     "promisified"
