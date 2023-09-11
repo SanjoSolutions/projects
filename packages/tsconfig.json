@@ -24,6 +24,9 @@
       "path": "./card-game"
     },
     {
+      "path": "./child-process-promisified"
+    },
+    {
       "path": "./comparison/tsconfig-build.json"
     },
     {
@@ -118,9 +121,6 @@
     },
     {
       "path": "./maus"
-    },
-    {
-      "path": "./mmog"
     },
     {
       "path": "./multiset"

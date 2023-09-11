@@ -1,0 +1,26 @@
+{
+  "name": "@sanjo/child-process-promisified",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Child process promisified",
+  "keywords": [
+    "child-process",
+    "promisified"
+  ],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/child-process-promisified",
+  "license": "MIT",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/child-process-promisified"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

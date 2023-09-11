@@ -5760,6 +5760,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sanjo/child-process-promisified@workspace:packages/child-process-promisified":
+  version: 0.0.0-use.local
+  resolution: "@sanjo/child-process-promisified@workspace:packages/child-process-promisified"
+  languageName: unknown
+  linkType: soft
+
 "@sanjo/comparison@^1.0.0, @sanjo/comparison@workspace:packages/comparison":
   version: 0.0.0-use.local
   resolution: "@sanjo/comparison@workspace:packages/comparison"
