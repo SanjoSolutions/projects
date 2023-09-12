@@ -19,7 +19,7 @@
   },
   "scripts": {
     "development": "run.sh",
-    "build": "node esbuild/build.js"
+    "build": "build.sh"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^5.3.0",

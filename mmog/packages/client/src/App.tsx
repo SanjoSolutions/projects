@@ -65,9 +65,10 @@ export function App() {
 }
 
 async function f(app: Application): Promise<void> {
-  app.queueResize()
+  const characterWidth = 64
+  const characterHeight = 64
 
-  console.log("f")
+  app.queueResize()
 
   let i = 1
 
@@ -573,9 +574,13 @@ async function f(app: Application): Promise<void> {
   })
 
   function updateViewport() {
-    app.stage.x = -character.x + 0.5 * app.screen.width
-    app.stage.y =
-      -(character.y - 0.5 * character.sprite.height) + 0.5 * app.screen.height
+    debugger
+    app.stage.x = -(character.x + 0.5 * characterWidth - 0.5 * app.screen.width)
+    app.stage.y = -(
+      character.y +
+      0.5 * characterHeight -
+      0.5 * app.screen.height
+    )
   }
 
   // const tileMap = new CompositeTilemap()
