@@ -189,6 +189,9 @@
       "path": "./tagged-template-literals"
     },
     {
+      "path": "./tdmrep"
+    },
+    {
       "path": "./test-create-package/tsconfig-build.json"
     },
     {
