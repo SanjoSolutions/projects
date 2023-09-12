@@ -18,7 +18,7 @@ export function retrieveDefaultConfigForDevelopment() {
     ...config,
     define: {
       ...config.define,
-      "window.IS_DEVELOPMENT": "false",
+      "window.IS_DEVELOPMENT": "true",
     },
   }
 }

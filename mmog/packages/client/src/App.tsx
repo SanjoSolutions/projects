@@ -32,7 +32,6 @@ export function App() {
   return (
     <Authenticator loginMechanisms={["email"]} signUpAttributes={[]}>
       {({ signOut, user }) => {
-        window.user = user
         return (
           <>
             <div className="links">
@@ -65,6 +64,10 @@ export function App() {
 }
 
 async function f(app: Application): Promise<void> {
+  if (window.IS_DEVELOPMENT) {
+    globalThis.__PIXI_APP__ = app
+  }
+
   const characterWidth = 64
   const characterHeight = 64
 
@@ -216,6 +219,7 @@ async function f(app: Application): Promise<void> {
   function createAnimatedSprite(textures: Texture<Resource>[]): AnimatedSprite {
     const animatedSprite = new AnimatedSprite(textures)
     animatedSprite.animationSpeed = 0.115
+    animatedSprite.anchor.set(0.5, 1)
     return animatedSprite
   }
 
@@ -307,11 +311,15 @@ async function f(app: Application): Promise<void> {
   ])
 
   class Plant extends Object {
-    sprite: AnimatedSprite = new AnimatedSprite(
-      plantTextures.get(PlantType.Tomato)!,
-    )
     plantType: PlantType = PlantType.Tomato
     private _stage: number = 0
+
+    constructor() {
+      super()
+      this.sprite.addChild(
+        createAnimatedSprite(plantTextures.get(PlantType.Tomato)!),
+      )
+    }
 
     get stage(): number {
       return this._stage
@@ -324,10 +332,11 @@ async function f(app: Application): Promise<void> {
 
     protected _updateTextures() {
       const textures = plantTextures.get(this.plantType)
-      if (textures && textures !== this.sprite.textures) {
-        this.sprite.textures = textures
+      const animatedSprite = this.sprite.children[0] as AnimatedSprite
+      if (textures && textures !== animatedSprite.textures) {
+        animatedSprite.textures = textures
       }
-      this.sprite.gotoAndStop(this.stage)
+      animatedSprite.gotoAndStop(this.stage)
     }
 
     protected _play() {}
@@ -574,9 +583,9 @@ async function f(app: Application): Promise<void> {
   })
 
   function updateViewport() {
-    app.stage.x = -(character.x + 0.5 * characterWidth - 0.5 * app.screen.width)
+    app.stage.x = -(character.x - 0.5 * app.screen.width)
     app.stage.y = -(
-      character.y +
+      character.y -
       0.5 * characterHeight -
       0.5 * app.screen.height
     )
