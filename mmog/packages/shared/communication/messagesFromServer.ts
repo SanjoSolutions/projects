@@ -1,9 +1,11 @@
 import type { Direction } from "../Direction.js"
+import type { ID } from "../ID.js"
 import { MoveFromServerData as MoveFromServerDataProto } from "../proto/MoveFromServerData.js"
 import { compress, decompress } from "./communication.js"
 
 export interface MoveFromServerData {
-  connectionId: string
+  id: ID
+  userID: ID
   isMoving: boolean
   direction: Direction
   x: number

@@ -7,7 +7,7 @@ export function createScanCommandInputForCloseByConnections(position: {
 }): ScanCommandInput {
   return {
     TableName: process.env.CONNECTIONS_TABLE_NAME,
-    ProjectionExpression: "connectionId",
+    ProjectionExpression: "connectionId, userID",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {
       ":x1": position.x - HALF_WIDTH,

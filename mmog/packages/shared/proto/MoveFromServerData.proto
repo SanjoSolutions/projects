@@ -1,12 +1,13 @@
 syntax = "proto3";
 
 message MoveFromServerData {
-  bool isMoving = 1;
-  uint32 direction = 2;
-  double x = 3;
-  double y = 4;
-  uint64 i = 5;
-  string connectionId = 6;
-  bool isCharacterOfClient = 7;
-  uint64 whenMovingHasChanged = 8;
+  string id = 1;
+  string userID = 2;
+  bool isMoving = 3;
+  uint32 direction = 4;
+  double x = 5;
+  double y = 6;
+  uint64 i = 7;
+  bool isCharacterOfClient = 8;
+  uint64 whenMovingHasChanged = 9;
 }

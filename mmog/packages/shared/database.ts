@@ -12,16 +12,18 @@ export interface Connection {
 
 export interface Object {
   id: ID
+  userID?: string
   type: ObjectType
   x: number
   y: number
   isMoving: boolean
   direction: Direction
   whenMovingHasChanged: number
+  connectionId?: string
 }
 
 export interface Plant extends Object {
   type: ObjectType.Plant
-  stage: number
   plantType: PlantType
+  stage: number
 }

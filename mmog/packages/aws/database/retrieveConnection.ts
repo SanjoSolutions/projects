@@ -10,8 +10,8 @@ export async function retrieveConnection<T extends (keyof Connection)[]>(
     Item?: Pick<Connection, T[number]>
   }
 > {
-  const ddb = createDynamoDBDocumentClient()
-  return (await ddb.send(
+  const database = createDynamoDBDocumentClient()
+  return (await database.send(
     new GetCommand({
       TableName: process.env.CONNECTIONS_TABLE_NAME,
       Key: {

@@ -7,15 +7,17 @@ import {
   compressMoveFromServerData,
   MoveFromServerData,
 } from "../../shared/communication/messagesFromServer.js"
+import type { ID } from "../../shared/ID.js"
 import { postToConnection } from "./postToConnection.js"
 
 export async function sendMovementToClient(
   apiGwManagementApi: ApiGatewayManagementApiClient,
   object: MoveFromServerData,
   connectionId: string,
+  userID: ID,
 ): Promise<void> {
   let data
-  if (connectionId === object.connectionId) {
+  if (userID === object.userID) {
     data = { ...object, isCharacterOfClient: true }
   } else {
     data = object

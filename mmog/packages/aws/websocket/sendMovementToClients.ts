@@ -14,8 +14,13 @@ export async function sendMovementToClients(
       const items = output.Items
       if (items) {
         await Promise.all(
-          items.map(({ connectionId }) =>
-            sendMovementToClient(apiGwManagementApi, object, connectionId),
+          items.map(({ connectionId, userID }) =>
+            sendMovementToClient(
+              apiGwManagementApi,
+              object,
+              connectionId,
+              userID,
+            ),
           ),
         )
       }

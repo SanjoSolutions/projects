@@ -617,7 +617,7 @@ async function f(app: Application): Promise<void> {
           object = character
         } else {
           object = retrieveOrCreateObject({
-            id: moveData.connectionId,
+            id: moveData.id,
             type: ObjectType.Character,
           })
         }
@@ -633,8 +633,8 @@ async function f(app: Application): Promise<void> {
             object = character
           } else {
             object = retrieveOrCreateObject({
-              id: objectData.id || objectData.connectionId,
-              type: objectData.type || ObjectType.Character,
+              id: objectData.id,
+              type: objectData.type,
             })
           }
           object.update(objectData)

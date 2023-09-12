@@ -8,8 +8,8 @@ export async function removeStaleConnection(
   connectionId: string,
 ): Promise<void> {
   console.log(`Found stale connection, deleting ${connectionId}`)
-  const ddb = createDynamoDBDocumentClient()
-  await ddb.send(
+  const database = createDynamoDBDocumentClient()
+  await database.send(
     new DeleteCommand({
       TableName: process.env.CONNECTIONS_TABLE_NAME,
       Key: { connectionId },

@@ -11,7 +11,8 @@ export async function postToConnection(
   try {
     await apiGwManagementApi.send(command)
   } catch (error: any) {
-    if (error.$metadata.httpStatusCode === 410) {
+    console.log("error", error, JSON.stringify(error))
+    if (error.$metadata?.httpStatusCode === 410) {
       await removeStaleConnection(
         apiGwManagementApi,
         command.input.ConnectionId!,

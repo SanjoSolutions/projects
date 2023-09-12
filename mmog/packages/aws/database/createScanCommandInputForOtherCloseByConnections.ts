@@ -6,10 +6,10 @@ export function createScanCommandInputForOtherCloseByConnections(
   connectionId: string,
 ): ScanCommandInput {
   return {
-    TableName: process.env.CONNECTIONS_TABLE_NAME,
+    TableName: process.env.OBJECTS_TABLE_NAME,
     ProjectionExpression: "connectionId",
     FilterExpression:
-      "connectionId <> :connectionId AND x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
+      "attribute_exists(connectionId) AND connectionId <> :connectionId AND x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {
       ":connectionId": connectionId,
       ":x1": position.x - HALF_WIDTH,

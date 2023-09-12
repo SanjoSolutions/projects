@@ -1,10 +1,8 @@
 import { PutCommand } from "@aws-sdk/lib-dynamodb"
-import type {
-  APIGatewayProxyResultV2,
-  APIGatewayProxyWebsocketEventV2,
-} from "aws-lambda/trigger/api-gateway-proxy.js"
+import type { APIGatewayProxyResultV2 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { randomUUID } from "node:crypto"
 import type { Plant } from "../../shared/database.js"
+import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { PlantType } from "../../shared/PlantType.js"
 import { createDynamoDBDocumentClient } from "../database/createDynamoDBDocumentClient.js"
@@ -29,14 +27,15 @@ function generatePlant(): Plant {
     type: ObjectType.Plant,
     x: 0,
     y: 0,
+    isMoving: false,
+    direction: Direction.Down,
+    whenMovingHasChanged: Date.now(),
     plantType: PlantType.Tomato,
     stage: 0,
   }
 }
 
-export async function handler(
-  event: APIGatewayProxyWebsocketEventV2,
-): Promise<APIGatewayProxyResultV2> {
+export async function handler(): Promise<APIGatewayProxyResultV2> {
   const plant = generatePlant()
 
   await database.send(

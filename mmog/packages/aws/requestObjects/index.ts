@@ -3,14 +3,12 @@ import {
   PostToConnectionCommand,
 } from "@aws-sdk/client-apigatewaymanagementapi"
 import type { ScanCommandInput } from "@aws-sdk/lib-dynamodb"
-import type {
-  APIGatewayProxyResultV2,
-  APIGatewayProxyWebsocketEventV2,
-} from "aws-lambda/trigger/api-gateway-proxy.js"
+import type { APIGatewayProxyResultV2 } from "aws-lambda/trigger/api-gateway-proxy.js"
 import { MessageType } from "../../shared/communication/communication.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { updatePosition } from "../../updatePosition.js"
-import { retrieveConnection } from "../database/retrieveConnection.js"
+import type { APIGatewayProxyWebsocketEventV2WithAuthorizedUser } from "../APIGatewayProxyWebsocketEventV2WithAuthorizedUser.js"
+import { retrieveObjectByUserID } from "../database/retrieveObjectByUserID.js"
 import { scanThroughAll } from "../database/scanThroughAll.js"
 import { postToConnection } from "../websocket/postToConnection.js"
 
@@ -36,15 +34,13 @@ const HALF_WIDTH = Math.ceil(MAXIMUM_SUPPORTED_RESOLUTION.width / 2)
 const HALF_HEIGHT = Math.ceil(MAXIMUM_SUPPORTED_RESOLUTION.height / 2)
 
 export async function handler(
-  event: APIGatewayProxyWebsocketEventV2,
+  event: APIGatewayProxyWebsocketEventV2WithAuthorizedUser,
 ): Promise<APIGatewayProxyResultV2> {
-  const response = await retrieveConnection(event.requestContext.connectionId, [
-    "x",
-    "y",
-  ])
+  const userID = event.requestContext.authorizer.userId
+  const object = await retrieveObjectByUserID(userID, ["x", "y"])
 
-  if (response.Item) {
-    const position = { x: response.Item.x || 0, y: response.Item.y || 0 }
+  if (object) {
+    const position = { x: object.x || 0, y: object.y || 0 }
 
     const objects: any[] = []
 
@@ -62,7 +58,8 @@ export async function handler(
             await Promise.all(
               items.map(
                 async ({
-                  connectionId,
+                  id,
+                  userID,
                   x,
                   y,
                   direction,
@@ -73,7 +70,8 @@ export async function handler(
                   stage,
                 }) => {
                   const object: any = {
-                    connectionId,
+                    id,
+                    userID,
                     x,
                     y,
                     direction,
@@ -82,7 +80,7 @@ export async function handler(
                     plantType,
                     stage,
                   }
-                  if (connectionId === event.requestContext.connectionId) {
+                  if (userID === event.requestContext.authorizer.userId) {
                     object.isCharacterOfClient = true
                   }
                   if (isMoving) {
@@ -97,10 +95,7 @@ export async function handler(
       )
     }
 
-    await Promise.all([
-      retrieveObjects(createConnectionsScanCommandInput),
-      retrieveObjects(createObjectsScanCommandInput),
-    ])
+    await retrieveObjects(createObjectsScanCommandInput)
 
     const postData = JSON.stringify({
       type: MessageType.Objects,
@@ -135,7 +130,7 @@ function createObjectsScanCommandInput(position: {
   return {
     TableName: OBJECTS_TABLE_NAME,
     ProjectionExpression:
-      "connectionId, x, y, direction, isMoving, #type, id, whenMovingHasChanged, plantType, stage",
+      "id, userID, x, y, direction, isMoving, #type, whenMovingHasChanged, plantType, stage",
     FilterExpression: "x BETWEEN :x1 AND :x2 AND y BETWEEN :y1 AND :y2",
     ExpressionAttributeValues: {
       ":x1": position.x - HALF_WIDTH,

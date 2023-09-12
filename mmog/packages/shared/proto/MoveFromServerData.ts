@@ -10,12 +10,13 @@ export class MoveFromServerData extends pb_1.Message {
     data?:
       | any[]
       | {
+          id?: string
+          userID?: string
           isMoving?: boolean
           direction?: number
           x?: number
           y?: number
           i?: number
-          connectionId?: string
           isCharacterOfClient?: boolean
           whenMovingHasChanged?: number
         },
@@ -30,6 +31,12 @@ export class MoveFromServerData extends pb_1.Message {
       this.#one_of_decls,
     )
     if (!Array.isArray(data) && typeof data == "object") {
+      if ("id" in data && data.id != undefined) {
+        this.id = data.id
+      }
+      if ("userID" in data && data.userID != undefined) {
+        this.userID = data.userID
+      }
       if ("isMoving" in data && data.isMoving != undefined) {
         this.isMoving = data.isMoving
       }
@@ -45,9 +52,6 @@ export class MoveFromServerData extends pb_1.Message {
       if ("i" in data && data.i != undefined) {
         this.i = data.i
       }
-      if ("connectionId" in data && data.connectionId != undefined) {
-        this.connectionId = data.connectionId
-      }
       if (
         "isCharacterOfClient" in data &&
         data.isCharacterOfClient != undefined
@@ -62,65 +66,78 @@ export class MoveFromServerData extends pb_1.Message {
       }
     }
   }
-  get isMoving() {
-    return pb_1.Message.getFieldWithDefault(this, 1, false) as boolean
+  get id() {
+    return pb_1.Message.getFieldWithDefault(this, 1, "") as string
   }
-  set isMoving(value: boolean) {
+  set id(value: string) {
     pb_1.Message.setField(this, 1, value)
   }
-  get direction() {
-    return pb_1.Message.getFieldWithDefault(this, 2, 0) as number
+  get userID() {
+    return pb_1.Message.getFieldWithDefault(this, 2, "") as string
   }
-  set direction(value: number) {
+  set userID(value: string) {
     pb_1.Message.setField(this, 2, value)
   }
-  get x() {
-    return pb_1.Message.getFieldWithDefault(this, 3, 0) as number
+  get isMoving() {
+    return pb_1.Message.getFieldWithDefault(this, 3, false) as boolean
   }
-  set x(value: number) {
+  set isMoving(value: boolean) {
     pb_1.Message.setField(this, 3, value)
   }
-  get y() {
+  get direction() {
     return pb_1.Message.getFieldWithDefault(this, 4, 0) as number
   }
-  set y(value: number) {
+  set direction(value: number) {
     pb_1.Message.setField(this, 4, value)
   }
-  get i() {
+  get x() {
     return pb_1.Message.getFieldWithDefault(this, 5, 0) as number
   }
-  set i(value: number) {
+  set x(value: number) {
     pb_1.Message.setField(this, 5, value)
   }
-  get connectionId() {
-    return pb_1.Message.getFieldWithDefault(this, 6, "") as string
+  get y() {
+    return pb_1.Message.getFieldWithDefault(this, 6, 0) as number
   }
-  set connectionId(value: string) {
+  set y(value: number) {
     pb_1.Message.setField(this, 6, value)
   }
-  get isCharacterOfClient() {
-    return pb_1.Message.getFieldWithDefault(this, 7, false) as boolean
+  get i() {
+    return pb_1.Message.getFieldWithDefault(this, 7, 0) as number
   }
-  set isCharacterOfClient(value: boolean) {
+  set i(value: number) {
     pb_1.Message.setField(this, 7, value)
   }
-  get whenMovingHasChanged() {
-    return pb_1.Message.getFieldWithDefault(this, 8, 0) as number
+  get isCharacterOfClient() {
+    return pb_1.Message.getFieldWithDefault(this, 8, false) as boolean
   }
-  set whenMovingHasChanged(value: number) {
+  set isCharacterOfClient(value: boolean) {
     pb_1.Message.setField(this, 8, value)
   }
+  get whenMovingHasChanged() {
+    return pb_1.Message.getFieldWithDefault(this, 9, 0) as number
+  }
+  set whenMovingHasChanged(value: number) {
+    pb_1.Message.setField(this, 9, value)
+  }
   static fromObject(data: {
+    id?: string
+    userID?: string
     isMoving?: boolean
     direction?: number
     x?: number
     y?: number
     i?: number
-    connectionId?: string
     isCharacterOfClient?: boolean
     whenMovingHasChanged?: number
   }): MoveFromServerData {
     const message = new MoveFromServerData({})
+    if (data.id != null) {
+      message.id = data.id
+    }
+    if (data.userID != null) {
+      message.userID = data.userID
+    }
     if (data.isMoving != null) {
       message.isMoving = data.isMoving
     }
@@ -136,9 +153,6 @@ export class MoveFromServerData extends pb_1.Message {
     if (data.i != null) {
       message.i = data.i
     }
-    if (data.connectionId != null) {
-      message.connectionId = data.connectionId
-    }
     if (data.isCharacterOfClient != null) {
       message.isCharacterOfClient = data.isCharacterOfClient
     }
@@ -149,15 +163,22 @@ export class MoveFromServerData extends pb_1.Message {
   }
   toObject() {
     const data: {
+      id?: string
+      userID?: string
       isMoving?: boolean
       direction?: number
       x?: number
       y?: number
       i?: number
-      connectionId?: string
       isCharacterOfClient?: boolean
       whenMovingHasChanged?: number
     } = {}
+    if (this.id != null) {
+      data.id = this.id
+    }
+    if (this.userID != null) {
+      data.userID = this.userID
+    }
     if (this.isMoving != null) {
       data.isMoving = this.isMoving
     }
@@ -173,9 +194,6 @@ export class MoveFromServerData extends pb_1.Message {
     if (this.i != null) {
       data.i = this.i
     }
-    if (this.connectionId != null) {
-      data.connectionId = this.connectionId
-    }
     if (this.isCharacterOfClient != null) {
       data.isCharacterOfClient = this.isCharacterOfClient
     }
@@ -188,16 +206,17 @@ export class MoveFromServerData extends pb_1.Message {
   serialize(w: pb_1.BinaryWriter): void
   serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
     const writer = w || new pb_1.BinaryWriter()
-    if (this.isMoving != false) writer.writeBool(1, this.isMoving)
-    if (this.direction != 0) writer.writeUint32(2, this.direction)
-    if (this.x != 0) writer.writeDouble(3, this.x)
-    if (this.y != 0) writer.writeDouble(4, this.y)
-    if (this.i != 0) writer.writeUint64(5, this.i)
-    if (this.connectionId.length) writer.writeString(6, this.connectionId)
+    if (this.id.length) writer.writeString(1, this.id)
+    if (this.userID.length) writer.writeString(2, this.userID)
+    if (this.isMoving != false) writer.writeBool(3, this.isMoving)
+    if (this.direction != 0) writer.writeUint32(4, this.direction)
+    if (this.x != 0) writer.writeDouble(5, this.x)
+    if (this.y != 0) writer.writeDouble(6, this.y)
+    if (this.i != 0) writer.writeUint64(7, this.i)
     if (this.isCharacterOfClient != false)
-      writer.writeBool(7, this.isCharacterOfClient)
+      writer.writeBool(8, this.isCharacterOfClient)
     if (this.whenMovingHasChanged != 0)
-      writer.writeUint64(8, this.whenMovingHasChanged)
+      writer.writeUint64(9, this.whenMovingHasChanged)
     if (!w) return writer.getResultBuffer()
   }
   static deserialize(
@@ -212,27 +231,30 @@ export class MoveFromServerData extends pb_1.Message {
       if (reader.isEndGroup()) break
       switch (reader.getFieldNumber()) {
         case 1:
-          message.isMoving = reader.readBool()
+          message.id = reader.readString()
           break
         case 2:
-          message.direction = reader.readUint32()
+          message.userID = reader.readString()
           break
         case 3:
-          message.x = reader.readDouble()
+          message.isMoving = reader.readBool()
           break
         case 4:
-          message.y = reader.readDouble()
+          message.direction = reader.readUint32()
           break
         case 5:
-          message.i = reader.readUint64()
+          message.x = reader.readDouble()
           break
         case 6:
-          message.connectionId = reader.readString()
+          message.y = reader.readDouble()
           break
         case 7:
-          message.isCharacterOfClient = reader.readBool()
+          message.i = reader.readUint64()
           break
         case 8:
+          message.isCharacterOfClient = reader.readBool()
+          break
+        case 9:
           message.whenMovingHasChanged = reader.readUint64()
           break
         default:
