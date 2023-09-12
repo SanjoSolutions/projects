@@ -1,0 +1,27 @@
+{
+  "name": "@sanjo/data-mining-is-use-reserved",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/data-mining-is-use-reserved",
+  "license": "Unlicense",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/data-mining-is-use-reserved"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "robots-parser": "^3.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

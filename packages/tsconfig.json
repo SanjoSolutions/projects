@@ -45,6 +45,9 @@
       "path": "./create-temporary-npm-package/tsconfig-build.json"
     },
     {
+      "path": "./data-mining-is-use-reserved"
+    },
+    {
       "path": "./database/tsconfig-build.json"
     },
     {
