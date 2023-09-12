@@ -574,7 +574,6 @@ async function f(app: Application): Promise<void> {
   })
 
   function updateViewport() {
-    debugger
     app.stage.x = -(character.x + 0.5 * characterWidth - 0.5 * app.screen.width)
     app.stage.y = -(
       character.y +
