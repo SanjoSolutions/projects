@@ -3,5 +3,6 @@
   <component name="TypeScriptCompiler">
     <option name="enableServiceForProjectsWithoutConfig" value="false" />
     <option name="nodeInterpreterTextField" value="node" />
+    <option name="useService" value="false" />
   </component>
 </project>
