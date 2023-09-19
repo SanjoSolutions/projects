@@ -1,10 +1,10 @@
 {
-  "name": "@sanjo/tdmrep",
+  "name": "@sanjo/mailto-syntax-checker",
   "version": "0.0.0",
   "type": "module",
-  "description": "",
+  "description": "Mailto URI syntax checker",
   "keywords": [],
-  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/tdmrep",
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/mailto-syntax-checker",
   "license": "Unlicense",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -15,7 +15,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/SanjoSolutions/projects.git",
-    "directory": "packages/tdmrep"
+    "directory": "packages/mailto-syntax-checker"
+  },
+  "dependencies": {
+    "email-validator": "manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe"
   },
   "publishConfig": {
     "access": "public"
