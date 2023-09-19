@@ -6089,7 +6089,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sanjo/mailto-syntax-checker@workspace:packages/mailto-syntax-checker"
   dependencies:
-    email-validtor: "manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe"
+    email-validator: "manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe"
   languageName: unknown
   linkType: soft
 
@@ -9739,10 +9739,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"email-validtor@manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe":
+"email-validator@manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe":
   version: 2.0.4
-  resolution: "email-validtor@https://github.com/manishsaraan/email-validator.git#commit=df02ecd8f0c53041c53fac986e842df0ec935ebe"
-  checksum: 15c0e2a12d9199fb4209ae498dcc88f39778dd8aae4113620f2c7aea5e0da8779d511f1ee1b4c62358502a95e2014433276255522380634655c4a83166335a26
+  resolution: "email-validator@https://github.com/manishsaraan/email-validator.git#commit=df02ecd8f0c53041c53fac986e842df0ec935ebe"
+  checksum: 5ce9901b190c250a621f0cafa6416559fc35e5bb9d09b9ec8a4d8755f85a4edf5a285a61cf98bc77e6d0ced0d2aa147bf9f0b9737711bf1f2e46fc4ce81a8048
   languageName: node
   linkType: hard
 

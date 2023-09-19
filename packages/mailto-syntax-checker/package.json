@@ -18,7 +18,7 @@
     "directory": "packages/mailto-syntax-checker"
   },
   "dependencies": {
-    "email-validtor": "manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe"
+    "email-validator": "manishsaraan/email-validator#df02ecd8f0c53041c53fac986e842df0ec935ebe"
   },
   "publishConfig": {
     "access": "public"
