@@ -1,7 +1,24 @@
 {
   "hosting": {
     "public": "public",
-    "rewrites": []
+    "rewrites": [],
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "https://letter-template.sanjo-solutions.com",
+        "type": 301
+      },
+      {
+        "source": "/index.html",
+        "destination": "https://letter-template.sanjo-solutions.com",
+        "type": 301
+      },
+      {
+        "source": "/formal-letter-template.html",
+        "destination": "https://letter-template.sanjo-solutions.com/formal-letter-template.html",
+        "type": 301
+      }
+    ]
   },
   "functions": {
     "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build",
