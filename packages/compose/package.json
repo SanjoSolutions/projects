@@ -1,6 +1,6 @@
 {
   "name": "@sanjo/compose",
-  "version": "2.2.1",
+  "version": "2.4.0",
   "type": "module",
   "keywords": [
     "build",
@@ -17,7 +17,10 @@
   },
   "dependencies": {
     "@sanjo/noop": "^1.0.0",
-    "argparse": "^2.0.1"
+    "argparse": "^2.0.1",
+    "ejs": "^3.1.9",
+    "marked": "^9.0.3",
+    "marked-gfm-heading-id": "^3.1.0"
   },
   "publishConfig": {
     "access": "public"

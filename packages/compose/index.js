@@ -1,11 +1,16 @@
 #!/usr/bin/env node
 
-import { promises as fs, watch } from 'fs'
-import path from 'path'
-import { pathToFileURL } from 'url'
-import vm from 'vm'
-import { ArgumentParser } from 'argparse'
-import { noop } from '@sanjo/noop'
+import { noop } from "@sanjo/noop"
+import { ArgumentParser } from "argparse"
+import ejs from "ejs"
+import { promises as fs, watch } from "fs"
+import { marked } from "marked"
+import { gfmHeadingId } from "marked-gfm-heading-id"
+import path from "path"
+import { pathToFileURL } from "url"
+import vm from "vm"
+
+marked.use(gfmHeadingId())
 
 // compose after file has changed (basic version done (recompile all pages when something changes), no recursive watch support for linux (therefore does probably not work on linux)):
 //   when page changed then compose page
@@ -14,25 +19,28 @@ import { noop } from '@sanjo/noop'
 // throw error when two blocks depend on each other.
 // user functions have access to and run in compose context. (low priority)
 
-const newLineExpression = '(?:\r\n|\n|\r)'
+const newLineExpression = "(?:\r\n|\n|\r)"
 
 const rootPath = path.resolve(process.cwd())
 
 let fileContentCache = new Map()
 
-const pagesPath = 'pages'
-const blocksPath = 'blocks'
-const layoutsPath = 'layouts'
+const pagesPath = "pages"
+const blocksPath = "blocks"
+const layoutsPath = "layouts"
 
 run(main)
 
 async function main() {
   const argumentParser = new ArgumentParser({
-    description: 'Compose'
+    description: "Compose",
   })
 
-  argumentParser.add_argument('-w', '--watch', {help: 'Watch mode', action: 'store_true'})
-  argumentParser.add_argument('-o', '--output', {help: 'Output path'})
+  argumentParser.add_argument("-w", "--watch", {
+    help: "Watch mode",
+    action: "store_true",
+  })
+  argumentParser.add_argument("-o", "--output", { help: "Output path" })
 
   const args = argumentParser.parse_args()
 
@@ -44,7 +52,7 @@ async function main() {
       fileContentCache.delete(filePath)
       await composePages(outputPath)
     }
-    watchFile(path.join(rootPath, 'compose.user.js'), onWatchEvent)
+    watchFile(path.join(rootPath, "compose.user.js"), onWatchEvent)
     watchPath(path.join(rootPath, pagesPath), onWatchEvent)
     watchPath(path.join(rootPath, blocksPath), onWatchEvent)
     watchPath(path.join(rootPath, layoutsPath), onWatchEvent)
@@ -73,16 +81,18 @@ function watchPath(pathToWatch, onWatchEvent) {
 async function composePages(outputPath) {
   let userFunctions = {}
   try {
-    const composeUserPath = pathToFileURL(path.join(rootPath, 'compose.user.js'))
+    const composeUserPath = pathToFileURL(
+      path.join(rootPath, "compose.user.js"),
+    )
     composeUserPath.search = `?update=${Date.now()}`
     userFunctions = await import(composeUserPath)
   } catch (error) {
-    if (error.code !== 'ERR_MODULE_NOT_FOUND') {
+    if (error.code !== "ERR_MODULE_NOT_FOUND") {
       throw error
     }
   }
 
-  console.log('Composing pages...')
+  console.log("Composing pages...")
 
   const rootDirectoryPath = path.join(rootPath, pagesPath)
   let directoryPaths = [rootDirectoryPath]
@@ -100,7 +110,7 @@ async function composePages(outputPath) {
           : directoryEntry
         if (stats.isFile()) {
           const pagePath = path.relative(rootDirectoryPath, entryPath)
-          console.log(`Composing page "${ pagePath }"...`)
+          console.log(`Composing page "${pagePath}"...`)
           await composePage(outputPath, userFunctions, pagePath, entryPath)
         } else if (stats.isDirectory()) {
           nextDirectoryPaths.push(entryPath)
@@ -111,22 +121,111 @@ async function composePages(outputPath) {
     nextDirectoryPaths = []
   }
 
-  console.log('Done composing pages.')
+  console.log("Done composing pages.")
 }
 
-async function composePage(outputPath, userFunctions, pagePath, pageSourcePath) {
-  const pageDestinationPath = path.join(outputPath, pagePath)
-  const content = await fs.readFile(pageSourcePath, { encoding: 'utf8' })
+const htmlExtensions = new Set([
+  ".html",
+  ".htm",
+  ".dhtml",
+  ".jhtml",
+  ".mhtml",
+  ".rhtml",
+  ".shtml",
+  ".zhtml",
+  ".phtml",
+])
+
+const extensionsToReplaceWithHTML = new Set([
+  ".jhtml",
+  ".mhtml",
+  ".rhtml",
+  ".shtml",
+  ".zhtml",
+  ".phtml",
+  ".ejs",
+])
+
+async function composePage(
+  outputPath,
+  userFunctions,
+  pagePath,
+  pageSourcePath,
+) {
+  const extension = path.extname(pagePath)
+  const pageDestinationPath = path.join(
+    outputPath,
+    extensionsToReplaceWithHTML.has(extension)
+      ? replaceExtensionWithHTML(pagePath)
+      : pagePath,
+  )
+  const content = await fs.readFile(pageSourcePath, { encoding: "utf8" })
+
+  let ejsOptions = {}
+
+  function convertToMarkdown(strings, ...expressions) {
+    return marked.parse(String.raw({ raw: strings }, ...expressions))
+  }
+
+  const compose = {
+    getPagePath() {
+      return pagePath
+    },
+
+    variables: new Map(),
+
+    getVariable(name) {
+      return compose.variables.get(name)
+    },
+
+    setVariable(name, value) {
+      compose.variables.set(name, value)
+    },
+
+    setEJSOptions(options) {
+      ejsOptions = options
+    },
+
+    md: convertToMarkdown,
+    markdown: convertToMarkdown,
+  }
+
+  const userFunctionNamesWhichOverlapWithCompose = Object.keys(
+    userFunctions,
+  ).filter((functionName) => compose.hasOwnProperty(functionName))
+  if (userFunctionNamesWhichOverlapWithCompose.length >= 1) {
+    console.warn(
+      `The following user functions overlap with compose functions: ${userFunctionNamesWhichOverlapWithCompose.join(
+        ", ",
+      )}`,
+    )
+  }
+
+  const boundUserFunction = Object.fromEntries(
+    Object.entries(userFunctions).map(([functionName, fn]) => [
+      functionName,
+      fn.bind(null, compose),
+    ]),
+  )
+
+  const context = { ...compose, ...boundUserFunction }
+
+  let composedContent = content
+
+  vm.createContext(context)
+  if (userFunctions.beforeRender) {
+    await runInVmContext("beforeRender()", context)
+  }
+
   const blockInsertPointRegExp = new RegExp(
     `<!-- BLOCK: (.+?) -->${newLineExpression}?`,
-    'g',
+    "g",
   )
-  let composedContent = content
   let result
 
   const layoutRegExp = new RegExp(
     `<!-- LAYOUT: (.+?) -->${newLineExpression}?`,
-    'g',
+    "g",
   )
   let lastResult
   while ((result = layoutRegExp.exec(composedContent)) !== null) {
@@ -161,43 +260,17 @@ async function composePage(outputPath, userFunctions, pagePath, pageSourcePath) 
       composedContent.substring(result.index + result[0].length)
   }
 
-  const compose = {
-    getPagePath() {
-      return pagePath
-    },
-
-    variables: new Map(),
-
-    getVariable(name) {
-      return compose.variables.get(name)
-    },
-
-    setVariable(name, value) {
-      compose.variables.set(name, value)
-    },
-  }
-  const boundUserFunction = Object.fromEntries(
-    Object.entries(userFunctions).map(([functionName, fn]) => [
-      functionName,
-      fn.bind(null, compose),
-    ]),
-  )
-  const context = { ...boundUserFunction }
-  vm.createContext(context)
-  if (userFunctions.beforeRender) {
-    await runInVmContext('beforeRender()', context)
-  }
   const codeInsertPointRegExp = new RegExp(
     `<!-- CODE: (.+?) -->${newLineExpression}?`,
-    'g',
+    "gs",
   )
   while ((result = codeInsertPointRegExp.exec(composedContent)) !== null) {
     const code = result[1]
     let codeResult = await runInVmContext(code, context, function () {
-      console.error(`page: file://${ pageSourcePath }`)
-      console.error(`markup: ${ result[0] }`)
+      console.error(`page: file://${pageSourcePath}`)
+      console.error(`markup: ${result[0]}`)
     })
-    codeResult = typeof codeResult === 'undefined' ? '' : String(codeResult)
+    codeResult = typeof codeResult === "undefined" ? "" : String(codeResult)
 
     composedContent =
       composedContent.substring(0, result.index) +
@@ -206,10 +279,21 @@ async function composePage(outputPath, userFunctions, pagePath, pageSourcePath) 
     codeInsertPointRegExp.lastIndex = result.index + codeResult.length
   }
 
+  if (extension === ".ejs") {
+    composedContent = ejs.render(composedContent, context, ejsOptions)
+  }
+
   await fs.mkdir(path.dirname(pageDestinationPath), { recursive: true })
   await fs.writeFile(pageDestinationPath, composedContent, {
-    encoding: 'utf8',
+    encoding: "utf8",
   })
+}
+
+function replaceExtensionWithHTML(filePath) {
+  const dirname = path.dirname(filePath)
+  const extension = path.extname(filePath)
+  const basename = path.basename(filePath, extension)
+  return path.join(dirname, basename + ".html")
 }
 
 async function runInVmContext(code, context, onError = noop) {
@@ -222,9 +306,9 @@ async function runInVmContext(code, context, onError = noop) {
      .length + 1
      console.error(`page: file://${pageSourcePath}, line number: ${lineNumber}`)
      */
-    console.error(`Error: ${ error.message }`)
+    console.error(`Error: ${error.message}`)
     onError(error)
-    console.error(`code: ${ code }`)
+    console.error(`code: ${code}`)
     console.error(error.stack)
     return undefined
   }
@@ -235,7 +319,7 @@ async function getFileContent(filePath) {
   if (fileContentCache.has(filePath)) {
     fileContent = fileContentCache.get(filePath)
   } else {
-    fileContent = await fs.readFile(filePath, { encoding: 'utf8' })
+    fileContent = await fs.readFile(filePath, { encoding: "utf8" })
     fileContentCache.set(filePath, fileContent)
   }
   return fileContent
