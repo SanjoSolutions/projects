@@ -53,9 +53,38 @@ async function main() {
       await composePages(outputPath)
     }
     watchFile(path.join(rootPath, "compose.user.js"), onWatchEvent)
-    watchPath(path.join(rootPath, pagesPath), onWatchEvent)
-    watchPath(path.join(rootPath, blocksPath), onWatchEvent)
-    watchPath(path.join(rootPath, layoutsPath), onWatchEvent)
+    let isPagesPathBeingWatched = watchPath(
+      path.join(rootPath, pagesPath),
+      onWatchEvent,
+    )
+    let isBlocksPathBeingWatched = watchPath(
+      path.join(rootPath, blocksPath),
+      onWatchEvent,
+    )
+    let isLayoutsPathBeingWatched = watchPath(
+      path.join(rootPath, layoutsPath),
+      onWatchEvent,
+    )
+    watch(rootPath, {}, function (eventType, fileName) {
+      if (!isPagesPathBeingWatched && fileName === pagesPath) {
+        isPagesPathBeingWatched = watchPath(
+          path.join(rootPath, pagesPath),
+          onWatchEvent,
+        )
+      }
+      if (!isBlocksPathBeingWatched && fileName === blocksPath) {
+        isBlocksPathBeingWatched = watchPath(
+          path.join(rootPath, blocksPath),
+          onWatchEvent,
+        )
+      }
+      if (!isLayoutsPathBeingWatched && fileName === layoutsPath) {
+        isLayoutsPathBeingWatched = watchPath(
+          path.join(rootPath, layoutsPath),
+          onWatchEvent,
+        )
+      }
+    })
   } else {
     await composePages(outputPath)
   }
@@ -72,10 +101,19 @@ function watchPath(pathToWatch, onWatchEvent) {
   const watchOptions = {
     recursive: true,
   }
-  watch(pathToWatch, watchOptions, (eventType, fileName) => {
-    const filePath = path.join(pathToWatch, fileName)
-    onWatchEvent(eventType, filePath)
-  })
+  try {
+    watch(pathToWatch, watchOptions, (eventType, fileName) => {
+      const filePath = path.join(pathToWatch, fileName)
+      onWatchEvent(eventType, filePath)
+    })
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return false
+    } else {
+      throw error
+    }
+  }
+  return true
 }
 
 async function composePages(outputPath) {
