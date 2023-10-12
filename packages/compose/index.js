@@ -90,30 +90,20 @@ async function main() {
   }
 }
 
-function watchFile(pathToWatch, onWatchEvent) {
-  const watchOptions = {}
-  try {
-    watch(pathToWatch, watchOptions, (eventType, fileName) => {
-      onWatchEvent(eventType, pathToWatch)
-    })
-  } catch (error) {
-    if (error.code === "ENOENT") {
-      return false
-    } else {
-      throw error
-    }
-  }
-  return true
-}
-
 function watchPath(pathToWatch, onWatchEvent) {
   const watchOptions = {
     recursive: true,
   }
   try {
-    watch(pathToWatch, watchOptions, (eventType, fileName) => {
+    const watcher = watch(pathToWatch, watchOptions, (eventType, fileName) => {
       const filePath = path.join(pathToWatch, fileName)
       onWatchEvent(eventType, filePath)
+    })
+    watcher.on("error", function (error) {
+      if (error.code === "EPERM") {
+      } else {
+        console.error(error.message)
+      }
     })
   } catch (error) {
     if (error.code === "ENOENT") {
