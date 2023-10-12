@@ -28,6 +28,7 @@ let fileContentCache = new Map()
 const pagesPath = "pages"
 const blocksPath = "blocks"
 const layoutsPath = "layouts"
+const composeUserJsPath = "compose.user.js"
 
 run(main)
 
@@ -52,7 +53,6 @@ async function main() {
       fileContentCache.delete(filePath)
       await composePages(outputPath)
     }
-    watchFile(path.join(rootPath, "compose.user.js"), onWatchEvent)
     let isPagesPathBeingWatched = watchPath(
       path.join(rootPath, pagesPath),
       onWatchEvent,
@@ -66,19 +66,19 @@ async function main() {
       onWatchEvent,
     )
     watch(rootPath, {}, function (eventType, fileName) {
-      if (!isPagesPathBeingWatched && fileName === pagesPath) {
+      if (fileName === composeUserJsPath) {
+        onWatchEvent(eventType, path.join(rootPath, composeUserJsPath))
+      } else if (!isPagesPathBeingWatched && fileName === pagesPath) {
         isPagesPathBeingWatched = watchPath(
           path.join(rootPath, pagesPath),
           onWatchEvent,
         )
-      }
-      if (!isBlocksPathBeingWatched && fileName === blocksPath) {
+      } else if (!isBlocksPathBeingWatched && fileName === blocksPath) {
         isBlocksPathBeingWatched = watchPath(
           path.join(rootPath, blocksPath),
           onWatchEvent,
         )
-      }
-      if (!isLayoutsPathBeingWatched && fileName === layoutsPath) {
+      } else if (!isLayoutsPathBeingWatched && fileName === layoutsPath) {
         isLayoutsPathBeingWatched = watchPath(
           path.join(rootPath, layoutsPath),
           onWatchEvent,
@@ -92,9 +92,18 @@ async function main() {
 
 function watchFile(pathToWatch, onWatchEvent) {
   const watchOptions = {}
-  watch(pathToWatch, watchOptions, (eventType, fileName) => {
-    onWatchEvent(eventType, pathToWatch)
-  })
+  try {
+    watch(pathToWatch, watchOptions, (eventType, fileName) => {
+      onWatchEvent(eventType, pathToWatch)
+    })
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return false
+    } else {
+      throw error
+    }
+  }
+  return true
 }
 
 function watchPath(pathToWatch, onWatchEvent) {
@@ -120,7 +129,7 @@ async function composePages(outputPath) {
   let userFunctions = {}
   try {
     const composeUserPath = pathToFileURL(
-      path.join(rootPath, "compose.user.js"),
+      path.join(rootPath, composeUserJsPath),
     )
     composeUserPath.search = `?update=${Date.now()}`
     userFunctions = await import(composeUserPath)
