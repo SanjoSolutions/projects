@@ -238,25 +238,47 @@ async function composePage(
     const layoutPath = lastResult[1]
     const layoutSourcePath = path.join(rootPath, layoutsPath, layoutPath)
     const layoutContent = await getFileContent(layoutSourcePath)
+    if (layoutContent === null) {
+      console.warn(
+        `The file "${path.relative(
+          process.cwd(),
+          layoutSourcePath,
+        )}" seems to be absent. Included via \`${lastResult[0].trim()}\` in "${path.relative(
+          process.cwd(),
+          pageSourcePath,
+        )}".`,
+      )
+    }
     const contentInsertPointRegExp = new RegExp(
       `<!-- CONTENT -->${newLineExpression}?`,
     )
+    const innerContent = composedContent.substring(lastResult.index)
     composedContent =
       composedContent.substring(0, lastResult.index) +
-      layoutContent.replace(
-        contentInsertPointRegExp,
-        composedContent.substring(lastResult.index),
-      )
+      (layoutContent === null
+        ? innerContent
+        : layoutContent.replace(contentInsertPointRegExp, innerContent))
   }
 
   while ((result = blockInsertPointRegExp.exec(composedContent)) !== null) {
     const blockFilename = result[1]
     const blockPath = path.join(rootPath, blocksPath, blockFilename)
     const blockContent = await getFileContent(blockPath)
+    if (blockContent === null) {
+      console.warn(
+        `The file "${path.relative(
+          process.cwd(),
+          blockPath,
+        )}" seems to be absent. Included via \`${result[0].trim()}\` in "${path.relative(
+          process.cwd(),
+          pageSourcePath,
+        )}".`,
+      )
+    }
     // This supports using insert points in blocks
     composedContent =
       composedContent.substring(0, result.index) +
-      blockContent +
+      (blockContent ?? "") +
       composedContent.substring(result.index + result[0].length)
   }
 
@@ -319,8 +341,16 @@ async function getFileContent(filePath) {
   if (fileContentCache.has(filePath)) {
     fileContent = fileContentCache.get(filePath)
   } else {
-    fileContent = await fs.readFile(filePath, { encoding: "utf8" })
-    fileContentCache.set(filePath, fileContent)
+    try {
+      fileContent = await fs.readFile(filePath, { encoding: "utf8" })
+      fileContentCache.set(filePath, fileContent)
+    } catch (error) {
+      if (error.code === "ENOENT") {
+        return null
+      } else {
+        throw error
+      }
+    }
   }
   return fileContent
 }
