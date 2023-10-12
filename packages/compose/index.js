@@ -272,7 +272,10 @@ async function composePage(
     lastResult = result
   }
   if (lastResult) {
-    const layoutPath = lastResult[1]
+    let layoutPath = lastResult[1]
+    if (path.extname(layoutPath) === "") {
+      layoutPath += ".html"
+    }
     const layoutSourcePath = path.join(rootPath, layoutsPath, layoutPath)
     const layoutContent = await getFileContent(layoutSourcePath)
     if (layoutContent === null) {
@@ -298,7 +301,10 @@ async function composePage(
   }
 
   while ((result = blockInsertPointRegExp.exec(composedContent)) !== null) {
-    const blockFilename = result[1]
+    let blockFilename = result[1]
+    if (path.extname(blockFilename) === "") {
+      blockFilename += ".html"
+    }
     const blockPath = path.join(rootPath, blocksPath, blockFilename)
     const blockContent = await getFileContent(blockPath)
     if (blockContent === null) {
