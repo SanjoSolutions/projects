@@ -20,7 +20,8 @@
     "argparse": "^2.0.1",
     "ejs": "^3.1.9",
     "marked": "^9.0.3",
-    "marked-gfm-heading-id": "^3.1.0"
+    "marked-gfm-heading-id": "^3.1.0",
+    "prettier": "^3.0.3"
   },
   "publishConfig": {
     "access": "public"

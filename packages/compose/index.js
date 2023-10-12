@@ -9,6 +9,7 @@ import { gfmHeadingId } from "marked-gfm-heading-id"
 import path from "path"
 import { pathToFileURL } from "url"
 import vm from "vm"
+import * as prettier from "prettier"
 
 marked.use(gfmHeadingId())
 
@@ -349,7 +350,14 @@ async function composePage(
   }
 
   await fs.mkdir(path.dirname(pageDestinationPath), { recursive: true })
-  await fs.writeFile(pageDestinationPath, composedContent, {
+  const prettierConfig = await prettier.resolveConfig(pageDestinationPath, {
+    editorconfig: true,
+  })
+  const formattedComposedContent = await prettier.format(composedContent, {
+    ...prettierConfig,
+    filepath: pageDestinationPath,
+  })
+  await fs.writeFile(pageDestinationPath, formattedComposedContent, {
     encoding: "utf8",
   })
 }
