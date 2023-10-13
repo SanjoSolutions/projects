@@ -16,3 +16,4 @@ dist
 !/packages/*/src/**/*.css
 !/packages/*/src/**/*.md
 !/packages/compose/**/*.js
+!/packages/develop/**/*.js

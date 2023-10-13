@@ -1,0 +1,33 @@
+{
+  "name": "@sanjo/develop",
+  "version": "0.1.0",
+  "type": "commonjs",
+  "description": "Development assistant for development with HTML, CSS and JavaScript",
+  "keywords": [],
+  "homepage": "https://github.com/SanjoSolutions/projects/tree/main/packages/develop",
+  "license": "See file \"LICENSE\"",
+  "bin": {
+    "build": "bin/build.js",
+    "develop": "bin/develop.js"
+  },
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "types": "./build/index.d.ts",
+    "default": "./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SanjoSolutions/projects.git",
+    "directory": "packages/develop"
+  },
+  "dependencies": {
+    "@sanjo/auto-reload": "^1.5.0",
+    "@sanjo/compose": "^2.9.0",
+    "finalhandler": "^1.2.0",
+    "serve-static": "^1.15.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
