@@ -2,7 +2,7 @@ This work is devoted to God.
 
 ## Projects
 
-[Projects](https://sanjosolutions.github.io/unnamed/)
+[Projects](https://sanjosolutions.github.io/projects/)
 
 ## Package manager
 
