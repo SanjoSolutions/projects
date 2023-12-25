@@ -5,17 +5,8 @@ import { sound } from "@pixi/sound"
 import { Auth, Hub } from "aws-amplify"
 import { debounce } from "lodash-es"
 import type { Application } from "pixi.js"
-import {
-  AnimatedSprite,
-  Assets,
-  Container,
-  Resource,
-  Sprite,
-  Spritesheet,
-  Texture,
-} from "pixi.js"
+import { AnimatedSprite, Assets, Container, Spritesheet } from "pixi.js"
 import React from "react"
-import { hasFlag } from "../../hasFlag.js"
 import {
   compressMoveDataWithI,
   MessageType,
@@ -25,8 +16,9 @@ import { decompressMoveFromServerData } from "../../shared/communication/message
 import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { PlantType } from "../../shared/PlantType.js"
-import { updatePosition } from "../../updatePosition.js"
-import { createUniversalSpritesheet } from "./createUniversalSpritesheet.js"
+import { Character } from "./Character.js"
+import { createAnimatedSprite } from "./createAnimatedSprite.js"
+import { Object } from "./Object.js"
 
 export function App() {
   return (
@@ -78,24 +70,12 @@ async function f(app: Application): Promise<void> {
   sound.add("music", "assets/music/TownTheme.mp3")
   sound.play("music", { loop: true })
 
-  Assets.add("body", "assets/spritesheets/body/bodies/male/universal/light.png")
-  Assets.add(
-    "head",
-    "assets/spritesheets/head/heads/human_male/universal/light.png",
-  )
-  Assets.add("hair", "assets/spritesheets/hair/afro/male/black.png")
   Assets.add("plants", "assets/sprites/plants.json")
   const {
-    body,
-    head,
-    hair,
     plants: plantsSpritesheet,
   }: {
-    body: Texture<Resource>
-    head: Texture<Resource>
-    hair: Texture<Resource>
     plants: Spritesheet
-  } = (await Assets.load(["body", "head", "hair", "plants"])) as any
+  } = (await Assets.load(["plants"])) as any
 
   let socket: WebSocket | null = null
 
@@ -113,193 +93,6 @@ async function f(app: Application): Promise<void> {
     }
   }
 
-  const bodySpritesheet = await createUniversalSpritesheet("body", body)
-  const headSpritesheet = await createUniversalSpritesheet("head", head)
-  const hairSpritesheet = await createUniversalSpritesheet("hair", hair)
-
-  abstract class Object {
-    lastI: number | null = null
-    _direction: Direction = Direction.Down
-    protected _isMoving: boolean = false
-    sprite: Sprite = new Sprite()
-    baseX: number | null = null
-    baseY: number | null = null
-    whenMovingHasChanged: number | null = null
-
-    get direction(): Direction {
-      return this._direction
-    }
-
-    set direction(direction: Direction) {
-      this._direction = direction
-      this._updateTextures()
-    }
-
-    get isMoving(): boolean {
-      return this._isMoving
-    }
-
-    set isMoving(isMoving: boolean) {
-      this._isMoving = isMoving
-      this._updateTextures()
-      if (isMoving) {
-        this._play()
-      } else {
-        this._stop()
-      }
-    }
-
-    protected _play() {
-      throw new Error("Please implement in a subclass.")
-    }
-
-    protected _stop() {
-      throw new Error("Please implement in a subclass.")
-    }
-
-    get x(): number {
-      return this.sprite.x
-    }
-
-    set x(x: number) {
-      this.sprite.x = x
-    }
-
-    get y(): number {
-      return this.sprite.y
-    }
-
-    set y(y: number) {
-      this.sprite.y = y
-    }
-
-    constructor() {
-      this.sprite.anchor.set(0.5, 1)
-    }
-
-    updatePosition(): void {
-      if (
-        this.whenMovingHasChanged &&
-        typeof this.baseX === "number" &&
-        typeof this.baseY === "number"
-      ) {
-        const movable = {
-          x: this.baseX,
-          y: this.baseY,
-          isMoving: this.isMoving,
-          direction: this.direction,
-        }
-        updatePosition(movable, Date.now() - this.whenMovingHasChanged)
-        this.x = movable.x
-        this.y = movable.y
-      }
-    }
-
-    protected _updateTextures() {
-      throw new Error("Please implement in a subclass.")
-    }
-
-    public update(data: any): void {
-      this.whenMovingHasChanged = Date.now()
-      this.baseX = data.x
-      this.baseY = data.y
-      this.direction = data.direction
-      this.isMoving = data.isMoving
-      this.x = data.x
-      const previousY = data.y
-      this.y = data.y
-      this.updatePosition()
-      const isDifferentYCoordinate = this.y !== previousY
-      if (isDifferentYCoordinate) {
-        updateObjectRenderPosition(this)
-      }
-    }
-  }
-
-  function createAnimatedSprite(textures: Texture<Resource>[]): AnimatedSprite {
-    const animatedSprite = new AnimatedSprite(textures)
-    animatedSprite.animationSpeed = 0.115
-    animatedSprite.anchor.set(0.5, 1)
-    return animatedSprite
-  }
-
-  class Character extends Object {
-    constructor() {
-      super()
-
-      this._determineBodyTextures = this._determineBodyTextures.bind(this)
-      this._determineHeadTextures = this._determineHeadTextures.bind(this)
-      this._determineHairTextures = this._determineHairTextures.bind(this)
-
-      this.sprite.addChild(
-        createAnimatedSprite(bodySpritesheet.animations.down),
-      )
-      this.sprite.addChild(
-        createAnimatedSprite(headSpritesheet.animations.down),
-      )
-      this.sprite.addChild(
-        createAnimatedSprite(hairSpritesheet.animations.down),
-      )
-    }
-
-    protected _updateTextures() {
-      this._updateTexture(0, this._determineBodyTextures)
-      this._updateTexture(1, this._determineHeadTextures)
-      this._updateTexture(2, this._determineHairTextures)
-    }
-
-    private _updateTexture(
-      index: number,
-      determineTexture: () => Texture<Resource>[],
-    ): void {
-      const textures = determineTexture()
-      const animatedSprite = this.sprite.children[index] as AnimatedSprite
-      if (animatedSprite.textures !== textures) {
-        animatedSprite.textures = textures
-        if (this.isMoving) {
-          animatedSprite.play()
-        }
-      }
-      if (!this.isMoving) {
-        animatedSprite.gotoAndStop(0)
-      }
-    }
-
-    protected _play() {
-      this.sprite.children.map((child) => (child as AnimatedSprite).play())
-    }
-
-    protected _stop() {
-      this.sprite.children.map((child) => (child as AnimatedSprite).stop())
-    }
-
-    private _determineBodyTextures(): Texture<Resource>[] {
-      return this._determineTexture(bodySpritesheet)
-    }
-
-    private _determineHeadTextures(): Texture<Resource>[] {
-      return this._determineTexture(headSpritesheet)
-    }
-
-    private _determineHairTextures(): Texture<Resource>[] {
-      return this._determineTexture(hairSpritesheet)
-    }
-
-    private _determineTexture(spritesheet: Spritesheet): Texture<Resource>[] {
-      if (hasFlag(this.direction, Direction.Up)) {
-        return spritesheet.animations.up
-      } else if (hasFlag(this.direction, Direction.Down)) {
-        return spritesheet.animations.down
-      } else if (hasFlag(this.direction, Direction.Left)) {
-        return spritesheet.animations.left
-      } else if (hasFlag(this.direction, Direction.Right)) {
-        return spritesheet.animations.right
-      } else {
-        return spritesheet.animations.down
-      }
-    }
-  }
-
   const plantTextures = new Map([
     [PlantType.Tomato, plantsSpritesheet.animations.tomato_plant],
     [PlantType.Potato, plantsSpritesheet.animations.potato_plant],
@@ -314,8 +107,8 @@ async function f(app: Application): Promise<void> {
     plantType: PlantType = PlantType.Tomato
     private _stage: number = 0
 
-    constructor() {
-      super()
+    constructor(container: Container) {
+      super(container)
       this.sprite.addChild(
         createAnimatedSprite(plantTextures.get(PlantType.Tomato)!),
       )
@@ -351,8 +144,8 @@ async function f(app: Application): Promise<void> {
   }
 
   const objects = new Map<string, Object>()
-  const character = new Character()
   const objectsContainer = new Container()
+  const character = new Character(objectsContainer)
   objectsContainer.addChild(character.sprite)
   app.stage.addChild(objectsContainer)
   updateViewport()
@@ -558,7 +351,7 @@ async function f(app: Application): Promise<void> {
       const previousY = character.y
       character.updatePosition()
       if (character.y !== previousY) {
-        updateObjectRenderPosition(character)
+        character.updateRenderPosition()
       }
       if (character.x !== previousX || character.y !== previousY) {
         updateViewport()
@@ -661,22 +454,6 @@ async function f(app: Application): Promise<void> {
     }
   }
 
-  function updateObjectRenderPosition(object: Object): void {
-    objectsContainer.removeChild(object.sprite)
-    let index = 0
-    while (
-      index < objectsContainer.children.length &&
-      object.y > objectsContainer.getChildAt(index).y
-    ) {
-      index++
-    }
-    if (index === objectsContainer.children.length) {
-      objectsContainer.addChild(object.sprite)
-    } else {
-      objectsContainer.addChildAt(object.sprite, index)
-    }
-  }
-
   function retrieveOrCreateObject({
     id,
     type,
@@ -687,9 +464,9 @@ async function f(app: Application): Promise<void> {
     let object = objects.get(id)
     if (!object) {
       if (type === ObjectType.Character) {
-        object = new Character()
+        object = new Character(objectsContainer)
       } else if (type === ObjectType.Plant) {
-        object = new Plant()
+        object = new Plant(objectsContainer)
       } else {
         throw new Error("Other type?")
       }
