@@ -1,0 +1,1 @@
+{"version":3,"file":"Movable.d.ts","sourceRoot":"","sources":["Movable.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,uBAAuB,CAAA;AAEtD,MAAM,WAAW,OAAO;IACtB,CAAC,EAAE,MAAM,CAAA;IACT,CAAC,EAAE,MAAM,CAAA;IACT,QAAQ,EAAE,OAAO,CAAA;IACjB,SAAS,EAAE,SAAS,CAAA;CACrB"}

@@ -16,9 +16,9 @@ import { decompressMoveFromServerData } from "../../shared/communication/message
 import { Direction } from "../../shared/Direction.js"
 import { ObjectType } from "../../shared/ObjectType.js"
 import { PlantType } from "../../shared/PlantType.js"
-import { Character } from "./Character.js"
-import { createAnimatedSprite } from "./createAnimatedSprite.js"
-import { Object } from "./Object.js"
+import { Character } from "../../../../../@sanjo/game-engine/src/Character.js"
+import { createAnimatedSprite } from "../../../../../@sanjo/game-engine/src/createAnimatedSprite.js"
+import { Object } from "../../../../../@sanjo/game-engine/src/Object.js"
 
 export function App() {
   return (
