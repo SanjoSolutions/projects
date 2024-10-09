@@ -1,4 +1,5 @@
 export { combinations } from "./combinations.js"
+export { combinationsAnyLength } from "./combinationsAnyLength.js"
 export { concat } from "./concat.js"
 export { first } from "./first.js"
 export { getExtrema } from "./getExtrema.js"
